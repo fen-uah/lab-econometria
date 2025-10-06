@@ -1,12 +1,18 @@
 # Archivo: _quarto.yml
 project:
   type: website
+  output-dir: _site      # Carpeta de salida que GitHub Pages usará
+  render:
+    - index.qmd
+    - datos.qmd
+    - codigos.qmd
+    - proyectos.qmd
 
 website:
-  
+  title: "Econometría FEN-UAH"
   description: "Repositorio de datos, códigos y proyectos de estudiantes"
   navbar:
-    logo: img/logo.png   # Ruta al logo
+    logo: img/logo.png
     left:
       - text: "Inicio"
         href: index.qmd
@@ -22,9 +28,9 @@ website:
 
 format:
   html:
-    css: styles.css        # Tu CSS personalizado
-    toc: true              # Tabla de contenidos
-    smooth-scroll: true    # Scroll suave
+    css: styles.css
+    toc: true
+    smooth-scroll: true
     grid:
       body-width: 900px
       gutter-width: 1.2em
