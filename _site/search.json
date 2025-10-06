@@ -1,66 +1,17 @@
 [
   {
-    "objectID": "datos.html",
-    "href": "datos.html",
-    "title": "Repositorio de Datos",
-    "section": "",
-    "text": "En este apartado se reúnen diversas fuentes de información estadística y bases de datos relevantes para el análisis económico y social de Chile y el mundo. El objetivo es que los estudiantes cuenten con un repositorio único y accesible, desde el cual puedan explorar y trabajar con información oficial y validada.\nLas bases provienen de distintas instituciones nacionales e internacionales, entre ellas:\n\nMinisterio de Desarrollo Social y Familia, a través del Observatorio Social, que incluye la Encuesta CASEN y otros levantamientos de interés.\nCentro de Microdatos de la Universidad de Chile, que publica encuestas de empleo, ingresos y otros estudios.\nDEMRE, con datos asociados a los procesos de admisión universitaria (PSU, PAES, etc.).\nMinisterio de Educación (Mineduc), mediante su portal de datos abiertos.\nBanco Mundial y Banco Interamericano de Desarrollo (BID), que ofrecen estadísticas comparables a nivel internacional.\nMinisterio de Ciencia, Tecnología, Conocimiento e Innovación, con la Encuesta Nacional de Innovación.\nPortal de Datos Abiertos del Estado de Chile (datos.gob.cl)\nMinisterio de Economía, con encuestas y bases orientadas a la actividad económica.\nBanco Central de Chile, a través de su sistema SIETE.\n\nAdemás, se proyecta integrar información de ODEPA, INDAP y otros organismos públicos vinculados al ámbito económico y agrícola."
-  },
-  {
-    "objectID": "codigos.html",
-    "href": "codigos.html",
+    "objectID": "proyectos.html",
+    "href": "proyectos.html",
     "title": "About",
     "section": "",
     "text": "About this site\n\n1 + 1\n\n[1] 2"
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "",
+    "objectID": "datos.html",
+    "href": "datos.html",
+    "title": "Repositorio de Datos",
     "section": "",
-    "text": "Descripcion de la pagina\ndocentes\nExplora las secciones usando la barra de navegación."
-  },
-  {
-    "objectID": "index.html#bienvenidos-a-econometría-en-la-universidad-alberto-hurtado",
-    "href": "index.html#bienvenidos-a-econometría-en-la-universidad-alberto-hurtado",
-    "title": "Econometría FEN-UAH",
-    "section": "",
-    "text": "objetivo\nDescripcion de la pagina\ndocentes\nExplora las secciones usando la barra de navegación."
-  },
-  {
-    "objectID": "index.html#descripcion-de-la-pagina",
-    "href": "index.html#descripcion-de-la-pagina",
-    "title": "",
-    "section": "Descripcion de la pagina",
-    "text": "Descripcion de la pagina\ndocentes\nExplora las secciones usando la barra de navegación."
-  },
-  {
-    "objectID": "index.html#descripción-de-la-pagina",
-    "href": "index.html#descripción-de-la-pagina",
-    "title": "",
-    "section": "Descripción de la pagina",
-    "text": "Descripción de la pagina\ndocentes\nExplora las secciones usando la barra de navegación."
-  },
-  {
-    "objectID": "index.html#descripción-del-sitio-web",
-    "href": "index.html#descripción-del-sitio-web",
-    "title": "",
-    "section": "Descripción del Sitio Web",
-    "text": "Descripción del Sitio Web\nEste sitio web es una iniciativa conjunta de los profesores Fernando Crespo y Rocío Valdebenito, docentes de la Facultad de Economía y Negocios de la Universidad Alberto Hurtado (UAH). Está dirigido a los estudiantes de la carrera de Ingeniería Comercial, con mención en Economía y Administración de Empresas, que cursan las asignaturas de Econometría.\nEl objetivo principal de estos cursos es que los estudiantes se familiaricen con el uso de bases de datos y aprendan a utilizar el software R y Rstudio como herramienta para analizar y responder preguntas de investigación. Como parte fundamental del aprendizaje, los estudiantes desarrollan un proyecto aplicado, el cual es presentado en formato de póster y expuesto frente a la comunidad académica.\nPara acompañar este proceso, el sitio web se organiza en tres secciones principales:\n\nDatos:\nEspacio donde se recopilan bases de datos que pueden ser utilizadas en proyectos de investigacion con metodologías econometricas. Cada base de datos incluye enlaces de acceso o descarga, así como una breve descripción de su contenido y posibles aplicaciones.\n\n\nMaterial de Estudio:\n\nUna sección de apoyo que ofrece códigos en Rstudio, apuntes de econometría y laboratorios, que abarcan desde operaciones básicas en R (como crear variables, realizar estadística descriptiva y generar tablas) hasta la elaboración de gráficos y análisis más avanzados. Esta sección busca ser un recurso de referencia constante para los estudiantes.\n\n\nProyectos:\n\nEspacio dedicado a la difusión de los trabajos de los estudiantes, donde se podrán visualizar sus pósters y presentaciones, sirviendo como inspiración y guía para generaciones futuras.\nEste sitio cuenta con el apoyo de Manuel Labraña Rojas, estudiante de Ingeniería Comercial con mención en Economía de la UAH, quien se desempeña como ayudante de cátedra. Su labor consiste en mantener el repositorio actualizado y asegurar que los recursos sean pertinentes, claros y útiles para el aprendizaje de los estudiantes.\nEn conjunto, este sitio busca convertirse en un centro de recursos para la formación en econometría, promoviendo el uso de datos y herramientas de análisis como competencias clave para la futura labor profesional de los estudiantes de Ingeniería Comercial de la UAH."
-  },
-  {
-    "objectID": "index.html#docentes",
-    "href": "index.html#docentes",
-    "title": "",
-    "section": "Docentes",
-    "text": "Docentes\nExplora las secciones usando la barra de navegación o haciendo clic en los títulos anteriores."
-  },
-  {
-    "objectID": "datos.html#repositorio-de-bases-de-datos",
-    "href": "datos.html#repositorio-de-bases-de-datos",
-    "title": "Bases de Datos",
-    "section": "",
-    "text": "Este espacio recopila bases de datos relevantes para los cursos de Econometría.\nPuedes explorar, buscar y ordenar la tabla interactiva:"
+    "text": "En este apartado se reúnen diversas fuentes de información estadística y bases de datos relevantes para el análisis económico y social de Chile y el mundo. El objetivo es que los estudiantes cuenten con un repositorio único y accesible, desde el cual puedan explorar y trabajar con información oficial y validada.\nLas bases provienen de distintas instituciones nacionales e internacionales, entre ellas:\n\nMinisterio de Desarrollo Social y Familia, a través del Observatorio Social, que incluye la Encuesta CASEN y otros levantamientos de interés.\nCentro de Microdatos de la Universidad de Chile, que publica encuestas de empleo, ingresos y otros estudios.\nDEMRE, con datos asociados a los procesos de admisión universitaria (PSU, PAES, etc.).\nMinisterio de Educación (Mineduc), mediante su portal de datos abiertos.\nBanco Mundial y Banco Interamericano de Desarrollo (BID), que ofrecen estadísticas comparables a nivel internacional.\nMinisterio de Ciencia, Tecnología, Conocimiento e Innovación, con la Encuesta Nacional de Innovación.\nPortal de Datos Abiertos del Estado de Chile (datos.gob.cl)\nMinisterio de Economía, con encuestas y bases orientadas a la actividad económica.\nBanco Central de Chile, a través de su sistema SIETE.\n\nAdemás, se proyecta integrar información de ODEPA, INDAP y otros organismos públicos vinculados al ámbito económico y agrícola."
   },
   {
     "objectID": "datos.html#datos",
@@ -89,5 +40,26 @@
     "title": "Repositorio de Datos",
     "section": "Bases de Datos",
     "text": "Bases de Datos"
+  },
+  {
+    "objectID": "codigos.html",
+    "href": "codigos.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site\n\n1 + 1\n\n[1] 2"
+  },
+  {
+    "objectID": "index.html#descripción-del-sitio-web",
+    "href": "index.html#descripción-del-sitio-web",
+    "title": "",
+    "section": "Descripción del Sitio Web",
+    "text": "Descripción del Sitio Web\nEste sitio web es una iniciativa conjunta de los profesores Fernando Crespo y Rocío Valdebenito, docentes de la Facultad de Economía y Negocios de la Universidad Alberto Hurtado (UAH). Está dirigido a los estudiantes de la carrera de Ingeniería Comercial, con mención en Economía y Administración de Empresas, que cursan las asignaturas de Econometría.\nEl objetivo principal de estos cursos es que los estudiantes se familiaricen con el uso de bases de datos y aprendan a utilizar el software R y Rstudio como herramienta para analizar y responder preguntas de investigación. Como parte fundamental del aprendizaje, los estudiantes desarrollan un proyecto aplicado, el cual es presentado en formato de póster y expuesto frente a la comunidad académica.\nPara acompañar este proceso, el sitio web se organiza en tres secciones principales:\n\nDatos:\nEspacio donde se recopilan bases de datos que pueden ser utilizadas en proyectos de investigacion con metodologías econometricas. Cada base de datos incluye enlaces de acceso o descarga, así como una breve descripción de su contenido y posibles aplicaciones.\n\n\nMaterial de Estudio:\n\nUna sección de apoyo que ofrece códigos en Rstudio, apuntes de econometría y laboratorios, que abarcan desde operaciones básicas en R (como crear variables, realizar estadística descriptiva y generar tablas) hasta la elaboración de gráficos y análisis más avanzados. Esta sección busca ser un recurso de referencia constante para los estudiantes.\n\n\nProyectos:\n\nEspacio dedicado a la difusión de los trabajos de los estudiantes, donde se podrán visualizar sus pósters y presentaciones, sirviendo como inspiración y guía para generaciones futuras.\nEste sitio cuenta con el apoyo de Manuel Labraña Rojas, estudiante de Ingeniería Comercial con mención en Economía de la UAH, quien se desempeña como ayudante de cátedra. Su labor consiste en mantener el repositorio actualizado y asegurar que los recursos sean pertinentes, claros y útiles para el aprendizaje de los estudiantes.\nEn conjunto, este sitio busca convertirse en un centro de recursos para la formación en econometría, promoviendo el uso de datos y herramientas de análisis como competencias clave para la futura labor profesional de los estudiantes de Ingeniería Comercial de la UAH."
+  },
+  {
+    "objectID": "index.html#docentes",
+    "href": "index.html#docentes",
+    "title": "",
+    "section": "Docentes",
+    "text": "Docentes\nExplora las secciones usando la barra de navegación o haciendo clic en los títulos anteriores."
   }
 ]
