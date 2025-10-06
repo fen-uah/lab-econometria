@@ -10,6 +10,7 @@ project:
 
 website:
   title: "Econometría FEN-UAH"
+  site-url: https://manuelrojas-code.github.io/econo.github.io/
   description: "Repositorio de datos, códigos y proyectos de estudiantes"
   navbar:
     logo: img/logo.png
@@ -25,6 +26,7 @@ website:
   page-footer:
     left: "© 2025 FEN-UAH"
     right: "Sitio desarrollado con Quarto"
+
 
 format:
   html:
