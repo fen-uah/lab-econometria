@@ -19,7 +19,7 @@ website:
   page-footer:
     left: "© 2025 FEN-UAH"
     right: "Sitio desarrollado con Quarto"
-
+output-dir: _site
 format:
   html:
     css: styles.css        # Tu CSS personalizado
