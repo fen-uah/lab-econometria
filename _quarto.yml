@@ -1,0 +1,30 @@
+# Archivo: _quarto.yml
+project:
+  type: website
+
+website:
+  
+  description: "Repositorio de datos, códigos y proyectos de estudiantes"
+  navbar:
+    logo: img/logo.png   # Ruta al logo
+    left:
+      - text: "Inicio"
+        href: index.qmd
+      - text: "Datos"
+        href: datos.qmd
+      - text: "Material de Estudio"
+        href: codigos.qmd
+      - text: "Proyectos"
+        href: proyectos.qmd
+  page-footer:
+    left: "© 2025 FEN-UAH"
+    right: "Sitio desarrollado con Quarto"
+
+format:
+  html:
+    css: styles.css        # Tu CSS personalizado
+    toc: true              # Tabla de contenidos
+    smooth-scroll: true    # Scroll suave
+    grid:
+      body-width: 900px
+      gutter-width: 1.2em

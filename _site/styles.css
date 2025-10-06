@@ -1,0 +1,63 @@
+/* Fuente amigable */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap');
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background-color: #ffffff;
+  color: black;
+}
+
+/* Navbar */
+.navbar {
+  background-color: #0064003 !important; /* Verde palta */
+}
+
+.navbar a, .navbar-brand {
+  color: white !important;
+  font-weight: 600;
+}
+
+.navbar a:hover {
+  color: #ff7f11 !important; /* Naranjo para hover */
+  transition: color 0.3s ease;
+}
+
+/* Links */
+a {
+  color: #2b9348; /* Verde principal */
+  text-decoration: none;
+}
+
+a:hover {
+  color: #ff7f11;
+  transition: color 0.3s ease;
+}
+
+/* Títulos */
+h1, h2, h3 {
+  color: #1e2e28;
+  font-weight: 700;
+}
+
+/* Botones */
+.btn, button {
+  background-color: #2b9348;
+  color: white;
+  border-radius: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover, button:hover {
+  background-color: #ff7f11;
+}
+
+/* Efecto suave para scroll y hover general */
+body, a, button {
+  transition: all 0.3s ease;
+}
+
+/* Ajustar tamaño del logo en navbar */
+.navbar-brand img {
+  max-height: 50px;
+  margin-right: 10px;
+}
