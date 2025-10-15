@@ -8,6 +8,8 @@ La sección **Proyectos** tiene como propósito ofrecer un espacio para que los 
 
 Este repositorio busca **fomentar un entorno de aprendizaje colaborativo e interactivo**, donde tanto docentes como estudiantes puedan **evaluar, comentar y retroalimentar los proyectos** presentados. De esta forma, se promueve la aplicación práctica de los contenidos del curso y el fortalecimiento de las habilidades analíticas y comunicacionales de los futuros profesionales.
 
+AUN NO DISPONIBLE, EVALUANDO COMPATIBILIDAD CON GOOGLE FORMS U OTRAS APLICACIONES
+
 ```{=html}
 <form id="uploadForm">
   <label for="nombre">Nombre del estudiante:</label><br>
