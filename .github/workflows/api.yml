@@ -1,0 +1,26 @@
+name: API de subida segura
+
+on:
+  workflow_dispatch:       # permite disparar el flujo manualmente
+  repository_dispatch:     # lo usaremos para llamadas del formulario
+    types: [upload-project]
+
+jobs:
+  handle-upload:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Guardar archivo subido
+        run: |
+          mkdir -p uploads
+          echo "${{ github.event.client_payload.content }}" | base64 --decode > "uploads/${{ github.event.client_payload.filename }}"
+          git config user.name "Auto-Uploader"
+          git config user.email "econometriafenuah@gmail.com"
+          git add uploads/
+          git commit -m "Subida de proyecto: ${{ github.event.client_payload.student }}"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
