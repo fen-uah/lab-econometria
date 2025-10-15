@@ -1,9 +1,65 @@
 ---
-title: "About"
+title: "Proyectos"
 ---
 
-About this site
+## Recopilación de proyectos
 
-```{r}
-1 + 1
+La sección **Proyectos** tiene como propósito ofrecer un espacio para que los estudiantes de la **Facultad de Economía y Negocios de la Universidad Alberto Hurtado** puedan **publicar y compartir sus trabajos e investigaciones** desarrolladas en los cursos de **Econometría** y **Econometría para la Gestión**.
+
+Este repositorio busca **fomentar un entorno de aprendizaje colaborativo e interactivo**, donde tanto docentes como estudiantes puedan **evaluar, comentar y retroalimentar los proyectos** presentados. De esta forma, se promueve la aplicación práctica de los contenidos del curso y el fortalecimiento de las habilidades analíticas y comunicacionales de los futuros profesionales.
+
+```{=html}
+<form id="uploadForm">
+  <label for="nombre">Nombre del estudiante:</label><br>
+  <input type="text" id="nombre" name="nombre" required style="width:100%;margin-bottom:10px;"><br>
+
+  <label for="archivo">Selecciona tu archivo (.pdf, .qmd, .zip):</label><br>
+  <input type="file" id="archivo" name="archivo" accept=".pdf,.qmd,.zip" required style="margin-bottom:10px;"><br>
+
+  <button type="submit" class="btn">Subir proyecto</button>
+</form>
+
+<p id="resultado" style="margin-top:10px;font-weight:bold;"></p>
+
+<script>
+document.getElementById("uploadForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const nombre = document.getElementById("nombre").value;
+  const file = document.getElementById("archivo").files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = async () => {
+    const content = reader.result.split(",")[1];
+    const filename = `${Date.now()}_${file.name}`;
+
+    const response = await fetch("https://api.github.com/repos/fen-uah/lab-econometria/dispatches", {
+      method: "POST",
+      headers: {
+        "Accept": "application/vnd.github.everest-preview+json",
+        "Authorization": "Bearer {{UPLOAD_TOKEN}}",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        event_type: "upload-project",
+        client_payload: {
+          student: nombre,
+          filename: filename,
+          content: content
+        }
+      })
+    });
+
+    const result = document.getElementById("resultado");
+    if (response.ok) {
+      result.innerText = "✅ Tu proyecto fue enviado correctamente. Se guardará en la carpeta uploads.";
+    } else {
+      result.innerText = "❌ Error al subir el archivo. Intenta nuevamente o contacta al ayudante.";
+    }
+  };
+  reader.readAsDataURL(file);
+});
+</script>
 ```
+
+
