@@ -1,0 +1,24 @@
+name: Guardar subidas
+
+on:
+  repository_dispatch:
+    types: [upload-project]
+
+jobs:
+  subir:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Crear archivo desde payload
+        run: |
+          mkdir -p uploads
+          echo "${{ github.event.client_payload.content }}" | base64 --decode > "uploads/${{ github.event.client_payload.filename }}"
+          git config user.name "Auto-Uploader"
+          git config user.email "econometriafenuah@gmail.com"
+          git add uploads/
+          git commit -m "Subida de proyecto: ${{ github.event.client_payload.student }}"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.UPLOAD_TOKEN }}
