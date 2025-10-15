@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>About – Econometría FEN-UAH</title>
+<title>Proyectos – Econometría FEN-UAH</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,41 +19,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -157,15 +122,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#recopilación-de-proyectos" id="toc-recopilación-de-proyectos" class="nav-link active" data-scroll-target="#recopilación-de-proyectos">Recopilación de proyectos</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">About</h1>
+<h1 class="title">Proyectos</h1>
 </div>
 
 
@@ -182,15 +153,64 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>About this site</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 2</code></pre>
-</div>
-</div>
+<section id="recopilación-de-proyectos" class="level2">
+<h2 class="anchored" data-anchor-id="recopilación-de-proyectos">Recopilación de proyectos</h2>
+<p>La sección <strong>Proyectos</strong> tiene como propósito ofrecer un espacio para que los estudiantes de la <strong>Facultad de Economía y Negocios de la Universidad Alberto Hurtado</strong> puedan <strong>publicar y compartir sus trabajos e investigaciones</strong> desarrolladas en los cursos de <strong>Econometría</strong> y <strong>Econometría para la Gestión</strong>.</p>
+<p>Este repositorio busca <strong>fomentar un entorno de aprendizaje colaborativo e interactivo</strong>, donde tanto docentes como estudiantes puedan <strong>evaluar, comentar y retroalimentar los proyectos</strong> presentados. De esta forma, se promueve la aplicación práctica de los contenidos del curso y el fortalecimiento de las habilidades analíticas y comunicacionales de los futuros profesionales.</p>
+<form id="uploadForm">
+  <label for="nombre">Nombre del estudiante:</label><br>
+  <input type="text" id="nombre" name="nombre" required="" style="width:100%;margin-bottom:10px;"><br>
+
+  <label for="archivo">Selecciona tu archivo (.pdf, .qmd, .zip):</label><br>
+  <input type="file" id="archivo" name="archivo" accept=".pdf,.qmd,.zip" required="" style="margin-bottom:10px;"><br>
+
+  <button type="submit" class="btn">Subir proyecto</button>
+</form>
+
+<p id="resultado" style="margin-top:10px;font-weight:bold;"></p>
+
+<script>
+document.getElementById("uploadForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const nombre = document.getElementById("nombre").value;
+  const file = document.getElementById("archivo").files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = async () => {
+    const content = reader.result.split(",")[1];
+    const filename = `${Date.now()}_${file.name}`;
+
+    const response = await fetch("https://api.github.com/repos/fen-uah/lab-econometria/dispatches", {
+      method: "POST",
+      headers: {
+        "Accept": "application/vnd.github.everest-preview+json",
+        "Authorization": "Bearer {{UPLOAD_TOKEN}}",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        event_type: "upload-project",
+        client_payload: {
+          student: nombre,
+          filename: filename,
+          content: content
+        }
+      })
+    });
+
+    const result = document.getElementById("resultado");
+    if (response.ok) {
+      result.innerText = "✅ Tu proyecto fue enviado correctamente. Se guardará en la carpeta uploads.";
+    } else {
+      result.innerText = "❌ Error al subir el archivo. Intenta nuevamente o contacta al ayudante.";
+    }
+  };
+  reader.readAsDataURL(file);
+});
+</script>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
