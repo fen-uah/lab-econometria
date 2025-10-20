@@ -9,7 +9,7 @@ body {
 
 /* Navbar */
 .navbar {
-  background-color: #0064003 !important; /* Verde palta */
+ background-color: #006400 !important; /* Verde palta */
 }
 
 .navbar a, .navbar-brand {
@@ -60,4 +60,52 @@ body, a, button {
 .navbar-brand img {
   max-height: 50px;
   margin-right: 10px;
+}
+/* Estilo de cuadrícula para los laboratorios */
+.labs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+  margin-top: 1.5em;
+}
+
+/* Tarjeta individual */
+.lab-card {
+  background-color: #f8f9fa;
+  border: 1px solid #e0e0e0;
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.lab-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.1);
+}
+
+.lab-card h3 {
+  color: #1e2e28;
+  font-weight: 700;
+  margin-top: 0;
+}
+
+.lab-card p {
+  color: #444;
+  font-size: 0.95rem;
+  margin-bottom: 1em;
+}
+
+.lab-card .btn {
+  background-color: #2b9348;
+  color: white;
+  font-weight: 600;
+  padding: 8px 14px;
+  border-radius: 8px;
+  text-decoration: none;
+}
+
+.lab-card .btn:hover {
+  background-color: #ff7f11;
+  color: white;
 }

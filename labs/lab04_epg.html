@@ -1,0 +1,1603 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Laboratorio 4_epg: Uso de la Regresión Múltiple</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-360b3b5b5cb1aa80d6666be010f1eb0d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../img/logo.png" alt="" class="navbar-logo light-content">
+    <img src="../img/logo.png" alt="" class="navbar-logo dark-content">
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Inicio</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../datos.html"> 
+<span class="menu-text">Datos</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../codigos.html"> 
+<span class="menu-text">Material de Estudio</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../proyectos.html"> 
+<span class="menu-text">Proyectos</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#uso-de-la-regresión-múltiple" id="toc-uso-de-la-regresión-múltiple" class="nav-link active" data-scroll-target="#uso-de-la-regresión-múltiple"><span class="header-section-number">1</span> Uso de la Regresión Múltiple</a></li>
+  <li><a href="#análisis-de-correlaciones-simultáneas" id="toc-análisis-de-correlaciones-simultáneas" class="nav-link" data-scroll-target="#análisis-de-correlaciones-simultáneas"><span class="header-section-number">2</span> Análisis de Correlaciones Simultáneas</a></li>
+  <li><a href="#criterios-de-especificación-del-modelo" id="toc-criterios-de-especificación-del-modelo" class="nav-link" data-scroll-target="#criterios-de-especificación-del-modelo"><span class="header-section-number">3</span> Criterios de Especificación del Modelo</a>
+  <ul class="collapse">
+  <li><a href="#eliminación-de-variables-irrelevantes" id="toc-eliminación-de-variables-irrelevantes" class="nav-link" data-scroll-target="#eliminación-de-variables-irrelevantes"><span class="header-section-number">3.1</span> Eliminación de Variables Irrelevantes</a></li>
+  <li><a href="#inclusión-de-interacciones" id="toc-inclusión-de-interacciones" class="nav-link" data-scroll-target="#inclusión-de-interacciones"><span class="header-section-number">3.2</span> Inclusión de Interacciones</a></li>
+  </ul></li>
+  <li><a href="#regresión-polinomial" id="toc-regresión-polinomial" class="nav-link" data-scroll-target="#regresión-polinomial"><span class="header-section-number">4</span> Regresión Polinomial</a></li>
+  <li><a href="#transformación-de-variables" id="toc-transformación-de-variables" class="nav-link" data-scroll-target="#transformación-de-variables"><span class="header-section-number">5</span> Transformación de Variables</a>
+  <ul class="collapse">
+  <li><a href="#transformación-logarítmica" id="toc-transformación-logarítmica" class="nav-link" data-scroll-target="#transformación-logarítmica"><span class="header-section-number">5.1</span> Transformación Logarítmica</a></li>
+  <li><a href="#otras-transformaciones" id="toc-otras-transformaciones" class="nav-link" data-scroll-target="#otras-transformaciones"><span class="header-section-number">5.2</span> Otras Transformaciones</a></li>
+  </ul></li>
+  <li><a href="#conclusión" id="toc-conclusión" class="nav-link" data-scroll-target="#conclusión"><span class="header-section-number">6</span> Conclusión</a></li>
+  <li><a href="#aplicación-en-r-sobre-los-contenidos-anteriores" id="toc-aplicación-en-r-sobre-los-contenidos-anteriores" class="nav-link" data-scroll-target="#aplicación-en-r-sobre-los-contenidos-anteriores"><span class="header-section-number">7</span> Aplicación en R (sobre los contenidos anteriores)</a>
+  <ul class="collapse">
+  <li><a href="#ejemplo-publicitario-tv-radio-periódico-ventas" id="toc-ejemplo-publicitario-tv-radio-periódico-ventas" class="nav-link" data-scroll-target="#ejemplo-publicitario-tv-radio-periódico-ventas"><span class="header-section-number">7.1</span> 1) Ejemplo publicitario: tv, radio, periódico → ventas</a></li>
+  <li><a href="#ejemplo-adicional-dataset-carprice-daag" id="toc-ejemplo-adicional-dataset-carprice-daag" class="nav-link" data-scroll-target="#ejemplo-adicional-dataset-carprice-daag"><span class="header-section-number">7.2</span> 2) Ejemplo adicional: dataset <code>carprice</code> (DAAG)</a></li>
+  <li><a href="#otro-ejemplo-con-archivo-externo-millaje.txt-opcional" id="toc-otro-ejemplo-con-archivo-externo-millaje.txt-opcional" class="nav-link" data-scroll-target="#otro-ejemplo-con-archivo-externo-millaje.txt-opcional"><span class="header-section-number">7.3</span> 3) Otro ejemplo con archivo externo <code>millaje.txt</code> (opcional)</a></li>
+  </ul></li>
+  <li><a href="#bibliografía" id="toc-bibliografía" class="nav-link" data-scroll-target="#bibliografía"><span class="header-section-number">8</span> Bibliografía</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Laboratorio 4_epg: Uso de la Regresión Múltiple</h1>
+<p class="subtitle lead">Econometría para la Gestión — FEN-UAH</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<blockquote class="blockquote">
+<p><strong>Material de apoyo elaborado a partir del texto de Fernando A. Crespo R. (2021) para el curso Econometría para la Gestión — FEN-UAH.</strong></p>
+</blockquote>
+<section id="uso-de-la-regresión-múltiple" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="uso-de-la-regresión-múltiple"><span class="header-section-number">1</span> Uso de la Regresión Múltiple</h2>
+</section>
+<section id="análisis-de-correlaciones-simultáneas" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="análisis-de-correlaciones-simultáneas"><span class="header-section-number">2</span> Análisis de Correlaciones Simultáneas</h2>
+<p>El análisis inicial en regresión múltiple se centra en la relación entre las variables explicativas. Una herramienta fundamental es la matriz de correlación.</p>
+<p>Una <strong>alta correlación</strong> entre las variables explicativas (<span class="math inline">\(X_i, X_j\)</span>) es un indicio de <strong>multicolinealidad</strong>, lo que puede inestabilizar los coeficientes estimados.</p>
+<p>La librería <code>MASS</code> es comúnmente utilizada en R, aunque la función <code>cor()</code> pertenece al paquete base.</p>
+<p>R</p>
+<pre><code>library(MASS) # Ejemplo de uso # Permite ver correlaciones simultáneas cor(Datos[, c("X1", "X2", "X3")]) </code></pre>
+</section>
+<section id="criterios-de-especificación-del-modelo" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="criterios-de-especificación-del-modelo"><span class="header-section-number">3</span> Criterios de Especificación del Modelo</h2>
+<section id="eliminación-de-variables-irrelevantes" class="level3" data-number="3.1">
+<h3 data-number="3.1" class="anchored" data-anchor-id="eliminación-de-variables-irrelevantes"><span class="header-section-number">3.1</span> Eliminación de Variables Irrelevantes</h3>
+<p>Se deben <strong>eliminar las variables</strong> del modelo que no son estadísticamente significativas (<span class="math inline">\(\hat{\beta}_i\)</span> no es distinto de cero), siempre y cuando el modelo global mantenga su significancia. El objetivo es obtener un modelo <strong>parsimonioso</strong> (simple y explicativo).</p>
+</section>
+<section id="inclusión-de-interacciones" class="level3" data-number="3.2">
+<h3 data-number="3.2" class="anchored" data-anchor-id="inclusión-de-interacciones"><span class="header-section-number">3.2</span> Inclusión de Interacciones</h3>
+<p>Se pueden <strong>agregar interacciones</strong> (<span class="math inline">\(X_i \times X_j\)</span>) para modelar un efecto conjunto o condicional de dos variables sobre la respuesta (<span class="math inline">\(Y\)</span>):</p>
+<p>$$X_3 = X_2 \times X_1$$</p>
+</section>
+</section>
+<section id="regresión-polinomial" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="regresión-polinomial"><span class="header-section-number">4</span> Regresión Polinomial</h2>
+<p>La <strong>regresión polinomial</strong> se utiliza para modelar relaciones <strong>no lineales</strong> entre <span class="math inline">\(X\)</span> y <span class="math inline">\(Y\)</span> manteniendo la linealidad en los parámetros (<span class="math inline">\(\beta\)</span>).</p>
+<p>El modelo de regresión polinomial de grado <span class="math inline">\(k\)</span> es:</p>
+<p>$$y = \beta_0 + \beta_1 x + \beta_2 x^2 + \cdots + \beta_k x^k + \varepsilon$$</p>
+<p>donde <span class="math inline">\(\varepsilon\)</span> representa el término de perturbación aleatoria.</p>
+<p>No existe una regla estricta para determinar el grado <span class="math inline">\(k\)</span>, pero la práctica sugiere <strong>incrementar el grado del polinomio hasta que el nuevo término deje de ser significativo</strong>. Esto se evalúa formalmente mediante una <strong>prueba ANOVA</strong> (o prueba <span class="math inline">\(F\)</span>) que compara la mejora de ajuste entre el modelo de grado <span class="math inline">\(k\)</span> y el modelo de grado <span class="math inline">\(k+1\)</span>.</p>
+</section>
+<section id="transformación-de-variables" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="transformación-de-variables"><span class="header-section-number">5</span> Transformación de Variables</h2>
+<p>Tanto la variable dependiente (<span class="math inline">\(Y\)</span>) como las independientes (<span class="math inline">\(X_i\)</span>) pueden transformarse mediante funciones matemáticas (<span class="math inline">\(f(\cdot)\)</span>) para:</p>
+<ol type="1">
+<li><p><strong>Estabilizar la varianza</strong> de los residuos (resolver heterocedasticidad).</p></li>
+<li><p><strong>Mejorar la linealidad</strong> de la relación.</p></li>
+<li><p><strong>Normalizar la distribución</strong> de los errores.</p></li>
+</ol>
+<p>$$y’ = f(y), \qquad x’ = g(x)$$</p>
+<section id="transformación-logarítmica" class="level3" data-number="5.1">
+<h3 data-number="5.1" class="anchored" data-anchor-id="transformación-logarítmica"><span class="header-section-number">5.1</span> Transformación Logarítmica</h3>
+<p>Si se utiliza el logaritmo y alguna variable toma el valor cero (<span class="math inline">\(0\)</span>), se debe aplicar un desplazamiento para evitar la indeterminación, usando:</p>
+<p>$$\log(1 + y) \quad \text{o} \quad \log(1 + x)$$</p>
+</section>
+<section id="otras-transformaciones" class="level3" data-number="5.2">
+<h3 data-number="5.2" class="anchored" data-anchor-id="otras-transformaciones"><span class="header-section-number">5.2</span> Otras Transformaciones</h3>
+<p>Otras transformaciones comunes para estabilizar la varianza incluyen la <strong>raíz cuadrada</strong>:</p>
+<p>$$y’ = \sqrt{y}$$</p>
+<p>El objetivo principal es encontrar la transformación que <strong>minimice la varianza de los residuos</strong> (<span class="math inline">\(\sigma_{\varepsilon}^2\)</span>) y asegure que el modelo cumpla con los <strong>supuestos clásicos</strong> de la regresión lineal.</p>
+</section>
+</section>
+<section id="conclusión" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="conclusión"><span class="header-section-number">6</span> Conclusión</h2>
+<p>La fase de especificación del modelo, que abarca el manejo de multicolinealidad, la selección de variables, la incorporación de efectos no lineales (polinomiales) y las transformaciones adecuadas, es crucial. Estas herramientas permiten construir <strong>modelos econométricos sólidos, válidos y parsimoniosos</strong>, mejorando la <strong>interpretación, la validez estadística y la capacidad predictiva</strong> del modelo de regresión múltiple.</p>
+</section>
+<section id="aplicación-en-r-sobre-los-contenidos-anteriores" class="level2" data-number="7">
+<h2 data-number="7" class="anchored" data-anchor-id="aplicación-en-r-sobre-los-contenidos-anteriores"><span class="header-section-number">7</span> Aplicación en R (sobre los contenidos anteriores)</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ruta absoluta de datos (según tu equipo)</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>data_path <span class="ot">&lt;-</span> <span class="st">"C:/Users/manue/Desktop/lab-econometria/labs/data_epg"</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">file.exists</span>(<span class="fu">file.path</span>(data_path, <span class="st">"millaje.txt"</span>))) {</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">message</span>(<span class="st">"ℹ️ Aviso: 'millaje.txt' no se encontró en data_path; el bloque DAAG usa dataset interno 'carprice'."</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Librerías necesarias</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages(c("tidyverse","openxlsx","MASS","corrplot","lmtest","DAAG","ggplot2"))</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse); <span class="fu">library</span>(openxlsx); <span class="fu">library</span>(MASS); <span class="fu">library</span>(corrplot)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lmtest); <span class="fu">library</span>(DAAG); <span class="fu">library</span>(ggplot2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="ejemplo-publicitario-tv-radio-periódico-ventas" class="level3" data-number="7.1">
+<h3 data-number="7.1" class="anchored" data-anchor-id="ejemplo-publicitario-tv-radio-periódico-ventas"><span class="header-section-number">7.1</span> 1) Ejemplo publicitario: tv, radio, periódico → ventas</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>tv <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">230.1</span>, <span class="fl">44.5</span>, <span class="fl">17.2</span>, <span class="fl">151.5</span>, <span class="fl">180.8</span>, <span class="fl">8.7</span>, <span class="fl">57.5</span>, <span class="fl">120.2</span>, <span class="fl">8.6</span>, <span class="fl">199.8</span>, <span class="fl">66.1</span>, <span class="fl">214.7</span>, <span class="fl">23.8</span>, <span class="fl">97.5</span>, <span class="fl">204.1</span>, <span class="fl">195.4</span>, <span class="fl">67.8</span>, <span class="fl">281.4</span>, <span class="fl">69.2</span>, <span class="fl">147.3</span>, <span class="fl">218.4</span>, <span class="fl">237.4</span>, <span class="fl">13.2</span>, <span class="fl">228.3</span>, <span class="fl">62.3</span>, <span class="fl">262.9</span>, <span class="fl">142.9</span>, <span class="fl">240.1</span>, <span class="fl">248.8</span>, <span class="fl">70.6</span>, <span class="fl">292.9</span>, <span class="fl">112.9</span>, <span class="fl">97.2</span>, <span class="fl">265.6</span>, <span class="fl">95.7</span>, <span class="fl">290.7</span>, <span class="fl">266.9</span>, <span class="fl">74.7</span>, <span class="fl">43.1</span>, <span class="fl">228.0</span>, <span class="fl">202.5</span>, <span class="fl">177.0</span>, <span class="fl">293.6</span>, <span class="fl">206.9</span>, <span class="fl">25.1</span>, <span class="fl">175.1</span>, <span class="fl">89.7</span>, <span class="fl">239.9</span>, <span class="fl">227.2</span>, <span class="fl">66.9</span>, <span class="fl">199.8</span>, <span class="fl">100.4</span>, <span class="fl">216.4</span>, <span class="fl">182.6</span>, <span class="fl">262.7</span>, <span class="fl">198.9</span>, <span class="fl">7.3</span>, <span class="fl">136.2</span>, <span class="fl">210.8</span>, <span class="fl">210.7</span>, <span class="fl">53.5</span>, <span class="fl">261.3</span>, <span class="fl">239.3</span>, <span class="fl">102.7</span>, <span class="fl">131.1</span>, <span class="fl">69.0</span>, <span class="fl">31.5</span>, <span class="fl">139.3</span>, <span class="fl">237.4</span>, <span class="fl">216.8</span>, <span class="fl">199.1</span>, <span class="fl">109.8</span>, <span class="fl">26.8</span>, <span class="fl">129.4</span>, <span class="fl">213.4</span>, <span class="fl">16.9</span>, <span class="fl">27.5</span>, <span class="fl">120.5</span>, <span class="fl">5.4</span>, <span class="fl">116.0</span>, <span class="fl">76.4</span>, <span class="fl">239.8</span>, <span class="fl">75.3</span>, <span class="fl">68.4</span>, <span class="fl">213.5</span>, <span class="fl">193.2</span>, <span class="fl">76.3</span>, <span class="fl">110.7</span>, <span class="fl">88.3</span>, <span class="fl">109.8</span>, <span class="fl">134.3</span>, <span class="fl">28.6</span>, <span class="fl">217.7</span>, <span class="fl">250.9</span>, <span class="fl">107.4</span>, <span class="fl">163.3</span>, <span class="fl">197.6</span>, <span class="fl">184.9</span>, <span class="fl">289.7</span>, <span class="fl">135.2</span>, <span class="fl">222.4</span>, <span class="fl">296.4</span>, <span class="fl">280.2</span>, <span class="fl">187.9</span>, <span class="fl">238.2</span>, <span class="fl">137.9</span>, <span class="fl">25.0</span>, <span class="fl">90.4</span>, <span class="fl">13.1</span>, <span class="fl">255.4</span>, <span class="fl">225.8</span>, <span class="fl">241.7</span>, <span class="fl">175.7</span>, <span class="fl">209.6</span>, <span class="fl">78.2</span>, <span class="fl">75.1</span>, <span class="fl">139.2</span>, <span class="fl">76.4</span>, <span class="fl">125.7</span>, <span class="fl">19.4</span>, <span class="fl">141.3</span>, <span class="fl">18.8</span>, <span class="fl">224.0</span>, <span class="fl">123.1</span>, <span class="fl">229.5</span>, <span class="fl">87.2</span>, <span class="fl">7.8</span>, <span class="fl">80.2</span>, <span class="fl">220.3</span>, <span class="fl">59.6</span>, <span class="fl">0.7</span>, <span class="fl">265.2</span>, <span class="fl">8.4</span>, <span class="fl">219.8</span>, <span class="fl">36.9</span>, <span class="fl">48.3</span>, <span class="fl">25.6</span>, <span class="fl">273.7</span>, <span class="fl">43.0</span>, <span class="fl">184.9</span>, <span class="fl">73.4</span>, <span class="fl">193.7</span>, <span class="fl">220.5</span>, <span class="fl">104.6</span>, <span class="fl">96.2</span>, <span class="fl">140.3</span>, <span class="fl">240.1</span>, <span class="fl">243.2</span>, <span class="fl">38.0</span>, <span class="fl">44.7</span>, <span class="fl">280.7</span>, <span class="fl">121.0</span>, <span class="fl">197.6</span>, <span class="fl">171.3</span>, <span class="fl">187.8</span>, <span class="fl">4.1</span>, <span class="fl">93.9</span>, <span class="fl">149.8</span>, <span class="fl">11.7</span>, <span class="fl">131.7</span>, <span class="fl">172.5</span>, <span class="fl">85.7</span>, <span class="fl">188.4</span>, <span class="fl">163.5</span>, <span class="fl">117.2</span>, <span class="fl">234.5</span>, <span class="fl">17.9</span>, <span class="fl">206.8</span>, <span class="fl">215.4</span>, <span class="fl">284.3</span>, <span class="fl">50.0</span>, <span class="fl">164.5</span>, <span class="fl">19.6</span>, <span class="fl">168.4</span>, <span class="fl">222.4</span>, <span class="fl">276.9</span>, <span class="fl">248.4</span>, <span class="fl">170.2</span>, <span class="fl">276.7</span>, <span class="fl">165.6</span>, <span class="fl">156.6</span>, <span class="fl">218.5</span>, <span class="fl">56.2</span>, <span class="fl">287.6</span>, <span class="fl">253.8</span>, <span class="fl">205.0</span>, <span class="fl">139.5</span>, <span class="fl">191.1</span>, <span class="fl">286.0</span>, <span class="fl">18.7</span>, <span class="fl">39.5</span>, <span class="fl">75.5</span>, <span class="fl">17.2</span>, <span class="fl">166.8</span>, <span class="fl">149.7</span>, <span class="fl">38.2</span>, <span class="fl">94.2</span>, <span class="fl">177.0</span>, <span class="fl">283.6</span>, <span class="fl">232.1</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>radio <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">37.8</span>, <span class="fl">39.3</span>, <span class="fl">45.9</span>, <span class="fl">41.3</span>, <span class="fl">10.8</span>, <span class="fl">48.9</span>, <span class="fl">32.8</span>, <span class="fl">19.6</span>, <span class="fl">2.1</span>, <span class="fl">2.6</span>, <span class="fl">5.8</span>, <span class="fl">24.0</span>, <span class="fl">35.1</span>, <span class="fl">7.6</span>, <span class="fl">32.9</span>, <span class="fl">47.7</span>, <span class="fl">36.6</span>, <span class="fl">39.6</span>, <span class="fl">20.5</span>, <span class="fl">23.9</span>, <span class="fl">27.7</span>, <span class="fl">5.1</span>, <span class="fl">15.9</span>, <span class="fl">16.9</span>, <span class="fl">12.6</span>, <span class="fl">3.5</span>, <span class="fl">29.3</span>, <span class="fl">16.7</span>, <span class="fl">27.1</span>, <span class="fl">16.0</span>, <span class="fl">28.3</span>, <span class="fl">17.4</span>, <span class="fl">1.5</span>, <span class="fl">20.0</span>, <span class="fl">1.4</span>, <span class="fl">4.1</span>, <span class="fl">43.8</span>, <span class="fl">49.4</span>, <span class="fl">26.7</span>, <span class="fl">37.7</span>, <span class="fl">22.3</span>, <span class="fl">33.4</span>, <span class="fl">27.7</span>, <span class="fl">8.4</span>, <span class="fl">25.7</span>, <span class="fl">22.5</span>, <span class="fl">9.9</span>, <span class="fl">41.5</span>, <span class="fl">15.8</span>, <span class="fl">11.7</span>, <span class="fl">3.1</span>, <span class="fl">9.6</span>, <span class="fl">41.7</span>, <span class="fl">46.2</span>, <span class="fl">28.8</span>, <span class="fl">49.4</span>, <span class="fl">28.1</span>, <span class="fl">19.2</span>, <span class="fl">49.6</span>, <span class="fl">29.5</span>, <span class="fl">2.0</span>, <span class="fl">42.7</span>, <span class="fl">15.5</span>, <span class="fl">29.6</span>, <span class="fl">42.8</span>, <span class="fl">9.3</span>, <span class="fl">24.6</span>, <span class="fl">14.5</span>, <span class="fl">27.5</span>, <span class="fl">43.9</span>, <span class="fl">30.6</span>, <span class="fl">14.3</span>, <span class="fl">33.0</span>, <span class="fl">5.7</span>, <span class="fl">24.6</span>, <span class="fl">43.7</span>, <span class="fl">1.6</span>, <span class="fl">28.5</span>, <span class="fl">29.9</span>, <span class="fl">7.7</span>, <span class="fl">26.7</span>, <span class="fl">4.1</span>, <span class="fl">20.3</span>, <span class="fl">44.5</span>, <span class="fl">43.0</span>, <span class="fl">18.4</span>, <span class="fl">27.5</span>, <span class="fl">40.6</span>, <span class="fl">25.5</span>, <span class="fl">47.8</span>, <span class="fl">4.9</span>, <span class="fl">1.5</span>, <span class="fl">33.5</span>, <span class="fl">36.5</span>, <span class="fl">14.0</span>, <span class="fl">31.6</span>, <span class="fl">3.5</span>, <span class="fl">21.0</span>, <span class="fl">42.3</span>, <span class="fl">41.7</span>, <span class="fl">4.3</span>, <span class="fl">36.3</span>, <span class="fl">10.1</span>, <span class="fl">17.2</span>, <span class="fl">34.3</span>, <span class="fl">46.4</span>, <span class="fl">11.0</span>, <span class="fl">0.3</span>, <span class="fl">0.4</span>, <span class="fl">26.9</span>, <span class="fl">8.2</span>, <span class="fl">38.0</span>, <span class="fl">15.4</span>, <span class="fl">20.6</span>, <span class="fl">46.8</span>, <span class="fl">35.0</span>, <span class="fl">14.3</span>, <span class="fl">0.8</span>, <span class="fl">36.9</span>, <span class="fl">16.0</span>, <span class="fl">26.8</span>, <span class="fl">21.7</span>, <span class="fl">2.4</span>, <span class="fl">34.6</span>, <span class="fl">32.3</span>, <span class="fl">11.8</span>, <span class="fl">38.9</span>, <span class="fl">0.0</span>, <span class="fl">49.0</span>, <span class="fl">12.0</span>, <span class="fl">39.6</span>, <span class="fl">2.9</span>, <span class="fl">27.2</span>, <span class="fl">33.5</span>, <span class="fl">38.6</span>, <span class="fl">47.0</span>, <span class="fl">39.0</span>, <span class="fl">28.9</span>, <span class="fl">25.9</span>, <span class="fl">43.9</span>, <span class="fl">17.0</span>, <span class="fl">35.4</span>, <span class="fl">33.2</span>, <span class="fl">5.7</span>, <span class="fl">14.8</span>, <span class="fl">1.9</span>, <span class="fl">7.3</span>, <span class="fl">49.0</span>, <span class="fl">40.3</span>, <span class="fl">25.8</span>, <span class="fl">13.9</span>, <span class="fl">8.4</span>, <span class="fl">23.3</span>, <span class="fl">39.7</span>, <span class="fl">21.1</span>, <span class="fl">11.6</span>, <span class="fl">43.5</span>, <span class="fl">1.3</span>, <span class="fl">36.9</span>, <span class="fl">18.4</span>, <span class="fl">18.1</span>, <span class="fl">35.8</span>, <span class="fl">18.1</span>, <span class="fl">36.8</span>, <span class="fl">14.7</span>, <span class="fl">3.4</span>, <span class="fl">37.6</span>, <span class="fl">5.2</span>, <span class="fl">23.6</span>, <span class="fl">10.6</span>, <span class="fl">11.6</span>, <span class="fl">20.9</span>, <span class="fl">20.1</span>, <span class="fl">7.1</span>, <span class="fl">3.4</span>, <span class="fl">48.9</span>, <span class="fl">30.2</span>, <span class="fl">7.8</span>, <span class="fl">2.3</span>, <span class="fl">10.0</span>, <span class="fl">2.6</span>, <span class="fl">5.4</span>, <span class="fl">5.7</span>, <span class="fl">43.0</span>, <span class="fl">21.3</span>, <span class="fl">45.1</span>, <span class="fl">2.1</span>, <span class="fl">28.7</span>, <span class="fl">13.9</span>, <span class="fl">12.1</span>, <span class="fl">41.1</span>, <span class="fl">10.8</span>, <span class="fl">4.1</span>, <span class="fl">42.0</span>, <span class="fl">35.6</span>, <span class="fl">3.7</span>, <span class="fl">4.9</span>, <span class="fl">9.3</span>, <span class="fl">42.0</span>, <span class="fl">8.6</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>periodico <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">69.2</span>, <span class="fl">45.1</span>, <span class="fl">69.3</span>, <span class="fl">58.5</span>, <span class="fl">58.4</span>, <span class="fl">75.0</span>, <span class="fl">23.5</span>, <span class="fl">11.6</span>, <span class="fl">1.0</span>, <span class="fl">21.2</span>, <span class="fl">24.2</span>, <span class="fl">4.0</span>, <span class="fl">65.9</span>, <span class="fl">7.2</span>, <span class="fl">46.0</span>, <span class="fl">52.9</span>, <span class="fl">114.0</span>, <span class="fl">55.8</span>, <span class="fl">18.3</span>, <span class="fl">19.1</span>, <span class="fl">53.4</span>, <span class="fl">23.5</span>, <span class="fl">49.6</span>, <span class="fl">26.2</span>, <span class="fl">18.3</span>, <span class="fl">19.5</span>, <span class="fl">12.6</span>, <span class="fl">22.9</span>, <span class="fl">22.9</span>, <span class="fl">40.8</span>, <span class="fl">43.2</span>, <span class="fl">38.6</span>, <span class="fl">30.0</span>, <span class="fl">0.3</span>, <span class="fl">7.4</span>, <span class="fl">8.5</span>, <span class="fl">5.0</span>, <span class="fl">45.7</span>, <span class="fl">35.1</span>, <span class="fl">32.0</span>, <span class="fl">31.6</span>, <span class="fl">38.7</span>, <span class="fl">1.8</span>, <span class="fl">26.4</span>, <span class="fl">43.3</span>, <span class="fl">31.5</span>, <span class="fl">35.7</span>, <span class="fl">18.5</span>, <span class="fl">49.9</span>, <span class="fl">36.8</span>, <span class="fl">34.6</span>, <span class="fl">3.6</span>, <span class="fl">39.6</span>, <span class="fl">58.7</span>, <span class="fl">15.9</span>, <span class="fl">60.0</span>, <span class="fl">41.4</span>, <span class="fl">16.6</span>, <span class="fl">37.7</span>, <span class="fl">9.3</span>, <span class="fl">21.4</span>, <span class="fl">54.7</span>, <span class="fl">27.3</span>, <span class="fl">8.4</span>, <span class="fl">28.9</span>, <span class="fl">0.9</span>, <span class="fl">2.2</span>, <span class="fl">10.2</span>, <span class="fl">11.0</span>, <span class="fl">27.2</span>, <span class="fl">38.7</span>, <span class="fl">31.7</span>, <span class="fl">19.3</span>, <span class="fl">31.3</span>, <span class="fl">13.1</span>, <span class="fl">89.4</span>, <span class="fl">20.7</span>, <span class="fl">14.2</span>, <span class="fl">9.4</span>, <span class="fl">23.1</span>, <span class="fl">22.3</span>, <span class="fl">36.9</span>, <span class="fl">32.5</span>, <span class="fl">35.6</span>, <span class="fl">33.8</span>, <span class="fl">65.7</span>, <span class="fl">16.0</span>, <span class="fl">63.2</span>, <span class="fl">73.4</span>, <span class="fl">51.4</span>, <span class="fl">9.3</span>, <span class="fl">33.0</span>, <span class="fl">59.0</span>, <span class="fl">72.3</span>, <span class="fl">10.9</span>, <span class="fl">52.9</span>, <span class="fl">5.9</span>, <span class="fl">22.0</span>, <span class="fl">51.2</span>, <span class="fl">45.9</span>, <span class="fl">49.8</span>, <span class="fl">100.9</span>, <span class="fl">21.4</span>, <span class="fl">17.9</span>, <span class="fl">5.3</span>, <span class="fl">59.0</span>, <span class="fl">29.7</span>, <span class="fl">23.2</span>, <span class="fl">25.6</span>, <span class="fl">5.5</span>, <span class="fl">56.5</span>, <span class="fl">23.2</span>, <span class="fl">2.4</span>, <span class="fl">10.7</span>, <span class="fl">34.5</span>, <span class="fl">52.7</span>, <span class="fl">25.6</span>, <span class="fl">14.8</span>, <span class="fl">79.2</span>, <span class="fl">22.3</span>, <span class="fl">46.2</span>, <span class="fl">50.4</span>, <span class="fl">15.6</span>, <span class="fl">12.4</span>, <span class="fl">74.2</span>, <span class="fl">25.9</span>, <span class="fl">50.6</span>, <span class="fl">9.2</span>, <span class="fl">3.2</span>, <span class="fl">43.1</span>, <span class="fl">8.7</span>, <span class="fl">43.0</span>, <span class="fl">2.1</span>, <span class="fl">45.1</span>, <span class="fl">65.6</span>, <span class="fl">8.5</span>, <span class="fl">9.3</span>, <span class="fl">59.7</span>, <span class="fl">20.5</span>, <span class="fl">1.7</span>, <span class="fl">12.9</span>, <span class="fl">75.6</span>, <span class="fl">37.9</span>, <span class="fl">34.4</span>, <span class="fl">38.9</span>, <span class="fl">9.0</span>, <span class="fl">8.7</span>, <span class="fl">44.3</span>, <span class="fl">11.9</span>, <span class="fl">20.6</span>, <span class="fl">37.0</span>, <span class="fl">48.7</span>, <span class="fl">14.2</span>, <span class="fl">37.7</span>, <span class="fl">9.5</span>, <span class="fl">5.7</span>, <span class="fl">50.5</span>, <span class="fl">24.3</span>, <span class="fl">45.2</span>, <span class="fl">34.6</span>, <span class="fl">30.7</span>, <span class="fl">49.3</span>, <span class="fl">25.6</span>, <span class="fl">7.4</span>, <span class="fl">5.4</span>, <span class="fl">84.8</span>, <span class="fl">21.6</span>, <span class="fl">19.4</span>, <span class="fl">57.6</span>, <span class="fl">6.4</span>, <span class="fl">18.4</span>, <span class="fl">47.4</span>, <span class="fl">17.0</span>, <span class="fl">12.8</span>, <span class="fl">13.1</span>, <span class="fl">41.8</span>, <span class="fl">20.3</span>, <span class="fl">35.2</span>, <span class="fl">23.7</span>, <span class="fl">17.6</span>, <span class="fl">8.3</span>, <span class="fl">27.4</span>, <span class="fl">29.7</span>, <span class="fl">71.8</span>, <span class="fl">30.0</span>, <span class="fl">19.6</span>, <span class="fl">26.6</span>, <span class="fl">18.2</span>, <span class="fl">3.7</span>, <span class="fl">23.4</span>, <span class="fl">5.8</span>, <span class="fl">6.0</span>, <span class="fl">31.6</span>, <span class="fl">3.6</span>, <span class="fl">6.0</span>, <span class="fl">13.8</span>, <span class="fl">8.1</span>, <span class="fl">6.4</span>, <span class="fl">66.2</span>, <span class="fl">8.7</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>ventas <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">22.1</span>, <span class="fl">10.4</span>, <span class="fl">9.3</span>, <span class="fl">18.5</span>, <span class="fl">12.9</span>, <span class="fl">7.2</span>, <span class="fl">11.8</span>, <span class="fl">13.2</span>, <span class="fl">4.8</span>, <span class="fl">10.6</span>, <span class="fl">8.6</span>, <span class="fl">17.4</span>, <span class="fl">9.2</span>, <span class="fl">9.7</span>, <span class="fl">19.0</span>, <span class="fl">22.4</span>, <span class="fl">12.5</span>, <span class="fl">24.4</span>, <span class="fl">11.3</span>, <span class="fl">14.6</span>, <span class="fl">18.0</span>, <span class="fl">12.5</span>, <span class="fl">5.6</span>, <span class="fl">15.5</span>, <span class="fl">9.7</span>, <span class="fl">12.0</span>, <span class="fl">15.0</span>, <span class="fl">15.9</span>, <span class="fl">18.9</span>, <span class="fl">10.5</span>, <span class="fl">21.4</span>, <span class="fl">11.9</span>, <span class="fl">9.6</span>, <span class="fl">17.4</span>, <span class="fl">9.5</span>, <span class="fl">12.8</span>, <span class="fl">25.4</span>, <span class="fl">14.7</span>, <span class="fl">10.1</span>, <span class="fl">21.5</span>, <span class="fl">16.6</span>, <span class="fl">17.1</span>, <span class="fl">20.7</span>, <span class="fl">12.9</span>, <span class="fl">8.5</span>, <span class="fl">14.9</span>, <span class="fl">10.6</span>, <span class="fl">23.2</span>, <span class="fl">14.8</span>, <span class="fl">9.7</span>, <span class="fl">11.4</span>, <span class="fl">10.7</span>, <span class="fl">22.6</span>, <span class="fl">21.2</span>, <span class="fl">20.2</span>, <span class="fl">23.7</span>, <span class="fl">5.5</span>, <span class="fl">13.2</span>, <span class="fl">23.8</span>, <span class="fl">18.4</span>, <span class="fl">8.1</span>, <span class="fl">24.2</span>, <span class="fl">15.7</span>, <span class="fl">14.0</span>, <span class="fl">18.0</span>, <span class="fl">9.3</span>, <span class="fl">9.5</span>, <span class="fl">13.4</span>, <span class="fl">18.9</span>, <span class="fl">22.3</span>, <span class="fl">18.3</span>, <span class="fl">12.4</span>, <span class="fl">8.8</span>, <span class="fl">11.0</span>, <span class="fl">17.0</span>, <span class="fl">8.7</span>, <span class="fl">6.9</span>, <span class="fl">14.2</span>, <span class="fl">5.3</span>, <span class="fl">11.0</span>, <span class="fl">11.8</span>, <span class="fl">12.3</span>, <span class="fl">11.3</span>, <span class="fl">13.6</span>, <span class="fl">21.7</span>, <span class="fl">15.2</span>, <span class="fl">12.0</span>, <span class="fl">16.0</span>, <span class="fl">12.9</span>, <span class="fl">16.7</span>, <span class="fl">11.2</span>, <span class="fl">7.3</span>, <span class="fl">19.4</span>, <span class="fl">22.2</span>, <span class="fl">11.5</span>, <span class="fl">16.9</span>, <span class="fl">11.7</span>, <span class="fl">15.5</span>, <span class="fl">25.4</span>, <span class="fl">17.2</span>, <span class="fl">11.7</span>, <span class="fl">23.8</span>, <span class="fl">14.8</span>, <span class="fl">14.7</span>, <span class="fl">20.7</span>, <span class="fl">19.2</span>, <span class="fl">7.2</span>, <span class="fl">8.7</span>, <span class="fl">5.3</span>, <span class="fl">19.8</span>, <span class="fl">13.4</span>, <span class="fl">21.8</span>, <span class="fl">14.1</span>, <span class="fl">15.9</span>, <span class="fl">14.6</span>, <span class="fl">12.6</span>, <span class="fl">12.2</span>, <span class="fl">9.4</span>, <span class="fl">15.9</span>, <span class="fl">6.6</span>, <span class="fl">15.5</span>, <span class="fl">7.0</span>, <span class="fl">11.6</span>, <span class="fl">15.2</span>, <span class="fl">19.7</span>, <span class="fl">10.6</span>, <span class="fl">6.6</span>, <span class="fl">8.8</span>, <span class="fl">24.7</span>, <span class="fl">9.7</span>, <span class="fl">1.6</span>, <span class="fl">12.7</span>, <span class="fl">5.7</span>, <span class="fl">19.6</span>, <span class="fl">10.8</span>, <span class="fl">11.6</span>, <span class="fl">9.5</span>, <span class="fl">20.8</span>, <span class="fl">9.6</span>, <span class="fl">20.7</span>, <span class="fl">10.9</span>, <span class="fl">19.2</span>, <span class="fl">20.1</span>, <span class="fl">10.4</span>, <span class="fl">11.4</span>, <span class="fl">10.3</span>, <span class="fl">13.2</span>, <span class="fl">25.4</span>, <span class="fl">10.9</span>, <span class="fl">10.1</span>, <span class="fl">16.1</span>, <span class="fl">11.6</span>, <span class="fl">16.6</span>, <span class="fl">19.0</span>, <span class="fl">15.6</span>, <span class="fl">3.2</span>, <span class="fl">15.3</span>, <span class="fl">10.1</span>, <span class="fl">7.3</span>, <span class="fl">12.9</span>, <span class="fl">14.4</span>, <span class="fl">13.3</span>, <span class="fl">14.9</span>, <span class="fl">18.0</span>, <span class="fl">11.9</span>, <span class="fl">11.9</span>, <span class="fl">8.0</span>, <span class="fl">12.2</span>, <span class="fl">17.1</span>, <span class="fl">15.0</span>, <span class="fl">8.4</span>, <span class="fl">14.5</span>, <span class="fl">7.6</span>, <span class="fl">11.7</span>, <span class="fl">11.5</span>, <span class="fl">27.0</span>, <span class="fl">20.2</span>, <span class="fl">11.7</span>, <span class="fl">11.8</span>, <span class="fl">12.6</span>, <span class="fl">10.5</span>, <span class="fl">12.2</span>, <span class="fl">8.7</span>, <span class="fl">26.2</span>, <span class="fl">17.6</span>, <span class="fl">22.6</span>, <span class="fl">10.3</span>, <span class="fl">17.3</span>, <span class="fl">15.9</span>, <span class="fl">6.7</span>, <span class="fl">10.8</span>, <span class="fl">9.9</span>, <span class="fl">5.9</span>, <span class="fl">19.6</span>, <span class="fl">17.3</span>, <span class="fl">7.6</span>, <span class="fl">9.7</span>, <span class="fl">12.8</span>, <span class="fl">25.5</span>, <span class="fl">13.4</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(tv, radio, periodico, ventas)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs</span>(datos)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab04_epg_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> <span class="fu">cor</span>(datos)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot</span>(r, <span class="at">method=</span><span class="st">"circle"</span>, <span class="at">type=</span><span class="st">"lower"</span>, <span class="at">diag=</span><span class="cn">FALSE</span>, <span class="at">tl.col=</span><span class="st">"black"</span>, <span class="at">tl.cex=</span><span class="dv">1</span>, <span class="at">tl.offset=</span><span class="fl">0.1</span>, <span class="at">tl.srt=</span><span class="dv">45</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab04_epg_files/figure-html/unnamed-chunk-3-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>modelo <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="at">formula =</span> ventas <span class="sc">~</span> tv <span class="sc">+</span> radio <span class="sc">+</span> periodico, <span class="at">data =</span> datos)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modelo)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = ventas ~ tv + radio + periodico, data = datos)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-8.8277 -0.8908  0.2418  1.1893  2.8292 
+
+Coefficients:
+             Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  2.938889   0.311908   9.422   &lt;2e-16 ***
+tv           0.045765   0.001395  32.809   &lt;2e-16 ***
+radio        0.188530   0.008611  21.893   &lt;2e-16 ***
+periodico   -0.001037   0.005871  -0.177     0.86    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 1.686 on 196 degrees of freedom
+Multiple R-squared:  0.8972,    Adjusted R-squared:  0.8956 
+F-statistic: 570.3 on 3 and 196 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>modelo <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="at">formula =</span> ventas <span class="sc">~</span> tv <span class="sc">+</span> radio, <span class="at">data =</span> datos)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modelo)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = ventas ~ tv + radio, data = datos)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-8.7977 -0.8752  0.2422  1.1708  2.8328 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  2.92110    0.29449   9.919   &lt;2e-16 ***
+tv           0.04575    0.00139  32.909   &lt;2e-16 ***
+radio        0.18799    0.00804  23.382   &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 1.681 on 197 degrees of freedom
+Multiple R-squared:  0.8972,    Adjusted R-squared:  0.8962 
+F-statistic: 859.6 on 2 and 197 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>rango_tv <span class="ot">&lt;-</span> <span class="fu">range</span>(datos<span class="sc">$</span>tv)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>nuevos_valores_tv <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from =</span> rango_tv[<span class="dv">1</span>], <span class="at">to =</span> rango_tv[<span class="dv">2</span>], <span class="at">length.out =</span> <span class="dv">20</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>rango_radio <span class="ot">&lt;-</span> <span class="fu">range</span>(datos<span class="sc">$</span>radio)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>nuevos_valores_radio <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from =</span> rango_radio[<span class="dv">1</span>], <span class="at">to =</span> rango_radio[<span class="dv">2</span>], <span class="at">length.out =</span> <span class="dv">20</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>predicciones <span class="ot">&lt;-</span> <span class="fu">outer</span>(<span class="at">X =</span> nuevos_valores_tv, <span class="at">Y =</span> nuevos_valores_radio, </span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>                      <span class="at">FUN =</span> <span class="cf">function</span>(tv, radio) {</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>                        <span class="fu">predict</span>(<span class="at">object =</span> modelo, <span class="at">newdata =</span> <span class="fu">data.frame</span>(tv, radio))</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>                      })</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>superficie <span class="ot">&lt;-</span> <span class="fu">persp</span>(<span class="at">x =</span> nuevos_valores_tv, <span class="at">y =</span> nuevos_valores_radio,</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>                    <span class="at">z =</span> predicciones,</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>                    <span class="at">theta =</span> <span class="dv">18</span>, <span class="at">phi =</span> <span class="dv">20</span>,</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>                    <span class="at">col =</span> <span class="st">"lightblue"</span>, <span class="at">shade =</span> <span class="fl">0.1</span>,</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>                    <span class="at">xlab =</span> <span class="st">"tv"</span>, <span class="at">ylab =</span> <span class="st">"radio"</span>, <span class="at">zlab =</span> <span class="st">"ventas"</span>,</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ticktype =</span> <span class="st">"detailed"</span>,</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>                    <span class="at">main =</span> <span class="st">"Predicción ventas ~ TV y Radio"</span>)</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>observaciones <span class="ot">&lt;-</span> <span class="fu">trans3d</span>(datos<span class="sc">$</span>tv, datos<span class="sc">$</span>radio, datos<span class="sc">$</span>ventas, superficie)</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>error <span class="ot">&lt;-</span> <span class="fu">trans3d</span>(datos<span class="sc">$</span>tv, datos<span class="sc">$</span>radio, <span class="fu">fitted</span>(modelo), superficie)</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(observaciones, <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">pch =</span> <span class="dv">16</span>)</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a><span class="fu">segments</span>(observaciones<span class="sc">$</span>x, observaciones<span class="sc">$</span>y, error<span class="sc">$</span>x, error<span class="sc">$</span>y)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab04_epg_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(modelo<span class="sc">$</span>residuals)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Shapiro-Wilk normality test
+
+data:  modelo$residuals
+W = 0.91804, p-value = 4.19e-09</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(modelo<span class="sc">$</span>residuals); <span class="fu">plot</span>(<span class="fu">density</span>(modelo<span class="sc">$</span>residuals))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab04_epg_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab04_epg_files/figure-html/unnamed-chunk-6-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dwtest</span>(modelo,<span class="at">alternative =</span><span class="st">"two.sided"</span>,<span class="at">iterations =</span> <span class="dv">1000</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Durbin-Watson test
+
+data:  modelo
+DW = 2.0808, p-value = 0.5656
+alternative hypothesis: true autocorrelation is not 0</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bptest</span>(modelo)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    studentized Breusch-Pagan test
+
+data:  modelo
+BP = 4.8093, df = 2, p-value = 0.0903</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(modelo<span class="sc">$</span>fitted.values, datos<span class="sc">$</span>ventas); <span class="fu">lines</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">25</span>), <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">25</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab04_epg_files/figure-html/unnamed-chunk-6-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>tv_radio <span class="ot">&lt;-</span> tv<span class="sc">*</span>radio</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>modelo_interaccion <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="at">formula =</span> ventas <span class="sc">~</span> tv <span class="sc">+</span> radio <span class="sc">+</span> tv<span class="sc">*</span>radio, <span class="at">data =</span> datos)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modelo_interaccion)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = ventas ~ tv + radio + tv * radio, data = datos)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-6.3366 -0.4028  0.1831  0.5948  1.5246 
+
+Coefficients:
+             Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) 6.750e+00  2.479e-01  27.233   &lt;2e-16 ***
+tv          1.910e-02  1.504e-03  12.699   &lt;2e-16 ***
+radio       2.886e-02  8.905e-03   3.241   0.0014 ** 
+tv:radio    1.086e-03  5.242e-05  20.727   &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.9435 on 196 degrees of freedom
+Multiple R-squared:  0.9678,    Adjusted R-squared:  0.9673 
+F-statistic:  1963 on 3 and 196 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(modelo_interaccion<span class="sc">$</span>residuals); <span class="fu">hist</span>(modelo_interaccion<span class="sc">$</span>residuals); <span class="fu">plot</span>(<span class="fu">density</span>(modelo_interaccion<span class="sc">$</span>residuals))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Shapiro-Wilk normality test
+
+data:  modelo_interaccion$residuals
+W = 0.8469, p-value = 3.047e-13</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab04_epg_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab04_epg_files/figure-html/unnamed-chunk-7-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dwtest</span>(modelo_interaccion,<span class="at">alternative =</span><span class="st">"two.sided"</span>,<span class="at">iterations =</span> <span class="dv">1000</span>); <span class="fu">bptest</span>(modelo_interaccion)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Durbin-Watson test
+
+data:  modelo_interaccion
+DW = 2.2236, p-value = 0.1103
+alternative hypothesis: true autocorrelation is not 0</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    studentized Breusch-Pagan test
+
+data:  modelo_interaccion
+BP = 14.324, df = 3, p-value = 0.002495</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(modelo_interaccion<span class="sc">$</span>fitted.values, datos<span class="sc">$</span>ventas); <span class="fu">lines</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">25</span>), <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">25</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab04_epg_files/figure-html/unnamed-chunk-7-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>rango_tv <span class="ot">&lt;-</span> <span class="fu">range</span>(datos<span class="sc">$</span>tv)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>nuevos_valores_tv <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from =</span> rango_tv[<span class="dv">1</span>], <span class="at">to =</span> rango_tv[<span class="dv">2</span>], <span class="at">length.out =</span> <span class="dv">20</span>)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>rango_radio <span class="ot">&lt;-</span> <span class="fu">range</span>(datos<span class="sc">$</span>radio)</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>nuevos_valores_radio <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from =</span> rango_radio[<span class="dv">1</span>], <span class="at">to =</span> rango_radio[<span class="dv">2</span>], <span class="at">length.out =</span> <span class="dv">20</span>)</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>predicciones <span class="ot">&lt;-</span> <span class="fu">outer</span>(<span class="at">X =</span> nuevos_valores_tv, <span class="at">Y =</span> nuevos_valores_radio, </span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>                      <span class="at">FUN =</span> <span class="cf">function</span>(tv, radio) {</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>                        <span class="fu">predict</span>(<span class="at">object =</span> modelo_interaccion, <span class="at">newdata =</span> <span class="fu">data.frame</span>(tv, radio))</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>                      })</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>superficie <span class="ot">&lt;-</span> <span class="fu">persp</span>(<span class="at">x =</span> nuevos_valores_tv, <span class="at">y =</span> nuevos_valores_radio,</span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>                    <span class="at">z =</span> predicciones, <span class="at">theta =</span> <span class="dv">18</span>, <span class="at">phi =</span> <span class="dv">20</span>, <span class="at">col =</span> <span class="st">"lightblue"</span>,</span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>                    <span class="at">shade =</span> <span class="fl">0.1</span>, <span class="at">xlab =</span> <span class="st">"tv"</span>, <span class="at">ylab =</span> <span class="st">"radio"</span>, <span class="at">zlab =</span> <span class="st">"ventas"</span>,</span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ticktype =</span> <span class="st">"detailed"</span>, <span class="at">main =</span> <span class="st">"Predicción ventas ~ TV y Radio (interacción)"</span>)</span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>observaciones <span class="ot">&lt;-</span> <span class="fu">trans3d</span>(datos<span class="sc">$</span>tv, datos<span class="sc">$</span>radio, datos<span class="sc">$</span>ventas, superficie)</span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>error <span class="ot">&lt;-</span> <span class="fu">trans3d</span>(datos<span class="sc">$</span>tv, datos<span class="sc">$</span>radio, <span class="fu">fitted</span>(modelo_interaccion), superficie)</span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a><span class="fu">points</span>(observaciones, <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">pch =</span> <span class="dv">16</span>); <span class="fu">segments</span>(observaciones<span class="sc">$</span>x, observaciones<span class="sc">$</span>y, error<span class="sc">$</span>x, error<span class="sc">$</span>y)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab04_epg_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(modelo, modelo_interaccion)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Analysis of Variance Table
+
+Model 1: ventas ~ tv + radio
+Model 2: ventas ~ tv + radio + tv * radio
+  Res.Df    RSS Df Sum of Sq      F    Pr(&gt;F)    
+1    197 556.91                                  
+2    196 174.48  1    382.43 429.59 &lt; 2.2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>modelo_interaccion_1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="at">formula =</span> ventas <span class="sc">~</span> tv <span class="sc">+</span> radio <span class="sc">+</span> <span class="fu">I</span>(tv<span class="sc">^</span><span class="dv">2</span>)<span class="sc">+</span> tv<span class="sc">*</span>radio, <span class="at">data =</span> datos)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modelo_interaccion_1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = ventas ~ tv + radio + I(tv^2) + tv * radio, data = datos)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-4.9949 -0.2969 -0.0066  0.3798  1.1686 
+
+Coefficients:
+              Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  5.137e+00  1.927e-01  26.663  &lt; 2e-16 ***
+tv           5.092e-02  2.232e-03  22.810  &lt; 2e-16 ***
+radio        3.516e-02  5.901e-03   5.959 1.17e-08 ***
+I(tv^2)     -1.097e-04  6.893e-06 -15.920  &lt; 2e-16 ***
+tv:radio     1.077e-03  3.466e-05  31.061  &lt; 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.6238 on 195 degrees of freedom
+Multiple R-squared:  0.986, Adjusted R-squared:  0.9857 
+F-statistic:  3432 on 4 and 195 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(modelo_interaccion_1<span class="sc">$</span>fitted.values, datos<span class="sc">$</span>ventas); <span class="fu">lines</span>(<span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">27</span>), <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">27</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab04_epg_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(modelo_interaccion_1<span class="sc">$</span>residuals); <span class="fu">plot</span>(<span class="fu">density</span>(modelo_interaccion_1<span class="sc">$</span>residuals)); <span class="fu">shapiro.test</span>(modelo_interaccion_1<span class="sc">$</span>residuals)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab04_epg_files/figure-html/unnamed-chunk-9-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab04_epg_files/figure-html/unnamed-chunk-9-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Shapiro-Wilk normality test
+
+data:  modelo_interaccion_1$residuals
+W = 0.80888, p-value = 6.359e-15</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dwtest</span>(modelo_interaccion_1,<span class="at">alternative =</span><span class="st">"two.sided"</span>,<span class="at">iterations =</span> <span class="dv">1000</span>); <span class="fu">bptest</span>(modelo_interaccion_1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Durbin-Watson test
+
+data:  modelo_interaccion_1
+DW = 2.204, p-value = 0.1432
+alternative hypothesis: true autocorrelation is not 0</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    studentized Breusch-Pagan test
+
+data:  modelo_interaccion_1
+BP = 19.986, df = 4, p-value = 0.0005027</code></pre>
+</div>
+</div>
+</section>
+<section id="ejemplo-adicional-dataset-carprice-daag" class="level3" data-number="7.2">
+<h3 data-number="7.2" class="anchored" data-anchor-id="ejemplo-adicional-dataset-carprice-daag"><span class="header-section-number">7.2</span> 2) Ejemplo adicional: dataset <code>carprice</code> (DAAG)</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(carprice)</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs</span>(carprice[,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">8</span>,<span class="dv">9</span>)]); </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab04_epg_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot</span>(<span class="fu">cor</span>(carprice[,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">8</span>,<span class="dv">9</span>)]),<span class="at">method=</span><span class="st">"circle"</span>,<span class="at">type=</span><span class="st">"lower"</span>,<span class="at">diag=</span><span class="cn">FALSE</span>,<span class="at">tl.col=</span><span class="st">"black"</span>,<span class="at">tl.cex=</span><span class="dv">1</span>,<span class="at">tl.offset=</span><span class="fl">0.1</span>,<span class="at">tl.srt=</span><span class="dv">45</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab04_epg_files/figure-html/unnamed-chunk-10-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>carprice1.lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(gpm100 <span class="sc">~</span> Type <span class="sc">+</span> Min.Price <span class="sc">+</span> Price <span class="sc">+</span> Max.Price <span class="sc">+</span> Range.Price, <span class="at">data=</span>carprice)</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(carprice1.lm)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = gpm100 ~ Type + Min.Price + Price + Max.Price + 
+    Range.Price, data = carprice)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.48431 -0.22731 -0.03417  0.19004  0.49651 
+
+Coefficients: (1 not defined because of singularities)
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)   3.2874     0.1531  21.467  &lt; 2e-16 ***
+TypeLarge     0.3235     0.1733   1.867   0.0695 .  
+TypeMidsize   0.1849     0.1660   1.114   0.2722    
+TypeSmall    -0.3895     0.1681  -2.317   0.0258 *  
+TypeSporty    0.2055     0.1747   1.176   0.2467    
+TypeVan       1.3487     0.1927   6.997 2.16e-08 ***
+Min.Price     0.6997     0.9894   0.707   0.4836    
+Price        -1.3773     1.9829  -0.695   0.4914    
+Max.Price     0.7106     0.9943   0.715   0.4791    
+Range.Price       NA         NA      NA       NA    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.3059 on 39 degrees of freedom
+Multiple R-squared:  0.8149,    Adjusted R-squared:  0.777 
+F-statistic: 21.47 on 8 and 39 DF,  p-value: 4.768e-12</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>carprice2.lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(gpm100 <span class="sc">~</span> Type <span class="sc">+</span> Max.Price, <span class="at">data=</span>carprice)</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(carprice2.lm)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = gpm100 ~ Type + Max.Price, data = carprice)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-0.5468 -0.2379 -0.0241  0.1842  0.5311 
+
+Coefficients:
+             Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  3.298110   0.150746  21.879  &lt; 2e-16 ***
+TypeLarge    0.368524   0.165541   2.226   0.0316 *  
+TypeMidsize  0.214006   0.162030   1.321   0.1939    
+TypeSmall   -0.386042   0.162609  -2.374   0.0224 *  
+TypeSporty   0.209540   0.166663   1.257   0.2158    
+TypeVan      1.367463   0.183242   7.463 3.69e-09 ***
+Max.Price    0.029982   0.006837   4.385 7.89e-05 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.3027 on 41 degrees of freedom
+Multiple R-squared:  0.8096,    Adjusted R-squared:  0.7817 
+F-statistic: 29.05 on 6 and 41 DF,  p-value: 2.782e-13</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>epsilon <span class="ot">&lt;-</span> carprice2.lm<span class="sc">$</span>residuals</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(epsilon); <span class="fu">shapiro.test</span>(epsilon)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab04_epg_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Shapiro-Wilk normality test
+
+data:  epsilon
+W = 0.95934, p-value = 0.09497</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dwtest</span>(carprice2.lm,<span class="at">alternative =</span><span class="st">"two.sided"</span>,<span class="at">iterations =</span> <span class="dv">1000</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Durbin-Watson test
+
+data:  carprice2.lm
+DW = 1.7034, p-value = 0.295
+alternative hypothesis: true autocorrelation is not 0</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>s <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>(epsilon<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span>(<span class="dv">41</span>))</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(carprice<span class="sc">$</span>gpm100, carprice2.lm<span class="sc">$</span>fitted.values); <span class="fu">lines</span>(<span class="fu">c</span>(<span class="dv">2</span>,<span class="fl">5.5</span>),<span class="fu">c</span>(<span class="dv">2</span>,<span class="fl">5.5</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab04_epg_files/figure-html/unnamed-chunk-12-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(carprice2.lm)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                  2.5 %      97.5 %
+(Intercept)  2.99367329  3.60254758
+TypeLarge    0.03420650  0.70284211
+TypeMidsize -0.11322061  0.54123280
+TypeSmall   -0.71443686 -0.05764682
+TypeSporty  -0.12704297  0.54612217
+TypeVan      0.99739791  1.73752784
+Max.Price    0.01617507  0.04378964</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">summary</span>(carprice2.lm); out<span class="sc">$</span>coefficients[ , <span class="dv">1</span>]; out<span class="sc">$</span>coefficients[ , <span class="dv">2</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(Intercept)   TypeLarge TypeMidsize   TypeSmall  TypeSporty     TypeVan 
+ 3.29811043  0.36852431  0.21400610 -0.38604184  0.20953960  1.36746287 
+  Max.Price 
+ 0.02998236 </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(Intercept)   TypeLarge TypeMidsize   TypeSmall  TypeSporty     TypeVan 
+0.150745713 0.165541483 0.162030238 0.162608744 0.166662906 0.183242118 
+  Max.Price 
+0.006836843 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>se <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">diag</span>(<span class="fu">vcov</span>(carprice2.lm)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>nuevo <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Type=</span><span class="fu">c</span>(<span class="st">"Van"</span>), <span class="at">Max.Price=</span><span class="fu">c</span>(<span class="dv">11</span>))</span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>valor_predicho <span class="ot">&lt;-</span> <span class="fu">predict</span>(<span class="at">object=</span>carprice2.lm, <span class="at">newdata=</span>nuevo)</span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>valor_predicho</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       1 
+4.995379 </code></pre>
+</div>
+</div>
+</section>
+<section id="otro-ejemplo-con-archivo-externo-millaje.txt-opcional" class="level3" data-number="7.3">
+<h3 data-number="7.3" class="anchored" data-anchor-id="otro-ejemplo-con-archivo-externo-millaje.txt-opcional"><span class="header-section-number">7.3</span> 3) Otro ejemplo con archivo externo <code>millaje.txt</code> (opcional)</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">file.exists</span>(<span class="fu">file.path</span>(data_path, <span class="st">"millaje.txt"</span>))) {</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>  millaje <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="at">file=</span><span class="fu">file.path</span>(data_path, <span class="st">"millaje.txt"</span>), <span class="at">header=</span><span class="cn">TRUE</span>)</span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>  r_auto <span class="ot">&lt;-</span> <span class="fu">cor</span>(millaje); <span class="fu">pairs</span>(millaje); </span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">corrplot</span>(r_auto,<span class="at">method=</span><span class="st">"circle"</span>,<span class="at">type=</span><span class="st">"lower"</span>,<span class="at">diag=</span><span class="cn">FALSE</span>,<span class="at">tl.col=</span><span class="st">"black"</span>,<span class="at">tl.cex=</span><span class="dv">1</span>,<span class="at">tl.offset=</span><span class="fl">0.1</span>,<span class="at">tl.srt=</span><span class="dv">45</span>)</span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(<span class="at">x =</span> millaje<span class="sc">$</span>hp, <span class="at">y =</span> millaje<span class="sc">$</span>mpg, <span class="at">main =</span> <span class="st">"Consumo vs potencia motor"</span>, <span class="at">pch =</span> <span class="dv">20</span>, <span class="at">col =</span> <span class="st">"grey"</span>)</span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>  modelo_lineal <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="at">formula =</span> mpg <span class="sc">~</span> hp <span class="sc">+</span> vol, <span class="at">data =</span> millaje); <span class="fu">summary</span>(modelo_lineal)</span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(<span class="at">x =</span> millaje<span class="sc">$</span>hp, <span class="at">y =</span> millaje<span class="sc">$</span>mpg, <span class="at">main =</span> <span class="st">"Consumo vs potencia motor"</span>, <span class="at">pch =</span> <span class="dv">20</span>, <span class="at">col =</span> <span class="st">"grey"</span>); <span class="fu">abline</span>(modelo_lineal, <span class="at">lwd =</span> <span class="dv">3</span>, <span class="at">col =</span> <span class="st">"red"</span>)</span>
+<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a>  modelo_pol2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="at">formula =</span> mpg <span class="sc">~</span> vol <span class="sc">+</span> hp <span class="sc">+</span> <span class="fu">I</span>(hp<span class="sc">^</span><span class="dv">2</span>), <span class="at">data =</span> millaje); <span class="fu">summary</span>(modelo_pol2)</span>
+<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a>  modelo_cuadratico <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="at">formula =</span> mpg <span class="sc">~</span> <span class="fu">poly</span>(hp, <span class="dv">2</span>), <span class="at">data =</span> millaje); <span class="fu">summary</span>(modelo_cuadratico)</span>
+<span id="cb57-10"><a href="#cb57-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(modelo_pol2<span class="sc">$</span>fitted.values, millaje<span class="sc">$</span>mpg); <span class="fu">lines</span>(<span class="fu">c</span>(<span class="dv">10</span>,<span class="dv">60</span>),<span class="fu">c</span>(<span class="dv">10</span>,<span class="dv">60</span>))</span>
+<span id="cb57-11"><a href="#cb57-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">shapiro.test</span>(modelo_pol2<span class="sc">$</span>residuals); <span class="fu">hist</span>(modelo_pol2<span class="sc">$</span>residuals); <span class="fu">plot</span>(<span class="fu">density</span>(modelo_pol2<span class="sc">$</span>residuals))</span>
+<span id="cb57-12"><a href="#cb57-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">2</span>)); <span class="fu">plot</span>(modelo_pol2); <span class="fu">par</span>(<span class="at">mfrow=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</span>
+<span id="cb57-13"><a href="#cb57-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">anova</span>(modelo_lineal, modelo_pol2)</span>
+<span id="cb57-14"><a href="#cb57-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(<span class="at">x =</span> millaje<span class="sc">$</span>hp, <span class="at">y =</span> millaje<span class="sc">$</span>mpg, <span class="at">main=</span><span class="st">"Consumo vs potencia motor"</span>, <span class="at">pch=</span><span class="dv">20</span>, <span class="at">col=</span><span class="st">"grey"</span>)</span>
+<span id="cb57-15"><a href="#cb57-15" aria-hidden="true" tabindex="-1"></a>  prediccion <span class="ot">&lt;-</span> <span class="fu">predict</span>(<span class="at">object =</span> modelo_pol2, <span class="at">newdata =</span> <span class="fu">data.frame</span>(<span class="at">hp =</span> millaje<span class="sc">$</span>hp, <span class="at">vol=</span>millaje<span class="sc">$</span>vol))</span>
+<span id="cb57-16"><a href="#cb57-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lines</span>(<span class="fu">sort</span>(millaje<span class="sc">$</span>hp), prediccion[<span class="fu">order</span>(millaje<span class="sc">$</span>hp)], <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lwd =</span> <span class="dv">3</span>)</span>
+<span id="cb57-17"><a href="#cb57-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(millaje, <span class="fu">aes</span>(<span class="at">x =</span> hp, <span class="at">y =</span> mpg)) <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="at">colour =</span> <span class="st">"grey"</span>) <span class="sc">+</span> <span class="fu">stat_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">formula =</span> y <span class="sc">~</span> hp <span class="sc">+</span> <span class="fu">I</span>(hp<span class="sc">^</span><span class="dv">2</span>)) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Consumo vs potencia motor"</span>) <span class="sc">+</span> <span class="fu">theme_bw</span>()</span>
+<span id="cb57-18"><a href="#cb57-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(millaje, <span class="fu">aes</span>(<span class="at">x =</span> hp, <span class="at">y =</span> mpg)) <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="at">colour =</span> <span class="st">"grey"</span>) <span class="sc">+</span> <span class="fu">stat_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">formula =</span> y <span class="sc">~</span> <span class="fu">poly</span>(x, <span class="dv">2</span>),  <span class="at">colour =</span> <span class="st">"red"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>) <span class="sc">+</span> <span class="fu">stat_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">formula =</span> y <span class="sc">~</span> <span class="fu">poly</span>(x, <span class="dv">5</span>),  <span class="at">colour =</span> <span class="st">"blue"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>) <span class="sc">+</span> <span class="fu">stat_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">formula =</span> y <span class="sc">~</span> <span class="fu">poly</span>(x, <span class="dv">10</span>), <span class="at">colour =</span> <span class="st">"green"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Polinomios de grados 2, 5, 10"</span>) <span class="sc">+</span> <span class="fu">theme_bw</span>()</span>
+<span id="cb57-19"><a href="#cb57-19" aria-hidden="true" tabindex="-1"></a>  modelo_5 <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="at">formula =</span> mpg <span class="sc">~</span> <span class="fu">poly</span>(hp, <span class="dv">5</span>), <span class="at">data =</span> millaje); <span class="fu">summary</span>(modelo_5)</span>
+<span id="cb57-20"><a href="#cb57-20" aria-hidden="true" tabindex="-1"></a>  modelo_5_correjido <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="at">formula =</span> mpg <span class="sc">~</span> vol <span class="sc">+</span> hp <span class="sc">+</span> <span class="fu">I</span>(hp<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> <span class="fu">I</span>(hp<span class="sc">^</span><span class="dv">3</span>), <span class="at">data =</span> millaje); <span class="fu">summary</span>(modelo_5_correjido)</span>
+<span id="cb57-21"><a href="#cb57-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">anova</span>(modelo_cuadratico, modelo_5_correjido)</span>
+<span id="cb57-22"><a href="#cb57-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">shapiro.test</span>(modelo_5_correjido<span class="sc">$</span>residuals); <span class="fu">hist</span>(modelo_5_correjido<span class="sc">$</span>residuals); <span class="fu">plot</span>(<span class="fu">density</span>(modelo_5_correjido<span class="sc">$</span>residuals))</span>
+<span id="cb57-23"><a href="#cb57-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(modelo_5_correjido<span class="sc">$</span>fitted.values, millaje<span class="sc">$</span>mpg)</span>
+<span id="cb57-24"><a href="#cb57-24" aria-hidden="true" tabindex="-1"></a>  modelo_pol2_trans <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="at">formula =</span> <span class="fu">log</span>(<span class="dv">1</span><span class="sc">+</span>mpg) <span class="sc">~</span> vol <span class="sc">+</span> hp <span class="sc">+</span> <span class="fu">I</span>(hp<span class="sc">^</span><span class="dv">2</span>), <span class="at">data =</span> millaje); <span class="fu">summary</span>(modelo_pol2_trans)</span>
+<span id="cb57-25"><a href="#cb57-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(modelo_pol2_trans<span class="sc">$</span>residuals,modelo_pol2_trans<span class="sc">$</span>fitted.values); <span class="fu">plot</span>(<span class="fu">log</span>(<span class="dv">1</span><span class="sc">+</span>millaje<span class="sc">$</span>mpg),modelo_pol2_trans<span class="sc">$</span>fitted.values); <span class="fu">lines</span>(<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">5</span>),<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">5</span>))</span>
+<span id="cb57-26"><a href="#cb57-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">shapiro.test</span>(modelo_pol2_trans<span class="sc">$</span>residuals); <span class="fu">hist</span>(modelo_pol2_trans<span class="sc">$</span>residuals); <span class="fu">plot</span>(<span class="fu">density</span>(modelo_pol2_trans<span class="sc">$</span>residuals))</span>
+<span id="cb57-27"><a href="#cb57-27" aria-hidden="true" tabindex="-1"></a>  modelo_pol3_trans <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="at">formula =</span> <span class="fu">sqrt</span>(mpg) <span class="sc">~</span> vol <span class="sc">+</span> hp <span class="sc">+</span> <span class="fu">I</span>(hp<span class="sc">^</span><span class="dv">2</span>), <span class="at">data =</span> millaje); <span class="fu">summary</span>(modelo_pol3_trans); <span class="fu">shapiro.test</span>(modelo_pol3_trans<span class="sc">$</span>residuals)</span>
+<span id="cb57-28"><a href="#cb57-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(modelo_pol3_trans<span class="sc">$</span>residuals,modelo_pol3_trans<span class="sc">$</span>fitted.values); <span class="fu">plot</span>(<span class="fu">sqrt</span>(millaje<span class="sc">$</span>mpg),modelo_pol3_trans<span class="sc">$</span>fitted.values); <span class="fu">lines</span>(<span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">8</span>),<span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">8</span>))</span>
+<span id="cb57-29"><a href="#cb57-29" aria-hidden="true" tabindex="-1"></a>  modelo_pol4_trans <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="at">formula =</span> <span class="dv">1</span><span class="sc">/</span><span class="fu">sqrt</span>(mpg) <span class="sc">~</span> vol <span class="sc">+</span> hp <span class="sc">+</span> <span class="fu">I</span>(hp<span class="sc">^</span><span class="dv">2</span>), <span class="at">data =</span> millaje); <span class="fu">summary</span>(modelo_pol4_trans)</span>
+<span id="cb57-30"><a href="#cb57-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(modelo_pol4_trans<span class="sc">$</span>residuals,modelo_pol4_trans<span class="sc">$</span>fitted.values); <span class="fu">plot</span>(<span class="dv">1</span><span class="sc">/</span><span class="fu">sqrt</span>(millaje<span class="sc">$</span>mpg),modelo_pol4_trans<span class="sc">$</span>fitted.values); <span class="fu">shapiro.test</span>(modelo_pol4_trans<span class="sc">$</span>residuals)</span>
+<span id="cb57-31"><a href="#cb57-31" aria-hidden="true" tabindex="-1"></a>  modelo_pol2_tran_2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="at">formula =</span> <span class="fu">log</span>(<span class="dv">1</span><span class="sc">+</span>mpg) <span class="sc">~</span> vol <span class="sc">+</span> hp <span class="sc">+</span> <span class="fu">log</span>(<span class="dv">1</span><span class="sc">+</span>hp) <span class="sc">+</span> <span class="fu">I</span>(hp<span class="sc">^</span><span class="dv">2</span>), <span class="at">data =</span> millaje); <span class="fu">summary</span>(modelo_pol2_tran_2)</span>
+<span id="cb57-32"><a href="#cb57-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(<span class="fu">log</span>(<span class="dv">1</span><span class="sc">+</span>millaje<span class="sc">$</span>mpg),modelo_pol2_tran_2<span class="sc">$</span>fitted.values); <span class="fu">shapiro.test</span>(modelo_pol2_tran_2<span class="sc">$</span>residuals); <span class="fu">hist</span>(modelo_pol2_tran_2<span class="sc">$</span>residuals); <span class="fu">plot</span>(<span class="fu">density</span>(modelo_pol2_tran_2<span class="sc">$</span>residuals)); <span class="fu">plot</span>(modelo_pol2_tran_2)</span>
+<span id="cb57-33"><a href="#cb57-33" aria-hidden="true" tabindex="-1"></a>  modelo_pol2_tran_3 <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="at">formula =</span> <span class="fu">log</span>(<span class="dv">1</span><span class="sc">+</span>mpg) <span class="sc">~</span> hp <span class="sc">+</span> <span class="fu">I</span>(<span class="dv">1</span><span class="sc">/</span>(hp)) <span class="sc">+</span> <span class="fu">I</span>(<span class="dv">1</span><span class="sc">/</span>(hp<span class="sc">^</span><span class="dv">2</span>))<span class="sc">+</span> <span class="fu">log</span>(<span class="dv">1</span><span class="sc">+</span>hp) <span class="sc">+</span> <span class="fu">I</span>(hp<span class="sc">^</span><span class="dv">2</span>), <span class="at">data =</span> millaje); <span class="fu">summary</span>(modelo_pol2_tran_3)</span>
+<span id="cb57-34"><a href="#cb57-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">shapiro.test</span>(modelo_pol2_tran_3<span class="sc">$</span>residuals); <span class="fu">plot</span>(modelo_pol2_tran_3); <span class="fu">plot</span>(<span class="fu">log</span>(<span class="dv">1</span><span class="sc">+</span>millaje<span class="sc">$</span>mpg),modelo_pol2_tran_3<span class="sc">$</span>fitted.values); <span class="fu">lines</span>(<span class="fu">c</span>(<span class="dv">3</span>,<span class="fl">4.5</span>),<span class="fu">c</span>(<span class="dv">3</span>,<span class="fl">4.5</span>))</span>
+<span id="cb57-35"><a href="#cb57-35" aria-hidden="true" tabindex="-1"></a>  modelo_pol2_tran_4 <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="at">formula =</span> <span class="fu">log</span>(<span class="dv">1</span><span class="sc">+</span>mpg) <span class="sc">~</span> hp <span class="sc">+</span> <span class="fu">I</span>(<span class="dv">1</span><span class="sc">/</span>(hp)) <span class="sc">+</span> <span class="fu">I</span>(<span class="dv">1</span><span class="sc">/</span>(hp<span class="sc">^</span><span class="dv">2</span>))<span class="sc">+</span> <span class="fu">log</span>(<span class="dv">1</span><span class="sc">+</span>hp) <span class="sc">+</span> <span class="fu">I</span>(hp<span class="sc">^</span><span class="dv">2</span>)<span class="sc">-</span><span class="dv">1</span>, <span class="at">data =</span> millaje); <span class="fu">summary</span>(modelo_pol2_tran_4)</span>
+<span id="cb57-36"><a href="#cb57-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(<span class="fu">log</span>(<span class="dv">1</span><span class="sc">+</span>millaje<span class="sc">$</span>mpg),modelo_pol2_tran_4<span class="sc">$</span>fitted.values); <span class="fu">lines</span>(<span class="fu">c</span>(<span class="dv">3</span>,<span class="fl">4.5</span>),<span class="fu">c</span>(<span class="dv">3</span>,<span class="fl">4.5</span>))</span>
+<span id="cb57-37"><a href="#cb57-37" aria-hidden="true" tabindex="-1"></a>  modelo_pol2_tran_5 <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="at">formula =</span> <span class="fu">log</span>(<span class="dv">1</span><span class="sc">+</span>mpg) <span class="sc">~</span> hp <span class="sc">+</span> <span class="fu">I</span>(<span class="dv">1</span><span class="sc">/</span>(hp)) <span class="sc">+</span> <span class="fu">log</span>(<span class="dv">1</span><span class="sc">+</span>hp) <span class="sc">+</span> <span class="fu">I</span>(hp<span class="sc">^</span><span class="dv">2</span>)<span class="sc">-</span><span class="dv">1</span>, <span class="at">data =</span> millaje); <span class="fu">summary</span>(modelo_pol2_tran_5)</span>
+<span id="cb57-38"><a href="#cb57-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">shapiro.test</span>(modelo_pol2_tran_5<span class="sc">$</span>residuals); <span class="fu">plot</span>(<span class="fu">log</span>(<span class="dv">1</span><span class="sc">+</span>millaje<span class="sc">$</span>mpg),modelo_pol2_tran_5<span class="sc">$</span>fitted.values); <span class="fu">lines</span>(<span class="fu">c</span>(<span class="dv">3</span>,<span class="fl">4.5</span>),<span class="fu">c</span>(<span class="dv">3</span>,<span class="fl">4.5</span>)); <span class="fu">plot</span>(modelo_pol2_tran_5)</span>
+<span id="cb57-39"><a href="#cb57-39" aria-hidden="true" tabindex="-1"></a>  modelo_pol2_tran_6 <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="at">formula =</span> <span class="fu">log</span>(<span class="dv">1</span><span class="sc">+</span>mpg) <span class="sc">~</span> <span class="fu">log</span>(<span class="dv">1</span><span class="sc">+</span>hp) <span class="sc">-</span><span class="dv">1</span>, <span class="at">data =</span> millaje); <span class="fu">summary</span>(modelo_pol2_tran_6)</span>
+<span id="cb57-40"><a href="#cb57-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">shapiro.test</span>(modelo_pol2_tran_6<span class="sc">$</span>residuals); <span class="fu">hist</span>(modelo_pol2_tran_6<span class="sc">$</span>residuals); <span class="fu">plot</span>(<span class="fu">density</span>(modelo_pol2_tran_6<span class="sc">$</span>residuals)); <span class="fu">plot</span>(modelo_pol2_tran_6)</span>
+<span id="cb57-41"><a href="#cb57-41" aria-hidden="true" tabindex="-1"></a>  modelo_pol2_tran_7 <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="at">formula =</span> <span class="fu">log</span>(<span class="dv">1</span><span class="sc">+</span>mpg) <span class="sc">~</span> vol <span class="sc">+</span> <span class="fu">log</span>(<span class="dv">1</span><span class="sc">+</span>hp) <span class="sc">-</span><span class="dv">1</span>, <span class="at">data =</span> millaje); <span class="fu">summary</span>(modelo_pol2_tran_7)</span>
+<span id="cb57-42"><a href="#cb57-42" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab04_epg_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab04_epg_files/figure-html/unnamed-chunk-14-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab04_epg_files/figure-html/unnamed-chunk-14-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab04_epg_files/figure-html/unnamed-chunk-14-4.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab04_epg_files/figure-html/unnamed-chunk-14-5.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab04_epg_files/figure-html/unnamed-chunk-14-6.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab04_epg_files/figure-html/unnamed-chunk-14-7.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab04_epg_files/figure-html/unnamed-chunk-14-8.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab04_epg_files/figure-html/unnamed-chunk-14-9.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab04_epg_files/figure-html/unnamed-chunk-14-10.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab04_epg_files/figure-html/unnamed-chunk-14-11.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab04_epg_files/figure-html/unnamed-chunk-14-12.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab04_epg_files/figure-html/unnamed-chunk-14-13.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab04_epg_files/figure-html/unnamed-chunk-14-14.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab04_epg_files/figure-html/unnamed-chunk-14-15.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab04_epg_files/figure-html/unnamed-chunk-14-16.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab04_epg_files/figure-html/unnamed-chunk-14-17.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab04_epg_files/figure-html/unnamed-chunk-14-18.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab04_epg_files/figure-html/unnamed-chunk-14-19.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab04_epg_files/figure-html/unnamed-chunk-14-20.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab04_epg_files/figure-html/unnamed-chunk-14-21.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab04_epg_files/figure-html/unnamed-chunk-14-22.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab04_epg_files/figure-html/unnamed-chunk-14-23.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab04_epg_files/figure-html/unnamed-chunk-14-24.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab04_epg_files/figure-html/unnamed-chunk-14-25.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab04_epg_files/figure-html/unnamed-chunk-14-26.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab04_epg_files/figure-html/unnamed-chunk-14-27.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab04_epg_files/figure-html/unnamed-chunk-14-28.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab04_epg_files/figure-html/unnamed-chunk-14-29.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab04_epg_files/figure-html/unnamed-chunk-14-30.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab04_epg_files/figure-html/unnamed-chunk-14-31.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab04_epg_files/figure-html/unnamed-chunk-14-32.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab04_epg_files/figure-html/unnamed-chunk-14-33.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab04_epg_files/figure-html/unnamed-chunk-14-34.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab04_epg_files/figure-html/unnamed-chunk-14-35.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab04_epg_files/figure-html/unnamed-chunk-14-36.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab04_epg_files/figure-html/unnamed-chunk-14-37.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab04_epg_files/figure-html/unnamed-chunk-14-38.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab04_epg_files/figure-html/unnamed-chunk-14-39.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab04_epg_files/figure-html/unnamed-chunk-14-40.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab04_epg_files/figure-html/unnamed-chunk-14-41.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab04_epg_files/figure-html/unnamed-chunk-14-42.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab04_epg_files/figure-html/unnamed-chunk-14-43.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = log(1 + mpg) ~ vol + log(1 + hp) - 1, data = millaje)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-1.3617 -0.3668  0.1028  0.4405  1.2853 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+vol         0.003047   0.002943   1.035    0.304    
+log(1 + hp) 0.674633   0.063404  10.640   &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.588 on 80 degrees of freedom
+Multiple R-squared:  0.9728,    Adjusted R-squared:  0.9721 
+F-statistic:  1429 on 2 and 80 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="bibliografía" class="level2" data-number="8">
+<h2 data-number="8" class="anchored" data-anchor-id="bibliografía"><span class="header-section-number">8</span> Bibliografía</h2>
+<p>Crespo, F. A. (2021). <em>Uso de la Regresión Múltiple</em>. Universidad Alberto Hurtado.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/manuelrojas-code\.github\.io\/econo\.github\.io\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© 2025 FEN-UAH</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Sitio desarrollado con Quarto</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

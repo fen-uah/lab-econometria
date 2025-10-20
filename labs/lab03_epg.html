@@ -1,0 +1,1264 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Laboratorio 3_epg: Regresión Múltiple</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-360b3b5b5cb1aa80d6666be010f1eb0d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../img/logo.png" alt="" class="navbar-logo light-content">
+    <img src="../img/logo.png" alt="" class="navbar-logo dark-content">
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Inicio</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../datos.html"> 
+<span class="menu-text">Datos</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../codigos.html"> 
+<span class="menu-text">Material de Estudio</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../proyectos.html"> 
+<span class="menu-text">Proyectos</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#regresión-múltiple" id="toc-regresión-múltiple" class="nav-link active" data-scroll-target="#regresión-múltiple"><span class="header-section-number">1</span> Regresión Múltiple</a></li>
+  <li><a href="#marco-teórico-modelo-clásico-de-regresión-múltiple-lineal" id="toc-marco-teórico-modelo-clásico-de-regresión-múltiple-lineal" class="nav-link" data-scroll-target="#marco-teórico-modelo-clásico-de-regresión-múltiple-lineal"><span class="header-section-number">2</span> Marco Teórico: Modelo Clásico de Regresión Múltiple Lineal</a></li>
+  <li><a href="#supuestos-del-modelo-clásico" id="toc-supuestos-del-modelo-clásico" class="nav-link" data-scroll-target="#supuestos-del-modelo-clásico"><span class="header-section-number">3</span> Supuestos del Modelo Clásico</a>
+  <ul class="collapse">
+  <li><a href="#supuesto-1" id="toc-supuesto-1" class="nav-link" data-scroll-target="#supuesto-1"><span class="header-section-number">3.1</span> Supuesto 1</a></li>
+  <li><a href="#supuesto-2" id="toc-supuesto-2" class="nav-link" data-scroll-target="#supuesto-2"><span class="header-section-number">3.2</span> Supuesto 2</a></li>
+  <li><a href="#supuesto-3" id="toc-supuesto-3" class="nav-link" data-scroll-target="#supuesto-3"><span class="header-section-number">3.3</span> Supuesto 3</a></li>
+  <li><a href="#supuesto-4" id="toc-supuesto-4" class="nav-link" data-scroll-target="#supuesto-4"><span class="header-section-number">3.4</span> Supuesto 4</a></li>
+  <li><a href="#supuesto-5" id="toc-supuesto-5" class="nav-link" data-scroll-target="#supuesto-5"><span class="header-section-number">3.5</span> Supuesto 5</a></li>
+  <li><a href="#supuesto-6" id="toc-supuesto-6" class="nav-link" data-scroll-target="#supuesto-6"><span class="header-section-number">3.6</span> Supuesto 6</a></li>
+  </ul></li>
+  <li><a href="#estimadores-de-la-regresión" id="toc-estimadores-de-la-regresión" class="nav-link" data-scroll-target="#estimadores-de-la-regresión"><span class="header-section-number">4</span> Estimadores de la Regresión</a></li>
+  <li><a href="#coeficiente-de-determinación-r2" id="toc-coeficiente-de-determinación-r2" class="nav-link" data-scroll-target="#coeficiente-de-determinación-r2"><span class="header-section-number">5</span> Coeficiente de Determinación (<span class="math inline">\(R^2\)</span>)</a>
+  <ul class="collapse">
+  <li><a href="#contraste-f-global" id="toc-contraste-f-global" class="nav-link" data-scroll-target="#contraste-f-global"><span class="header-section-number">5.1</span> Contraste F global</a></li>
+  <li><a href="#propiedades-de-los-estimadores" id="toc-propiedades-de-los-estimadores" class="nav-link" data-scroll-target="#propiedades-de-los-estimadores"><span class="header-section-number">5.2</span> Propiedades de los estimadores</a></li>
+  <li><a href="#contraste-individual-para-beta_j" id="toc-contraste-individual-para-beta_j" class="nav-link" data-scroll-target="#contraste-individual-para-beta_j"><span class="header-section-number">5.3</span> Contraste individual para <span class="math inline">\(\beta_j\)</span></a></li>
+  <li><a href="#intervalos-de-confianza" id="toc-intervalos-de-confianza" class="nav-link" data-scroll-target="#intervalos-de-confianza"><span class="header-section-number">5.4</span> Intervalos de confianza</a></li>
+  <li><a href="#predicción" id="toc-predicción" class="nav-link" data-scroll-target="#predicción"><span class="header-section-number">5.5</span> Predicción</a></li>
+  <li><a href="#diagnósticos-de-supuestos" id="toc-diagnósticos-de-supuestos" class="nav-link" data-scroll-target="#diagnósticos-de-supuestos"><span class="header-section-number">5.6</span> Diagnósticos de supuestos</a></li>
+  </ul></li>
+  <li><a href="#aplicación-en-r-sobre-los-contenidos-anteriores" id="toc-aplicación-en-r-sobre-los-contenidos-anteriores" class="nav-link" data-scroll-target="#aplicación-en-r-sobre-los-contenidos-anteriores"><span class="header-section-number">6</span> Aplicación en R (sobre los contenidos anteriores)</a></li>
+  <li><a href="#bibliografía" id="toc-bibliografía" class="nav-link" data-scroll-target="#bibliografía"><span class="header-section-number">7</span> Bibliografía</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Laboratorio 3_epg: Regresión Múltiple</h1>
+<p class="subtitle lead">Econometría para la Gestión — FEN-UAH</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<blockquote class="blockquote">
+<p><strong>Material de apoyo elaborado a partir del texto de Fernando A. Crespo R. (2021) para el curso Econometría para la Gestión — FEN-UAH.</strong></p>
+</blockquote>
+<section id="regresión-múltiple" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="regresión-múltiple"><span class="header-section-number">1</span> Regresión Múltiple</h2>
+<p>Lo primero en un modelo de regresión múltiple es estudiar la <strong>relación entre las variables</strong>.<br>
+Para ello se utiliza la <strong>matriz de correlación</strong>, donde se despliegan los coeficientes de correlación para cada par de variables.</p>
+<p><strong>Multicolinealidad:</strong> ocurre cuando dos o más variables presentan una alta correlación entre ellas.<br>
+Esto implica que existe una relación directa entre las variables, haciendo difícil determinar cuánto aporta cada una a la explicación de la variable dependiente.<br>
+Dos variables con alta correlación <strong>no proporcionan información adicional</strong>.</p>
+<p><strong>Regla general para elegir variables:</strong></p>
+<ol type="1">
+<li>No debe haber correlación alta entre variables predictoras o explicativas (<span class="math inline">\(x\)</span>).<br>
+</li>
+<li>Se debe preferir incluir variables independientes entre sí.</li>
+</ol>
+<hr>
+</section>
+<section id="marco-teórico-modelo-clásico-de-regresión-múltiple-lineal" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="marco-teórico-modelo-clásico-de-regresión-múltiple-lineal"><span class="header-section-number">2</span> Marco Teórico: Modelo Clásico de Regresión Múltiple Lineal</h2>
+<p>El modelo lineal múltiple se puede escribir de forma matricial como:</p>
+<p><span class="math display">\[
+y = 1_n \beta_0 + x_1 \beta_1 + x_2 \beta_2 + \dots + x_k \beta_k + \varepsilon
+\tag{3.1}
+\]</span></p>
+<p>o en forma compacta:</p>
+<p><span class="math display">\[
+Y = X\beta + \varepsilon
+\tag{3.2}
+\]</span></p>
+<p>donde:<br>
+- <span class="math inline">\(Y\)</span> es el vector de observaciones dependientes (<span class="math inline">\(n \times 1\)</span>).<br>
+- <span class="math inline">\(X\)</span> es la matriz de observaciones de las variables explicativas (<span class="math inline">\(n \times (k+1)\)</span>).<br>
+- <span class="math inline">\(\beta\)</span> es el vector de parámetros desconocidos (<span class="math inline">\(\beta_0, \beta_1, \dots, \beta_k\)</span>).<br>
+- <span class="math inline">\(\varepsilon\)</span> es el vector de errores aleatorios.</p>
+<hr>
+</section>
+<section id="supuestos-del-modelo-clásico" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="supuestos-del-modelo-clásico"><span class="header-section-number">3</span> Supuestos del Modelo Clásico</h2>
+<section id="supuesto-1" class="level3" data-number="3.1">
+<h3 data-number="3.1" class="anchored" data-anchor-id="supuesto-1"><span class="header-section-number">3.1</span> Supuesto 1</h3>
+<p><span class="math display">\[
+Y = X\beta + \varepsilon
+\tag{3.3}
+\]</span></p>
+</section>
+<section id="supuesto-2" class="level3" data-number="3.2">
+<h3 data-number="3.2" class="anchored" data-anchor-id="supuesto-2"><span class="header-section-number">3.2</span> Supuesto 2</h3>
+<p><span class="math inline">\(X \in \mathbb{R}^{n \times (k+1)}\)</span> tiene <strong>rango completo</strong> (condición de identificación).</p>
+</section>
+<section id="supuesto-3" class="level3" data-number="3.3">
+<h3 data-number="3.3" class="anchored" data-anchor-id="supuesto-3"><span class="header-section-number">3.3</span> Supuesto 3</h3>
+<p>El error tiene esperanza condicional nula:</p>
+<p><span class="math display">\[
+E[\varepsilon | X] =
+\begin{bmatrix}
+E[\varepsilon_1|X] \\
+E[\varepsilon_2|X] \\
+\vdots \\
+E[\varepsilon_n|X]
+\end{bmatrix}
+= 0
+\tag{3.4}
+\]</span></p>
+<p>Además:</p>
+<p><span class="math display">\[
+\text{Var}[\varepsilon_j | X] = \sigma^2, \quad j = 1, \dots, n
+\tag{3.5}
+\]</span></p>
+<p><span class="math display">\[
+\text{Cov}[\varepsilon_i, \varepsilon_j | X] = 0, \quad i \neq j
+\tag{3.6}
+\]</span></p>
+<p>Esto implica <strong>homocedasticidad</strong> (varianza constante) y <strong>no autocorrelación</strong> entre los errores.</p>
+</section>
+<section id="supuesto-4" class="level3" data-number="3.4">
+<h3 data-number="3.4" class="anchored" data-anchor-id="supuesto-4"><span class="header-section-number">3.4</span> Supuesto 4</h3>
+<p><span class="math display">\[
+E[\varepsilon \varepsilon'] = \sigma^2 I_n
+\tag{3.7}
+\]</span></p>
+</section>
+<section id="supuesto-5" class="level3" data-number="3.5">
+<h3 data-number="3.5" class="anchored" data-anchor-id="supuesto-5"><span class="header-section-number">3.5</span> Supuesto 5</h3>
+<p><span class="math inline">\(X\)</span> es <strong>no estocástica</strong>, es decir, se asume conocida o fija en el muestreo.</p>
+</section>
+<section id="supuesto-6" class="level3" data-number="3.6">
+<h3 data-number="3.6" class="anchored" data-anchor-id="supuesto-6"><span class="header-section-number">3.6</span> Supuesto 6</h3>
+<p>Los errores son normales:</p>
+<p><span class="math display">\[
+\varepsilon | X \sim N(0, \sigma^2 I_n)
+\tag{3.8}
+\]</span></p>
+<hr>
+</section>
+</section>
+<section id="estimadores-de-la-regresión" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="estimadores-de-la-regresión"><span class="header-section-number">4</span> Estimadores de la Regresión</h2>
+<p>Los estimadores se pueden obtener por dos vías:</p>
+<ol type="1">
+<li><strong>Máxima verosimilitud</strong>, dada la normalidad de los errores.<br>
+</li>
+<li><strong>Mínimos cuadrados ordinarios (OLS)</strong>.</li>
+</ol>
+<p>Minimizamos la suma de cuadrados de los errores:</p>
+<p><span class="math display">\[
+S(\beta) = (Y - X\beta)'(Y - X\beta)
+\tag{3.9}
+\]</span></p>
+<p>Desarrollando:</p>
+<p><span class="math display">\[
+S(\beta) = Y'Y - 2Y'X\beta + \beta'(X'X)\beta
+\tag{3.10}
+\]</span></p>
+<p>Derivando respecto a <span class="math inline">\(\beta\)</span> e igualando a cero:</p>
+<p><span class="math display">\[
+S'(\beta) = -2X'Y + 2(X'X)\beta = 0
+\tag{3.11}
+\]</span></p>
+<p>De donde obtenemos el estimador:</p>
+<p><span class="math display">\[
+\hat{\beta} = (X'X)^{-1}X'Y
+\tag{3.12}
+\]</span></p>
+<p>El vector estimado de valores ajustados es:</p>
+<p><span class="math display">\[
+\hat{Y} = X\hat{\beta} = X(X'X)^{-1}X'Y
+\tag{3.13}
+\]</span></p>
+<p>Y los residuos estimados:</p>
+<p><span class="math display">\[
+\hat{\varepsilon} = Y - \hat{Y} = (I - X(X'X)^{-1}X')Y
+\tag{3.14}
+\]</span></p>
+<hr>
+<p><strong>Propiedades útiles:</strong></p>
+<p><span class="math display">\[
+X'\hat{\varepsilon} = 0, \qquad \hat{Y}'\hat{\varepsilon} = 0
+\tag{3.15}
+\]</span></p>
+<p>La variación cuadrática de los residuos es:</p>
+<p><span class="math display">\[
+\hat{\varepsilon}'\hat{\varepsilon} = Y'(I - X(X'X)^{-1}X')Y
+\tag{3.16}
+\]</span></p>
+<hr>
+</section>
+<section id="coeficiente-de-determinación-r2" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="coeficiente-de-determinación-r2"><span class="header-section-number">5</span> Coeficiente de Determinación (<span class="math inline">\(R^2\)</span>)</h2>
+<p>A partir de (3.16):</p>
+<p><span class="math display">\[
+Y'Y = (\hat{Y} + \hat{\varepsilon})'(\hat{Y} + \hat{\varepsilon}) = \hat{Y}'\hat{Y} + \hat{\varepsilon}'\hat{\varepsilon}
+\tag{3.17}
+\]</span></p>
+<p>En términos de varianzas:</p>
+<p><span class="math display">\[
+\sum_{j=1}^{n}(Y_j - \bar{Y})^2 = \sum_{j=1}^{n}(\hat{Y}_j - \bar{Y})^2 + \sum_{j=1}^{n}\hat{\varepsilon}_j^2
+\tag{3.18}
+\]</span></p>
+<p>Por tanto:</p>
+<p><span class="math display">\[
+R^2 = 1 - \frac{\sum_{j=1}^{n}\hat{\varepsilon}_j^2}{\sum_{j=1}^{n}(Y_j - \bar{Y})^2}
+= \frac{\sum_{j=1}^{n}(\hat{Y}_j - \bar{Y})^2}{\sum_{j=1}^{n}(Y_j - \bar{Y})^2}
+\tag{3.19}
+\]</span></p>
+<hr>
+<section id="contraste-f-global" class="level3" data-number="5.1">
+<h3 data-number="5.1" class="anchored" data-anchor-id="contraste-f-global"><span class="header-section-number">5.1</span> Contraste F global</h3>
+<p>Hipótesis:</p>
+<p><span class="math display">\[
+H_0: \beta_1 = \beta_2 = \dots = \beta_k = 0
+\tag{3.20}
+\]</span></p>
+<p>El estadístico es:</p>
+<p><span class="math display">\[
+F = \frac{R^2 / k}{(1 - R^2) / (n - k - 1)} \sim F_{k,\, n - k - 1}
+\tag{3.21}
+\]</span></p>
+<p>Rechazamos <span class="math inline">\(H_0\)</span> si <span class="math inline">\(P(F \ge f) \le \alpha\)</span>.</p>
+<hr>
+</section>
+<section id="propiedades-de-los-estimadores" class="level3" data-number="5.2">
+<h3 data-number="5.2" class="anchored" data-anchor-id="propiedades-de-los-estimadores"><span class="header-section-number">5.2</span> Propiedades de los estimadores</h3>
+<p><span class="math display">\[
+E[\hat{\beta}] = \beta, \qquad
+\text{Cov}(\hat{\beta}) = \sigma^2 (X'X)^{-1}
+\tag{3.22}
+\]</span></p>
+<p>Para los residuos:</p>
+<p><span class="math display">\[
+E[\hat{\varepsilon}] = 0, \qquad
+\text{Cov}(\hat{\varepsilon}) = \sigma^2 [I - X(X'X)^{-1}X']
+\tag{3.23}
+\]</span></p>
+<p>Estimador insesgado de <span class="math inline">\(\sigma^2\)</span>:</p>
+<p><span class="math display">\[
+s^2 = \frac{\hat{\varepsilon}'\hat{\varepsilon}}{n - k - 1}
+\tag{3.24}
+\]</span></p>
+<hr>
+</section>
+<section id="contraste-individual-para-beta_j" class="level3" data-number="5.3">
+<h3 data-number="5.3" class="anchored" data-anchor-id="contraste-individual-para-beta_j"><span class="header-section-number">5.3</span> Contraste individual para <span class="math inline">\(\beta_j\)</span></h3>
+<p><span class="math display">\[
+H_0: \beta_j = \beta_j^*, \qquad H_1: \beta_j \neq \beta_j^*
+\tag{3.25}
+\]</span></p>
+<p>El estadístico:</p>
+<p><span class="math display">\[
+t_j = \frac{\hat{\beta}_j - \beta_j^*}{s \sqrt{(X'X)^{-1}_{jj}}}
+\sim t_{n - k - 1}
+\tag{3.26}
+\]</span></p>
+<p>Rechazamos <span class="math inline">\(H_0\)</span> si <span class="math inline">\(|t_j| &gt; t_{\alpha/2,\, n - k - 1}\)</span>.</p>
+<p>El <strong>p-valor</strong> se obtiene como:</p>
+<p><span class="math display">\[
+p = P(|t_j| &gt; |t_j^{obs}|)
+\tag{3.27}
+\]</span></p>
+<hr>
+</section>
+<section id="intervalos-de-confianza" class="level3" data-number="5.4">
+<h3 data-number="5.4" class="anchored" data-anchor-id="intervalos-de-confianza"><span class="header-section-number">5.4</span> Intervalos de confianza</h3>
+<p>Para cada <span class="math inline">\(\beta_j\)</span>:</p>
+<p><span class="math display">\[
+\hat{\beta}_j \pm t_{\alpha/2,\, n - k - 1} \, s \sqrt{(X'X)^{-1}_{jj}}
+\tag{3.28}
+\]</span></p>
+<p>Para la varianza del error:</p>
+<p><span class="math display">\[
+\left[
+\frac{(n - k - 1)s^2}{\chi^2_{n - k - 1,\, 1 - \alpha/2}},
+\quad
+\frac{(n - k - 1)s^2}{\chi^2_{n - k - 1,\, \alpha/2}}
+\right]
+\tag{3.29}
+\]</span></p>
+<hr>
+</section>
+<section id="predicción" class="level3" data-number="5.5">
+<h3 data-number="5.5" class="anchored" data-anchor-id="predicción"><span class="header-section-number">5.5</span> Predicción</h3>
+<p>Para un nuevo vector <span class="math inline">\(x_0\)</span> (incluyendo el valor 1 si el modelo tiene constante):</p>
+<p><span class="math display">\[
+\hat{y}_0 = x_0' \hat{\beta}
+\tag{3.30}
+\]</span></p>
+<p>Varianza del estimador:</p>
+<p><span class="math display">\[
+h_0 = x_0'(X'X)^{-1}x_0
+\tag{3.31}
+\]</span></p>
+<p>Intervalo de confianza para la predicción:</p>
+<p><span class="math display">\[
+\hat{y}_0 \pm s \sqrt{1 + h_0} \; t_{\alpha/2,\, n - k - 1}
+\tag{3.32}
+\]</span></p>
+<hr>
+</section>
+<section id="diagnósticos-de-supuestos" class="level3" data-number="5.6">
+<h3 data-number="5.6" class="anchored" data-anchor-id="diagnósticos-de-supuestos"><span class="header-section-number">5.6</span> Diagnósticos de supuestos</h3>
+<p><strong>Durbin–Watson (autocorrelación de errores):</strong></p>
+<p><span class="math display">\[
+D = \frac{\sum_{i=2}^{n} (e_i - e_{i-1})^2}{\sum_{i=1}^{n} e_i^2}
+\tag{3.33}
+\]</span></p>
+<ul>
+<li>Si <span class="math inline">\(D \approx 2\)</span>: no hay autocorrelación.<br>
+</li>
+<li>Si <span class="math inline">\(D \approx 0\)</span>: autocorrelación positiva.<br>
+</li>
+<li>Si <span class="math inline">\(D \approx 4\)</span>: autocorrelación negativa.</li>
+</ul>
+<hr>
+<p><strong>Test de Breusch–Pagan (homocedasticidad):</strong></p>
+<p><span class="math display">\[
+H_0: \text{Var}(\varepsilon_i) = \sigma^2 \quad \forall i
+\tag{3.34}
+\]</span></p>
+<p>Si el valor-p es <strong>mayor que 0.05</strong>, se asume que los errores tienen <strong>varianza constante</strong>.</p>
+<hr>
+<blockquote class="blockquote">
+<p>✅ <strong>Resumen:</strong><br>
+El modelo clásico de regresión múltiple lineal supone linealidad, independencia, homocedasticidad y normalidad.<br>
+Los estimadores OLS son <strong>BLUE</strong> (Best Linear Unbiased Estimators) bajo estos supuestos.</p>
+</blockquote>
+</section>
+</section>
+<section id="aplicación-en-r-sobre-los-contenidos-anteriores" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="aplicación-en-r-sobre-los-contenidos-anteriores"><span class="header-section-number">6</span> Aplicación en R (sobre los contenidos anteriores)</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ruta absoluta de datos (según tu equipo)</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>data_path <span class="ot">&lt;-</span> <span class="st">"C:/Users/manue/Desktop/lab-econometria/labs/data_epg"</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Verificación de archivos necesarios</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">file.exists</span>(<span class="fu">file.path</span>(data_path, <span class="st">"costos.xlsx"</span>))) {</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stop</span>(<span class="st">"⚠️ No se encontró 'costos.xlsx' en data_path"</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Librerías necesarias</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages(c("tidyverse","openxlsx","corrplot","lmtest"))</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(openxlsx)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(corrplot)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lmtest)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Cargar datos</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">read.xlsx</span>(<span class="fu">file.path</span>(data_path, <span class="st">"costos.xlsx"</span>), <span class="at">sheet =</span> <span class="st">"Hoja1"</span>, <span class="at">colNames =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Matriz de correlación y gráficos exploratorios</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>r <span class="ot">&lt;-</span> <span class="fu">cor</span>(datos, <span class="at">use =</span> <span class="st">"pairwise.complete.obs"</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs</span>(datos, <span class="at">main =</span> <span class="st">"Gráficos de dispersión por pares"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab03_epg_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot</span>(r, <span class="at">method =</span> <span class="st">"circle"</span>, <span class="at">type =</span> <span class="st">"lower"</span>, <span class="at">diag =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">tl.col =</span> <span class="st">"black"</span>, <span class="at">tl.cex =</span> <span class="dv">1</span>, <span class="at">tl.offset =</span> <span class="fl">0.1</span>, <span class="at">tl.srt =</span> <span class="dv">45</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab03_epg_files/figure-html/unnamed-chunk-2-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Modelo de regresión múltiple (con intercepto)</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>modelo <span class="ot">&lt;-</span> <span class="fu">lm</span>(Costos_generales <span class="sc">~</span> Horas_maquina <span class="sc">+</span> Numero_preparaciones, <span class="at">data =</span> datos)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Estadísticos del modelo</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modelo)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = Costos_generales ~ Horas_maquina + Numero_preparaciones, 
+    data = datos)
+
+Residuals:
+   Min     1Q Median     3Q    Max 
+ -7157  -2827    768   1449   9407 
+
+Coefficients:
+                     Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)          19796.44   12787.83   1.548 0.156013    
+Horas_maquina           65.44       6.74   9.709 4.57e-06 ***
+Numero_preparaciones   322.21      58.66   5.493 0.000384 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 4951 on 9 degrees of freedom
+Multiple R-squared:  0.9472,    Adjusted R-squared:  0.9354 
+F-statistic: 80.66 on 2 and 9 DF,  p-value: 1.792e-06</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Guardando los residuos</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>epsilon <span class="ot">&lt;-</span> modelo<span class="sc">$</span>residuals</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Análisis de residuos</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(epsilon, <span class="at">main =</span> <span class="st">"Histograma de residuos"</span>, <span class="at">col =</span> <span class="st">"#cdeac0"</span>, <span class="at">border =</span> <span class="st">"#2b9348"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab03_epg_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">density</span>(epsilon), <span class="at">main =</span> <span class="st">"Densidad de residuos"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab03_epg_files/figure-html/unnamed-chunk-4-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(epsilon)  <span class="co"># Normalidad de residuos</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Shapiro-Wilk normality test
+
+data:  epsilon
+W = 0.95577, p-value = 0.7222</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Autocorrelación de residuos (Durbin-Watson) y heterocedasticidad (Breusch-Pagan)</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dwtest</span>(modelo, <span class="at">alternative =</span> <span class="st">"two.sided"</span>, <span class="at">iterations =</span> <span class="dv">1000</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Durbin-Watson test
+
+data:  modelo
+DW = 2.0815, p-value = 0.7416
+alternative hypothesis: true autocorrelation is not 0</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bptest</span>(modelo)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    studentized Breusch-Pagan test
+
+data:  modelo
+BP = 1.0153, df = 2, p-value = 0.6019</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Cálculo manual del estadístico F (usando un R2 dado)</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>R2 <span class="ot">&lt;-</span> <span class="fl">0.9472</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>F  <span class="ot">&lt;-</span> (R2<span class="sc">/</span><span class="dv">2</span>) <span class="sc">/</span> ((<span class="dv">1</span> <span class="sc">-</span> R2) <span class="sc">/</span> (<span class="dv">12</span> <span class="sc">-</span> <span class="dv">3</span>))</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>F</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 80.72727</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Valor crítico F (α = 0.05, gl1 = 2, gl2 = 9)</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">qf</span>(<span class="fl">0.05</span>, <span class="dv">2</span>, <span class="dv">9</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4.256495</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Desviación estándar del error</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>s <span class="ot">&lt;-</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>(epsilon<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span> (<span class="dv">12</span> <span class="sc">-</span> <span class="dv">2</span> <span class="sc">-</span> <span class="dv">1</span>))</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>s</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4951.106</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Intervalos de confianza para coeficientes</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(modelo)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                           2.5 %     97.5 %
+(Intercept)          -9131.64046 48724.5095
+Horas_maquina           50.18894    80.6827
+Numero_preparaciones   189.50994   454.9046</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">summary</span>(modelo)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>out<span class="sc">$</span>coefficients[, <span class="dv">1</span>]  <span class="co"># Betas</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         (Intercept)        Horas_maquina Numero_preparaciones 
+         19796.43452             65.43582            322.20728 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>out<span class="sc">$</span>coefficients[, <span class="dv">2</span>]  <span class="co"># Error estándar</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         (Intercept)        Horas_maquina Numero_preparaciones 
+        12787.827235             6.739972            58.659648 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimación manual de IC para un coeficiente (ejemplo)</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>tcrit <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">1</span> <span class="sc">*</span> <span class="fu">qt</span>(<span class="fl">0.025</span>, <span class="dv">12</span> <span class="sc">-</span> <span class="dv">2</span> <span class="sc">-</span> <span class="dv">1</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>BHM  <span class="ot">&lt;-</span> <span class="fl">65.44</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>sbhm <span class="ot">&lt;-</span> <span class="fl">6.74</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>limitsupBHM <span class="ot">&lt;-</span> BHM <span class="sc">+</span> tcrit <span class="sc">*</span> sbhm</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>limitinfBHM <span class="ot">&lt;-</span> BHM <span class="sc">-</span> tcrit <span class="sc">*</span> sbhm</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">liminfBHM =</span> limitinfBHM, <span class="at">limitsupBHM =</span> limitsupBHM)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  liminfBHM limitsupBHM 
+   80.68694    50.19306 </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># IC para la varianza del error (chi-cuadrado)</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>gamma1 <span class="ot">&lt;-</span> <span class="fu">qchisq</span>(<span class="fl">0.025</span>, <span class="dv">12</span> <span class="sc">-</span> <span class="dv">2</span> <span class="sc">-</span> <span class="dv">1</span>)</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>gamma2 <span class="ot">&lt;-</span> <span class="fu">qchisq</span>(<span class="fl">0.975</span>, <span class="dv">12</span> <span class="sc">-</span> <span class="dv">2</span> <span class="sc">-</span> <span class="dv">1</span>)</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>s2_LI  <span class="ot">&lt;-</span> (<span class="dv">12</span> <span class="sc">-</span> <span class="dv">2</span> <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> s<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> gamma2</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>s2_LS  <span class="ot">&lt;-</span> (<span class="dv">12</span> <span class="sc">-</span> <span class="dv">2</span> <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> s<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> gamma1</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">s2_LI =</span> s2_LI, <span class="at">s2_LS =</span> s2_LS)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   s2_LI    s2_LS 
+11597739 81699732 </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Predicción para un nuevo valor</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>nuevo <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Horas_maquina =</span> <span class="fu">c</span>(<span class="dv">2000</span>), <span class="at">Numero_preparaciones =</span> <span class="fu">c</span>(<span class="dv">220</span>))</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>valor_predicho  <span class="ot">&lt;-</span> <span class="fu">predict</span>(<span class="at">object =</span> modelo, <span class="at">newdata =</span> nuevo)</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>valor_predicho2 <span class="ot">&lt;-</span> <span class="fu">predict</span>(<span class="at">object =</span> modelo, <span class="at">newdata =</span> nuevo, <span class="at">interval =</span> <span class="st">"confidence"</span>)</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>valor_predicho</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       1 
+221553.7 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>valor_predicho2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       fit      lwr      upr
+1 221553.7 210265.6 232841.8</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Predicción manual con matrices</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="dv">1</span>, datos<span class="sc">$</span>Horas_maquina, datos<span class="sc">$</span>Numero_preparaciones)</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>M <span class="ot">&lt;-</span> <span class="fu">solve</span>(<span class="fu">t</span>(X) <span class="sc">%*%</span> X)</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>beta <span class="ot">&lt;-</span> M <span class="sc">%*%</span> <span class="fu">t</span>(X) <span class="sc">%*%</span> datos<span class="sc">$</span>Costos_generales</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>x0 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2000</span>, <span class="dv">220</span>)</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>h0 <span class="ot">&lt;-</span> <span class="fu">t</span>(x0) <span class="sc">%*%</span> M <span class="sc">%*%</span> x0</span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>y0 <span class="ot">&lt;-</span> <span class="fu">t</span>(beta) <span class="sc">%*%</span> x0</span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>y_limsup <span class="ot">&lt;-</span> y0 <span class="sc">+</span> s <span class="sc">*</span> <span class="fu">sqrt</span>(<span class="dv">1</span> <span class="sc">+</span> h0) <span class="sc">*</span> <span class="fu">qt</span>(<span class="fl">0.975</span>, <span class="dv">12</span> <span class="sc">-</span> <span class="dv">2</span> <span class="sc">-</span> <span class="dv">1</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>y_liminf <span class="ot">&lt;-</span> y0 <span class="sc">-</span> s <span class="sc">*</span> <span class="fu">sqrt</span>(<span class="dv">1</span> <span class="sc">+</span> h0) <span class="sc">*</span> <span class="fu">qt</span>(<span class="fl">0.975</span>, <span class="dv">12</span> <span class="sc">-</span> <span class="dv">2</span> <span class="sc">-</span> <span class="dv">1</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">y_liminf =</span> y_liminf, <span class="at">y_limsup =</span> y_limsup)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>y_liminf y_limsup 
+237455.4 205651.9 </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Gráfico: valor Y estimado vs Y real</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(modelo<span class="sc">$</span>fitted.values, datos<span class="sc">$</span>Costos_generales,</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Revisión Valor Real vs Valor Predicho"</span>,</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Y estimado"</span>, <span class="at">ylab =</span> <span class="st">"Y real"</span>)</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a =</span> <span class="dv">0</span>, <span class="at">b =</span> <span class="dv">1</span>, <span class="at">col =</span> <span class="st">"red"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab03_epg_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Modelo sin constante</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>modelo2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(Costos_generales <span class="sc">~</span> Horas_maquina <span class="sc">+</span> Numero_preparaciones <span class="sc">-</span> <span class="dv">1</span>, <span class="at">data =</span> datos)</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modelo2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = Costos_generales ~ Horas_maquina + Numero_preparaciones - 
+    1, data = datos)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-9042.2 -3486.9   739.7  3467.0  9300.3 
+
+Coefficients:
+                     Estimate Std. Error t value Pr(&gt;|t|)    
+Horas_maquina          69.994      6.472  10.814 7.72e-07 ***
+Numero_preparaciones  390.723     41.098   9.507 2.52e-06 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 5286 on 10 degrees of freedom
+Multiple R-squared:  0.9992,    Adjusted R-squared:  0.999 
+F-statistic:  6095 on 2 and 10 DF,  p-value: 3.699e-16</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>epsilon2 <span class="ot">&lt;-</span> modelo2<span class="sc">$</span>residuals</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(epsilon2, <span class="at">main =</span> <span class="st">"Histograma de residuos (sin constante)"</span>, <span class="at">col =</span> <span class="st">"#cdeac0"</span>, <span class="at">border =</span> <span class="st">"#2b9348"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab03_epg_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">density</span>(epsilon2), <span class="at">main =</span> <span class="st">"Densidad de residuos (sin constante)"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab03_epg_files/figure-html/unnamed-chunk-11-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(epsilon2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Shapiro-Wilk normality test
+
+data:  epsilon2
+W = 0.97973, p-value = 0.9825</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dwtest</span>(modelo2, <span class="at">alternative =</span> <span class="st">"two.sided"</span>, <span class="at">iterations =</span> <span class="dv">1000</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Durbin-Watson test
+
+data:  modelo2
+DW = 2.1284, p-value = 0.9776
+alternative hypothesis: true autocorrelation is not 0</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bptest</span>(modelo2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    studentized Breusch-Pagan test
+
+data:  modelo2
+BP = 0.33027, df = 1, p-value = 0.5655</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(modelo2<span class="sc">$</span>fitted.values, datos<span class="sc">$</span>Costos_generales,</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Revisión Valor Real vs Valor Predicho (sin constante)"</span>,</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Y estimado"</span>, <span class="at">ylab =</span> <span class="st">"Y real"</span>)</span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a =</span> <span class="dv">0</span>, <span class="at">b =</span> <span class="dv">1</span>, <span class="at">col =</span> <span class="st">"red"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="lab03_epg_files/figure-html/unnamed-chunk-11-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="bibliografía" class="level2" data-number="7">
+<h2 data-number="7" class="anchored" data-anchor-id="bibliografía"><span class="header-section-number">7</span> Bibliografía</h2>
+<p>Crespo, F. A. (2021). <em>Regresión Múltiple</em>. Universidad Alberto Hurtado.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/manuelrojas-code\.github\.io\/econo\.github\.io\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© 2025 FEN-UAH</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Sitio desarrollado con Quarto</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
