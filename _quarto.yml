@@ -7,9 +7,10 @@ project:
     - datos.qmd
     - codigos.qmd
     - proyectos.qmd
+    - "labs/*.qmd"
 
 website:
-  title: "Econometría FEN-UAH"
+  title: ""
   site-url: https://manuelrojas-code.github.io/econo.github.io/
   description: "Repositorio de datos, códigos y proyectos de estudiantes"
   navbar:

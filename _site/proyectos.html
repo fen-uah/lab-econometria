@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Proyectos – Econometría FEN-UAH</title>
+<title>Proyectos</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -85,9 +85,6 @@ ul.task-list li input[type="checkbox"] {
     <img src="./img/logo.png" alt="" class="navbar-logo light-content">
     <img src="./img/logo.png" alt="" class="navbar-logo dark-content">
     </a>
-    <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">Econometría FEN-UAH</span>
-    </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
@@ -127,7 +124,7 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#recopilación-de-proyectos" id="toc-recopilación-de-proyectos" class="nav-link active" data-scroll-target="#recopilación-de-proyectos">Recopilación de proyectos</a></li>
+  <li><a href="#section" id="toc-section" class="nav-link active" data-scroll-target="#section"></a></li>
   </ul>
 </nav>
     </div>
@@ -153,10 +150,11 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="recopilación-de-proyectos" class="level2">
-<h2 class="anchored" data-anchor-id="recopilación-de-proyectos">Recopilación de proyectos</h2>
+<section id="section" class="level2">
+<h2 class="anchored" data-anchor-id="section"></h2>
 <p>La sección <strong>Proyectos</strong> tiene como propósito ofrecer un espacio para que los estudiantes de la <strong>Facultad de Economía y Negocios de la Universidad Alberto Hurtado</strong> puedan <strong>publicar y compartir sus trabajos e investigaciones</strong> desarrolladas en los cursos de <strong>Econometría</strong> y <strong>Econometría para la Gestión</strong>.</p>
 <p>Este repositorio busca <strong>fomentar un entorno de aprendizaje colaborativo e interactivo</strong>, donde tanto docentes como estudiantes puedan <strong>evaluar, comentar y retroalimentar los proyectos</strong> presentados. De esta forma, se promueve la aplicación práctica de los contenidos del curso y el fortalecimiento de las habilidades analíticas y comunicacionales de los futuros profesionales.</p>
+<p>AUN NO DISPONIBLE, EVALUANDO COMPATIBILIDAD CON GOOGLE FORMS U OTRAS APLICACIONES</p>
 <form id="uploadForm">
   <label for="nombre">Nombre del estudiante:</label><br>
   <input type="text" id="nombre" name="nombre" required="" style="width:100%;margin-bottom:10px;"><br>
@@ -181,12 +179,12 @@ document.getElementById("uploadForm").addEventListener("submit", async (e) => {
     const content = reader.result.split(",")[1];
     const filename = `${Date.now()}_${file.name}`;
 
+    // Llamada anónima al endpoint de repository_dispatch sin exponer tokens
     const response = await fetch("https://api.github.com/repos/fen-uah/lab-econometria/dispatches", {
       method: "POST",
       headers: {
-        "Accept": "application/vnd.github.everest-preview+json",
-        "Authorization": "Bearer {{UPLOAD_TOKEN}}",
-        "Content-Type": "application/json"
+        "Accept": "application/vnd.github+json",
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         event_type: "upload-project",
@@ -200,9 +198,11 @@ document.getElementById("uploadForm").addEventListener("submit", async (e) => {
 
     const result = document.getElementById("resultado");
     if (response.ok) {
-      result.innerText = "✅ Tu proyecto fue enviado correctamente. Se guardará en la carpeta uploads.";
+      result.style.color = "#2b9348";
+      result.innerText = "✅ Proyecto enviado. Se guardará en la carpeta uploads en unos segundos.";
     } else {
-      result.innerText = "❌ Error al subir el archivo. Intenta nuevamente o contacta al ayudante.";
+      result.style.color = "#ff7f11";
+      result.innerText = "❌ Error al subir el archivo. Verifica tu conexión o contacta al ayudante.";
     }
   };
   reader.readAsDataURL(file);

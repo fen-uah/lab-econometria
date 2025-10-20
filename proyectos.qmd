@@ -2,7 +2,7 @@
 title: "Proyectos"
 ---
 
-## Recopilación de proyectos
+## 
 
 La sección **Proyectos** tiene como propósito ofrecer un espacio para que los estudiantes de la **Facultad de Economía y Negocios de la Universidad Alberto Hurtado** puedan **publicar y compartir sus trabajos e investigaciones** desarrolladas en los cursos de **Econometría** y **Econometría para la Gestión**.
 

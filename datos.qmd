@@ -2,7 +2,7 @@
 title: "Repositorio de Datos"
 ---
 
-## Datos
+## 
 
 En este apartado se reúnen diversas fuentes de información estadística y bases de datos relevantes para el análisis económico y social de Chile y el mundo. El objetivo es que los estudiantes cuenten con un repositorio único y accesible, desde el cual puedan explorar y trabajar con información oficial y validada.
 

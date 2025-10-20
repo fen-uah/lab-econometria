@@ -10,5 +10,17 @@
   },
   "proyectos.qmd": {
     "proyectos.html": "0dad4564"
+  },
+  "labs/lab01_epg.qmd": {
+    "lab01_epg.html": "48c64b10"
+  },
+  "labs/lab02_epg.qmd": {
+    "lab02_epg.html": "029bcf44"
+  },
+  "labs/lab03_epg.qmd": {
+    "lab03_epg.html": "ec2b73d2"
+  },
+  "labs/lab04_epg.qmd": {
+    "lab04_epg.html": "1083524b"
   }
 }

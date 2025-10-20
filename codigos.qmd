@@ -1,9 +1,59 @@
 ---
-title: "About"
+title: "Material de Estudio"
+format:
+  html:
+    toc: true
+    smooth-scroll: true
 ---
 
-About this site
+# 
 
-```{r}
-1 + 1
-```
+Bienvenido al Repositorio de **Laboratorios y Materiales Prácticos** del curso de *Econometría FEN-UAH*.\
+Aquí encontrarás guías paso a paso en Rstudio respaldadas con teoria y conceptos escenciales para el curso que acompañan el aprendizaje aplicado de la econometría, desde regresión simple hasta modelos avanzados.
+
+Cada laboratorio se puede abrir directamente en formato HTML renderizado desde RStudio/Quarto.\
+Los documentos que contengan las siglas **"epg"** corresponden al curso *Econometría para la Gestión*, mientras que los **"ec"** pertenecen a *Econometría (mención Economía)*.
+
+## Laboratorios
+
+::::::::::::: labs-grid
+::: lab-card
+### Lab 1_epg: Introducción y Estadística Descriptiva
+
+Importación de datos, tablas de frecuencia y medidas descriptivas.\
+[Ver Laboratorio](labs/lab01_epg.html){.btn}
+:::
+
+::: lab-card
+### Lab 2_epg: Regresión Lineal Simple
+
+Estimación e interpretación del modelo OLS básico.\
+[Ver Laboratorio](labs/lab02_epg.html){.btn}
+:::
+
+::: lab-card
+### Lab 3_epg: Regresión Lineal Múltiple
+
+Extensión del modelo con variables adicionales y análisis de supuestos.\
+[Ver Laboratorio](labs/lab03_epg.html){.btn}
+:::
+
+::: lab-card
+### Lab 4_epg: Usos y aplicaciones de RLM
+
+Otras funciones para estudiar la regresión múltiple, Eliminación de variables irrelevantes, Regresión polinomial, etc. \
+[Ver Laboratorio](labs/lab04_epg.html){.btn}
+:::
+
+::: lab-card
+### Lab 5_epg: Modelo Logit-Probit
+
+Motivación, teoría y aplicación de logit y probit.\
+[Ver Laboratorio](labs/lab05_epg.html){.btn}
+:::
+:::::::::::::
+
+------------------------------------------------------------------------
+
+> 💡 *Cada laboratorio está alojado en la carpeta `labs/` y utiliza los datos correspondientes del directorio `labs/data_epg/`.\
+> El sitio se actualiza automáticamente cuando los archivos `.qmd` se renderizan a HTML. Esto lo puedes encontrar directamente en el GitHub del sitio web.*
