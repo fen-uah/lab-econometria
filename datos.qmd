@@ -1,5 +1,6 @@
 ---
 title: "Repositorio de Datos"
+
 ---
 
 ## 
@@ -26,53 +27,32 @@ Las bases provienen de distintas instituciones nacionales e internacionales, ent
 
 -   **Banco Central de Chile**, a través de su sistema [SIETE](https://si3.bcentral.cl/siete).
 
-Además, se proyecta integrar información de **ODEPA**, **INDAP** y otros organismos públicos vinculados al ámbito económico y agrícola.
+-   **Instituto Nacional de Estadistica**, a través de su sistema [INE-DATOS](https://www.ine.gob.cl/).
+
+se proyecta integrar información de **ODEPA**en el caso de queerer realizar un proyecto orientado al sector agricola y otros organismos públicos vinculados al ámbito económico, social y producitivo.
 
 ## Tabla de bases de datos
 
-Debajo encontrarás una tabla interactiva que contiene la siguiente información para cada base:
+Debajo encontrarás dos pestañas interactiva que contiene la siguiente información: 
 
--   **Años**: periodo temporal cubierto.
+-   **Encuestas y Data con multiples variables**: Se recomienda que quienes realizan por primera vez trabajos de econometría, sin experiencia previa en RStudio y con un manejo intermedio de Excel, utilicen bases de datos provenientes de encuestas o que ya contengan múltiples variables integradas. Esto permite evitar el proceso de combinar distintas fuentes de información, lo cual podría generar errores en la manipulación y pérdida de consistencia en los datos si no se aplican las precauciones adecuadas.
 
--   **Siglas**: abreviación con la que se conoce la encuesta o base.
+-   **Datas con menor cantidad de variables**: Estos datos son útiles para desarrollar trabajos de econometría y pueden conducir a resultados interesantes; sin embargo, su manipulación presenta mayor complejidad, ya que suelen requerir la integración con otras bases de datos. Por ello, es recomendable contar con un nivel intermedio de manejo en RStudio y Excel. Si decides trabajar con información de esta sección, se sugiere consultar a los docentes del curso para asegurar una correcta gestión y procesamiento de los datos.
 
--   **Nombre de la base**: denominación oficial de la fuente de datos.
-
--   **Enlace**: acceso directo al sitio web o repositorio correspondiente.
-
--   **Descripción**: breve explicación del contenido y posibles usos de la base.
-
-## Buscador
-
-La tabla cuenta con un buscador general ("search") que facilita la exploración, que funciona a nivel de palabras claves, por ejemplo, si se escribe *“economía”*, el sistema buscará esa palabra en todas las columnas de la tabla (años, siglas, nombre, enlace y descripción). Esto permite filtrar de manera rápida y flexible las opciones disponibles, sin necesidad de revisar manualmente fila por fila.
 
 ## Bases de Datos
 
-```{r, echo=FALSE}
-#| message: false
-#| warning: false
+::::: labs-grid
+::: lab-card
+### Encuestas y Data con multiples variables
+\
+[Ver Laboratorio](data_principal.html){.btn target=_blank rel="noopener"}
+:::
 
-library(readxl)
-library(dplyr)
-library(DT)
+::: lab-card
+### Datas con menor cantidad de variables
 
-# Leer el archivo Excel
-bases <- read_excel("data/bases_datos.xlsx")
-
-# Convertir la columna "Fuente / Link" en hipervínculo con texto fijo
-bases <- bases |>
-  mutate(
-    `Fuente / Link` = if_else(
-      !is.na(`Fuente / Link`) & `Fuente / Link` != "",
-      sprintf("<a href='%s' target='_blank' rel='noopener'>Enlace</a>", `Fuente / Link`),
-      ""
-    )
-  )
-
-# Mostrar tabla interactiva con todas las columnas
-datatable(
-  bases,
-  escape = FALSE,  # <- necesario para que los <a> funcionen como links
-  options = list(pageLength = 10, autoWidth = TRUE, scrollX = TRUE)
-)
-```
+\
+[Ver Laboratorio](data_secundaria.html){.btn target=_blank rel="noopener"}
+:::
+:::::

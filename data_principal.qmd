@@ -1,0 +1,60 @@
+---
+title: "Encuestas y Data con multiples variables"
+---
+
+Las **bases de datos de encuestas** incluidas en este repositorio reúnen información oficial y representativa de distintos ámbitos sociales y económicos de Chile, provenientes de instituciones como el **Instituto Nacional de Estadísticas (INE)** y el **Ministerio de Desarrollo Social y Familia**. Estas encuestas abarcan temas como **salud, empleo, ingresos, gasto de los hogares y uso del tiempo**, entre otros, permitiendo realizar análisis econométricos con un alto nivel de profundidad.
+
+Entre las principales se encuentran la **Encuesta de Presupuestos Familiares**, la **Encuesta Nacional de Salud**, la **Encuesta de Uso del Tiempo** y la **Encuesta de Mercado Laboral**, todas con una amplia cobertura de variables demográficas, laborales y socioeconómicas.
+
+Estas fuentes resultan especialmente valiosas para el desarrollo de **modelos de regresión**, estudios de **determinantes sociales y económicos**, y comparaciones entre grupos de población. Además, su estructura multidimensional permite combinar distintas áreas de análisis —como ingreso, género, educación y bienestar— fomentando una comprensión integral de la realidad económica y social del país.
+
+En conjunto, estas encuestas constituyen una base sólida para el aprendizaje aplicado de la econometría, ofreciendo datos confiables y actualizados para desarrollar ejercicios, informes y proyectos con rigor estadístico.
+
+Cada sección de datos cuenta con el mismo formato de presentacion, conteniendo las siguientes variables: 
+
+-   **Años**: periodo temporal cubierto.
+
+-   **Siglas**: abreviación con la que se conoce la encuesta o base.
+
+-   **Nombre de la base**: denominación oficial de la fuente de datos.
+
+-   **Enlace**: acceso directo al sitio web o repositorio correspondiente.
+
+-   **Descripción**: breve explicación del contenido y posibles usos de la base.
+
+## Buscador
+
+La tabla cuenta con un buscador general ("search") que facilita la exploración, que funciona a nivel de palabras claves, por ejemplo, si se escribe *“economía”*, el sistema buscará esa palabra en todas las columnas de la tabla (años, siglas, nombre, enlace y descripción). Esto permite filtrar de manera rápida y flexible las opciones disponibles, sin necesidad de revisar manualmente fila por fila.
+
+# Bases de datos
+
+```{r, echo=FALSE}
+#| message: false
+#| warning: false
+
+library(readxl)
+library(dplyr)
+library(DT)
+
+bases_ec <- read_excel("data/bases_datos.xlsx", sheet = "encuestas")
+
+bases_ec <- bases_ec %>%
+  mutate(
+    `Fuente / Link` = if_else(
+      !is.na(`Fuente / Link`) & `Fuente / Link` != "",
+      sprintf("<a href='%s' target='_blank' rel='noopener'>Enlace</a>", `Fuente / Link`),
+      as.character("")
+    )
+  )
+
+datatable(
+  bases_ec,
+  escape = FALSE,
+  options = list(
+    pageLength = 10,
+    autoWidth = TRUE,
+    scrollX = TRUE
+  )
+)
+
+```

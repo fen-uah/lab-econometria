@@ -1,33 +1,46 @@
 # Archivo: _quarto.yml
 project:
   type: website
-  output-dir: _site      # Carpeta de salida que GitHub Pages usará
+  output-dir: _site
   render:
     - index.qmd
     - datos.qmd
     - codigos.qmd
     - proyectos.qmd
+    - data_principal.qmd
+    - data_secundaria.qmd
     - "labs/*.qmd"
 
 website:
   title: ""
   site-url: https://manuelrojas-code.github.io/econo.github.io/
   description: "Repositorio de datos, códigos y proyectos de estudiantes"
+
   navbar:
     logo: img/logo.png
     left:
       - text: "Inicio"
         href: index.qmd
-      - text: "Datos"
-        href: datos.qmd
+
       - text: "Material de Estudio"
         href: codigos.qmd
+
+      - text: "Datos"
+        href: datos.qmd
+        menu:
+          - text: "Data Principal"
+            href: data_principal.qmd
+            target: _blank
+          - text: "Data Secundaria"
+            href: data_secundaria.qmd
+            target: _blank
+
       - text: "Proyectos"
         href: proyectos.qmd
+
   page-footer:
     left: "© 2025 FEN-UAH"
     right: "Sitio desarrollado con Quarto"
-
 
 format:
   html:
@@ -37,3 +50,5 @@ format:
     grid:
       body-width: 900px
       gutter-width: 1.2em
+resources:
+  - js/open_links_newtab.

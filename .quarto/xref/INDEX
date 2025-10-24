@@ -22,5 +22,17 @@
   },
   "labs/lab04_epg.qmd": {
     "lab04_epg.html": "1083524b"
+  },
+  "cursos/labs_epg/lab01_epg.qmd": {
+    "lab01_epg.html": "916de6cf"
+  },
+  "cursos/labs_epg/lab02_epg.qmd": {
+    "lab02_epg.html": "104b8dd3"
+  },
+  "data_principal.qmd": {
+    "data_principal.html": "ebca16d6"
+  },
+  "data_secundaria.qmd": {
+    "data_secundaria.html": "6d0e1384"
   }
 }

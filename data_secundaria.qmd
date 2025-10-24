@@ -1,0 +1,61 @@
+---
+title: "Datas con menor cantidad de variables"
+format: html
+---
+
+Las bases de datos agrupadas en esta sección corresponden a fuentes estadísticas complementarias que, si bien contienen una menor cantidad de variables, ofrecen información clave para desarrollar análisis econométricos enfocados y temáticamente específicos.
+
+Incluyen registros provenientes de distintas instituciones nacionales e internacionales —como el Banco Central de Chile, el Ministerio de Economía, el Banco Mundial, el Banco Interamericano de Desarrollo (BID) y otros organismos del Estado— que proporcionan indicadores macroeconómicos, series de precios, productividad, informalidad laboral, microemprendimiento, turismo y diversos aspectos del desarrollo económico y social.
+
+Si bien estas bases no tienen la amplitud de variables de las grandes encuestas sociales, su profundidad temática permite construir modelos de regresión y análisis descriptivos centrados en temas concretos, como la evolución del empleo formal e informal, la estructura de costos laborales, el comportamiento del sector agrícola o los determinantes de la actividad turística.
+
+Por su naturaleza más técnica, la manipulación de estas bases puede requerir un manejo intermedio o avanzado en RStudio y Excel, especialmente cuando se busca complementar distintas fuentes o realizar integraciones de series temporales. No obstante, su correcta utilización brinda la oportunidad de generar análisis aplicados y resultados interpretables que fortalecen el aprendizaje práctico de la econometría y la gestión de datos económicos.
+
+Cada sección de datos cuenta con el mismo formato de presentacion, conteniendo las siguientes variables:
+
+-   **Años**: periodo temporal cubierto.
+
+-   **Siglas**: abreviación con la que se conoce la encuesta o base.
+
+-   **Nombre de la base**: denominación oficial de la fuente de datos.
+
+-   **Enlace**: acceso directo al sitio web o repositorio correspondiente.
+
+-   **Descripción**: breve explicación del contenido y posibles usos de la base.
+
+## Buscador
+
+La tabla cuenta con un buscador general ("search") que facilita la exploración, que funciona a nivel de palabras claves, por ejemplo, si se escribe *“economía”*, el sistema buscará esa palabra en todas las columnas de la tabla (años, siglas, nombre, enlace y descripción). Esto permite filtrar de manera rápida y flexible las opciones disponibles, sin necesidad de revisar manualmente fila por fila.
+
+# Bases de datos
+
+```{r, echo=FALSE}
+#| message: false
+#| warning: false
+
+library(readxl)
+library(dplyr)
+library(DT)
+
+bases <- read_excel("data/bases_datos.xlsx", sheet = "otras")
+
+bases <- bases %>%
+  mutate(
+    `Fuente / Link` = if_else(
+      !is.na(`Fuente / Link`) & `Fuente / Link` != "",
+      sprintf("<a href='%s' target='_blank' rel='noopener'>Enlace</a>", `Fuente / Link`),
+      as.character("")
+    )
+  )
+
+datatable(
+  bases,
+  escape = FALSE,
+  options = list(
+    pageLength = 10,
+    autoWidth = TRUE,
+    scrollX = TRUE
+  )
+)
+
+```

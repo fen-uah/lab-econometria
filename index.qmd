@@ -10,17 +10,9 @@ Para acompañar este proceso, el sitio web se organiza en tres secciones princip
 
 ### [**Datos**](datos.qmd):
 
-Espacio donde se recopilan **bases de datos** que pueden ser utilizadas en proyectos de investigacion con metodologías econometricas. Cada base de datos incluye enlaces de acceso o descarga, así como una breve descripción de su contenido y posibles aplicaciones.
-
 ### [**Material de Estudio**](codigos.qmd):
 
-\
-Una sección de apoyo que ofrece **códigos en Rstudio, apuntes de econometría y laboratorios**, que abarcan desde operaciones básicas en R (como crear variables, realizar estadística descriptiva y generar tablas) hasta la elaboración de gráficos y análisis más avanzados. Esta sección busca ser un recurso de referencia constante para los estudiantes.
-
 ### [**Proyectos**](proyectos.qmd):
-
-\
-Espacio dedicado a la **difusión de los trabajos de los estudiantes**, donde se podrán visualizar sus pósters y presentaciones, sirviendo como inspiración y guía para generaciones futuras.
 
 En conjunto, este sitio busca convertirse en un centro de recursos para la formación en econometría, promoviendo el uso de datos y herramientas de análisis como competencias clave para la futura labor profesional de los estudiantes de Ingeniería Comercial de la UAH.
 
@@ -28,101 +20,15 @@ En conjunto, este sitio busca convertirse en un centro de recursos para la forma
 
 ### Rocío Valdebenito: Docente e Investigadora
 
-La Dra. Rocío Valdebenito es una académica especializada en Economía Aplicada con un fuerte enfoque en el análisis de temas sociales y de desarrollo.
-
-#### Formación y Afiliación
-
--   Doctorado (Ph.D.) en Economía Aplicada de la University of Illinois at Urbana-Champaign (EE. UU., 2024).
-
--   Ingeniera Comercial y Máster en Management de la Universidad Adolfo Ibáñez (UAI).
-
--   Actualmente es Profesora en la Facultad de Economía y Negocios (FEN) de la Universidad Alberto Hurtado (UAH).
-
-#### Áreas Clave de Especialización e Investigación
-
-La Dra. Valdebenito utiliza la Econometría y la Microeconomía Aplicada para estudiar temas de alta relevancia social. Sus principales áreas de investigación son:
-
--   Economía de la Educación: Se interesa en el impacto de la educación técnica-profesional, el rol de los compañeros en la elección de carreras STEM (Ciencia, Tecnología, Ingeniería y Matemáticas) y los efectos de *shocks* ambientales en los resultados de los estudiantes.
-
--   Economía de Género y Desarrollo: Su trabajo aborda explícitamente las brechas de género en la sociedad y examina políticas relacionadas con la planificación familiar y el empleo en países en desarrollo (ej. India).
-
--   Economía Regional: Investiga la migración interregional de graduados de educación media y las desigualdades en calidad de vida y educación a nivel regional.
-
-#### Docencia
-
-En su rol docente, la profesora Valdebenito imparte cursos fundamentales que conectan la teoría económica con la evidencia empírica:
-
--   Econometría
-
--   Microeconomía III
-
--   Organización Industrial
-
-Su experiencia docente se extiende a la enseñanza de métodos estadísticos aplicados y *Data Science* a nivel de postgrado.
-
-La descripción del profesional proviene del sitio web:
-
--   rvaldebenito.github.io
+La Dra. Rocío Valdebenito es una académica con formación y afiliación en Ingeniera Comercial y Máster en Management de la Universidad Adolfo Ibáñez (UAI) y Doctorado (Ph.D.) en Economía Aplicada de la University of Illinois at Urbana-Champaign (EE. UU., 2024). Actualmente es Profesora en la Facultad de Economía y Negocios (FEN) de la Universidad Alberto Hurtado (UAH).
 
 ### Fernando Crespo: Docente e Investigador
 
 El profesor Fernando Crespo es un experto en Ciencia de Datos, Machine Learning y Modelos Matemáticos Aplicados. Es Doctor en Ciencias de la Ingeniería por la Pontificia Universidad Católica de Chile y actualmente se desempeña como Profesor en la Universidad Alberto Hurtado.
 
-#### Áreas Clave de Especialización
+### Manuel Labraña Rojas: Ayudante
 
-Su investigación combina las matemáticas avanzadas con la informática, centrándose en:
-
--   Inteligencia Artificial y Redes Neuronales.
-
--   Investigación Operacional y Simulación.
-
--   Minería de Datos (*Data Mining*) y Reconocimiento de Patrones.
-
-#### Impacto y Enfoque Multidisciplinario
-
-El Dr. Crespo mantiene una trayectoria productiva con aproximadamente 72 participaciones en publicaciones y más de 700 citas registradas. Su trabajo destaca por su aplicación a problemas de gran relevancia social, realizando investigaciones en diversas áreas como:
-
--   Economía y Negocios (valoración, innovación).
-
--   Salud Pública (análisis de demencias, cobertura hospitalaria, obesidad).
-
--   Seguridad y Sociedad (modelado de delitos, segregación residencial).
-
-En resumen, el profesor Crespo utiliza el análisis de datos y la modelación avanzada para generar conocimiento aplicado y soluciones en un amplio espectro de disciplinas.
-
-La descripción del profesional proviene del sitio web:
-
--   <https://www.researchgate.net/profile/Fernando-Crespo-3>
-
-### Manuel Labraña Rojas: Perfil Académico y Profesional
-
-Manuel Labraña Rojas es un estudiante de Ingeniería Comercial con Mención en Economía de la Universidad Alberto Hurtado (UAH).
-
-#### Experiencia Académica y Docencia (UAH)
-
-Ha demostrado compromiso con la formación académica, desempeñándose como Ayudante de Cátedra en las siguientes asignaturas:
-
--   Matemáticas II
-
--   Microeconomía I
-
--   Econometría para la Gestión
-
-Además, colabora en el área de investigación como Ayudante del proyecto "Repositorio de Econometría", contribuyendo a su funcionamiento y desarrollo web.
-
-#### Experiencia Profesional
-
-Práctica Intermedia: Realizó su práctica intermedia en el Ministerio de Agricultura, específicamente en INDAP, dentro del Departamento SAT. Sus responsabilidades incluyeron el manejo de bases de datos y la generación de informes estadísticos descriptivos utilizando herramientas como RStudio y aplicaciones de Microsoft 365.
-
-Trabajo Actual: Actualmente, trabaja en la consultora FV-Consulting, enfocada en Servicios y Soluciones Integrales y Consultoría. Su labor profesional se centra en áreas temáticas de aplicación económica, incluyendo:
-
--   Economía
-
--   Economía Agrícola
-
--   Econometría
-
--   Estudios de Mercados
+Manuel Labraña Rojas es un estudiante de Ingeniería Comercial con Mención en Economía de la Universidad Alberto Hurtado (UAH). desempeñándose como Ayudante de Cátedra. Además, colabora en el área de investigación como Ayudante del proyecto "Repositorio de Econometría", contribuyendo a su funcionamiento y desarrollo web.
 
 #### Agradecimientos
 

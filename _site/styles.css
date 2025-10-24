@@ -9,22 +9,40 @@ body {
 
 /* Navbar */
 .navbar {
- background-color: #006400 !important; /* Verde palta */
+  background-color: #000000 !important; /* Negro */
 }
 
-.navbar a, .navbar-brand {
+.navbar a,
+.navbar-brand {
   color: white !important;
   font-weight: 600;
 }
 
 .navbar a:hover {
-  color: #ff7f11 !important; /* Naranjo para hover */
+  color: #ff7f11 !important; /* Naranjo */
   transition: color 0.3s ease;
 }
 
-/* Links */
+/* --- NUEVO: Estilo del menú desplegable --- */
+.navbar .dropdown-menu {
+  background-color: #ffffff !important; /* Fondo blanco */
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+.navbar .dropdown-menu a {
+  color: #000000 !important; /* Texto negro */
+  font-weight: 500;
+}
+
+.navbar .dropdown-menu a:hover {
+  background-color: #f2f2f2 !important; /* Gris claro al pasar el mouse */
+  color: #ff7f11 !important; /* Naranjo al pasar el mouse */
+}
+
+/* Links generales */
 a {
-  color: #2b9348; /* Verde principal */
+  color: #2b9348;
   text-decoration: none;
 }
 
@@ -51,16 +69,17 @@ h1, h2, h3 {
   background-color: #ff7f11;
 }
 
-/* Efecto suave para scroll y hover general */
+/* Transiciones suaves */
 body, a, button {
   transition: all 0.3s ease;
 }
 
-/* Ajustar tamaño del logo en navbar */
+/* Tamaño del logo en navbar */
 .navbar-brand img {
   max-height: 50px;
   margin-right: 10px;
 }
+
 /* Estilo de cuadrícula para los laboratorios */
 .labs-grid {
   display: grid;
@@ -69,7 +88,7 @@ body, a, button {
   margin-top: 1.5em;
 }
 
-/* Tarjeta individual */
+/* Tarjetas individuales */
 .lab-card {
   background-color: #f8f9fa;
   border: 1px solid #e0e0e0;
@@ -109,3 +128,13 @@ body, a, button {
   background-color: #ff7f11;
   color: white;
 }
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  // Selecciona todos los links externos
+  const links = document.querySelectorAll("a[href^='http']");
+  links.forEach(link => {
+    link.setAttribute("target", "_blank");
+    link.setAttribute("rel", "noopener noreferrer");
+  });
+});
+</script>

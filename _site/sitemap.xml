@@ -1,35 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://manuelrojas-code.github.io/econo.github.io/data_secundaria.html</loc>
+    <lastmod>2025-10-24T05:27:14.402Z</lastmod>
+  </url>
+  <url>
     <loc>https://manuelrojas-code.github.io/econo.github.io/proyectos.html</loc>
-    <lastmod>2025-10-19T23:10:14.575Z</lastmod>
+    <lastmod>2025-10-24T06:02:02.643Z</lastmod>
   </url>
   <url>
     <loc>https://manuelrojas-code.github.io/econo.github.io/datos.html</loc>
-    <lastmod>2025-10-19T23:10:34.537Z</lastmod>
+    <lastmod>2025-10-24T05:57:39.094Z</lastmod>
   </url>
   <url>
     <loc>https://manuelrojas-code.github.io/econo.github.io/index.html</loc>
-    <lastmod>2025-10-20T00:42:26.615Z</lastmod>
+    <lastmod>2025-10-24T05:52:18.865Z</lastmod>
   </url>
   <url>
     <loc>https://manuelrojas-code.github.io/econo.github.io/codigos.html</loc>
-    <lastmod>2025-10-20T03:46:52.692Z</lastmod>
+    <lastmod>2025-10-24T06:03:04.632Z</lastmod>
   </url>
   <url>
-    <loc>https://manuelrojas-code.github.io/econo.github.io/labs/lab01_epg.html</loc>
-    <lastmod>2025-10-20T00:14:52.473Z</lastmod>
-  </url>
-  <url>
-    <loc>https://manuelrojas-code.github.io/econo.github.io/labs/lab02_epg.html</loc>
-    <lastmod>2025-10-20T00:13:04.553Z</lastmod>
-  </url>
-  <url>
-    <loc>https://manuelrojas-code.github.io/econo.github.io/labs/lab03_epg.html</loc>
-    <lastmod>2025-10-20T02:03:54.854Z</lastmod>
-  </url>
-  <url>
-    <loc>https://manuelrojas-code.github.io/econo.github.io/labs/lab04_epg.html</loc>
-    <lastmod>2025-10-20T03:35:52.702Z</lastmod>
+    <loc>https://manuelrojas-code.github.io/econo.github.io/data_principal.html</loc>
+    <lastmod>2025-10-24T05:17:09.412Z</lastmod>
   </url>
 </urlset>
