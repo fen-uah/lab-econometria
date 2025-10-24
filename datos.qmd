@@ -1,6 +1,5 @@
 ---
 title: "Repositorio de Datos"
-
 ---
 
 ## 
@@ -33,26 +32,26 @@ se proyecta integrar información de **ODEPA**en el caso de queerer realizar un 
 
 ## Tabla de bases de datos
 
-Debajo encontrarás dos pestañas interactiva que contiene la siguiente información: 
+Debajo encontrarás dos pestañas interactiva que contiene la siguiente información:
 
--   **Encuestas y Data con multiples variables**: Se recomienda que quienes realizan por primera vez trabajos de econometría, sin experiencia previa en RStudio y con un manejo intermedio de Excel, utilicen bases de datos provenientes de encuestas o que ya contengan múltiples variables integradas. Esto permite evitar el proceso de combinar distintas fuentes de información, lo cual podría generar errores en la manipulación y pérdida de consistencia en los datos si no se aplican las precauciones adecuadas.
+-   **Encuestas**: Se recomienda que quienes realizan por primera vez trabajos de econometría, sin experiencia previa en RStudio y con un manejo intermedio de Excel, utilicen bases de datos provenientes de encuestas o que ya contengan múltiples variables integradas. Esto permite evitar el proceso de combinar distintas fuentes de información, lo cual podría generar errores en la manipulación y pérdida de consistencia en los datos si no se aplican las precauciones adecuadas.
 
--   **Datas con menor cantidad de variables**: Estos datos son útiles para desarrollar trabajos de econometría y pueden conducir a resultados interesantes; sin embargo, su manipulación presenta mayor complejidad, ya que suelen requerir la integración con otras bases de datos. Por ello, es recomendable contar con un nivel intermedio de manejo en RStudio y Excel. Si decides trabajar con información de esta sección, se sugiere consultar a los docentes del curso para asegurar una correcta gestión y procesamiento de los datos.
-
+-   **Datos Administrativos**: Estos datos son útiles para desarrollar trabajos de econometría y pueden conducir a resultados interesantes; sin embargo, su manipulación presenta mayor complejidad, ya que suelen requerir la integración con otras bases de datos. Por ello, es recomendable contar con un nivel intermedio de manejo en RStudio y Excel. Si decides trabajar con información de esta sección, se sugiere consultar a los docentes del curso para asegurar una correcta gestión y procesamiento de los datos.
 
 ## Bases de Datos
 
 ::::: labs-grid
 ::: lab-card
-### Encuestas y Data con multiples variables
+### Encuestas
+
 \
-[Ver Laboratorio](data_principal.html){.btn target=_blank rel="noopener"}
+[Ver Datos](data_principal.html){.btn target="_blank" rel="noopener"}
 :::
 
 ::: lab-card
-### Datas con menor cantidad de variables
+### Datos Administrativos
 
 \
-[Ver Laboratorio](data_secundaria.html){.btn target=_blank rel="noopener"}
+[Ver Datos](data_secundaria.html){.btn target="_blank" rel="noopener"}
 :::
 :::::

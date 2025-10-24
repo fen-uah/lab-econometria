@@ -1,5 +1,5 @@
 ---
-title: "Datas con menor cantidad de variables"
+title: "Datos Administrativos"
 format: html
 ---
 
