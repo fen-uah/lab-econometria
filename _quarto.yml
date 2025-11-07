@@ -13,7 +13,7 @@ project:
 
 website:
   title: ""
-  site-url: https://manuelrojas-code.github.io/econo.github.io/
+  site-url: https://fen-uah.github.io/lab-econometria/
   description: "Repositorio de datos, códigos y proyectos de estudiantes"
 
   navbar:
