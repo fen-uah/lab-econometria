@@ -18,7 +18,7 @@ El material se organiza ahora en **dos secciones específicas**, según la menci
 
 Cada laboratorio puede abrirse directamente en **formato HTML renderizado**, permitiendo revisar el código, los resultados y la interpretación de forma integrada.
 
-## Laboratorios (proximamente disponibles)
+## Laboratorios (próximamente disponibles)
 
 ::::: labs-grid
 ::: lab-card

@@ -2,14 +2,14 @@
   {
     "objectID": "data_secundaria.html",
     "href": "data_secundaria.html",
-    "title": "Datas con menor cantidad de variables",
+    "title": "Datos Administrativos",
     "section": "",
     "text": "Las bases de datos agrupadas en esta sección corresponden a fuentes estadísticas complementarias que, si bien contienen una menor cantidad de variables, ofrecen información clave para desarrollar análisis econométricos enfocados y temáticamente específicos.\nIncluyen registros provenientes de distintas instituciones nacionales e internacionales —como el Banco Central de Chile, el Ministerio de Economía, el Banco Mundial, el Banco Interamericano de Desarrollo (BID) y otros organismos del Estado— que proporcionan indicadores macroeconómicos, series de precios, productividad, informalidad laboral, microemprendimiento, turismo y diversos aspectos del desarrollo económico y social.\nSi bien estas bases no tienen la amplitud de variables de las grandes encuestas sociales, su profundidad temática permite construir modelos de regresión y análisis descriptivos centrados en temas concretos, como la evolución del empleo formal e informal, la estructura de costos laborales, el comportamiento del sector agrícola o los determinantes de la actividad turística.\nPor su naturaleza más técnica, la manipulación de estas bases puede requerir un manejo intermedio o avanzado en RStudio y Excel, especialmente cuando se busca complementar distintas fuentes o realizar integraciones de series temporales. No obstante, su correcta utilización brinda la oportunidad de generar análisis aplicados y resultados interpretables que fortalecen el aprendizaje práctico de la econometría y la gestión de datos económicos.\nCada sección de datos cuenta con el mismo formato de presentacion, conteniendo las siguientes variables:"
   },
   {
     "objectID": "data_secundaria.html#buscador",
     "href": "data_secundaria.html#buscador",
-    "title": "Datas con menor cantidad de variables",
+    "title": "Datos Administrativos",
     "section": "Buscador",
     "text": "Buscador\nLa tabla cuenta con un buscador general (“search”) que facilita la exploración, que funciona a nivel de palabras claves, por ejemplo, si se escribe “economía”, el sistema buscará esa palabra en todas las columnas de la tabla (años, siglas, nombre, enlace y descripción). Esto permite filtrar de manera rápida y flexible las opciones disponibles, sin necesidad de revisar manualmente fila por fila."
   },
@@ -46,14 +46,14 @@
     "href": "datos.html#tabla-de-bases-de-datos",
     "title": "Repositorio de Datos",
     "section": "Tabla de bases de datos",
-    "text": "Tabla de bases de datos\nDebajo encontrarás dos pestañas interactiva que contiene la siguiente información:\n\nEncuestas y Data con multiples variables: Se recomienda que quienes realizan por primera vez trabajos de econometría, sin experiencia previa en RStudio y con un manejo intermedio de Excel, utilicen bases de datos provenientes de encuestas o que ya contengan múltiples variables integradas. Esto permite evitar el proceso de combinar distintas fuentes de información, lo cual podría generar errores en la manipulación y pérdida de consistencia en los datos si no se aplican las precauciones adecuadas.\nDatas con menor cantidad de variables: Estos datos son útiles para desarrollar trabajos de econometría y pueden conducir a resultados interesantes; sin embargo, su manipulación presenta mayor complejidad, ya que suelen requerir la integración con otras bases de datos. Por ello, es recomendable contar con un nivel intermedio de manejo en RStudio y Excel. Si decides trabajar con información de esta sección, se sugiere consultar a los docentes del curso para asegurar una correcta gestión y procesamiento de los datos."
+    "text": "Tabla de bases de datos\nDebajo encontrarás dos pestañas interactiva que contiene la siguiente información:\n\nEncuestas: Se recomienda que quienes realizan por primera vez trabajos de econometría, sin experiencia previa en RStudio y con un manejo intermedio de Excel, utilicen bases de datos provenientes de encuestas o que ya contengan múltiples variables integradas. Esto permite evitar el proceso de combinar distintas fuentes de información, lo cual podría generar errores en la manipulación y pérdida de consistencia en los datos si no se aplican las precauciones adecuadas.\nDatos Administrativos: Estos datos son útiles para desarrollar trabajos de econometría y pueden conducir a resultados interesantes; sin embargo, su manipulación presenta mayor complejidad, ya que suelen requerir la integración con otras bases de datos. Por ello, es recomendable contar con un nivel intermedio de manejo en RStudio y Excel. Si decides trabajar con información de esta sección, se sugiere consultar a los docentes del curso para asegurar una correcta gestión y procesamiento de los datos."
   },
   {
     "objectID": "datos.html#bases-de-datos",
     "href": "datos.html#bases-de-datos",
     "title": "Repositorio de Datos",
     "section": "Bases de Datos",
-    "text": "Bases de Datos\n\n\nEncuestas y Data con multiples variables\n\nVer Laboratorio\n\n\nDatas con menor cantidad de variables\n\nVer Laboratorio"
+    "text": "Bases de Datos\n\n\nEncuestas\n\nVer Datos\n\n\nDatos Administrativos\n\nVer Datos"
   },
   {
     "objectID": "index.html#descripción-del-sitio-web",
@@ -67,7 +67,7 @@
     "href": "index.html#docentes-y-ayudante",
     "title": "",
     "section": "Docentes y Ayudante",
-    "text": "Docentes y Ayudante\n\nRocío Valdebenito: Docente e Investigadora\nLa Dra. Rocío Valdebenito es una académica con formación y afiliación en Ingeniera Comercial y Máster en Management de la Universidad Adolfo Ibáñez (UAI) y Doctorado (Ph.D.) en Economía Aplicada de la University of Illinois at Urbana-Champaign (EE. UU., 2024). Actualmente es Profesora en la Facultad de Economía y Negocios (FEN) de la Universidad Alberto Hurtado (UAH).\n\n\nFernando Crespo: Docente e Investigador\nEl profesor Fernando Crespo es un experto en Ciencia de Datos, Machine Learning y Modelos Matemáticos Aplicados. Es Doctor en Ciencias de la Ingeniería por la Pontificia Universidad Católica de Chile y actualmente se desempeña como Profesor en la Universidad Alberto Hurtado.\n\n\nManuel Labraña Rojas: Ayudante\nManuel Labraña Rojas es un estudiante de Ingeniería Comercial con Mención en Economía de la Universidad Alberto Hurtado (UAH). desempeñándose como Ayudante de Cátedra. Además, colabora en el área de investigación como Ayudante del proyecto “Repositorio de Econometría”, contribuyendo a su funcionamiento y desarrollo web.\n\nAgradecimientos\nAgradezco a los profesores por la oportunidad y la confianza en mi desarrollo. Extiendo mi gratitud a mis padres, Josué Rojas y Cristina Labraña, por su apoyo incondicional."
+    "text": "Docentes y Ayudante\n\nRocío Valdebenito: Docente e Investigadora\nLa Dra. Rocío Valdebenito es académica con formación y afiliación en Ingeniera Comercial y Máster en Management de la Universidad Adolfo Ibáñez (UAI) y Doctorado (Ph.D.) en Economía Aplicada de la University of Illinois at Urbana-Champaign (EE. UU., 2024). Actualmente es Profesora en la Facultad de Economía y Negocios (FEN) de la Universidad Alberto Hurtado (UAH).\n\nAmador Marín Torres: Ayudante\nEs estudiante de Ingeniería Comercial con Mención en Economía de la Universidad Alberto Hurtado (UAH), desempeñándose como Ayudante de Cátedra de Econometría, entre otros cursos.\n\n\n\nFernando Crespo: Docente e Investigador\nEl profesor Fernando Crespo es experto en Ciencia de Datos, Machine Learning y Modelos Matemáticos Aplicados. Es Doctor en Ciencias de la Ingeniería por la Pontificia Universidad Católica de Chile y actualmente se desempeña como Profesor en la Universidad Alberto Hurtado.\n\nManuel Labraña Rojas: Ayudante\nEs estudiante de Ingeniería Comercial con Mención en Economía de la Universidad Alberto Hurtado (UAH), desempeñándose como Ayudante de Cátedra de Econometría para la Gestión. Además, colabora en el área de investigación como Ayudante del proyecto “Repositorio de Econometría”, contribuyendo a su funcionamiento y desarrollo web."
   },
   {
     "objectID": "codigos.html",
@@ -77,23 +77,23 @@
     "text": "Bienvenido al Repositorio de Laboratorios y Materiales Prácticos de los cursos de Econometría FEN-UAH.\nEn este espacio encontrarás guías paso a paso desarrolladas en RStudio/Quarto, acompañadas de fundamentos teóricos y explicaciones conceptuales que facilitan el aprendizaje aplicado de la econometría, abarcando desde la regresión lineal simple hasta modelos econométricos más avanzados.\nEl material se organiza ahora en dos secciones específicas, según la mención del curso:\nCada laboratorio puede abrirse directamente en formato HTML renderizado, permitiendo revisar el código, los resultados y la interpretación de forma integrada."
   },
   {
-    "objectID": "codigos.html#laboratorios-proximamente-disponibles",
-    "href": "codigos.html#laboratorios-proximamente-disponibles",
+    "objectID": "codigos.html#laboratorios-próximamente-disponibles",
+    "href": "codigos.html#laboratorios-próximamente-disponibles",
     "title": "Material de Estudio",
-    "section": "Laboratorios (proximamente disponibles)",
-    "text": "Laboratorios (proximamente disponibles)\n\n\nEconometría - Mención Economía\nMaterial teórico y práctico del curso en Rstudio y Rmarkdow\nVer Laboratorio\n\n\nEconometría para la Gestión - Mención Administración\nMaterial en formato PDF y codigos de Rstudio utilizados en clases.\nVer Laboratorio"
+    "section": "Laboratorios (próximamente disponibles)",
+    "text": "Laboratorios (próximamente disponibles)\n\n\nEconometría - Mención Economía\nMaterial teórico y práctico del curso en Rstudio y Rmarkdow\nVer Laboratorio\n\n\nEconometría para la Gestión - Mención Administración\nMaterial en formato PDF y codigos de Rstudio utilizados en clases.\nVer Laboratorio"
   },
   {
     "objectID": "data_principal.html",
     "href": "data_principal.html",
-    "title": "Encuestas y Data con multiples variables",
+    "title": "Encuestas",
     "section": "",
     "text": "Las bases de datos de encuestas incluidas en este repositorio reúnen información oficial y representativa de distintos ámbitos sociales y económicos de Chile, provenientes de instituciones como el Instituto Nacional de Estadísticas (INE) y el Ministerio de Desarrollo Social y Familia. Estas encuestas abarcan temas como salud, empleo, ingresos, gasto de los hogares y uso del tiempo, entre otros, permitiendo realizar análisis econométricos con un alto nivel de profundidad.\nEntre las principales se encuentran la Encuesta de Presupuestos Familiares, la Encuesta Nacional de Salud, la Encuesta de Uso del Tiempo y la Encuesta de Mercado Laboral, todas con una amplia cobertura de variables demográficas, laborales y socioeconómicas.\nEstas fuentes resultan especialmente valiosas para el desarrollo de modelos de regresión, estudios de determinantes sociales y económicos, y comparaciones entre grupos de población. Además, su estructura multidimensional permite combinar distintas áreas de análisis —como ingreso, género, educación y bienestar— fomentando una comprensión integral de la realidad económica y social del país.\nEn conjunto, estas encuestas constituyen una base sólida para el aprendizaje aplicado de la econometría, ofreciendo datos confiables y actualizados para desarrollar ejercicios, informes y proyectos con rigor estadístico.\nCada sección de datos cuenta con el mismo formato de presentacion, conteniendo las siguientes variables:"
   },
   {
     "objectID": "data_principal.html#buscador",
     "href": "data_principal.html#buscador",
-    "title": "Encuestas y Data con multiples variables",
+    "title": "Encuestas",
     "section": "Buscador",
     "text": "Buscador\nLa tabla cuenta con un buscador general (“search”) que facilita la exploración, que funciona a nivel de palabras claves, por ejemplo, si se escribe “economía”, el sistema buscará esa palabra en todas las columnas de la tabla (años, siglas, nombre, enlace y descripción). Esto permite filtrar de manera rápida y flexible las opciones disponibles, sin necesidad de revisar manualmente fila por fila."
   }

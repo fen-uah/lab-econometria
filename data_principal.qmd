@@ -1,5 +1,5 @@
 ---
-title: "Encuestas y Data con multiples variables"
+title: "Encuestas"
 ---
 
 Las **bases de datos de encuestas** incluidas en este repositorio reúnen información oficial y representativa de distintos ámbitos sociales y económicos de Chile, provenientes de instituciones como el **Instituto Nacional de Estadísticas (INE)** y el **Ministerio de Desarrollo Social y Familia**. Estas encuestas abarcan temas como **salud, empleo, ingresos, gasto de los hogares y uso del tiempo**, entre otros, permitiendo realizar análisis econométricos con un alto nivel de profundidad.
