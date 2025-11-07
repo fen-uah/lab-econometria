@@ -24,6 +24,13 @@ website:
 
       - text: "Material de Estudio"
         href: codigos.qmd
+        menu:
+          - text: "Econometría - Mención Economía"
+            href: eco_eco.qmd
+            target: _blank
+          - text: "Econometría para la Gestón - Mención Administración "
+            href: eco_epg.qmd
+            target: _blank
 
       - text: "Datos"
         href: datos.qmd

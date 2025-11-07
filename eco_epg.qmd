@@ -1,0 +1,25 @@
+---
+title: "Econometría para la Gestión"
+format:
+  html:
+    toc: true
+    smooth-scroll: true
+---
+
+esta
+
+::::: labs-grid
+::: lab-card
+### Capitulo 1 -
+
+\
+[Ver Laboratorio](labs_epg/lab01_epg.html){.btn target="_blank" rel="noopener"}
+:::
+
+::: lab-card
+### capitulo 2 -
+
+\
+[Ver Laboratorio](labs_epg/lab02_epg.html){.btn target="_blank" rel="noopener"}
+:::
+:::::

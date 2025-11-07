@@ -14,26 +14,25 @@ El material se organiza ahora en **dos secciones específicas**, según la menci
 
 -    **Econometría para la Gestión** → orientada a estudiantes de la *mención Administración*, con un enfoque práctico en el análisis de datos para la toma de decisiones empresariales.
 
--    **Econometría (mención Economía)** → dirigida a estudiantes de la *mención Economía*, con énfasis en el razonamiento teórico y la modelación econométrica aplicada a la investigación económica.
+-    **Econometría** → dirigida a estudiantes de la *mención Economía*, con énfasis en el razonamiento teórico y la modelación econométrica aplicada a la investigación económica.
 
 Cada laboratorio puede abrirse directamente en **formato HTML renderizado**, permitiendo revisar el código, los resultados y la interpretación de forma integrada.
 
-## Laboratorios (próximamente disponibles)
-
+## Cursos 
 ::::: labs-grid
 ::: lab-card
-### Econometría - Mención Economía
+### Econometría Mención Economía
 
-Material teórico y práctico del curso en Rstudio y Rmarkdow\
-[Ver Laboratorio](cursos/eco_eco.html){.btn target=_blank rel="noopener"}
+\
+[Ver Curso](eco_eco.html){.btn target="_blank" rel="noopener"}
 :::
 
 ::: lab-card
-### Econometría para la Gestión - Mención Administración
-
-Material en formato PDF y codigos de Rstudio utilizados en clases.\
-[Ver Laboratorio](cursos/eco_epg.html){.btn target=_blank rel="noopener"}
+### Econometría para la Gestión Mención Administración
+\
+[Ver Curso](eco_epg.html){.btn target="_blank" rel="noopener"}
 :::
 :::::
+
 
 ------------------------------------------------------------------------

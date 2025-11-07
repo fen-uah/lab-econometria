@@ -1,0 +1,249 @@
+---
+title: "01_Introducción_y_Estadística_Descriptiva"
+format:
+  html:
+    toc: true
+    toc-title: "Contenido"
+    smooth-scroll: true
+    code-fold: false
+    code-copy: true
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+# 📘 Material Teórico
+
+> Este laboratorio se basa en el documento **"01_Introducción_y_Estadística_Descriptiva (versión imprimible)"**, donde se revisan los conceptos fundamentales de la estadística descriptiva y su aplicación práctica en RStudio.
+
+[Descargar documento en PDF](../pdf_epg/01_Introduccion_y_Estadistica_Descriptiva_version_imprimible.pdf){.btn target="_blank" rel="noopener"}
+
+------------------------------------------------------------------------
+
+## 📑 Contenido del PDF
+
+1.  **Introducción a la estadística**
+    -   Concepto de variable aleatoria y datos
+    -   Tipos de datos: cualitativos y cuantitativos\
+2.  **Métodos gráficos para datos cualitativos y cuantitativos**
+    -   Gráfico de barras, torta y Pareto\
+    -   Histogramas y densidades
+3.  **Medidas numéricas**
+    -   Media, mediana, moda, rango, varianza, desviación estándar, coeficiente de variación\
+4.  **Distribuciones y normalidad**
+    -   Pruebas de Shapiro-Wilk y Kolmogorov-Smirnov\
+    -   Q-Q plot\
+5.  **Asimetría y curtosis**
+
+------------------------------------------------------------------------
+
+# 🧠 Objetivo del Laboratorio
+
+Aprender a aplicar herramientas básicas de **estadística descriptiva** en R, utilizando datos **cualitativos** y **cuantitativos**, comprendiendo cómo construir gráficos, calcular medidas y verificar normalidad de una distribución.
+
+------------------------------------------------------------------------
+
+# 🔧 Preparación del entorno
+
+```{r}
+# Instalar librerías si no están disponibles
+# install.packages(c("openxlsx", "qcc", "modeest", "psych", "moments"))
+
+library(openxlsx)  # para leer archivos Excel
+library(qcc)       # para gráficos de control y Pareto
+library(modeest)   # para calcular la moda
+library(psych)     # para análisis descriptivo
+library(moments)   # para asimetría y curtosis
+```
+
+------------------------------------------------------------------------
+
+# 🧩 Parte A — Datos cualitativos
+
+```{r}
+datos1 <- read.xlsx("../data_epg/Ejemplo1.xlsx", sheet = "Hoja1", colNames = TRUE)
+head(datos1)
+```
+
+🔍 **Explicación**\
+`read.xlsx()` lee archivos Excel. `head()` muestra las primeras filas del conjunto de datos.
+
+------------------------------------------------------------------------
+
+```{r}
+total <- sum(datos1$Frecuencia, na.rm = TRUE)
+datos1$relativa <- datos1$Frecuencia / total
+datos1
+```
+
+🔍 **Explicación**\
+Calcula la frecuencia total y la frecuencia relativa (proporción de cada categoría).
+
+------------------------------------------------------------------------
+
+```{r}
+relativo <- setNames(as.numeric(datos1$relativa), datos1$Categoria)
+relativo
+```
+
+🔍 **Explicación**\
+Asigna nombres a los valores para construir gráficos.
+
+------------------------------------------------------------------------
+
+```{r}
+barplot(relativo,
+        xlab = "Categorías de accidentes",
+        ylab = "Frecuencia relativa",
+        las = 2,
+        col = "steelblue",
+        main = "Gráfico de barras de frecuencias relativas")
+```
+
+🔍 **Explicación**\
+Crea un gráfico de barras para visualizar proporciones entre categorías.
+
+------------------------------------------------------------------------
+
+```{r}
+pie(relativo,
+    labels = names(relativo),
+    col = rainbow(length(relativo)),
+    main = "Distribución porcentual de accidentes")
+```
+
+🔍 **Explicación**\
+Gráfico circular para representar la proporción de cada categoría.
+
+------------------------------------------------------------------------
+
+```{r}
+par(mar = rep(3, 4))
+pareto.chart(relativo,
+             ylab = "Frecuencia relativa",
+             main = "Diagrama de Pareto: Categorías de accidentes")
+par(mar = c(5, 4, 4, 2) + 0.1)
+```
+
+🔍 **Explicación**\
+El diagrama de Pareto ordena categorías y muestra la proporción acumulada.
+
+------------------------------------------------------------------------
+
+# 📊 Parte B — Datos cuantitativos
+
+```{r}
+datos2 <- read.xlsx("../data_epg/Ejemplo2.xlsx", sheet = "Hoja1", colNames = TRUE)
+
+milla <- 1.6093
+galon <- 3.78
+factorconversion <- milla / galon
+datos2$EPA_Mileage_Ratings_km_l <- factorconversion * datos2$EPA_Mileage_Ratings_milla_galon
+```
+
+🔍 **Explicación**\
+Convierte unidades de rendimiento de millas/galón a km/litro.
+
+------------------------------------------------------------------------
+
+```{r}
+plot(datos2$EPA_Mileage_Ratings_km_l,
+     main = "Rendimiento EPA (km/l)",
+     ylab = "km/l",
+     xlab = "Observaciones",
+     type = "b", col = "darkgreen")
+```
+
+🔍 **Explicación**\
+Muestra el rendimiento por observación (útil para detectar valores atípicos).
+
+------------------------------------------------------------------------
+
+```{r}
+hist(datos2$EPA_Mileage_Ratings_km_l,
+     main = "Histograma del rendimiento (EPA)",
+     xlab = "km/l",
+     freq = FALSE,
+     col = "lightblue")
+
+lines(density(datos2$EPA_Mileage_Ratings_km_l, na.rm = TRUE))
+m <- mean(datos2$EPA_Mileage_Ratings_km_l, na.rm = TRUE)
+s <- sd(datos2$EPA_Mileage_Ratings_km_l, na.rm = TRUE)
+curve(dnorm(x, mean = m, sd = s), add = TRUE, col = "red", lwd = 2)
+```
+
+🔍 **Explicación**\
+Combina histograma, densidad empírica y curva normal teórica para comparar formas.
+
+------------------------------------------------------------------------
+
+```{r}
+boxplot(datos2$EPA_Mileage_Ratings_km_l,
+        main = "Diagrama de cajas",
+        ylab = "km/l",
+        col = "lightgreen",
+        outline = TRUE)
+```
+
+🔍 **Explicación**\
+El boxplot muestra mediana, cuartiles y posibles valores extremos.
+
+------------------------------------------------------------------------
+
+```{r}
+media   <- mean(datos2$EPA_Mileage_Ratings_km_l, na.rm = TRUE)
+mediana <- median(datos2$EPA_Mileage_Ratings_km_l, na.rm = TRUE)
+moda    <- mfv(datos2$EPA_Mileage_Ratings_km_l)
+rango   <- range(datos2$EPA_Mileage_Ratings_km_l, na.rm = TRUE)
+desv    <- sd(datos2$EPA_Mileage_Ratings_km_l, na.rm = TRUE)
+cv      <- desv / media
+cuant   <- quantile(datos2$EPA_Mileage_Ratings_km_l, probs = c(0, 0.25, 0.5, 0.75, 1), na.rm = TRUE)
+list(Media = media, Mediana = mediana, Moda = moda,
+     Minimo = rango[1], Maximo = rango[2],
+     Desviacion = desv, Coef_Variacion = cv,
+     Cuantiles = cuant)
+```
+
+🔍 **Explicación**\
+Calcula medidas de tendencia central, dispersión y posición.
+
+------------------------------------------------------------------------
+
+```{r}
+shapiro.test(datos2$EPA_Mileage_Ratings_km_l)
+ks.test(datos2$EPA_Mileage_Ratings_km_l, pnorm, m, s)
+qqnorm(datos2$EPA_Mileage_Ratings_km_l, main = "Q-Q Plot Normal")
+qqline(datos2$EPA_Mileage_Ratings_km_l, col = "red", lwd = 2)
+```
+
+🔍 **Explicación**\
+Evalúa la normalidad mediante pruebas estadísticas y gráfico Q-Q.
+
+------------------------------------------------------------------------
+
+```{r}
+asimetria <- skewness(datos2$EPA_Mileage_Ratings_km_l, na.rm = TRUE)
+curtosis  <- kurtosis(datos2$EPA_Mileage_Ratings_km_l, na.rm = TRUE)
+c(skewness = asimetria, kurtosis = curtosis)
+```
+
+🔍 **Explicación**\
+Mide la forma de la distribución: asimetría (cola) y curtosis (peso de colas).
+
+------------------------------------------------------------------------
+
+```{r}
+set.seed(123)
+datos_simulados <- rnorm(
+  n = sum(!is.na(datos2$EPA_Mileage_Ratings_km_l)),
+  mean = m, sd = s
+)
+
+hist(datos_simulados, main = "Simulación normal teórica",
+     xlab = "km/l (simulado)", freq = FALSE, col = "lightgray")
+curve(dnorm(x, mean = m, sd = s), add = TRUE, lwd = 2, col = "blue")
+```
+
+🔍 **Explicación**\
+Simula una muestra normal teórica y la compara con los datos observados.
