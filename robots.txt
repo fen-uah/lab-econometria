@@ -1,1 +1,1 @@
-Sitemap: https://manuelrojas-code.github.io/econo.github.io/sitemap.xml
+Sitemap: https://fen-uah.github.io/lab-econometria/sitemap.xml

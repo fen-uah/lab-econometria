@@ -124,7 +124,7 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#laboratorios-próximamente-disponibles" id="toc-laboratorios-próximamente-disponibles" class="nav-link active" data-scroll-target="#laboratorios-próximamente-disponibles">Laboratorios (próximamente disponibles)</a></li>
+  <li><a href="#cursos" id="toc-cursos" class="nav-link active" data-scroll-target="#cursos">Cursos</a></li>
   </ul>
 </nav>
     </div>
@@ -155,21 +155,21 @@ ul.task-list li input[type="checkbox"] {
 <p>El material se organiza ahora en <strong>dos secciones específicas</strong>, según la mención del curso:</p>
 <ul>
 <li><p><strong>Econometría para la Gestión</strong> → orientada a estudiantes de la <em>mención Administración</em>, con un enfoque práctico en el análisis de datos para la toma de decisiones empresariales.</p></li>
-<li><p><strong>Econometría (mención Economía)</strong> → dirigida a estudiantes de la <em>mención Economía</em>, con énfasis en el razonamiento teórico y la modelación econométrica aplicada a la investigación económica.</p></li>
+<li><p><strong>Econometría</strong> → dirigida a estudiantes de la <em>mención Economía</em>, con énfasis en el razonamiento teórico y la modelación econométrica aplicada a la investigación económica.</p></li>
 </ul>
 <p>Cada laboratorio puede abrirse directamente en <strong>formato HTML renderizado</strong>, permitiendo revisar el código, los resultados y la interpretación de forma integrada.</p>
-<section id="laboratorios-próximamente-disponibles" class="level2">
-<h2 class="anchored" data-anchor-id="laboratorios-próximamente-disponibles">Laboratorios (próximamente disponibles)</h2>
+<section id="cursos" class="level2">
+<h2 class="anchored" data-anchor-id="cursos">Cursos</h2>
 <div class="labs-grid">
-<section id="econometría---mención-economía" class="level3 lab-card">
-<h3 class="anchored" data-anchor-id="econometría---mención-economía">Econometría - Mención Economía</h3>
-<p>Material teórico y práctico del curso en Rstudio y Rmarkdow<br>
-<a href="cursos/eco_eco.html" class="btn" target="_blank" rel="noopener">Ver Laboratorio</a></p>
+<section id="econometría-mención-economía" class="level3 lab-card">
+<h3 class="anchored" data-anchor-id="econometría-mención-economía">Econometría Mención Economía</h3>
+<p><br>
+<a href="eco_eco.html" class="btn" target="_blank" rel="noopener">Ver Curso</a></p>
 </section>
-<section id="econometría-para-la-gestión---mención-administración" class="level3 lab-card">
-<h3 class="anchored" data-anchor-id="econometría-para-la-gestión---mención-administración">Econometría para la Gestión - Mención Administración</h3>
-<p>Material en formato PDF y codigos de Rstudio utilizados en clases.<br>
-<a href="cursos/eco_epg.html" class="btn" target="_blank" rel="noopener">Ver Laboratorio</a></p>
+<section id="econometría-para-la-gestión-mención-administración" class="level3 lab-card">
+<h3 class="anchored" data-anchor-id="econometría-para-la-gestión-mención-administración">Econometría para la Gestión Mención Administración</h3>
+<p><br>
+<a href="eco_epg.html" class="btn" target="_blank" rel="noopener">Ver Curso</a></p>
 </section>
 </div>
 <hr>
@@ -251,7 +251,7 @@ ul.task-list li input[type="checkbox"] {
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/manuelrojas-code\.github\.io\/econo\.github\.io\/");
+        var filterRegex = new RegExp("https:\/\/fen-uah\.github\.io\/lab-econometria\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
