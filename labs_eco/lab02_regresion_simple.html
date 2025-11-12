@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>index</title>
+<title>Laboratorio 2 – Regresión lineal simple</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,24 +23,24 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-360b3b5b5cb1aa80d6666be010f1eb0d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-360b3b5b5cb1aa80d6666be010f1eb0d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -71,7 +71,7 @@ ul.task-list li input[type="checkbox"] {
 <style>html{ scroll-behavior: smooth; }</style>
 
 
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../styles.css">
 </head>
 
 <body class="nav-fixed quarto-light">
@@ -81,9 +81,9 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a href="./index.html" class="navbar-brand navbar-brand-logo">
-    <img src="./img/logo.png" alt="" class="navbar-logo light-content">
-    <img src="./img/logo.png" alt="" class="navbar-logo dark-content">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../img/logo.png" alt="" class="navbar-logo light-content">
+    <img src="../img/logo.png" alt="" class="navbar-logo dark-content">
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -93,19 +93,19 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link" href="../index.html"> 
 <span class="menu-text">Inicio</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./codigos.html"> 
+    <a class="nav-link" href="../codigos.html"> 
 <span class="menu-text">Material de Estudio</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./datos.html"> 
+    <a class="nav-link" href="../datos.html"> 
 <span class="menu-text">Datos</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./proyectos.html"> 
+    <a class="nav-link" href="../proyectos.html"> 
 <span class="menu-text">Proyectos</span></a>
   </li>  
 </ul>
@@ -120,72 +120,32 @@ ul.task-list li input[type="checkbox"] {
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#descripción-del-sitio-web" id="toc-descripción-del-sitio-web" class="nav-link active" data-scroll-target="#descripción-del-sitio-web">Descripción del Sitio Web</a>
-  <ul class="collapse">
-  <li><a href="#datos" id="toc-datos" class="nav-link" data-scroll-target="#datos"><strong>Datos</strong>:</a></li>
-  <li><a href="#material-de-estudio" id="toc-material-de-estudio" class="nav-link" data-scroll-target="#material-de-estudio"><strong>Material de Estudio</strong>:</a></li>
-  <li><a href="#proyectos" id="toc-proyectos" class="nav-link" data-scroll-target="#proyectos"><strong>Proyectos</strong>:</a></li>
-  </ul></li>
-  <li><a href="#docentes-y-ayudante" id="toc-docentes-y-ayudante" class="nav-link" data-scroll-target="#docentes-y-ayudante">Docentes y Ayudante</a>
-  <ul class="collapse">
-  <li><a href="#rocío-valdebenito-docente-e-investigadora" id="toc-rocío-valdebenito-docente-e-investigadora" class="nav-link" data-scroll-target="#rocío-valdebenito-docente-e-investigadora">Rocío Valdebenito: Docente e Investigadora</a></li>
-  <li><a href="#fernando-crespo-docente-e-investigador" id="toc-fernando-crespo-docente-e-investigador" class="nav-link" data-scroll-target="#fernando-crespo-docente-e-investigador">Fernando Crespo: Docente e Investigador</a></li>
-  </ul></li>
-  </ul>
-</nav>
-    </div>
+        
+    <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="lab02_regresion_simple.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+<main class="content" id="quarto-document-content">
 
-
-
-
-<div class="quarto-figure quarto-figure-left">
-<figure class="figure">
-<p><img src="img/inicio.png" class="quarto-figure quarto-figure-left figure-img" style="width:20cm;height:7cm"></p>
-</figure>
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Laboratorio 2 – Regresión lineal simple</h1>
 </div>
-<section id="descripción-del-sitio-web" class="level2">
-<h2 class="anchored" data-anchor-id="descripción-del-sitio-web">Descripción del Sitio Web</h2>
-<p>Este sitio web es una iniciativa conjunta de los profesores <strong>Fernando Crespo</strong> y <strong>Rocío Valdebenito</strong>, docentes de la <strong>Facultad de Economía y Negocios de la Universidad Alberto Hurtado (UAH)</strong>. Está dirigido a los estudiantes de la carrera de Ingeniería Comercial, con mención en Economía y Administración de Empresas, que cursan las asignaturas de Econometría.</p>
-<p>El objetivo principal de esta página es que los estudiantes se familiaricen con el uso de <strong>bases de datos</strong> y aprendan a utilizar el software <strong>R y Rstudio</strong> como herramienta para analizar y responder preguntas de investigación. Como parte fundamental del aprendizaje, los estudiantes desarrollan un <strong>proyecto aplicado</strong>, el cual es presentado en formato de <strong>póster</strong> y expuesto frente a la comunidad académica.</p>
-<p>Para acompañar este proceso, el sitio web se organiza en tres secciones principales:</p>
-<section id="datos" class="level3">
-<h3 class="anchored" data-anchor-id="datos"><a href="./datos.html"><strong>Datos</strong></a>:</h3>
-</section>
-<section id="material-de-estudio" class="level3">
-<h3 class="anchored" data-anchor-id="material-de-estudio"><a href="./codigos.html"><strong>Material de Estudio</strong></a>:</h3>
-</section>
-<section id="proyectos" class="level3">
-<h3 class="anchored" data-anchor-id="proyectos"><a href="./proyectos.html"><strong>Proyectos</strong></a>:</h3>
-<p>En conjunto, este sitio busca convertirse en un centro de recursos para la formación en econometría, promoviendo el uso de datos y herramientas de análisis como competencias clave para la futura labor profesional de los estudiantes de Ingeniería Comercial de la UAH.</p>
-</section>
-</section>
-<section id="docentes-y-ayudante" class="level2">
-<h2 class="anchored" data-anchor-id="docentes-y-ayudante">Docentes y Ayudante</h2>
-<section id="rocío-valdebenito-docente-e-investigadora" class="level3">
-<h3 class="anchored" data-anchor-id="rocío-valdebenito-docente-e-investigadora">Rocío Valdebenito: Docente e Investigadora</h3>
-<p>La Dra. Rocío Valdebenito es académica con formación y afiliación en Ingeniera Comercial y Máster en Management de la Universidad Adolfo Ibáñez (UAI) y Doctorado (Ph.D.) en Economía Aplicada de la University of Illinois at Urbana-Champaign (EE. UU., 2024). Actualmente es Profesora en la Facultad de Economía y Negocios (FEN) de la Universidad Alberto Hurtado (UAH).</p>
-<section id="amador-marin-torres-ayudante-econometría-mención-economía" class="level4">
-<h4 class="anchored" data-anchor-id="amador-marin-torres-ayudante-econometría-mención-economía">Amador Marin Torres: Ayudante Econometría mención Economía</h4>
-<p>Es un estudiante de Ingeniería Comercial con Mención en Economía de la Universidad Alberto Hurtado (UAH). desempeñándose como Ayudante de Cátedra de multiples cursos a lo largo de su carrera universitaria.</p>
-</section>
-</section>
-<section id="fernando-crespo-docente-e-investigador" class="level3">
-<h3 class="anchored" data-anchor-id="fernando-crespo-docente-e-investigador">Fernando Crespo: Docente e Investigador</h3>
-<p>El profesor Fernando Crespo es un experto en Ciencia de Datos, Machine Learning y Modelos Matemáticos Aplicados. Es Doctor en Ciencias de la Ingeniería por la Pontificia Universidad Católica de Chile y actualmente se desempeña como Profesor en la Universidad Alberto Hurtado.</p>
-<section id="manuel-labraña-rojas-ayudante" class="level4">
-<h4 class="anchored" data-anchor-id="manuel-labraña-rojas-ayudante">Manuel Labraña Rojas: Ayudante</h4>
-<p>Manuel Labraña Rojas es un estudiante de Ingeniería Comercial con Mención en Economía de la Universidad Alberto Hurtado (UAH). desempeñándose como Ayudante de Cátedra. Además, colabora en el área de investigación como Ayudante del proyecto “Repositorio de Econometría”, contribuyendo a su funcionamiento y desarrollo web.</p>
 
 
-</section>
-</section>
-</section>
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+
+
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -606,5 +566,5 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>
