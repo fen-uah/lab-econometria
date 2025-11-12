@@ -1,0 +1,12 @@
+---
+title: "lab07_test_individual"
+format:
+  html:
+    toc: true
+    number-sections: false
+    smooth-scroll: true
+  pdf:
+    toc: true
+    number-sections: false
+---
+

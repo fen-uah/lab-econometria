@@ -1,0 +1,12 @@
+---
+title: "lab05_ovb_multicolinealidad"
+format:
+  html:
+    toc: true
+    number-sections: false
+    smooth-scroll: true
+  pdf:
+    toc: true
+    number-sections: false
+---
+

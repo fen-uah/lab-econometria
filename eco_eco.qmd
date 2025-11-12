@@ -1,5 +1,54 @@
 ---
-title: "eco_eco"
-format: html
+title: "Econometría - Mención Economía"
+format:
+  html:
+    toc: false
+    smooth-scroll: true
 ---
 
+## Laboratorios
+
+Objetivos:
+
+-   Introducir conceptos de **programación en R/Quarto**,\
+-   Practicar **estimadores econométricos** vistos en el curso,\
+-   Desarrollar **intuición aplicada** a partir de datos reales.
+
+A continuación se presenta un listado completo de los laboratorios, disponibles en tres formatos: **HTML**, **PDF** y **archivo fuente (R Markdown/Quarto)**.
+
+1.  **Introducción a R y pasos básicos de limpieza de datos**
+
+[HTML](labs_eco/lab01_introR.html){target="_blank"} <a href="labs_eco/lab01_introR.pdf" download>PDF</a> <a href="labs_eco/lab01_introR.qmd" download="lab01_introR.qmd">R Markdown</a>
+
+2.  **Regresión lineal simple**
+
+[HTML](labs_eco/lab02_regresion_simple.html){target="_blank"} <a href="labs_eco/lab02_regresion_simple.pdf" download>PDF</a> <a href="labs_eco/lab02_regresion_simple.qmd" download="lab02_regresion_simple.qmd">R Markdown</a>
+
+
+3.  **Regresión bivariada y transformaciones**
+
+[HTML](labs_eco/lab03_regresion_bivariada.html){target="_blank"} <a href="labs_eco/lab03_regresion_bivariada.pdf" download>PDF</a> <a href="labs_eco/lab03_regresion_bivariada.qmd" download="lab03_regresion_bivariada.qmd">R Markdown</a>
+
+4.  **Regresión lineal múltiple**
+
+[HTML](labs_eco/lab04_regresion_multiple.html){target="_blank"} <a href="labs_eco/lab04_regresion_multiple.pdf" download>PDF</a> <a href="labs_eco/lab04_regresion_multiple.qmd" download="lab04_regresion_multiple.qmd">R Markdown</a>
+
+5.  **Sesgo por variable omitida y multicolinealidad**
+
+[HTML](labs_eco/lab05_ovb_multicolinealidad.html){target="_blank"} <a href="labs_eco/lab05_ovb_multicolinealidad.pdf" download>PDF</a> <a href="labs_eco/lab05_ovb_multicolinealidad.qmd" download="lab05_ovb_multicolinealidad.qmd">R Markdown</a>
+
+6.  **Variables dummy y modelo de probabilidad lineal (MPL)**
+
+[HTML](labs_eco/lab06_dummies_mpl.html){target="_blank"} <a href="labs_eco/lab06_dummies_mpl.pdf" download>PDF</a> <a href="labs_eco/lab06_dummies_mpl.qmd" download="lab06_dummies_mpl.qmd">R Markdown</a>
+
+7.  **Pruebas de hipótesis individuales sobre parámetros**
+
+[HTML](labs_eco/lab07_test_individual.html){target="_blank"} <a href="labs_eco/lab07_test_individual.pdf" download>PDF</a> <a href="labs_eco/lab07_test_individual.qmd" download="lab07_test_individual.qmd">R Markdown</a>
+
+8.  **Pruebas conjuntas de hipótesis**
+
+[HTML](labs_eco/lab08_test_conjunto.html){target="_blank"} <a href="labs_eco/lab08_test_conjunto.pdf" download>PDF</a> <a href="labs_eco/lab08_test_conjunto.qmd" download="lab08_test_conjunto.qmd">R Markdown</a>
+
+9.  **Heterocedasticidad e inferencia robusta**
+
+[HTML](labs_eco/lab09_heterocedasticidad.html){target="_blank"} <a href="labs_eco/lab09_heterocedasticidad.pdf" download>PDF</a> <a href="labs_eco/lab09_heterocedasticidad.qmd" download="lab09_heterocedasticidad.qmd">R Markdown</a>

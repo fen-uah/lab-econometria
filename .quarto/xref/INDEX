@@ -34,5 +34,60 @@
   },
   "data_secundaria.qmd": {
     "data_secundaria.html": "6d0e1384"
+  },
+  "eco_epg.qmd": {
+    "eco_epg.html": "679c46a6"
+  },
+  "eco_eco.qmd": {
+    "eco_eco.html": "4f2ce60f"
+  },
+  "labs_eco/lab01_introR.qmd": {
+    "lab01_introR.html": "15220821",
+    "lab01_introR.tex": "c46df878",
+    "lab01_introR.docx": "5e43b0df"
+  },
+  "labs_eco/lab02_regresion_simple.qmd": {
+    "lab02_regresion_simple.html": "fa824399",
+    "lab02_regresion_simple.tex": "2d56d84a"
+  },
+  "labs_eco/lab03_regresion_bivariada.qmd": {
+    "lab03_regresion_bivariada.html": "240a882a",
+    "lab03_regresion_bivariada.tex": "dd11617d"
+  },
+  "labs_eco/lab04_regresion_multiple.qmd": {
+    "lab04_regresion_multiple.html": "65751268",
+    "lab04_regresion_multiple.tex": "9e9ec4ee"
+  },
+  "labs_eco/lab05_ovb_multicolinealidad.qmd": {
+    "lab05_ovb_multicolinealidad.html": "f845a40f",
+    "lab05_ovb_multicolinealidad.tex": "79458e74"
+  },
+  "labs_eco/lab06_dummies_mpl.qmd": {
+    "lab06_dummies_mpl.html": "b30c0961",
+    "lab06_dummies_mpl.tex": "6d69bd35"
+  },
+  "labs_eco/lab07_test_individual.qmd": {
+    "lab07_test_individual.html": "ffc53f63",
+    "lab07_test_individual.tex": "b06ea224"
+  },
+  "labs_eco/lab08_test_conjunto.qmd": {
+    "lab08_test_conjunto.html": "e0be9c3b",
+    "lab08_test_conjunto.tex": "4e244e07"
+  },
+  "labs_eco/lab09_heterocedasticidad.qmd": {
+    "lab09_heterocedasticidad.html": "9a51cd51",
+    "lab09_heterocedasticidad.tex": "bb7218cb"
+  },
+  "labs_epg/lab01_epg.qmd": {
+    "lab01_epg.html": "9b904ed8"
+  },
+  "labs_epg/lab02_epg.qmd": {
+    "lab02_epg.html": "1068c189"
+  },
+  "labs_epg/lab03_epg.qmd": {
+    "lab03_epg.html": "0244d4de"
+  },
+  "labs_epg/lab04_epg.qmd": {
+    "lab04_epg.html": "44de33a3"
   }
 }

@@ -1,0 +1,11 @@
+---
+title: "Laboratorio 2 – Regresión lineal simple"
+format:
+  html:
+    toc: true
+    number-sections: false
+    smooth-scroll: true
+  pdf:
+    toc: true
+    number-sections: false
+---

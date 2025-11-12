@@ -1,0 +1,12 @@
+---
+title: "lab03_regresion_bivariada"
+format:
+  html:
+    toc: true
+    number-sections: false
+    smooth-scroll: true
+  pdf:
+    toc: true
+    number-sections: false
+---
+

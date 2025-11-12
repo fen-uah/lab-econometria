@@ -1,0 +1,12 @@
+---
+title: "lab04_regresion_multiple"
+format:
+  html:
+    toc: true
+    number-sections: false
+    smooth-scroll: true
+  pdf:
+    toc: true
+    number-sections: false
+---
+
