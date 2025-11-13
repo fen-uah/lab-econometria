@@ -1,0 +1,869 @@
+% Options for packages loaded elsewhere
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+%
+\documentclass[
+  spanish,
+  letterpaper,
+  DIV=11,
+  numbers=noendperiod]{scrartcl}
+\usepackage{xcolor}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{5}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+% Make \paragraph and \subparagraph free-standing
+\makeatletter
+\ifx\paragraph\undefined\else
+  \let\oldparagraph\paragraph
+  \renewcommand{\paragraph}{
+    \@ifstar
+      \xxxParagraphStar
+      \xxxParagraphNoStar
+  }
+  \newcommand{\xxxParagraphStar}[1]{\oldparagraph*{#1}\mbox{}}
+  \newcommand{\xxxParagraphNoStar}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+  \let\oldsubparagraph\subparagraph
+  \renewcommand{\subparagraph}{
+    \@ifstar
+      \xxxSubParagraphStar
+      \xxxSubParagraphNoStar
+  }
+  \newcommand{\xxxSubParagraphStar}[1]{\oldsubparagraph*{#1}\mbox{}}
+  \newcommand{\xxxSubParagraphNoStar}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+\makeatother
+
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{241,243,245}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.40,0.45,0.13}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\BuiltInTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\ExtensionTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.28,0.35,0.67}{#1}}
+\newcommand{\ImportTok}[1]{\textcolor[rgb]{0.00,0.46,0.62}{#1}}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.07,0.07,0.07}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
+
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+
+
+
+\ifLuaTeX
+\usepackage[bidi=basic]{babel}
+\else
+\usepackage[bidi=default]{babel}
+\fi
+% get rid of language-specific shorthands (see #6817):
+\let\LanguageShortHands\languageshorthands
+\def\languageshorthands#1{}
+
+
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+
+
+ 
+
+
+\KOMAoption{captions}{tableheading}
+\makeatletter
+\@ifpackageloaded{tcolorbox}{}{\usepackage[skins,breakable]{tcolorbox}}
+\@ifpackageloaded{fontawesome5}{}{\usepackage{fontawesome5}}
+\definecolor{quarto-callout-color}{HTML}{909090}
+\definecolor{quarto-callout-note-color}{HTML}{0758E5}
+\definecolor{quarto-callout-important-color}{HTML}{CC1914}
+\definecolor{quarto-callout-warning-color}{HTML}{EB9113}
+\definecolor{quarto-callout-tip-color}{HTML}{00A047}
+\definecolor{quarto-callout-caution-color}{HTML}{FC5300}
+\definecolor{quarto-callout-color-frame}{HTML}{acacac}
+\definecolor{quarto-callout-note-color-frame}{HTML}{4582ec}
+\definecolor{quarto-callout-important-color-frame}{HTML}{d9534f}
+\definecolor{quarto-callout-warning-color-frame}{HTML}{f0ad4e}
+\definecolor{quarto-callout-tip-color-frame}{HTML}{02b875}
+\definecolor{quarto-callout-caution-color-frame}{HTML}{fd7e14}
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\AtBeginDocument{%
+\ifdefined\contentsname
+  \renewcommand*\contentsname{Tabla de contenidos}
+\else
+  \newcommand\contentsname{Tabla de contenidos}
+\fi
+\ifdefined\listfigurename
+  \renewcommand*\listfigurename{Listado de Figuras}
+\else
+  \newcommand\listfigurename{Listado de Figuras}
+\fi
+\ifdefined\listtablename
+  \renewcommand*\listtablename{Listado de Tablas}
+\else
+  \newcommand\listtablename{Listado de Tablas}
+\fi
+\ifdefined\figurename
+  \renewcommand*\figurename{Figura}
+\else
+  \newcommand\figurename{Figura}
+\fi
+\ifdefined\tablename
+  \renewcommand*\tablename{Tabla}
+\else
+  \newcommand\tablename{Tabla}
+\fi
+}
+\@ifpackageloaded{float}{}{\usepackage{float}}
+\floatstyle{ruled}
+\@ifundefined{c@chapter}{\newfloat{codelisting}{h}{lop}}{\newfloat{codelisting}{h}{lop}[chapter]}
+\floatname{codelisting}{Listado}
+\newcommand*\listoflistings{\listof{codelisting}{Listado de Listados}}
+\makeatother
+\makeatletter
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
+\makeatother
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Capitulo\_3\_Regresion\_Multiple},
+  pdfauthor={Econometría para la Gestión (ECO\_EPG) - FEN UAH},
+  pdflang={es},
+  colorlinks=true,
+  linkcolor={blue},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={Blue},
+  pdfcreator={LaTeX via pandoc}}
+
+
+\title{Capitulo\_3\_Regresion\_Multiple}
+\author{Econometría para la Gestión (ECO\_EPG) - FEN UAH}
+\date{}
+\begin{document}
+\maketitle
+
+\renewcommand*\contentsname{Tabla de contenidos}
+{
+\hypersetup{linkcolor=}
+\setcounter{tocdepth}{3}
+\tableofcontents
+}
+
+\section{1. Material descargable}\label{material-descargable}
+
+\href{pdf_epg/Capitulo_3_Regresion_Multiple.pdf}{Descargar PDF de
+contenidos teóricos}
+
+El documento incluye:
+
+\begin{itemize}
+\tightlist
+\item
+  Matriz de correlación y multicolinealidad.\\
+\item
+  Supuestos del modelo clásico de regresión múltiple.\\
+\item
+  Derivación de estimadores OLS ((X'X)\^{}\{-1\}X'Y).\\
+\item
+  Varianza del error y matriz de covarianza del estimador.\\
+\item
+  (R\^{}2), (R\^{}2) ajustado y prueba F global.\\
+\item
+  Inferencia individual sobre coeficientes ((t)-tests).\\
+\item
+  Intervalos de confianza.\\
+\item
+  Predicción:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Fórmula teórica ( \hat{y}\_0 = x\_0'\hat{\beta} )\\
+  \item
+    Intervalo: ( \hat{y}\_0 \pm s\sqrt{1+h_0}t ).\\
+  \end{itemize}
+\item
+  Pruebas de autocorrelación y heterocedasticidad.
+\end{itemize}
+
+\section{Configuración inicial}\label{configuraciuxf3n-inicial}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(openxlsx)}
+\FunctionTok{library}\NormalTok{(corrplot)}
+\FunctionTok{library}\NormalTok{(lmtest)}
+\end{Highlighting}
+\end{Shaded}
+
+Definimos tu ruta de datos:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ruta\_datos }\OtherTok{\textless{}{-}} \StringTok{"C:/Users/manue/Desktop/lab{-}econometria/labs\_epg/data\_epg"}
+\FunctionTok{list.files}\NormalTok{(ruta\_datos)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+ [1] "annos_mantenimiento.xlsx" "auto_peso_consumo.xlsx"  
+ [3] "costos.xlsx"              "data_PCA_Decathlon.csv"  
+ [5] "data_PCA_ExpertWine.csv"  "Ejemplo1.xlsx"           
+ [7] "Ejemplo2.xlsx"            "millaje.txt"             
+ [9] "orange.csv"               "tabla_ejemplo_R.xlsx"    
+\end{verbatim}
+
+\section{Lectura de datos}\label{lectura-de-datos}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{archivo }\OtherTok{\textless{}{-}} \FunctionTok{file.path}\NormalTok{(ruta\_datos, }\StringTok{"costos.xlsx"}\NormalTok{)}
+\NormalTok{datos }\OtherTok{\textless{}{-}} \FunctionTok{read.xlsx}\NormalTok{(archivo, }\AttributeTok{sheet=}\StringTok{"Hoja1"}\NormalTok{, }\AttributeTok{colNames=}\ConstantTok{TRUE}\NormalTok{)}
+\FunctionTok{head}\NormalTok{(datos)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+  Costos_generales Horas_mano_de_obra Horas_maquina Numero_preparaciones
+1           155000                985          1060                  200
+2           160000               1068          1080                  225
+3           170000               1095          1100                  250
+4           165000               1105          1200                  202
+5           185000               1200          1600                  210
+6           135000               1160          1100                  150
+\end{verbatim}
+
+Los datos contienen:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Costos\_generales} (variable dependiente).\\
+\item
+  \textbf{Horas\_maquina} y \textbf{Numero\_preparaciones} (variables
+  explicativas).
+\end{itemize}
+
+\section{Matriz de correlación}\label{matriz-de-correlaciuxf3n}
+
+La matriz de correlación nos permite:
+
+\begin{itemize}
+\tightlist
+\item
+  Detectar \textbf{relaciones lineales} entre pares de variables.\\
+\item
+  Identificar \textbf{multicolinealidad} entre regresores.
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{r }\OtherTok{\textless{}{-}} \FunctionTok{cor}\NormalTok{(datos)}
+\NormalTok{r}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+                     Costos_generales Horas_mano_de_obra Horas_maquina
+Costos_generales            1.0000000         0.53462157     0.8775005
+Horas_mano_de_obra          0.5346216         1.00000000     0.7680722
+Horas_maquina               0.8775005         0.76807222     1.0000000
+Numero_preparaciones        0.6274762        -0.04731148     0.2507478
+                     Numero_preparaciones
+Costos_generales               0.62747618
+Horas_mano_de_obra            -0.04731148
+Horas_maquina                  0.25074784
+Numero_preparaciones           1.00000000
+\end{verbatim}
+
+\subsubsection{Gráficos de
+exploración}\label{gruxe1ficos-de-exploraciuxf3n}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{pairs}\NormalTok{(datos)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{lab03_epg_files/figure-pdf/unnamed-chunk-5-1.pdf}}
+\end{center}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{corrplot}\NormalTok{(r, }\AttributeTok{method=}\StringTok{"circle"}\NormalTok{, }\AttributeTok{type=}\StringTok{"lower"}\NormalTok{, }\AttributeTok{diag=}\ConstantTok{FALSE}\NormalTok{,}
+         \AttributeTok{tl.col=}\StringTok{"black"}\NormalTok{, }\AttributeTok{tl.cex=}\DecValTok{1}\NormalTok{, }\AttributeTok{tl.srt=}\DecValTok{45}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{lab03_epg_files/figure-pdf/unnamed-chunk-5-2.pdf}}
+\end{center}
+
+\begin{tcolorbox}[enhanced jigsaw, bottomrule=.15mm, arc=.35mm, breakable, colbacktitle=quarto-callout-note-color!10!white, toptitle=1mm, titlerule=0mm, coltitle=black, left=2mm, colback=white, leftrule=.75mm, toprule=.15mm, opacitybacktitle=0.6, colframe=quarto-callout-note-color-frame, bottomtitle=1mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Nota}, rightrule=.15mm, opacityback=0]
+
+🔍 \textbf{Interpretación pedagógica:}\\
+- Valores altos en la correlación entre regresores →
+\textbf{multicolinealidad}.\\
+- Esto puede inflar varianzas de los estimadores y hacer inestables los
+coeficientes.\\
+- La matriz y el \texttt{corrplot} permiten detectar problemas antes de
+ajustar el modelo.
+
+\end{tcolorbox}
+
+\section{Modelo de regresión
+múltiple}\label{modelo-de-regresiuxf3n-muxfaltiple}
+
+Ajustamos el modelo:
+
+\[
+\text{Costos} = \beta_0 + \beta_1(\text{Horas\_maquina}) + \beta_2(\text{Numero\_preparaciones}) + \varepsilon
+\]
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{modelo }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(Costos\_generales }\SpecialCharTok{\textasciitilde{}}\NormalTok{ Horas\_maquina }\SpecialCharTok{+}\NormalTok{ Numero\_preparaciones, }\AttributeTok{data=}\NormalTok{datos)}
+\FunctionTok{summary}\NormalTok{(modelo)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+Call:
+lm(formula = Costos_generales ~ Horas_maquina + Numero_preparaciones, 
+    data = datos)
+
+Residuals:
+   Min     1Q Median     3Q    Max 
+ -7157  -2827    768   1449   9407 
+
+Coefficients:
+                     Estimate Std. Error t value Pr(>|t|)    
+(Intercept)          19796.44   12787.83   1.548 0.156013    
+Horas_maquina           65.44       6.74   9.709 4.57e-06 ***
+Numero_preparaciones   322.21      58.66   5.493 0.000384 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 4951 on 9 degrees of freedom
+Multiple R-squared:  0.9472,    Adjusted R-squared:  0.9354 
+F-statistic: 80.66 on 2 and 9 DF,  p-value: 1.792e-06
+\end{verbatim}
+
+\begin{tcolorbox}[enhanced jigsaw, bottomrule=.15mm, arc=.35mm, breakable, colbacktitle=quarto-callout-note-color!10!white, toptitle=1mm, titlerule=0mm, coltitle=black, left=2mm, colback=white, leftrule=.75mm, toprule=.15mm, opacitybacktitle=0.6, colframe=quarto-callout-note-color-frame, bottomtitle=1mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Nota}, rightrule=.15mm, opacityback=0]
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Prueba individual (t test):} evalúa si cada (\beta\_j) es
+  distinto de 0.\\
+\item
+  \textbf{Prueba global (F test):} evalúa si el modelo en conjunto
+  explica la variable dependiente.\\
+\item
+  **Signo de (\beta\_j):** indica dirección del efecto.\\
+\item
+  \textbf{Magnitud:} indica cuánto cambia Y ante un cambio unitario en
+  el regresor.\\
+\item
+  \textbf{p-values pequeños:} evidencia estadística de relación
+  significativa.
+\end{itemize}
+
+\end{tcolorbox}
+
+\section{Residuos del modelo}\label{residuos-del-modelo}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{epsilon }\OtherTok{\textless{}{-}}\NormalTok{ modelo}\SpecialCharTok{$}\NormalTok{residuals}
+\FunctionTok{hist}\NormalTok{(epsilon)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{lab03_epg_files/figure-pdf/unnamed-chunk-7-1.pdf}}
+\end{center}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(}\FunctionTok{density}\NormalTok{(epsilon))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{lab03_epg_files/figure-pdf/unnamed-chunk-7-2.pdf}}
+\end{center}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{mean}\NormalTok{(epsilon)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] 1.705303e-13
+\end{verbatim}
+
+\subsubsection{Normalidad de los
+residuos}\label{normalidad-de-los-residuos}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{shapiro.test}\NormalTok{(epsilon)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+    Shapiro-Wilk normality test
+
+data:  epsilon
+W = 0.95577, p-value = 0.7222
+\end{verbatim}
+
+\subsubsection{Autocorrelación
+(Durbin--Watson)}\label{autocorrelaciuxf3n-durbinwatson}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{dwtest}\NormalTok{(modelo, }\AttributeTok{alternative=}\StringTok{"two.sided"}\NormalTok{, }\AttributeTok{iterations=}\DecValTok{1000}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+    Durbin-Watson test
+
+data:  modelo
+DW = 2.0815, p-value = 0.7416
+alternative hypothesis: true autocorrelation is not 0
+\end{verbatim}
+
+Interpretación: - DW ≈ 2 → no autocorrelación\\
+- DW \textless{} 2 → autocorrelación positiva\\
+- DW \textgreater{} 2 → autocorrelación negativa
+
+\subsubsection{Heterocedasticidad
+(Breusch--Pagan)}\label{heterocedasticidad-breuschpagan}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{bptest}\NormalTok{(modelo)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+    studentized Breusch-Pagan test
+
+data:  modelo
+BP = 1.0153, df = 2, p-value = 0.6019
+\end{verbatim}
+
+\section{Estadístico F calculado a
+mano}\label{estaduxedstico-f-calculado-a-mano}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{R2 }\OtherTok{\textless{}{-}} \FloatTok{0.9472}
+\NormalTok{F }\OtherTok{\textless{}{-}}\NormalTok{ (R2}\SpecialCharTok{/}\DecValTok{2}\NormalTok{)}\SpecialCharTok{/}\NormalTok{((}\DecValTok{1}\SpecialCharTok{{-}}\NormalTok{R2)}\SpecialCharTok{/}\NormalTok{(}\DecValTok{12{-}3}\NormalTok{))}
+\NormalTok{F}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] 80.72727
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{qf}\NormalTok{(}\FloatTok{0.05}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{9}\NormalTok{, }\AttributeTok{lower.tail=}\ConstantTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] 4.256495
+\end{verbatim}
+
+Interpretación: si F calculado \textgreater{} F crítico → el modelo
+\textbf{aporta información significativa}.
+
+\section{Desviación estándar del
+error}\label{desviaciuxf3n-estuxe1ndar-del-error}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{s }\OtherTok{\textless{}{-}} \FunctionTok{sqrt}\NormalTok{(}\FunctionTok{sum}\NormalTok{(epsilon}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}\SpecialCharTok{/}\NormalTok{(}\DecValTok{12{-}2{-}1}\NormalTok{))}
+\NormalTok{s}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] 4951.106
+\end{verbatim}
+
+\section{Intervalos de confianza de los
+coeficientes}\label{intervalos-de-confianza-de-los-coeficientes}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{confint}\NormalTok{(modelo)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+                           2.5 %     97.5 %
+(Intercept)          -9131.64046 48724.5095
+Horas_maquina           50.18894    80.6827
+Numero_preparaciones   189.50994   454.9046
+\end{verbatim}
+
+\subsubsection{Cálculo manual del
+intervalo}\label{cuxe1lculo-manual-del-intervalo}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{se }\OtherTok{\textless{}{-}} \FunctionTok{sqrt}\NormalTok{(}\FunctionTok{diag}\NormalTok{(}\FunctionTok{vcov}\NormalTok{(modelo)))}
+\NormalTok{t }\OtherTok{\textless{}{-}} \SpecialCharTok{{-}}\DecValTok{1}\SpecialCharTok{*}\FunctionTok{qt}\NormalTok{(}\FloatTok{0.025}\NormalTok{, }\DecValTok{12{-}2{-}1}\NormalTok{, }\AttributeTok{lower.tail=}\ConstantTok{FALSE}\NormalTok{)}
+
+\NormalTok{BHM }\OtherTok{\textless{}{-}} \FloatTok{65.44}
+\NormalTok{sbhm }\OtherTok{\textless{}{-}} \FloatTok{6.74}
+
+\NormalTok{limitsupBHM }\OtherTok{\textless{}{-}}\NormalTok{ BHM }\SpecialCharTok{+}\NormalTok{ t}\SpecialCharTok{*}\NormalTok{sbhm}
+\NormalTok{limitinfBHM }\OtherTok{\textless{}{-}}\NormalTok{ BHM }\SpecialCharTok{{-}}\NormalTok{ t}\SpecialCharTok{*}\NormalTok{sbhm}
+\NormalTok{limitsupBHM; limitinfBHM}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] 50.19306
+\end{verbatim}
+
+\begin{verbatim}
+[1] 80.68694
+\end{verbatim}
+
+\section{Intervalo para la varianza del
+error}\label{intervalo-para-la-varianza-del-error}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{gamma1 }\OtherTok{\textless{}{-}} \FunctionTok{qchisq}\NormalTok{(}\FloatTok{0.025}\NormalTok{, }\DecValTok{12{-}2{-}1}\NormalTok{)}
+\NormalTok{gamma2 }\OtherTok{\textless{}{-}} \FunctionTok{qchisq}\NormalTok{(}\FloatTok{0.975}\NormalTok{, }\DecValTok{12{-}2{-}1}\NormalTok{)}
+
+\NormalTok{s2\_LI }\OtherTok{\textless{}{-}}\NormalTok{ (}\DecValTok{12{-}2{-}1}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ s}\SpecialCharTok{\^{}}\DecValTok{2} \SpecialCharTok{/}\NormalTok{ gamma2}
+\NormalTok{s2\_LS }\OtherTok{\textless{}{-}}\NormalTok{ (}\DecValTok{12{-}2{-}1}\NormalTok{) }\SpecialCharTok{*}\NormalTok{ s}\SpecialCharTok{\^{}}\DecValTok{2} \SpecialCharTok{/}\NormalTok{ gamma1}
+
+\NormalTok{s2\_LI; s2\_LS}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+[1] 11597739
+\end{verbatim}
+
+\begin{verbatim}
+[1] 81699732
+\end{verbatim}
+
+\section{Predicción puntual}\label{predicciuxf3n-puntual}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{nuevo }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{Horas\_maquina=}\DecValTok{2000}\NormalTok{, }\AttributeTok{Numero\_preparaciones=}\DecValTok{220}\NormalTok{)}
+
+\NormalTok{valor\_predicho }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(modelo, }\AttributeTok{newdata=}\NormalTok{nuevo)}
+\NormalTok{valor\_predicho}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+       1 
+221553.7 
+\end{verbatim}
+
+\section{\texorpdfstring{Intervalo de confianza con
+\texttt{predict}}{Intervalo de confianza con predict}}\label{intervalo-de-confianza-con-predict}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{valor\_predicho2 }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(modelo, }\AttributeTok{newdata=}\NormalTok{nuevo, }\AttributeTok{interval=}\StringTok{"confidence"}\NormalTok{)}
+\NormalTok{valor\_predicho2}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+       fit      lwr      upr
+1 221553.7 210265.6 232841.8
+\end{verbatim}
+
+\section{Predicción manual paso a
+paso}\label{predicciuxf3n-manual-paso-a-paso}
+
+Construimos la matriz (X):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{X }\OtherTok{\textless{}{-}} \FunctionTok{cbind}\NormalTok{(}\DecValTok{1}\NormalTok{, datos}\SpecialCharTok{$}\NormalTok{Horas\_maquina, datos}\SpecialCharTok{$}\NormalTok{Numero\_preparaciones)}
+\NormalTok{M }\OtherTok{\textless{}{-}} \FunctionTok{solve}\NormalTok{(}\FunctionTok{t}\NormalTok{(X) }\SpecialCharTok{\%*\%}\NormalTok{ X)}
+\NormalTok{beta }\OtherTok{\textless{}{-}}\NormalTok{ M }\SpecialCharTok{\%*\%} \FunctionTok{t}\NormalTok{(X) }\SpecialCharTok{\%*\%}\NormalTok{ datos}\SpecialCharTok{$}\NormalTok{Costos\_generales}
+
+\NormalTok{x0 }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2000}\NormalTok{, }\DecValTok{220}\NormalTok{)}
+\NormalTok{h0 }\OtherTok{\textless{}{-}} \FunctionTok{t}\NormalTok{(x0) }\SpecialCharTok{\%*\%}\NormalTok{ M }\SpecialCharTok{\%*\%}\NormalTok{ x0}
+
+\NormalTok{y0 }\OtherTok{\textless{}{-}} \FunctionTok{t}\NormalTok{(beta) }\SpecialCharTok{\%*\%}\NormalTok{ x0}
+\NormalTok{y0}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+         [,1]
+[1,] 221553.7
+\end{verbatim}
+
+\subsubsection{Intervalo manual}\label{intervalo-manual}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{y\_limsup }\OtherTok{\textless{}{-}}\NormalTok{ y0 }\SpecialCharTok{+}\NormalTok{ s}\SpecialCharTok{*}\FunctionTok{sqrt}\NormalTok{(}\DecValTok{1}\SpecialCharTok{+}\NormalTok{h0)}\SpecialCharTok{*}\FunctionTok{qt}\NormalTok{(}\FloatTok{0.975}\NormalTok{, }\DecValTok{12{-}2{-}1}\NormalTok{, }\AttributeTok{lower.tail=}\ConstantTok{FALSE}\NormalTok{)}
+\NormalTok{y\_liminf }\OtherTok{\textless{}{-}}\NormalTok{ y0 }\SpecialCharTok{{-}}\NormalTok{ s}\SpecialCharTok{*}\FunctionTok{sqrt}\NormalTok{(}\DecValTok{1}\SpecialCharTok{+}\NormalTok{h0)}\SpecialCharTok{*}\FunctionTok{qt}\NormalTok{(}\FloatTok{0.975}\NormalTok{, }\DecValTok{12{-}2{-}1}\NormalTok{, }\AttributeTok{lower.tail=}\ConstantTok{FALSE}\NormalTok{)}
+
+\NormalTok{y\_liminf; y\_limsup}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+         [,1]
+[1,] 237455.4
+\end{verbatim}
+
+\begin{verbatim}
+         [,1]
+[1,] 205651.9
+\end{verbatim}
+
+\section{Gráfico Y real vs Y
+predicho}\label{gruxe1fico-y-real-vs-y-predicho}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(modelo}\SpecialCharTok{$}\NormalTok{fitted.values, datos}\SpecialCharTok{$}\NormalTok{Costos\_generales,}
+     \AttributeTok{main=}\StringTok{"Revisión Valor Real vs Valor Predicho"}\NormalTok{)}
+\FunctionTok{lines}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{140000}\NormalTok{,}\DecValTok{200000}\NormalTok{), }\FunctionTok{c}\NormalTok{(}\DecValTok{140000}\NormalTok{,}\DecValTok{200000}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{lab03_epg_files/figure-pdf/unnamed-chunk-20-1.pdf}}
+\end{center}
+
+\section{Modelo sin constante}\label{modelo-sin-constante}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{modelo2 }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(Costos\_generales }\SpecialCharTok{\textasciitilde{}}\NormalTok{ Horas\_maquina }\SpecialCharTok{+}\NormalTok{ Numero\_preparaciones }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{, }\AttributeTok{data=}\NormalTok{datos)}
+\FunctionTok{summary}\NormalTok{(modelo2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+Call:
+lm(formula = Costos_generales ~ Horas_maquina + Numero_preparaciones - 
+    1, data = datos)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-9042.2 -3486.9   739.7  3467.0  9300.3 
+
+Coefficients:
+                     Estimate Std. Error t value Pr(>|t|)    
+Horas_maquina          69.994      6.472  10.814 7.72e-07 ***
+Numero_preparaciones  390.723     41.098   9.507 2.52e-06 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 5286 on 10 degrees of freedom
+Multiple R-squared:  0.9992,    Adjusted R-squared:  0.999 
+F-statistic:  6095 on 2 and 10 DF,  p-value: 3.699e-16
+\end{verbatim}
+
+\subsubsection{Análisis de residuos modelo sin
+constante}\label{anuxe1lisis-de-residuos-modelo-sin-constante}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{epsilon }\OtherTok{\textless{}{-}}\NormalTok{ modelo2}\SpecialCharTok{$}\NormalTok{residuals}
+\FunctionTok{hist}\NormalTok{(epsilon)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{lab03_epg_files/figure-pdf/unnamed-chunk-22-1.pdf}}
+\end{center}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(}\FunctionTok{density}\NormalTok{(epsilon))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{lab03_epg_files/figure-pdf/unnamed-chunk-22-2.pdf}}
+\end{center}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{shapiro.test}\NormalTok{(epsilon)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+    Shapiro-Wilk normality test
+
+data:  epsilon
+W = 0.97973, p-value = 0.9825
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{dwtest}\NormalTok{(modelo2,}\AttributeTok{alternative=}\StringTok{"two.sided"}\NormalTok{,}\AttributeTok{iterations=}\DecValTok{1000}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+    Durbin-Watson test
+
+data:  modelo2
+DW = 2.1284, p-value = 0.9776
+alternative hypothesis: true autocorrelation is not 0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{bptest}\NormalTok{(modelo2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+    studentized Breusch-Pagan test
+
+data:  modelo2
+BP = 0.33027, df = 1, p-value = 0.5655
+\end{verbatim}
+
+\subsubsection{Gráfico final}\label{gruxe1fico-final}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(modelo2}\SpecialCharTok{$}\NormalTok{fitted.values, datos}\SpecialCharTok{$}\NormalTok{Costos\_generales,}
+     \AttributeTok{main=}\StringTok{"Revisión Valor Real vs Valor Predicho (sin constante)"}\NormalTok{)}
+\FunctionTok{lines}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{130000}\NormalTok{,}\DecValTok{200000}\NormalTok{), }\FunctionTok{c}\NormalTok{(}\DecValTok{130000}\NormalTok{,}\DecValTok{200000}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{lab03_epg_files/figure-pdf/unnamed-chunk-23-1.pdf}}
+\end{center}
+
+
+
+
+\end{document}

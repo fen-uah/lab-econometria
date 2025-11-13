@@ -272,4 +272,6 @@ bptest(modelo2)
 
 ```{r}
 plot(modelo2$fitted.values, datos$Costos_generales,
-     main="Revisión Valor Real vs Valor Predicho (sin consta
+     main="Revisión Valor Real vs Valor Predicho (sin constante)")
+lines(c(130000,200000), c(130000,200000))
+```
