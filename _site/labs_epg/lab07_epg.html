@@ -1,0 +1,2205 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Econometría para la Gestión (ECO_EPG) - FEN UAH">
+
+<title>Capitulo_7_Analisis_Factorial</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-360b3b5b5cb1aa80d6666be010f1eb0d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No se han encontrado resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../img/logo.png" alt="" class="navbar-logo light-content">
+    <img src="../img/logo.png" alt="" class="navbar-logo dark-content">
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Buscar"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Navegación de palanca" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Inicio</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../codigos.html"> 
+<span class="menu-text">Material de Estudio</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../datos.html"> 
+<span class="menu-text">Datos</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../proyectos.html"> 
+<span class="menu-text">Proyectos</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">En esta página</h2>
+   
+  <ul>
+  <li><a href="#material-descargable" id="toc-material-descargable" class="nav-link active" data-scroll-target="#material-descargable"><span class="header-section-number">1</span> 1. Material descargable</a></li>
+  <li><a href="#recordatorio-teórico-pca-y-análisis-factorial" id="toc-recordatorio-teórico-pca-y-análisis-factorial" class="nav-link" data-scroll-target="#recordatorio-teórico-pca-y-análisis-factorial"><span class="header-section-number">2</span> Recordatorio teórico: PCA y análisis factorial</a></li>
+  <li><a href="#configuración-inicial-en-r" id="toc-configuración-inicial-en-r" class="nav-link" data-scroll-target="#configuración-inicial-en-r"><span class="header-section-number">3</span> Configuración inicial en R</a>
+  <ul class="collapse">
+  <li><a href="#carga-de-librerías" id="toc-carga-de-librerías" class="nav-link" data-scroll-target="#carga-de-librerías"><span class="header-section-number">3.1</span> Carga de librerías</a></li>
+  <li><a href="#ruta-de-trabajo" id="toc-ruta-de-trabajo" class="nav-link" data-scroll-target="#ruta-de-trabajo"><span class="header-section-number">3.2</span> Ruta de trabajo</a></li>
+  </ul></li>
+  <li><a href="#parte-1-pca-con-datos-de-decathlon" id="toc-parte-1-pca-con-datos-de-decathlon" class="nav-link" data-scroll-target="#parte-1-pca-con-datos-de-decathlon"><span class="header-section-number">4</span> Parte 1: PCA con datos de Decathlon</a>
+  <ul class="collapse">
+  <li><a href="#importar-datos-de-decathlon" id="toc-importar-datos-de-decathlon" class="nav-link" data-scroll-target="#importar-datos-de-decathlon"><span class="header-section-number">4.1</span> Importar datos de Decathlon</a></li>
+  <li><a href="#estandarización-manual-opcional" id="toc-estandarización-manual-opcional" class="nav-link" data-scroll-target="#estandarización-manual-opcional"><span class="header-section-number">4.2</span> Estandarización manual (opcional)</a></li>
+  <li><a href="#matriz-de-correlación" id="toc-matriz-de-correlación" class="nav-link" data-scroll-target="#matriz-de-correlación"><span class="header-section-number">4.3</span> Matriz de correlación</a></li>
+  <li><a href="#pca-con-variables-activas-primeras-10-columnas" id="toc-pca-con-variables-activas-primeras-10-columnas" class="nav-link" data-scroll-target="#pca-con-variables-activas-primeras-10-columnas"><span class="header-section-number">4.4</span> PCA con variables activas (primeras 10 columnas)</a>
+  <ul class="collapse">
+  <li><a href="#adecuación-del-análisis-factorial-bartlett-y-kmo" id="toc-adecuación-del-análisis-factorial-bartlett-y-kmo" class="nav-link" data-scroll-target="#adecuación-del-análisis-factorial-bartlett-y-kmo"><span class="header-section-number">4.4.1</span> Adecuación del análisis factorial: Bartlett y KMO</a></li>
+  </ul></li>
+  <li><a href="#pca-con-variables-suplementarias" id="toc-pca-con-variables-suplementarias" class="nav-link" data-scroll-target="#pca-con-variables-suplementarias"><span class="header-section-number">4.5</span> PCA con variables suplementarias</a>
+  <ul class="collapse">
+  <li><a href="#valores-propios-y-varianza-explicada" id="toc-valores-propios-y-varianza-explicada" class="nav-link" data-scroll-target="#valores-propios-y-varianza-explicada"><span class="header-section-number">4.5.1</span> Valores propios y varianza explicada</a></li>
+  </ul></li>
+  <li><a href="#descripción-de-las-dimensiones" id="toc-descripción-de-las-dimensiones" class="nav-link" data-scroll-target="#descripción-de-las-dimensiones"><span class="header-section-number">4.6</span> Descripción de las dimensiones</a></li>
+  <li><a href="#coordenadas-cos2-y-contribuciones-de-las-variables" id="toc-coordenadas-cos2-y-contribuciones-de-las-variables" class="nav-link" data-scroll-target="#coordenadas-cos2-y-contribuciones-de-las-variables"><span class="header-section-number">4.7</span> Coordenadas, cos2 y contribuciones de las variables</a>
+  <ul class="collapse">
+  <li><a href="#gráfico-de-variables" id="toc-gráfico-de-variables" class="nav-link" data-scroll-target="#gráfico-de-variables"><span class="header-section-number">4.7.1</span> Gráfico de variables</a></li>
+  </ul></li>
+  <li><a href="#individuos-coordenadas-cos2-y-contribuciones" id="toc-individuos-coordenadas-cos2-y-contribuciones" class="nav-link" data-scroll-target="#individuos-coordenadas-cos2-y-contribuciones"><span class="header-section-number">4.8</span> Individuos: coordenadas, cos2 y contribuciones</a>
+  <ul class="collapse">
+  <li><a href="#gráfico-de-individuos" id="toc-gráfico-de-individuos" class="nav-link" data-scroll-target="#gráfico-de-individuos"><span class="header-section-number">4.8.1</span> Gráfico de individuos</a></li>
+  <li><a href="#elipses-de-confianza-por-categoría" id="toc-elipses-de-confianza-por-categoría" class="nav-link" data-scroll-target="#elipses-de-confianza-por-categoría"><span class="header-section-number">4.8.2</span> Elipses de confianza por categoría</a></li>
+  <li><a href="#otras-vistas-y-selección-de-individuos" id="toc-otras-vistas-y-selección-de-individuos" class="nav-link" data-scroll-target="#otras-vistas-y-selección-de-individuos"><span class="header-section-number">4.8.3</span> Otras vistas y selección de individuos</a></li>
+  <li><a href="#selección-de-variables-importantes" id="toc-selección-de-variables-importantes" class="nav-link" data-scroll-target="#selección-de-variables-importantes"><span class="header-section-number">4.8.4</span> Selección de variables importantes</a></li>
+  <li><a href="#gráfico-con-varios-argumentos" id="toc-gráfico-con-varios-argumentos" class="nav-link" data-scroll-target="#gráfico-con-varios-argumentos"><span class="header-section-number">4.8.5</span> Gráfico con varios argumentos</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#parte-2-pca-con-datos-de-jugos-de-naranja-orange" id="toc-parte-2-pca-con-datos-de-jugos-de-naranja-orange" class="nav-link" data-scroll-target="#parte-2-pca-con-datos-de-jugos-de-naranja-orange"><span class="header-section-number">5</span> Parte 2: PCA con datos de jugos de naranja (<code>orange</code>)</a>
+  <ul class="collapse">
+  <li><a href="#importar-datos-de-orange" id="toc-importar-datos-de-orange" class="nav-link" data-scroll-target="#importar-datos-de-orange"><span class="header-section-number">5.1</span> Importar datos de orange</a></li>
+  <li><a href="#pca-con-variables-activas-1-a-14" id="toc-pca-con-variables-activas-1-a-14" class="nav-link" data-scroll-target="#pca-con-variables-activas-1-a-14"><span class="header-section-number">5.2</span> PCA con variables activas (1 a 14)</a></li>
+  <li><a href="#pca-con-variables-suplementarias-1" id="toc-pca-con-variables-suplementarias-1" class="nav-link" data-scroll-target="#pca-con-variables-suplementarias-1"><span class="header-section-number">5.3</span> PCA con variables suplementarias</a></li>
+  <li><a href="#valores-propios-y-varianza-explicada-1" id="toc-valores-propios-y-varianza-explicada-1" class="nav-link" data-scroll-target="#valores-propios-y-varianza-explicada-1"><span class="header-section-number">5.4</span> Valores propios y varianza explicada</a></li>
+  <li><a href="#test-de-bartlett-y-kmo-para-orange" id="toc-test-de-bartlett-y-kmo-para-orange" class="nav-link" data-scroll-target="#test-de-bartlett-y-kmo-para-orange"><span class="header-section-number">5.5</span> Test de Bartlett y KMO para orange</a></li>
+  <li><a href="#descripción-de-las-dimensiones-1" id="toc-descripción-de-las-dimensiones-1" class="nav-link" data-scroll-target="#descripción-de-las-dimensiones-1"><span class="header-section-number">5.6</span> Descripción de las dimensiones</a></li>
+  <li><a href="#gráficos-de-individuos-y-variables" id="toc-gráficos-de-individuos-y-variables" class="nav-link" data-scroll-target="#gráficos-de-individuos-y-variables"><span class="header-section-number">5.7</span> Gráficos de individuos y variables</a>
+  <ul class="collapse">
+  <li><a href="#individuos" id="toc-individuos" class="nav-link" data-scroll-target="#individuos"><span class="header-section-number">5.7.1</span> Individuos</a></li>
+  <li><a href="#elipses-de-confianza" id="toc-elipses-de-confianza" class="nav-link" data-scroll-target="#elipses-de-confianza"><span class="header-section-number">5.7.2</span> Elipses de confianza</a></li>
+  <li><a href="#selección-de-individuos-y-variables" id="toc-selección-de-individuos-y-variables" class="nav-link" data-scroll-target="#selección-de-individuos-y-variables"><span class="header-section-number">5.7.3</span> Selección de individuos y variables</a></li>
+  <li><a href="#gráfico-combinado-orange" id="toc-gráfico-combinado-orange" class="nav-link" data-scroll-target="#gráfico-combinado-orange"><span class="header-section-number">5.7.4</span> Gráfico combinado (orange)</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#cierre-del-laboratorio" id="toc-cierre-del-laboratorio" class="nav-link" data-scroll-target="#cierre-del-laboratorio"><span class="header-section-number">6</span> Cierre del laboratorio</a></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Otros formatos</h2><ul><li><a href="lab07_epg.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Capitulo_7_Analisis_Factorial</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Autor/a</div>
+    <div class="quarto-title-meta-contents">
+             <p>Econometría para la Gestión (ECO_EPG) - FEN UAH </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="material-descargable" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> 1. Material descargable</h1>
+<p><a href="pdf_epg/Capitulo_7_Analisis_Factorial.pdf" download="true">Descargar PDF de contenidos teóricos</a></p>
+<p><a href="pdf_epg/Capitulo_7.1_Analisis_Factorial.pdf" download="true">Descargar PDF de contenidos teóricos</a></p>
+</section>
+<section id="recordatorio-teórico-pca-y-análisis-factorial" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Recordatorio teórico: PCA y análisis factorial</h1>
+<p>A muy grandes rasgos, el <strong>Análisis de Componentes Principales (PCA)</strong> busca:</p>
+<ul>
+<li>Reducir un conjunto de p variables originales (X1, …, Xp) a un número menor de <strong>componentes</strong> (Z1, …, Zz), con z &lt; p.<br>
+</li>
+<li>Cada componente es una <strong>combinación lineal</strong> de las variables originales que captura la máxima varianza posible.<br>
+</li>
+<li>Es un método de <strong>aprendizaje no supervisado</strong>: no hay variable respuesta, sólo interesa la estructura interna de las X.</li>
+</ul>
+<p>Pasos habituales:</p>
+<ol type="1">
+<li><strong>Estandarizar</strong> las variables si están en escalas diferentes (media 0, desviación estándar 1).<br>
+</li>
+<li>Calcular la <strong>matriz de correlación</strong> R.<br>
+</li>
+<li>Obtener <strong>valores propios</strong> (lambda_i) y <strong>vectores propios</strong> (direcciones principales).<br>
+</li>
+<li>Decidir cuántas componentes retener (porcentaje de varianza explicada, gráfico de sedimentación, criterio de Kaiser, etc.).<br>
+</li>
+<li>Interpretar las componentes mirando las <strong>cargas</strong> (correlación variable–componente).<br>
+</li>
+<li>Analizar gráficos de <strong>individuos</strong> y <strong>variables</strong> para comprender la estructura de los datos.</li>
+</ol>
+<p>Además, se suele evaluar:</p>
+<ul>
+<li><strong>Test de Bartlett</strong>: contrasta si la matriz de correlación es suficientemente distinta de la identidad (si es esférica, PCA no tiene mucho sentido).<br>
+</li>
+<li><strong>KMO</strong>: mide la adecuación muestral (valores altos indican que es apropiado usar análisis factorial/PCA).</li>
+</ul>
+<hr>
+</section>
+<section id="configuración-inicial-en-r" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Configuración inicial en R</h1>
+<section id="carga-de-librerías" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="carga-de-librerías"><span class="header-section-number">3.1</span> Carga de librerías</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages(c(</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#  "FactoMineR",       # PCA y métodos multivariados </span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">#  "psych",            # Análisis psicométrico (KMO, etc.)</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">#  "corrplot",         # Gráficos de correlación</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">#  "PerformanceAnalytics"  # Estadísticos financieros y correlaciones</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">#))</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(FactoMineR)       <span class="co"># PCA y funciones de análisis factorial</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)            <span class="co"># Manipulación de datos</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych)            <span class="co"># KMO, análisis psicométrico</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(corrplot)         <span class="co"># Matriz de correlaciones graficadas</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(PerformanceAnalytics) <span class="co"># chart.Correlation</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="ruta-de-trabajo" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="ruta-de-trabajo"><span class="header-section-number">3.2</span> Ruta de trabajo</h2>
+<p>Usaremos la ruta estándar de tus labs:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>ruta_datos <span class="ot">&lt;-</span> <span class="st">"C:/Users/manue/Desktop/lab-econometria/labs_epg/data_epg"</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">list.files</span>(ruta_datos)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "annos_mantenimiento.xlsx" "auto_peso_consumo.xlsx"  
+ [3] "costos.xlsx"              "data_PCA_Decathlon.csv"  
+ [5] "data_PCA_ExpertWine.csv"  "Ejemplo1.xlsx"           
+ [7] "Ejemplo2.xlsx"            "millaje.txt"             
+ [9] "orange.csv"               "tabla_ejemplo_R.xlsx"    </code></pre>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="parte-1-pca-con-datos-de-decathlon" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Parte 1: PCA con datos de Decathlon</h1>
+<p>En el primer ejercicio analizaremos resultados de atletas en un <strong>decathlon</strong>.</p>
+<ul>
+<li>Cada fila: un atleta.<br>
+</li>
+<li>Columnas 1 a 10: variables cuantitativas de desempeño (distancias, tiempos, puntajes).<br>
+</li>
+<li>Otras columnas: información complementaria (competición, ranking, etc.).</li>
+</ul>
+<section id="importar-datos-de-decathlon" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="importar-datos-de-decathlon"><span class="header-section-number">4.1</span> Importar datos de Decathlon</h2>
+<p>En el script original se usa un archivo CSV con <code>;</code> como separador:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>archivo_decathlon <span class="ot">&lt;-</span> <span class="fu">file.path</span>(ruta_datos, <span class="st">"data_PCA_Decathlon.csv"</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>decathlon <span class="ot">&lt;-</span> <span class="fu">read.table</span>(</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  archivo_decathlon,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">header      =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">sep         =</span> <span class="st">";"</span>,</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">dec         =</span> <span class="st">"."</span>,</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">row.names   =</span> <span class="dv">1</span>,</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">check.names =</span> <span class="cn">FALSE</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(decathlon)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      100m         Long jump       Shot put       High jump          400m      
+ Min.   :10.44   Min.   :6.61   Min.   :12.68   Min.   :1.850   Min.   :46.81  
+ 1st Qu.:10.85   1st Qu.:7.03   1st Qu.:13.88   1st Qu.:1.920   1st Qu.:48.93  
+ Median :10.98   Median :7.30   Median :14.57   Median :1.950   Median :49.40  
+ Mean   :11.00   Mean   :7.26   Mean   :14.48   Mean   :1.977   Mean   :49.62  
+ 3rd Qu.:11.14   3rd Qu.:7.48   3rd Qu.:14.97   3rd Qu.:2.040   3rd Qu.:50.30  
+ Max.   :11.64   Max.   :7.96   Max.   :16.36   Max.   :2.150   Max.   :53.20  
+     110m H          Discus        Pole vault       Javeline    
+ Min.   :13.97   Min.   :37.92   Min.   :4.200   Min.   :50.31  
+ 1st Qu.:14.21   1st Qu.:41.90   1st Qu.:4.500   1st Qu.:55.27  
+ Median :14.48   Median :44.41   Median :4.800   Median :58.36  
+ Mean   :14.61   Mean   :44.33   Mean   :4.762   Mean   :58.32  
+ 3rd Qu.:14.98   3rd Qu.:46.07   3rd Qu.:4.920   3rd Qu.:60.89  
+ Max.   :15.67   Max.   :51.65   Max.   :5.400   Max.   :70.52  
+     1500m            Rank           Points     Competition       
+ Min.   :262.1   Min.   : 1.00   Min.   :7313   Length:41         
+ 1st Qu.:271.0   1st Qu.: 6.00   1st Qu.:7802   Class :character  
+ Median :278.1   Median :11.00   Median :8021   Mode  :character  
+ Mean   :279.0   Mean   :12.12   Mean   :8005                     
+ 3rd Qu.:285.1   3rd Qu.:18.00   3rd Qu.:8122                     
+ Max.   :317.0   Max.   :28.00   Max.   :8893                     </code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Observa:</p>
+<ul>
+<li>Número de <strong>individuos</strong> (atletas).<br>
+</li>
+<li>Número de <strong>variables cuantitativas activas</strong> (primeras 10 columnas).<br>
+</li>
+<li>Variables adicionales (competición, ranking, etc.) que luego usaremos como <strong>suplementarias</strong>.</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="estandarización-manual-opcional" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="estandarización-manual-opcional"><span class="header-section-number">4.2</span> Estandarización manual (opcional)</h2>
+<p>El PCA de <code>FactoMineR::PCA</code> ya estandariza por defecto las variables cuantitativas, pero el script muestra cómo hacerlo explícitamente:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>decathlonnorm <span class="ot">&lt;-</span> decathlon[, <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>] <span class="sc">%&gt;%</span> </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate_all</span>(<span class="sc">~</span> <span class="fu">scale</span>(.) <span class="sc">%&gt;%</span> as.vector)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(decathlonnorm)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                100m  Long jump    Shot put   High jump       400m      110m H
+Sebrle    -0.5628739  1.8331131 2.283919585  1.60955474 -1.0892025 -1.17818270
+Clay      -2.1216730  2.2123779 0.913271989  0.93502243 -0.3696226 -1.00861538
+Karpov    -1.8935560  1.7382969 1.762345721  1.27228858 -2.4329962 -1.34775002
+Macey     -0.4107959  0.6637134 1.519753226  1.94682089 -0.5603546 -0.09719103
+Warners   -1.4373221  1.5170591 0.003550134 -0.07677604 -1.4273183 -1.26296636
+Zsivoczky -0.3347570 -0.3792648 1.010308987  1.60955474 -0.1875602  0.72944966
+              Discus Pole vault    Javeline       1500m
+Sebrle     1.3009450  0.8545364  2.52825135  0.08439142
+Clay       1.7124500  0.4948240  2.36043901  0.25486670
+Karpov     2.1683620 -0.5843134 -0.57524110 -0.07837391
+Macey      1.1884472 -1.3037383  0.02971203 -1.16547502
+Warners   -0.1763283  0.4948240 -0.60631746 -0.08351387
+Zsivoczky  0.3832000 -0.2246009  1.06351893 -0.81253124</code></pre>
+</div>
+</div>
+</section>
+<section id="matriz-de-correlación" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="matriz-de-correlación"><span class="header-section-number">4.3</span> Matriz de correlación</h2>
+<p>Antes de hacer PCA, miramos las correlaciones entre variables:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>cor.mat <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">cor</span>(decathlon[, <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]), <span class="dv">2</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>cor.mat</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            100m Long jump Shot put High jump  400m 110m H Discus Pole vault
+100m        1.00     -0.60    -0.36     -0.25  0.52   0.58  -0.22      -0.08
+Long jump  -0.60      1.00     0.18      0.29 -0.60  -0.51   0.19       0.20
+Shot put   -0.36      0.18     1.00      0.49 -0.14  -0.25   0.62       0.06
+High jump  -0.25      0.29     0.49      1.00 -0.19  -0.28   0.37      -0.16
+400m        0.52     -0.60    -0.14     -0.19  1.00   0.55  -0.12      -0.08
+110m H      0.58     -0.51    -0.25     -0.28  0.55   1.00  -0.33       0.00
+Discus     -0.22      0.19     0.62      0.37 -0.12  -0.33   1.00      -0.15
+Pole vault -0.08      0.20     0.06     -0.16 -0.08   0.00  -0.15       1.00
+Javeline   -0.16      0.12     0.37      0.17  0.00   0.01   0.16      -0.03
+1500m      -0.06     -0.03     0.12     -0.04  0.41   0.04   0.26       0.25
+           Javeline 1500m
+100m          -0.16 -0.06
+Long jump      0.12 -0.03
+Shot put       0.37  0.12
+High jump      0.17 -0.04
+400m           0.00  0.41
+110m H         0.01  0.04
+Discus         0.16  0.26
+Pole vault    -0.03  0.25
+Javeline       1.00 -0.18
+1500m         -0.18  1.00</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot</span>(</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  cor.mat,</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">type  =</span> <span class="st">"upper"</span>,</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">order =</span> <span class="st">"hclust"</span>,</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">tl.col =</span> <span class="st">"black"</span>,</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">tl.srt =</span> <span class="dv">45</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lab07_epg_files/figure-html/corr-decathlon-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chart.Correlation</span>(decathlon[, <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>],</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">histogram =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">pch       =</span> <span class="dv">19</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lab07_epg_files/figure-html/corr-decathlon-2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Nota
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Correlaciones altas (en valor absoluto) entre variables sugieren <strong>redundancia de información</strong>, lo que hace atractivo aplicar PCA.<br>
+</li>
+<li><code>corrplot</code> agrupa visualmente las variables con patrones de correlación similares.</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="pca-con-variables-activas-primeras-10-columnas" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="pca-con-variables-activas-primeras-10-columnas"><span class="header-section-number">4.4</span> PCA con variables activas (primeras 10 columnas)</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">PCA</span>(decathlon[, <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>], <span class="at">ncp =</span> <span class="dv">5</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary.PCA</span>(res)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+PCA(X = decathlon[, 1:10], ncp = 5) 
+
+
+Eigenvalues
+                       Dim.1   Dim.2   Dim.3   Dim.4   Dim.5   Dim.6   Dim.7
+Variance               3.272   1.737   1.405   1.057   0.685   0.599   0.451
+% of var.             32.719  17.371  14.049  10.569   6.848   5.993   4.512
+Cumulative % of var.  32.719  50.090  64.140  74.708  81.556  87.548  92.061
+                       Dim.8   Dim.9  Dim.10
+Variance               0.397   0.215   0.182
+% of var.              3.969   2.148   1.822
+Cumulative % of var.  96.030  98.178 100.000
+
+Individuals (the 10 first)
+               Dist    Dim.1    ctr   cos2    Dim.2    ctr   cos2    Dim.3
+Sebrle     |  4.843 |  4.038 12.158  0.695 |  1.366  2.619  0.080 | -0.290
+Clay       |  4.647 |  3.919 11.451  0.711 |  0.837  0.984  0.032 |  0.231
+Karpov     |  5.006 |  4.620 15.911  0.852 |  0.040  0.002  0.000 | -0.042
+Macey      |  3.434 |  2.233  3.719  0.423 |  1.042  1.524  0.092 | -1.864
+Warners    |  2.979 |  2.168  3.505  0.530 | -1.803  4.565  0.366 |  0.851
+Zsivoczky  |  2.566 |  0.925  0.638  0.130 |  1.169  1.918  0.207 | -1.477
+Hernu      |  1.824 |  0.889  0.589  0.238 | -0.618  0.537  0.115 | -0.898
+Nool       |  3.098 |  0.295  0.065  0.009 | -1.546  3.354  0.249 |  1.355
+Bernard    |  2.827 |  1.906  2.709  0.455 | -0.086  0.010  0.001 | -0.757
+Schwarzl   |  1.971 |  0.081  0.005  0.002 | -1.353  2.572  0.472 |  0.822
+              ctr   cos2  
+Sebrle      0.146  0.004 |
+Clay        0.093  0.002 |
+Karpov      0.003  0.000 |
+Macey       6.034  0.295 |
+Warners     1.257  0.082 |
+Zsivoczky   3.790  0.332 |
+Hernu       1.401  0.242 |
+Nool        3.189  0.191 |
+Bernard     0.995  0.072 |
+Schwarzl    1.174  0.174 |
+
+Variables
+              Dim.1    ctr   cos2    Dim.2    ctr   cos2    Dim.3    ctr   cos2
+100m       | -0.775 18.344  0.600 |  0.187  2.016  0.035 | -0.184  2.420  0.034
+Long jump  |  0.742 16.822  0.550 | -0.345  6.869  0.119 |  0.182  2.363  0.033
+Shot put   |  0.623 11.844  0.388 |  0.598 20.607  0.358 | -0.023  0.039  0.001
+High jump  |  0.572  9.998  0.327 |  0.350  7.064  0.123 | -0.260  4.794  0.067
+400m       | -0.680 14.116  0.462 |  0.569 18.666  0.324 |  0.131  1.230  0.017
+110m H     | -0.746 17.020  0.557 |  0.229  3.013  0.052 | -0.093  0.611  0.009
+Discus     |  0.552  9.328  0.305 |  0.606 21.162  0.368 |  0.043  0.131  0.002
+Pole vault |  0.050  0.077  0.003 | -0.180  1.873  0.033 |  0.692 34.061  0.479
+Javeline   |  0.277  2.347  0.077 |  0.317  5.784  0.100 | -0.390 10.807  0.152
+1500m      | -0.058  0.103  0.003 |  0.474 12.946  0.225 |  0.782 43.543  0.612
+            
+100m       |
+Long jump  |
+Shot put   |
+High jump  |
+400m       |
+110m H     |
+Discus     |
+Pole vault |
+Javeline   |
+1500m      |</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(res)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>**Results for the Principal Component Analysis (PCA)**
+The analysis was performed on 41 individuals, described by 10 variables
+*The results are available in the following objects:
+
+   name               description                          
+1  "$eig"             "eigenvalues"                        
+2  "$var"             "results for the variables"          
+3  "$var$coord"       "coord. for the variables"           
+4  "$var$cor"         "correlations variables - dimensions"
+5  "$var$cos2"        "cos2 for the variables"             
+6  "$var$contrib"     "contributions of the variables"     
+7  "$ind"             "results for the individuals"        
+8  "$ind$coord"       "coord. for the individuals"         
+9  "$ind$cos2"        "cos2 for the individuals"           
+10 "$ind$contrib"     "contributions of the individuals"   
+11 "$call"            "summary statistics"                 
+12 "$call$centre"     "mean of the variables"              
+13 "$call$ecart.type" "standard error of the variables"    
+14 "$call$row.w"      "weights for the individuals"        
+15 "$call$col.w"      "weights for the variables"          </code></pre>
+</div>
+</div>
+<p>Aquí usamos sólo las <strong>variables activas</strong> (sin incluir todavía variables suplementarias).</p>
+<section id="adecuación-del-análisis-factorial-bartlett-y-kmo" class="level3" data-number="4.4.1">
+<h3 data-number="4.4.1" class="anchored" data-anchor-id="adecuación-del-análisis-factorial-bartlett-y-kmo"><span class="header-section-number">4.4.1</span> Adecuación del análisis factorial: Bartlett y KMO</h3>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bartlett.test</span>(decathlon[, <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>])</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Bartlett test of homogeneity of variances
+
+data:  decathlon[, 1:10]
+Bartlett's K-squared = 1268.8, df = 9, p-value &lt; 2.2e-16</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">KMO</span>(decathlon[, <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>])</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Kaiser-Meyer-Olkin factor adequacy
+Call: KMO(r = decathlon[, 1:10])
+Overall MSA =  0.6
+MSA for each item = 
+      100m  Long jump   Shot put  High jump       400m     110m H     Discus 
+      0.69       0.72       0.57       0.70       0.61       0.83       0.54 
+Pole vault   Javeline      1500m 
+      0.24       0.44       0.29 </code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Nota
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Un p-value pequeño en <strong>Bartlett</strong> indica que la matriz de correlaciones <strong>no es esférica</strong>, por lo que PCA tiene sentido.<br>
+</li>
+<li><strong>KMO</strong> cercano a 1 indica buena adecuación; valores muy bajos desaconsejan el análisis factorial.</li>
+</ul>
+</div>
+</div>
+</section>
+</section>
+<section id="pca-con-variables-suplementarias" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="pca-con-variables-suplementarias"><span class="header-section-number">4.5</span> PCA con variables suplementarias</h2>
+<p>Supongamos que las columnas 11 y 12 son <strong>cuantitativas suplementarias</strong> (no influyen en la construcción de las componentes) y la 13 es una <strong>cualitativa suplementaria</strong> (por ejemplo, tipo de competición).</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">PCA</span>(</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  decathlon,</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">ncp        =</span> <span class="dv">5</span>,</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">quanti.sup =</span> <span class="dv">11</span><span class="sc">:</span><span class="dv">12</span>,</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">quali.sup  =</span> <span class="dv">13</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(res, <span class="at">nbelements =</span> <span class="cn">Inf</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+PCA(X = decathlon, ncp = 5, quanti.sup = 11:12, quali.sup = 13) 
+
+
+Eigenvalues
+                       Dim.1   Dim.2   Dim.3   Dim.4   Dim.5   Dim.6   Dim.7
+Variance               3.272   1.737   1.405   1.057   0.685   0.599   0.451
+% of var.             32.719  17.371  14.049  10.569   6.848   5.993   4.512
+Cumulative % of var.  32.719  50.090  64.140  74.708  81.556  87.548  92.061
+                       Dim.8   Dim.9  Dim.10
+Variance               0.397   0.215   0.182
+% of var.              3.969   2.148   1.822
+Cumulative % of var.  96.030  98.178 100.000
+
+Individuals
+                Dist    Dim.1    ctr   cos2    Dim.2    ctr   cos2    Dim.3
+Sebrle      |  4.843 |  4.038 12.158  0.695 |  1.366  2.619  0.080 | -0.290
+Clay        |  4.647 |  3.919 11.451  0.711 |  0.837  0.984  0.032 |  0.231
+Karpov      |  5.006 |  4.620 15.911  0.852 |  0.040  0.002  0.000 | -0.042
+Macey       |  3.434 |  2.233  3.719  0.423 |  1.042  1.524  0.092 | -1.864
+Warners     |  2.979 |  2.168  3.505  0.530 | -1.803  4.565  0.366 |  0.851
+Zsivoczky   |  2.566 |  0.925  0.638  0.130 |  1.169  1.918  0.207 | -1.477
+Hernu       |  1.824 |  0.889  0.589  0.238 | -0.618  0.537  0.115 | -0.898
+Nool        |  3.098 |  0.295  0.065  0.009 | -1.546  3.354  0.249 |  1.355
+Bernard     |  2.827 |  1.906  2.709  0.455 | -0.086  0.010  0.001 | -0.757
+Schwarzl    |  1.971 |  0.081  0.005  0.002 | -1.353  2.572  0.472 |  0.822
+Pogorelov   |  2.383 |  0.540  0.217  0.051 |  0.771  0.834  0.105 |  1.348
+Schoenbeck  |  1.797 |  0.114  0.010  0.004 | -0.040  0.002  0.000 |  0.740
+Barras      |  2.224 |  0.002  0.000  0.000 |  0.360  0.182  0.026 | -1.570
+Smith       |  3.536 |  0.870  0.565  0.061 |  1.059  1.576  0.090 | -1.643
+Averyanov   |  2.521 |  0.349  0.091  0.019 | -1.559  3.411  0.382 |  0.283
+Ojaniemi    |  2.338 |  0.380  0.108  0.026 | -0.772  0.838  0.109 | -0.371
+Smirnov     |  2.021 | -0.485  0.175  0.057 | -1.061  1.580  0.275 | -1.228
+Qi          |  1.764 | -0.434  0.141  0.061 | -0.326  0.149  0.034 | -1.070
+Drews       |  3.423 | -0.249  0.046  0.005 | -3.082 13.334  0.811 |  1.055
+Parkhomenko |  3.486 | -1.069  0.853  0.094 |  2.093  6.152  0.361 | -1.000
+Terek       |  3.282 | -0.682  0.347  0.043 |  0.536  0.403  0.027 |  2.209
+Gomez       |  2.613 | -0.290  0.063  0.012 | -1.197  2.011  0.210 | -1.306
+Turi        |  3.069 | -1.542  1.772  0.252 |  0.427  0.256  0.019 |  0.514
+Lorenzo     |  3.510 | -2.409  4.324  0.471 | -1.583  3.518  0.203 | -1.502
+Karlivans   |  2.704 | -1.994  2.965  0.544 | -0.294  0.122  0.012 | -0.343
+Korkizoglou |  3.975 | -0.958  0.684  0.058 |  2.066  5.995  0.270 |  2.587
+Uldal       |  2.946 | -2.562  4.894  0.757 |  0.245  0.085  0.007 | -0.419
+Casarsa     |  4.921 | -2.857  6.085  0.337 |  3.798 20.252  0.596 |  0.031
+SEBRLE      |  2.369 |  0.792  0.467  0.112 |  0.772  0.836  0.106 |  0.827
+CLAY        |  3.507 |  1.235  1.137  0.124 |  0.575  0.464  0.027 |  2.141
+KARPOV      |  3.396 |  1.358  1.375  0.160 |  0.484  0.329  0.020 |  1.956
+BERNARD     |  2.763 | -0.610  0.277  0.049 | -0.875  1.074  0.100 |  0.890
+YURKOV      |  3.018 | -0.586  0.256  0.038 |  2.131  6.376  0.499 | -1.225
+WARNERS     |  2.428 |  0.357  0.095  0.022 | -1.685  3.986  0.482 |  0.767
+ZSIVOCZKY   |  2.563 |  0.272  0.055  0.011 | -1.094  1.680  0.182 | -1.283
+McMULLEN    |  2.561 |  0.588  0.257  0.053 |  0.231  0.075  0.008 | -0.418
+MARTINEAU   |  3.742 | -1.995  2.968  0.284 |  0.561  0.442  0.022 | -0.730
+HERNU       |  2.794 | -1.546  1.782  0.306 |  0.488  0.335  0.031 |  0.841
+BARRAS      |  1.952 | -1.342  1.342  0.472 | -0.311  0.136  0.025 |  0.000
+NOOL        |  3.734 | -2.345  4.099  0.394 | -1.966  5.429  0.277 | -1.336
+BOURGUIGNON |  4.299 | -3.979 11.802  0.857 |  0.200  0.056  0.002 |  1.326
+               ctr   cos2  
+Sebrle       0.146  0.004 |
+Clay         0.093  0.002 |
+Karpov       0.003  0.000 |
+Macey        6.034  0.295 |
+Warners      1.257  0.082 |
+Zsivoczky    3.790  0.332 |
+Hernu        1.401  0.242 |
+Nool         3.189  0.191 |
+Bernard      0.995  0.072 |
+Schwarzl     1.174  0.174 |
+Pogorelov    3.153  0.320 |
+Schoenbeck   0.952  0.170 |
+Barras       4.278  0.498 |
+Smith        4.689  0.216 |
+Averyanov    0.139  0.013 |
+Ojaniemi     0.239  0.025 |
+Smirnov      2.619  0.369 |
+Qi           1.987  0.368 |
+Drews        1.932  0.095 |
+Parkhomenko  1.736  0.082 |
+Terek        8.472  0.453 |
+Gomez        2.962  0.250 |
+Turi         0.459  0.028 |
+Lorenzo      3.918  0.183 |
+Karlivans    0.204  0.016 |
+Korkizoglou 11.615  0.423 |
+Uldal        0.305  0.020 |
+Casarsa      0.002  0.000 |
+SEBRLE       1.187  0.122 |
+CLAY         7.960  0.373 |
+KARPOV       6.644  0.332 |
+BERNARD      1.375  0.104 |
+YURKOV       2.606  0.165 |
+WARNERS      1.020  0.100 |
+ZSIVOCZKY    2.857  0.250 |
+McMULLEN     0.303  0.027 |
+MARTINEAU    0.925  0.038 |
+HERNU        1.227  0.091 |
+BARRAS       0.000  0.000 |
+NOOL         3.101  0.128 |
+BOURGUIGNON  3.055  0.095 |
+
+Variables
+               Dim.1    ctr   cos2    Dim.2    ctr   cos2    Dim.3    ctr
+100m        | -0.775 18.344  0.600 |  0.187  2.016  0.035 | -0.184  2.420
+Long jump   |  0.742 16.822  0.550 | -0.345  6.869  0.119 |  0.182  2.363
+Shot put    |  0.623 11.844  0.388 |  0.598 20.607  0.358 | -0.023  0.039
+High jump   |  0.572  9.998  0.327 |  0.350  7.064  0.123 | -0.260  4.794
+400m        | -0.680 14.116  0.462 |  0.569 18.666  0.324 |  0.131  1.230
+110m H      | -0.746 17.020  0.557 |  0.229  3.013  0.052 | -0.093  0.611
+Discus      |  0.552  9.328  0.305 |  0.606 21.162  0.368 |  0.043  0.131
+Pole vault  |  0.050  0.077  0.003 | -0.180  1.873  0.033 |  0.692 34.061
+Javeline    |  0.277  2.347  0.077 |  0.317  5.784  0.100 | -0.390 10.807
+1500m       | -0.058  0.103  0.003 |  0.474 12.946  0.225 |  0.782 43.543
+              cos2  
+100m         0.034 |
+Long jump    0.033 |
+Shot put     0.001 |
+High jump    0.067 |
+400m         0.017 |
+110m H       0.009 |
+Discus       0.002 |
+Pole vault   0.479 |
+Javeline     0.152 |
+1500m        0.612 |
+
+Supplementary continuous variables
+               Dim.1   cos2    Dim.2   cos2    Dim.3   cos2  
+Rank        | -0.671  0.450 |  0.051  0.003 | -0.058  0.003 |
+Points      |  0.956  0.914 | -0.017  0.000 | -0.066  0.004 |
+
+Supplementary categories
+                Dist    Dim.1   cos2 v.test    Dim.2   cos2 v.test    Dim.3
+Decastar    |  0.946 | -0.600  0.403 -1.430 | -0.038  0.002 -0.123 |  0.289
+OlympicG    |  0.439 |  0.279  0.403  1.430 |  0.017  0.002  0.123 | -0.134
+              cos2 v.test  
+Decastar     0.093  1.050 |
+OlympicG     0.093 -1.050 |</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(res)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>**Results for the Principal Component Analysis (PCA)**
+The analysis was performed on 41 individuals, described by 13 variables
+*The results are available in the following objects:
+
+   name               
+1  "$eig"             
+2  "$var"             
+3  "$var$coord"       
+4  "$var$cor"         
+5  "$var$cos2"        
+6  "$var$contrib"     
+7  "$ind"             
+8  "$ind$coord"       
+9  "$ind$cos2"        
+10 "$ind$contrib"     
+11 "$quanti.sup"      
+12 "$quanti.sup$coord"
+13 "$quanti.sup$cor"  
+14 "$quali.sup"       
+15 "$quali.sup$coord" 
+16 "$quali.sup$v.test"
+17 "$call"            
+18 "$call$centre"     
+19 "$call$ecart.type" 
+20 "$call$row.w"      
+21 "$call$col.w"      
+   description                                              
+1  "eigenvalues"                                            
+2  "results for the variables"                              
+3  "coord. for the variables"                               
+4  "correlations variables - dimensions"                    
+5  "cos2 for the variables"                                 
+6  "contributions of the variables"                         
+7  "results for the individuals"                            
+8  "coord. for the individuals"                             
+9  "cos2 for the individuals"                               
+10 "contributions of the individuals"                       
+11 "results for the supplementary quantitative variables"   
+12 "coord. for the supplementary quantitative variables"    
+13 "correlations suppl. quantitative variables - dimensions"
+14 "results for the supplementary categorical variables"    
+15 "coord. for the supplementary categories"                
+16 "v-test of the supplementary categories"                 
+17 "summary statistics"                                     
+18 "mean of the variables"                                  
+19 "standard error of the variables"                        
+20 "weights for the individuals"                            
+21 "weights for the variables"                              </code></pre>
+</div>
+</div>
+<section id="valores-propios-y-varianza-explicada" class="level3" data-number="4.5.1">
+<h3 data-number="4.5.1" class="anchored" data-anchor-id="valores-propios-y-varianza-explicada"><span class="header-section-number">4.5.1</span> Valores propios y varianza explicada</h3>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>eigenvalues <span class="ot">&lt;-</span> res<span class="sc">$</span>eig</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>eigenvalues[, <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        eigenvalue percentage of variance cumulative percentage of variance
+comp 1   3.2719055              32.719055                          32.71906
+comp 2   1.7371310              17.371310                          50.09037
+comp 3   1.4049167              14.049167                          64.13953
+comp 4   1.0568504              10.568504                          74.70804
+comp 5   0.6847735               6.847735                          81.55577
+comp 6   0.5992687               5.992687                          87.54846
+comp 7   0.4512353               4.512353                          92.06081
+comp 8   0.3968766               3.968766                          96.02958
+comp 9   0.2148149               2.148149                          98.17773
+comp 10  0.1822275               1.822275                         100.00000</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  eigenvalues[, <span class="dv">2</span>],</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">names.arg =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(eigenvalues),</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"Porcentaje de varianza explicada"</span>,</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">"Componentes principales"</span>,</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">ylab =</span> <span class="st">"Porcentaje de varianza"</span>,</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">col  =</span> <span class="st">"steelblue"</span></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="at">x =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(eigenvalues),</span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">y =</span> eigenvalues[, <span class="dv">2</span>],</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">type =</span> <span class="st">"b"</span>,</span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">pch  =</span> <span class="dv">19</span>,</span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>      <span class="at">col  =</span> <span class="st">"red"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lab07_epg_files/figure-html/eigen-decathlon-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>La primera columna son los <strong>valores propios</strong> (lambda_i).<br>
+</li>
+<li>La segunda columna es el <strong>porcentaje de varianza explicada</strong>.<br>
+</li>
+<li>Fíjate cuántas componentes necesitas para explicar, por ejemplo, el <strong>70%–80%</strong> de la varianza.</li>
+</ul>
+</div>
+</div>
+</section>
+</section>
+<section id="descripción-de-las-dimensiones" class="level2" data-number="4.6">
+<h2 data-number="4.6" class="anchored" data-anchor-id="descripción-de-las-dimensiones"><span class="header-section-number">4.6</span> Descripción de las dimensiones</h2>
+<p><code>dimdesc</code> ayuda a interpretar cada componente, relacionándola con las variables originales:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dimdesc</span>(res)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$Dim.1
+
+Link between the variable and the continuous variables (R-square)
+=================================================================================
+          correlation      p.value
+Points      0.9561543 2.099191e-22
+Long jump   0.7418997 2.849886e-08
+Shot put    0.6225026 1.388321e-05
+High jump   0.5719453 9.362285e-05
+Discus      0.5524665 1.802220e-04
+Rank       -0.6705104 1.616348e-06
+400m       -0.6796099 1.028175e-06
+110m H     -0.7462453 2.136962e-08
+100m       -0.7747198 2.778467e-09
+
+$Dim.2
+
+Link between the variable and the continuous variables (R-square)
+=================================================================================
+          correlation      p.value
+Discus      0.6063134 2.650745e-05
+Shot put    0.5983033 3.603567e-05
+400m        0.5694378 1.020941e-04
+1500m       0.4742238 1.734405e-03
+High jump   0.3502936 2.475025e-02
+Javeline    0.3169891 4.344974e-02
+Long jump  -0.3454213 2.696969e-02
+
+$Dim.3
+
+Link between the variable and the continuous variables (R-square)
+=================================================================================
+           correlation      p.value
+1500m        0.7821428 1.554450e-09
+Pole vault   0.6917567 5.480172e-07
+Javeline    -0.3896554 1.179331e-02</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dimdesc</span>(res, <span class="at">axes =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$Dim.1
+
+Link between the variable and the continuous variables (R-square)
+=================================================================================
+          correlation      p.value
+Points      0.9561543 2.099191e-22
+Long jump   0.7418997 2.849886e-08
+Shot put    0.6225026 1.388321e-05
+High jump   0.5719453 9.362285e-05
+Discus      0.5524665 1.802220e-04
+Rank       -0.6705104 1.616348e-06
+400m       -0.6796099 1.028175e-06
+110m H     -0.7462453 2.136962e-08
+100m       -0.7747198 2.778467e-09
+
+$Dim.2
+
+Link between the variable and the continuous variables (R-square)
+=================================================================================
+          correlation      p.value
+Discus      0.6063134 2.650745e-05
+Shot put    0.5983033 3.603567e-05
+400m        0.5694378 1.020941e-04
+1500m       0.4742238 1.734405e-03
+High jump   0.3502936 2.475025e-02
+Javeline    0.3169891 4.344974e-02
+Long jump  -0.3454213 2.696969e-02
+
+$Dim.3
+
+Link between the variable and the continuous variables (R-square)
+=================================================================================
+           correlation      p.value
+1500m        0.7821428 1.554450e-09
+Pole vault   0.6917567 5.480172e-07
+Javeline    -0.3896554 1.179331e-02
+
+$Dim.4
+
+Link between the variable and the continuous variables (R-square)
+=================================================================================
+           correlation      p.value
+Javeline     0.7122773 1.761578e-07
+Pole vault   0.5515340 1.857748e-04
+
+$Dim.5
+
+Link between the variable and the continuous variables (R-square)
+=================================================================================
+           correlation      p.value
+High jump    0.5554396 0.0001635051
+Pole vault   0.3299593 0.0351316637
+Rank        -0.3500257 0.0248682140
+
+Link between the variable and the categorical variable (1-way anova)
+=============================================
+                   R2   p.value
+Competition 0.1092271 0.0348183
+
+Link between variable and the categories of the categorical variables
+================================================================
+                       Estimate   p.value
+Competition=Decastar  0.2938609 0.0348183
+Competition=OlympicG -0.2938609 0.0348183</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dimdesc</span>(res, <span class="at">proba =</span> <span class="fl">0.2</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$Dim.1
+
+Link between the variable and the continuous variables (R-square)
+=================================================================================
+          correlation      p.value
+Points      0.9561543 2.099191e-22
+Long jump   0.7418997 2.849886e-08
+Shot put    0.6225026 1.388321e-05
+High jump   0.5719453 9.362285e-05
+Discus      0.5524665 1.802220e-04
+Javeline    0.2771108 7.942460e-02
+Rank       -0.6705104 1.616348e-06
+400m       -0.6796099 1.028175e-06
+110m H     -0.7462453 2.136962e-08
+100m       -0.7747198 2.778467e-09
+
+Link between the variable and the categorical variable (1-way anova)
+=============================================
+                    R2   p.value
+Competition 0.05110487 0.1552515
+
+Link between variable and the categories of the categorical variables
+================================================================
+                       Estimate   p.value
+Competition=OlympicG  0.4393744 0.1552515
+Competition=Decastar -0.4393744 0.1552515
+
+$Dim.2
+
+Link between the variable and the continuous variables (R-square)
+=================================================================================
+          correlation      p.value
+Discus      0.6063134 2.650745e-05
+Shot put    0.5983033 3.603567e-05
+400m        0.5694378 1.020941e-04
+1500m       0.4742238 1.734405e-03
+High jump   0.3502936 2.475025e-02
+Javeline    0.3169891 4.344974e-02
+110m H      0.2287933 1.501925e-01
+Long jump  -0.3454213 2.696969e-02
+
+$Dim.3
+
+Link between the variable and the continuous variables (R-square)
+=================================================================================
+           correlation      p.value
+1500m        0.7821428 1.554450e-09
+Pole vault   0.6917567 5.480172e-07
+High jump   -0.2595119 1.013160e-01
+Javeline    -0.3896554 1.179331e-02</code></pre>
+</div>
+</div>
+</section>
+<section id="coordenadas-cos2-y-contribuciones-de-las-variables" class="level2" data-number="4.7">
+<h2 data-number="4.7" class="anchored" data-anchor-id="coordenadas-cos2-y-contribuciones-de-las-variables"><span class="header-section-number">4.7</span> Coordenadas, cos2 y contribuciones de las variables</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Coordenadas de las variables</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>res<span class="sc">$</span>var<span class="sc">$</span>coord</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                 Dim.1      Dim.2       Dim.3       Dim.4       Dim.5
+100m       -0.77471983  0.1871420 -0.18440714 -0.03781826  0.30219639
+Long jump   0.74189974 -0.3454213  0.18221105  0.10178564  0.03667805
+Shot put    0.62250255  0.5983033 -0.02337844  0.19059161  0.11115082
+High jump   0.57194530  0.3502936 -0.25951193 -0.13559420  0.55543957
+400m       -0.67960994  0.5694378  0.13146970  0.02930198 -0.08769157
+110m H     -0.74624532  0.2287933 -0.09263738  0.29083103  0.16432095
+Discus      0.55246652  0.6063134  0.04295225 -0.25967143 -0.10482712
+Pole vault  0.05034151 -0.1803569  0.69175665  0.55153397  0.32995932
+Javeline    0.27711085  0.3169891 -0.38965541  0.71227728 -0.30512892
+1500m      -0.05807706  0.4742238  0.78214280 -0.16108904 -0.15356189</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calidad de representación (cos2)</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>res<span class="sc">$</span>var<span class="sc">$</span>cos2</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                 Dim.1      Dim.2        Dim.3        Dim.4       Dim.5
+100m       0.600190812 0.03502213 0.0340059930 0.0014302206 0.091322660
+Long jump  0.550415232 0.11931587 0.0332008675 0.0103603165 0.001345279
+Shot put   0.387509426 0.35796686 0.0005465513 0.0363251605 0.012354505
+High jump  0.327121422 0.12270561 0.0673464410 0.0183857880 0.308513117
+400m       0.461869674 0.32425938 0.0172842817 0.0008586058 0.007689811
+110m H     0.556882084 0.05234639 0.0085816841 0.0845826853 0.027001375
+Discus     0.305219255 0.36761593 0.0018448960 0.0674292539 0.010988725
+Pole vault 0.002534268 0.03252860 0.4785272696 0.3041897208 0.108873151
+Javeline   0.076790421 0.10048206 0.1518313365 0.5073389244 0.093103658
+1500m      0.003372945 0.22488818 0.6117473613 0.0259496775 0.023581254</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Contribuciones (en %)</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>res<span class="sc">$</span>var<span class="sc">$</span>contrib</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                 Dim.1     Dim.2       Dim.3       Dim.4     Dim.5
+100m       18.34376957  2.016090  2.42049891  0.13532858 13.336184
+Long jump  16.82246707  6.868559  2.36319121  0.98030118  0.196456
+Shot put   11.84353954 20.606785  0.03890276  3.43711486  1.804174
+High jump   9.99788710  7.063694  4.79362526  1.73967752 45.053306
+400m       14.11622887 18.666374  1.23027094  0.08124195  1.122971
+110m H     17.02011495  3.013382  0.61083225  8.00327927  3.943110
+Discus      9.32848615 21.162245  0.13131711  6.38020830  1.604724
+Pole vault  0.07745541  1.872547 34.06090024 28.78266727 15.899147
+Javeline    2.34696326  5.784369 10.80714169 48.00480246 13.596270
+1500m       0.10308808 12.945954 43.54331962  2.45537861  3.443657</code></pre>
+</div>
+</div>
+<section id="gráfico-de-variables" class="level3" data-number="4.7.1">
+<h3 data-number="4.7.1" class="anchored" data-anchor-id="gráfico-de-variables"><span class="header-section-number">4.7.1</span> Gráfico de variables</h3>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(res, <span class="at">choix =</span> <span class="st">"var"</span>, <span class="at">title =</span> <span class="st">"Variables - componentes 1 y 2"</span>, <span class="at">axes =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lab07_epg_files/figure-html/plot-var-decathlon-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(res, <span class="at">choix =</span> <span class="st">"var"</span>, <span class="at">title =</span> <span class="st">"Variables - componentes 3 y 4"</span>, <span class="at">axes =</span> <span class="dv">3</span><span class="sc">:</span><span class="dv">4</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lab07_epg_files/figure-html/plot-var-decathlon-2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Nota
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Las variables cercanas unas a otras están <strong>positivamente correlacionadas</strong>.<br>
+</li>
+<li>Variables opuestas en un mismo eje tienen correlación <strong>negativa</strong>.<br>
+</li>
+<li>La distancia al origen indica la <strong>importancia</strong> en esas componentes (cos2 alto).</li>
+</ul>
+</div>
+</div>
+</section>
+</section>
+<section id="individuos-coordenadas-cos2-y-contribuciones" class="level2" data-number="4.8">
+<h2 data-number="4.8" class="anchored" data-anchor-id="individuos-coordenadas-cos2-y-contribuciones"><span class="header-section-number">4.8</span> Individuos: coordenadas, cos2 y contribuciones</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Coordenadas de los individuos</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(res<span class="sc">$</span>ind<span class="sc">$</span>coord)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>              Dim.1       Dim.2      Dim.3      Dim.4      Dim.5
+Sebrle    4.0384485  1.36582606 -0.2899565  1.9411341  0.3769545
+Clay      3.9193652  0.83696136  0.2311753  1.4939721 -1.0376085
+Karpov    4.6199873  0.03999523 -0.0415858 -1.3135257  0.1877295
+Macey     2.2334606  1.04176620 -1.8643620 -0.7432135  0.9772701
+Warners   2.1683964 -1.80320025  0.8510173 -0.2845996 -0.1513946
+Zsivoczky 0.9251322  1.16865180 -1.4774803  0.8075947  0.8729726</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calidad de representación</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(res<span class="sc">$</span>ind<span class="sc">$</span>cos2)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>              Dim.1        Dim.2        Dim.3       Dim.4       Dim.5
+Sebrle    0.6954102 7.954314e-02 0.0035849052 0.160665653 0.006058846
+Clay      0.7112052 3.243204e-02 0.0024742661 0.103335239 0.049846023
+Karpov    0.8517553 6.383365e-05 0.0000690118 0.068851025 0.001406366
+Macey     0.4230486 9.203950e-02 0.2947774222 0.046844751 0.080995884
+Warners   0.5299437 3.664716e-01 0.0816261239 0.009128951 0.002583291
+Zsivoczky 0.1299979 2.074432e-01 0.3315677581 0.099063996 0.115752425</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Contribuciones</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(res<span class="sc">$</span>ind<span class="sc">$</span>contrib)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>               Dim.1       Dim.2       Dim.3     Dim.4      Dim.5
+Sebrle    12.1575058 2.619234357 0.145959136 8.6958838 0.50611259
+Clay      11.4510904 0.983545343 0.092778749 5.1509536 3.83474272
+Karpov    15.9109806 0.002245949 0.003002311 3.9818030 0.12552619
+Macey      3.7185358 1.523786399 6.034288443 1.2747642 3.40171873
+Warners    3.5050382 4.565322740 1.257310032 0.1869266 0.08163758
+Zsivoczky  0.6380034 1.917581489 3.789736079 1.5051840 2.71437829</code></pre>
+</div>
+</div>
+<section id="gráfico-de-individuos" class="level3" data-number="4.8.1">
+<h3 data-number="4.8.1" class="anchored" data-anchor-id="gráfico-de-individuos"><span class="header-section-number">4.8.1</span> Gráfico de individuos</h3>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sin mostrar las variables cualitativas</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(res, <span class="at">cex =</span> <span class="fl">0.8</span>, <span class="at">invisible =</span> <span class="st">"quali"</span>,</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">title =</span> <span class="st">"Individuos - PCA Decathlon"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lab07_epg_files/figure-html/plot-ind-decathlon-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Coloreando por competición (columna 13)</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(res, <span class="at">cex =</span> <span class="fl">0.8</span>, <span class="at">habillage =</span> <span class="dv">13</span>,</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">title =</span> <span class="st">"Individuos por tipo de competición"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lab07_epg_files/figure-html/plot-ind-decathlon-2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="elipses-de-confianza-por-categoría" class="level3" data-number="4.8.2">
+<h3 data-number="4.8.2" class="anchored" data-anchor-id="elipses-de-confianza-por-categoría"><span class="header-section-number">4.8.2</span> Elipses de confianza por categoría</h3>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotellipses</span>(res)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lab07_epg_files/figure-html/ellipses-decathlon-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="otras-vistas-y-selección-de-individuos" class="level3" data-number="4.8.3">
+<h3 data-number="4.8.3" class="anchored" data-anchor-id="otras-vistas-y-selección-de-individuos"><span class="header-section-number">4.8.3</span> Otras vistas y selección de individuos</h3>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Dimensiones 3 y 4</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(res, <span class="at">choix =</span> <span class="st">"ind"</span>, <span class="at">cex =</span> <span class="fl">0.8</span>, <span class="at">habillage =</span> <span class="dv">13</span>,</span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">title =</span> <span class="st">"Individuos (dim 3 y 4)"</span>, <span class="at">axes =</span> <span class="dv">3</span><span class="sc">:</span><span class="dv">4</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lab07_epg_files/figure-html/plot-ind-opciones-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Seleccionar individuos bien representados</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(res, <span class="at">cex =</span> <span class="fl">0.8</span>, <span class="at">habillage =</span> <span class="dv">13</span>, <span class="at">select =</span> <span class="st">"cos2 0.7"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lab07_epg_files/figure-html/plot-ind-opciones-2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Seleccionar individuos con mayor contribución</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(res, <span class="at">cex =</span> <span class="fl">0.8</span>, <span class="at">habillage =</span> <span class="dv">13</span>, <span class="at">select =</span> <span class="st">"contrib 5"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lab07_epg_files/figure-html/plot-ind-opciones-3.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Seleccionar individuos específicos (por nombre)</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(res, <span class="at">cex =</span> <span class="fl">0.8</span>, <span class="at">habillage =</span> <span class="dv">13</span>,</span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">select =</span> <span class="fu">c</span>(<span class="st">"Clay"</span>, <span class="st">"Karpov"</span>))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lab07_epg_files/figure-html/plot-ind-opciones-4.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="selección-de-variables-importantes" class="level3" data-number="4.8.4">
+<h3 data-number="4.8.4" class="anchored" data-anchor-id="selección-de-variables-importantes"><span class="header-section-number">4.8.4</span> Selección de variables importantes</h3>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(res, <span class="at">choix =</span> <span class="st">"var"</span>, <span class="at">select =</span> <span class="st">"contrib 5"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lab07_epg_files/figure-html/plot-var-select-decathlon-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="gráfico-con-varios-argumentos" class="level3" data-number="4.8.5">
+<h3 data-number="4.8.5" class="anchored" data-anchor-id="gráfico-con-varios-argumentos"><span class="header-section-number">4.8.5</span> Gráfico con varios argumentos</h3>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(</span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>  res,</span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">cex        =</span> <span class="fl">0.8</span>,</span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">habillage  =</span> <span class="dv">13</span>,</span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">select     =</span> <span class="st">"cos2 0.7"</span>,</span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">title      =</span> <span class="st">"Decathlon"</span>,</span>
+<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">cex.main   =</span> <span class="fl">1.1</span>,</span>
+<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">cex.axis   =</span> <span class="fl">0.9</span>,</span>
+<span id="cb55-9"><a href="#cb55-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">shadow     =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb55-10"><a href="#cb55-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">auto       =</span> <span class="st">"y"</span></span>
+<span id="cb55-11"><a href="#cb55-11" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lab07_epg_files/figure-html/plot-decathlon-mix-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<hr>
+</section>
+</section>
+</section>
+<section id="parte-2-pca-con-datos-de-jugos-de-naranja-orange" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Parte 2: PCA con datos de jugos de naranja (<code>orange</code>)</h1>
+<p>En el segundo bloque analizamos una base de datos de jugos de naranja:</p>
+<ul>
+<li>Columnas 1 a 14: <strong>variables cuantitativas</strong> (por ejemplo, atributos químicos/sensoriales).<br>
+</li>
+<li>Columnas 15 y 16: <strong>variables cualitativas suplementarias</strong> (por ejemplo, origen, tipo de marca, etc.).</li>
+</ul>
+<section id="importar-datos-de-orange" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="importar-datos-de-orange"><span class="header-section-number">5.1</span> Importar datos de orange</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>archivo_orange <span class="ot">&lt;-</span> <span class="fu">file.path</span>(ruta_datos, <span class="st">"orange.csv"</span>)</span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>orange <span class="ot">&lt;-</span> <span class="fu">read.table</span>(</span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>  archivo_orange,</span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">header      =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">sep         =</span> <span class="st">";"</span>,</span>
+<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">dec         =</span> <span class="st">"."</span>,</span>
+<span id="cb56-8"><a href="#cb56-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">row.names   =</span> <span class="dv">1</span>,</span>
+<span id="cb56-9"><a href="#cb56-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">check.names =</span> <span class="cn">FALSE</span></span>
+<span id="cb56-10"><a href="#cb56-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb56-11"><a href="#cb56-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-12"><a href="#cb56-12" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(orange)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> Odour intensity Odour typicality   Pulpiness     Intensity of taste
+ Min.   :2.760   Min.   :2.530    Min.   :1.660   Min.   :3.120     
+ 1st Qu.:2.775   1st Qu.:2.625    1st Qu.:1.722   1st Qu.:3.265     
+ Median :2.825   Median :2.775    Median :2.625   Median :3.410     
+ Mean   :2.907   Mean   :2.762    Mean   :2.710   Mean   :3.362     
+ 3rd Qu.:3.010   3rd Qu.:2.865    3rd Qu.:3.603   3rd Qu.:3.458     
+ Max.   :3.200   Max.   :3.020    Max.   :4.000   Max.   :3.540     
+    Acidity        Bitterness      Sweetness        Glucose     
+ Min.   :2.330   Min.   :1.760   Min.   :2.600   Min.   :17.33  
+ 1st Qu.:2.453   1st Qu.:1.998   1st Qu.:2.825   1st Qu.:22.94  
+ Median :2.800   Median :2.320   Median :3.110   Median :24.48  
+ Mean   :2.802   Mean   :2.328   Mean   :3.057   Mean   :24.76  
+ 3rd Qu.:3.125   3rd Qu.:2.612   3rd Qu.:3.335   3rd Qu.:26.70  
+ Max.   :3.310   Max.   :2.970   Max.   :3.380   Max.   :32.42  
+    Fructose       Saccharose    Sweetening power       pH       
+ Min.   :20.00   Min.   :22.92   Min.   : 82.55   Min.   :3.590  
+ 1st Qu.:25.40   1st Qu.:37.07   1st Qu.: 90.14   1st Qu.:3.620  
+ Median :26.50   Median :41.55   Median : 92.79   Median :3.750  
+ Mean   :27.06   Mean   :40.06   Mean   : 92.80   Mean   :3.738  
+ 3rd Qu.:28.95   3rd Qu.:45.39   3rd Qu.: 96.10   3rd Qu.:3.842  
+ Max.   :34.54   Max.   :52.12   Max.   :102.22   Max.   :3.890  
+  Citric acid       Vitamin C     Way of preserving     Origin         
+ Min.   :0.6700   Min.   :27.00   Length:6           Length:6          
+ 1st Qu.:0.6950   1st Qu.:33.67   Class :character   Class :character  
+ Median :0.7250   Median :36.80   Mode  :character   Mode  :character  
+ Mean   :0.7667   Mean   :36.04                                        
+ 3rd Qu.:0.8150   3rd Qu.:38.88                                        
+ Max.   :0.9500   Max.   :43.44                                        </code></pre>
+</div>
+</div>
+</section>
+<section id="pca-con-variables-activas-1-a-14" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="pca-con-variables-activas-1-a-14"><span class="header-section-number">5.2</span> PCA con variables activas (1 a 14)</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">PCA</span>(orange[, <span class="dv">1</span><span class="sc">:</span><span class="dv">14</span>], <span class="at">ncp =</span> <span class="dv">3</span>)</span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(res)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+PCA(X = orange[, 1:14], ncp = 3) 
+
+
+Eigenvalues
+                       Dim.1   Dim.2   Dim.3   Dim.4   Dim.5
+Variance               8.065   2.583   1.461   1.011   0.880
+% of var.             57.607  18.450  10.438   7.220   6.285
+Cumulative % of var.  57.607  76.057  86.496  93.715 100.000
+
+Individuals
+                       Dist    Dim.1    ctr   cos2    Dim.2    ctr   cos2  
+Pampryl amb.       |  3.700 | -3.090 19.727  0.697 | -1.026  6.797  0.077 |
+Tropicana amb.     |  3.885 |  2.358 11.486  0.368 | -2.825 51.491  0.529 |
+Fruvita fr.        |  3.536 |  2.688 14.928  0.578 |  1.385 12.373  0.153 |
+Joker amb.         |  4.300 | -3.895 31.359  0.821 | -0.127  0.104  0.001 |
+Tropicana fr.      |  3.800 |  3.092 19.757  0.662 |  0.533  1.830  0.020 |
+Pampryl fr.        |  3.128 | -1.152  2.743  0.136 |  2.061 27.405  0.434 |
+                    Dim.3    ctr   cos2  
+Pampryl amb.        0.022  0.006  0.000 |
+Tropicana amb.     -1.076 13.205  0.077 |
+Fruvita fr.        -0.076  0.067  0.000 |
+Joker amb.          1.184 15.976  0.076 |
+Tropicana fr.       1.734 34.298  0.208 |
+Pampryl fr.        -1.788 36.449  0.327 |
+
+Variables (the 10 first)
+                      Dim.1    ctr   cos2    Dim.2    ctr   cos2    Dim.3
+Odour intensity    |  0.352  1.533  0.124 |  0.561 12.192  0.315 |  0.168
+Odour typicality   |  0.938 10.898  0.879 |  0.205  1.626  0.042 |  0.185
+Pulpiness          |  0.666  5.498  0.443 |  0.742 21.330  0.551 |  0.010
+Intensity of taste | -0.554  3.800  0.306 |  0.453  7.954  0.205 | -0.564
+Acidity            | -0.878  9.560  0.771 |  0.160  0.995  0.026 | -0.407
+Bitterness         | -0.897  9.978  0.805 | -0.084  0.274  0.007 | -0.183
+Sweetness          |  0.958 11.384  0.918 |  0.011  0.005  0.000 |  0.068
+Glucose            | -0.786  7.652  0.617 |  0.493  9.424  0.243 |  0.280
+Fructose           | -0.781  7.554  0.609 |  0.489  9.251  0.239 |  0.288
+Saccharose         |  0.891  9.841  0.794 |  0.133  0.689  0.018 | -0.207
+                      ctr   cos2  
+Odour intensity     1.936  0.028 |
+Odour typicality    2.336  0.034 |
+Pulpiness           0.006  0.000 |
+Intensity of taste 21.785  0.318 |
+Acidity            11.316  0.165 |
+Bitterness          2.301  0.034 |
+Sweetness           0.315  0.005 |
+Glucose             5.376  0.079 |
+Fructose            5.683  0.083 |
+Saccharose          2.925  0.043 |</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(res)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>**Results for the Principal Component Analysis (PCA)**
+The analysis was performed on 6 individuals, described by 14 variables
+*The results are available in the following objects:
+
+   name               description                          
+1  "$eig"             "eigenvalues"                        
+2  "$var"             "results for the variables"          
+3  "$var$coord"       "coord. for the variables"           
+4  "$var$cor"         "correlations variables - dimensions"
+5  "$var$cos2"        "cos2 for the variables"             
+6  "$var$contrib"     "contributions of the variables"     
+7  "$ind"             "results for the individuals"        
+8  "$ind$coord"       "coord. for the individuals"         
+9  "$ind$cos2"        "cos2 for the individuals"           
+10 "$ind$contrib"     "contributions of the individuals"   
+11 "$call"            "summary statistics"                 
+12 "$call$centre"     "mean of the variables"              
+13 "$call$ecart.type" "standard error of the variables"    
+14 "$call$row.w"      "weights for the individuals"        
+15 "$call$col.w"      "weights for the variables"          </code></pre>
+</div>
+</div>
+</section>
+<section id="pca-con-variables-suplementarias-1" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="pca-con-variables-suplementarias-1"><span class="header-section-number">5.3</span> PCA con variables suplementarias</h2>
+<p>Consideramos ahora que las columnas 15 y 16 son cualitativas suplementarias (por ejemplo, <strong>origen</strong> del jugo).</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>res2 <span class="ot">&lt;-</span> <span class="fu">PCA</span>(orange, <span class="at">quali.sup =</span> <span class="dv">15</span><span class="sc">:</span><span class="dv">16</span>)</span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(res2, <span class="at">nbelements =</span> <span class="cn">Inf</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+PCA(X = orange, quali.sup = 15:16) 
+
+
+Eigenvalues
+                       Dim.1   Dim.2   Dim.3   Dim.4   Dim.5
+Variance               8.065   2.583   1.461   1.011   0.880
+% of var.             57.607  18.450  10.438   7.220   6.285
+Cumulative % of var.  57.607  76.057  86.496  93.715 100.000
+
+Individuals
+                       Dist    Dim.1    ctr   cos2    Dim.2    ctr   cos2  
+Pampryl amb.       |  3.700 | -3.090 19.727  0.697 | -1.026  6.797  0.077 |
+Tropicana amb.     |  3.885 |  2.358 11.486  0.368 | -2.825 51.491  0.529 |
+Fruvita fr.        |  3.536 |  2.688 14.928  0.578 |  1.385 12.373  0.153 |
+Joker amb.         |  4.300 | -3.895 31.359  0.821 | -0.127  0.104  0.001 |
+Tropicana fr.      |  3.800 |  3.092 19.757  0.662 |  0.533  1.830  0.020 |
+Pampryl fr.        |  3.128 | -1.152  2.743  0.136 |  2.061 27.405  0.434 |
+                    Dim.3    ctr   cos2  
+Pampryl amb.        0.022  0.006  0.000 |
+Tropicana amb.     -1.076 13.205  0.077 |
+Fruvita fr.        -0.076  0.067  0.000 |
+Joker amb.          1.184 15.976  0.076 |
+Tropicana fr.       1.734 34.298  0.208 |
+Pampryl fr.        -1.788 36.449  0.327 |
+
+Variables
+                      Dim.1    ctr   cos2    Dim.2    ctr   cos2    Dim.3
+Odour intensity    |  0.352  1.533  0.124 |  0.561 12.192  0.315 |  0.168
+Odour typicality   |  0.938 10.898  0.879 |  0.205  1.626  0.042 |  0.185
+Pulpiness          |  0.666  5.498  0.443 |  0.742 21.330  0.551 |  0.010
+Intensity of taste | -0.554  3.800  0.306 |  0.453  7.954  0.205 | -0.564
+Acidity            | -0.878  9.560  0.771 |  0.160  0.995  0.026 | -0.407
+Bitterness         | -0.897  9.978  0.805 | -0.084  0.274  0.007 | -0.183
+Sweetness          |  0.958 11.384  0.918 |  0.011  0.005  0.000 |  0.068
+Glucose            | -0.786  7.652  0.617 |  0.493  9.424  0.243 |  0.280
+Fructose           | -0.781  7.554  0.609 |  0.489  9.251  0.239 |  0.288
+Saccharose         |  0.891  9.841  0.794 |  0.133  0.689  0.018 | -0.207
+Sweetening power   |  0.194  0.467  0.038 |  0.915 32.396  0.837 |  0.107
+pH                 |  0.964 11.525  0.930 | -0.156  0.941  0.024 | -0.107
+Citric acid        | -0.906 10.173  0.820 | -0.018  0.012  0.000 |  0.389
+Vitamin C          | -0.105  0.136  0.011 | -0.274  2.910  0.075 |  0.706
+                      ctr   cos2  
+Odour intensity     1.936  0.028 |
+Odour typicality    2.336  0.034 |
+Pulpiness           0.006  0.000 |
+Intensity of taste 21.785  0.318 |
+Acidity            11.316  0.165 |
+Bitterness          2.301  0.034 |
+Sweetness           0.315  0.005 |
+Glucose             5.376  0.079 |
+Fructose            5.683  0.083 |
+Saccharose          2.925  0.043 |
+Sweetening power    0.778  0.011 |
+pH                  0.776  0.011 |
+Citric acid        10.368  0.152 |
+Vitamin C          34.099  0.498 |
+
+Supplementary categories
+                       Dist    Dim.1   cos2 v.test    Dim.2   cos2 v.test  
+Ambient            |  2.040 | -1.543  0.572 -1.215 | -1.326  0.423 -1.845 |
+Fresh              |  2.040 |  1.543  0.572  1.215 |  1.326  0.423  1.845 |
+Florida            |  2.741 |  2.712  0.979  2.136 | -0.303  0.012 -0.421 |
+Other              |  2.741 | -2.712  0.979 -2.136 |  0.303  0.012  0.421 |
+                    Dim.3   cos2 v.test  
+Ambient             0.043  0.000  0.080 |
+Fresh              -0.043  0.000 -0.080 |
+Florida             0.194  0.005  0.359 |
+Other              -0.194  0.005 -0.359 |</code></pre>
+</div>
+</div>
+</section>
+<section id="valores-propios-y-varianza-explicada-1" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="valores-propios-y-varianza-explicada-1"><span class="header-section-number">5.4</span> Valores propios y varianza explicada</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>eigenvalues <span class="ot">&lt;-</span> res<span class="sc">$</span>eig</span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>eigenvalues[, <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       eigenvalue percentage of variance cumulative percentage of variance
+comp 1  8.0649505              57.606789                          57.60679
+comp 2  2.5830341              18.450244                          76.05703
+comp 3  1.4613887              10.438490                          86.49552
+comp 4  1.0107601               7.219715                          93.71524
+comp 5  0.8798667               6.284762                         100.00000</code></pre>
+</div>
+</div>
+</section>
+<section id="test-de-bartlett-y-kmo-para-orange" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="test-de-bartlett-y-kmo-para-orange"><span class="header-section-number">5.5</span> Test de Bartlett y KMO para orange</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bartlett.test</span>(orange[, <span class="dv">1</span><span class="sc">:</span><span class="dv">14</span>])</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Bartlett test of homogeneity of variances
+
+data:  orange[, 1:14]
+Bartlett's K-squared = 210.49, df = 13, p-value &lt; 2.2e-16</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">KMO</span>(orange[, <span class="dv">1</span><span class="sc">:</span><span class="dv">14</span>])</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Error in solve.default(r) : 
+  sistema es computacionalmente singular: número de condición recíproco = 1.37813e-18</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Kaiser-Meyer-Olkin factor adequacy
+Call: KMO(r = orange[, 1:14])
+Overall MSA =  0.5
+MSA for each item = 
+   Odour intensity   Odour typicality          Pulpiness Intensity of taste 
+               0.5                0.5                0.5                0.5 
+           Acidity         Bitterness          Sweetness            Glucose 
+               0.5                0.5                0.5                0.5 
+          Fructose         Saccharose   Sweetening power                 pH 
+               0.5                0.5                0.5                0.5 
+       Citric acid          Vitamin C 
+               0.5                0.5 </code></pre>
+</div>
+</div>
+</section>
+<section id="descripción-de-las-dimensiones-1" class="level2" data-number="5.6">
+<h2 data-number="5.6" class="anchored" data-anchor-id="descripción-de-las-dimensiones-1"><span class="header-section-number">5.6</span> Descripción de las dimensiones</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dimdesc</span>(res)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$Dim.1
+
+Link between the variable and the continuous variables (R-square)
+=================================================================================
+                 correlation     p.value
+pH                 0.9641128 0.001908728
+Sweetness          0.9581672 0.002588371
+Odour typicality   0.9375068 0.005736073
+Saccharose         0.8908878 0.017208699
+Acidity           -0.8780844 0.021389085
+Bitterness        -0.8970717 0.015346133
+Citric acid       -0.9057713 0.012900241
+
+$Dim.2
+
+Link between the variable and the continuous variables (R-square)
+=================================================================================
+                 correlation   p.value
+Sweetening power   0.9147625 0.0105885
+
+$Dim.3</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dimdesc</span>(res, <span class="at">axes =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$Dim.1
+
+Link between the variable and the continuous variables (R-square)
+=================================================================================
+                 correlation     p.value
+pH                 0.9641128 0.001908728
+Sweetness          0.9581672 0.002588371
+Odour typicality   0.9375068 0.005736073
+Saccharose         0.8908878 0.017208699
+Acidity           -0.8780844 0.021389085
+Bitterness        -0.8970717 0.015346133
+Citric acid       -0.9057713 0.012900241
+
+$Dim.2
+
+Link between the variable and the continuous variables (R-square)
+=================================================================================
+                 correlation   p.value
+Sweetening power   0.9147625 0.0105885</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dimdesc</span>(res, <span class="at">proba =</span> <span class="fl">0.2</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$Dim.1
+
+Link between the variable and the continuous variables (R-square)
+=================================================================================
+                 correlation     p.value
+pH                 0.9641128 0.001908728
+Sweetness          0.9581672 0.002588371
+Odour typicality   0.9375068 0.005736073
+Saccharose         0.8908878 0.017208699
+Pulpiness          0.6659126 0.148777121
+Fructose          -0.7805085 0.066977593
+Glucose           -0.7856011 0.064022682
+Acidity           -0.8780844 0.021389085
+Bitterness        -0.8970717 0.015346133
+Citric acid       -0.9057713 0.012900241
+
+$Dim.2
+
+Link between the variable and the continuous variables (R-square)
+=================================================================================
+                 correlation    p.value
+Sweetening power   0.9147625 0.01058850
+Pulpiness          0.7422675 0.09107899
+
+$Dim.3
+
+Link between the variable and the continuous variables (R-square)
+=================================================================================
+          correlation   p.value
+Vitamin C   0.7059171 0.1170103</code></pre>
+</div>
+</div>
+</section>
+<section id="gráficos-de-individuos-y-variables" class="level2" data-number="5.7">
+<h2 data-number="5.7" class="anchored" data-anchor-id="gráficos-de-individuos-y-variables"><span class="header-section-number">5.7</span> Gráficos de individuos y variables</h2>
+<section id="individuos" class="level3" data-number="5.7.1">
+<h3 data-number="5.7.1" class="anchored" data-anchor-id="individuos"><span class="header-section-number">5.7.1</span> Individuos</h3>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Individuos sin variables cualitativas</span></span>
+<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(res, <span class="at">cex =</span> <span class="fl">0.8</span>, <span class="at">invisible =</span> <span class="st">"quali"</span>,</span>
+<span id="cb77-3"><a href="#cb77-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">title =</span> <span class="st">"Individuos - PCA Orange"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lab07_epg_files/figure-html/plot-ind-orange-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Coloreados según variable de origen (si existe en el dataset)</span></span>
+<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(res2, <span class="at">cex =</span> <span class="fl">0.8</span>, <span class="at">habillage =</span> <span class="st">"Origin"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lab07_epg_files/figure-html/plot-ind-orange-2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="elipses-de-confianza" class="level3" data-number="5.7.2">
+<h3 data-number="5.7.2" class="anchored" data-anchor-id="elipses-de-confianza"><span class="header-section-number">5.7.2</span> Elipses de confianza</h3>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotellipses</span>(res)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>NULL</code></pre>
+</div>
+</div>
+</section>
+<section id="selección-de-individuos-y-variables" class="level3" data-number="5.7.3">
+<h3 data-number="5.7.3" class="anchored" data-anchor-id="selección-de-individuos-y-variables"><span class="header-section-number">5.7.3</span> Selección de individuos y variables</h3>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Individuos bien representados</span></span>
+<span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(res, <span class="at">cex =</span> <span class="fl">0.8</span>, <span class="at">habillage =</span> <span class="dv">13</span>, <span class="at">select =</span> <span class="st">"cos2 0.7"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lab07_epg_files/figure-html/select-ind-var-orange-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Individuos con mayor contribución</span></span>
+<span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(res, <span class="at">cex =</span> <span class="fl">0.8</span>, <span class="at">habillage =</span> <span class="dv">13</span>, <span class="at">select =</span> <span class="st">"contrib 5"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lab07_epg_files/figure-html/select-ind-var-orange-2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Individuos específicos (ejemplo: marcas específicas)</span></span>
+<span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(res, <span class="at">cex =</span> <span class="fl">0.8</span>, <span class="at">habillage =</span> <span class="dv">13</span>,</span>
+<span id="cb83-3"><a href="#cb83-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">select =</span> <span class="fu">c</span>(<span class="st">"Fruvita fr."</span>, <span class="st">"Tropicana fr."</span>))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lab07_epg_files/figure-html/select-ind-var-orange-3.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Variables que más contribuyen</span></span>
+<span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(res, <span class="at">choix =</span> <span class="st">"var"</span>, <span class="at">select =</span> <span class="st">"contrib 5"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lab07_epg_files/figure-html/select-ind-var-orange-4.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="gráfico-combinado-orange" class="level3" data-number="5.7.4">
+<h3 data-number="5.7.4" class="anchored" data-anchor-id="gráfico-combinado-orange"><span class="header-section-number">5.7.4</span> Gráfico combinado (orange)</h3>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb85"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(</span>
+<span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a>  res,</span>
+<span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">cex        =</span> <span class="fl">0.8</span>,</span>
+<span id="cb85-4"><a href="#cb85-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">habillage  =</span> <span class="dv">13</span>,</span>
+<span id="cb85-5"><a href="#cb85-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">select     =</span> <span class="st">"cos2 0.7"</span>,</span>
+<span id="cb85-6"><a href="#cb85-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">title      =</span> <span class="st">"Orange juices PCA"</span>,</span>
+<span id="cb85-7"><a href="#cb85-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">cex.main   =</span> <span class="fl">1.1</span>,</span>
+<span id="cb85-8"><a href="#cb85-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">cex.axis   =</span> <span class="fl">0.9</span>,</span>
+<span id="cb85-9"><a href="#cb85-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">shadow     =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb85-10"><a href="#cb85-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">auto       =</span> <span class="st">"y"</span></span>
+<span id="cb85-11"><a href="#cb85-11" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lab07_epg_files/figure-html/plot-orange-mix-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<hr>
+</section>
+</section>
+</section>
+<section id="cierre-del-laboratorio" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Cierre del laboratorio</h1>
+<p>En este laboratorio:</p>
+<ul>
+<li><p>Aplicaste <strong>PCA</strong> a dos conjuntos de datos reales (Decathlon y jugos de naranja).<br>
+</p></li>
+<li><p>Revisaste la idoneidad del análisis mediante <strong>Bartlett</strong> y <strong>KMO</strong>.<br>
+</p></li>
+<li><p>Interpretaste <strong>valores propios</strong>, varianza explicada y elegiste cuántas componentes retener.<br>
+</p></li>
+<li><p>Analizaste:</p>
+<ul>
+<li>Cargas de las variables (coordenadas y cos2).<br>
+</li>
+<li>Contribuciones de variables e individuos.<br>
+</li>
+<li>Gráficos de individuos por grupos, con <strong>elipses de confianza</strong>.<br>
+</li>
+<li>Variables e individuos “más importantes” (por contribución o calidad de representación).</li>
+</ul></li>
+</ul>
+<p>Estos elementos son fundamentales para:</p>
+<ul>
+<li>Reducir dimensionalidad en bases con muchas variables.<br>
+</li>
+<li>Explorar estructuras latentes antes de aplicar otros métodos (clustering, regresión, etc.).<br>
+</li>
+<li>Construir indicadores sintéticos a partir de múltiples variables observadas.</li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiado");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiado");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/fen-uah\.github\.io\/lab-econometria\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© 2025 FEN-UAH</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Sitio desarrollado con Quarto</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

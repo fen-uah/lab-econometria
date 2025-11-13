@@ -95,13 +95,23 @@
     "lab04_epg.tex": "eb531294"
   },
   "labs_epg/lab05_epg.qmd": {
-    "lab05_epg.html": "d5b5d7d0"
+    "lab05_epg.html": "d5b5d7d0",
+    "lab05_epg.tex": "f4494581"
   },
   "labs_epg/lab06_epg.qmd": {
-    "lab06_epg.html": "ec5b5cd7"
+    "lab06_epg.html": "ec5b5cd7",
+    "lab06_epg.tex": "ab638b79"
   },
   "labs_epg/lab07_epg.qmd": {
     "lab07_epg.html": "d5dd694d",
     "lab07_epg.tex": "7c0a4d5e"
+  },
+  "labs_epg/lab03_epg_fixed.qmd": {
+    "lab03_epg_fixed.html": "2dd05bfb",
+    "lab03_epg_fixed.tex": "9bedcc82"
+  },
+  "labs_epg/lab03_epg_nopred.qmd": {
+    "lab03_epg_nopred.html": "1342d5dd",
+    "lab03_epg_nopred.tex": "d7808fe8"
   }
 }

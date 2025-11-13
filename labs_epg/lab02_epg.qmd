@@ -310,11 +310,10 @@ automáticamente los grados de libertad.
 :::
 
 ## Ajuste del modelo de regresión lineal simple
-
 Planteamos el modelo:
 
-$$\text{Costo_Mantenimiento} = \beta_0 + \beta_1
-\cdot \text{Tiempo_operacion} + \varepsilon $$
+$$\text{Costo\_Mantenimiento} = \beta_0 + \beta_1 \cdot \text{Tiempo\_operacion} + \varepsilon$$
+
 
 Lo estimamos con `lm`:
 
