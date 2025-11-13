@@ -207,7 +207,7 @@
     "href": "labs_epg/lab05_epg.html#validación-cruzada-del-modelo-logit",
     "title": "Capitulo_5 _Logit_y_otros _analisis",
     "section": "3.9 Validación cruzada del modelo logit",
-    "text": "3.9 Validación cruzada del modelo logit\n\nCVbinary(frogs.glm0)\n\n\nFold:  10 1 8 5 3 6 9 4 7 2\nInternal estimate of accuracy = 0.778\nCross-validation estimate of accuracy = 0.792\n\nCVbinary(frogs.glm)\n\n\nFold:  10 3 7 2 9 1 5 4 6 8\nInternal estimate of accuracy = 0.778\nCross-validation estimate of accuracy = 0.783\n\n\nEstas funciones entregan estimaciones de error de clasificación usando validación cruzada, lo que ayuda a medir la capacidad predictiva del modelo."
+    "text": "3.9 Validación cruzada del modelo logit\n\nCVbinary(frogs.glm0)\n\n\nFold:  10 7 2 6 4 8 3 5 1 9\nInternal estimate of accuracy = 0.778\nCross-validation estimate of accuracy = 0.769\n\nCVbinary(frogs.glm)\n\n\nFold:  6 3 5 4 8 2 7 1 9 10\nInternal estimate of accuracy = 0.778\nCross-validation estimate of accuracy = 0.778\n\n\nEstas funciones entregan estimaciones de error de clasificación usando validación cruzada, lo que ayuda a medir la capacidad predictiva del modelo."
   },
   {
     "objectID": "labs_epg/lab05_epg.html#odds-ratios-or-e-intervalos-de-confianza",
