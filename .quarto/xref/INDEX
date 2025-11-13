@@ -79,15 +79,28 @@
     "lab09_heterocedasticidad.tex": "bb7218cb"
   },
   "labs_epg/lab01_epg.qmd": {
-    "lab01_epg.html": "9b904ed8"
+    "lab01_epg.html": "9b904ed8",
+    "lab01_epg.tex": "3da271d1"
   },
   "labs_epg/lab02_epg.qmd": {
-    "lab02_epg.html": "1068c189"
+    "lab02_epg.html": "1068c189",
+    "lab02_epg.tex": "ad66d570"
   },
   "labs_epg/lab03_epg.qmd": {
     "lab03_epg.html": "0244d4de"
   },
   "labs_epg/lab04_epg.qmd": {
-    "lab04_epg.html": "44de33a3"
+    "lab04_epg.html": "44de33a3",
+    "lab04_epg.tex": "eb531294"
+  },
+  "labs_epg/lab05_epg.qmd": {
+    "lab05_epg.html": "d5b5d7d0"
+  },
+  "labs_epg/lab06_epg.qmd": {
+    "lab06_epg.html": "ec5b5cd7"
+  },
+  "labs_epg/lab07_epg.qmd": {
+    "lab07_epg.html": "d5dd694d",
+    "lab07_epg.tex": "7c0a4d5e"
   }
 }

@@ -1,0 +1,413 @@
+---
+title: "Capitulo_6_Componentes_Principales"
+author: "Econometría para la Gestión (ECO_EPG) - FEN UAH"
+lang: es
+format:
+  html:
+    toc: true
+    number-sections: true
+    smooth-scroll: true
+  pdf:
+    pdf-engine: xelatex
+    toc: true
+    number-sections: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo    = TRUE,
+  message = FALSE,
+  warning = FALSE,
+  fig.align = "center"
+)
+```
+
+
+# 1. Material descargable
+
+[Descargar PDF de contenidos teóricos](pdf_epg/Capitulo_6_Componentes_Principales.pdf){download="true"}
+
+e acuerdo al PDF teórico, el **Análisis de Componentes Principales (PCA)** es un método estadístico que:
+
+- Busca **simplificar la complejidad** de un espacio de muchas variables (dimensiones) conservando la mayor parte posible de la información.  
+- Supone que tenemos \(n\) individuos y \(p\) variables \((X_1, \dots, X_p)\).  
+- Intenta encontrar un número menor de factores subyacentes \(z < p\) (las **componentes principales**) que expliquen aproximadamente lo mismo que las \(p\) variables originales.  
+- Pertenece a los métodos de **aprendizaje no supervisado (unsupervised learning)**: no hay una variable respuesta, sólo queremos entender la estructura interna de las variables explicativas.
+
+Intuitivamente, el PCA:
+
+- Busca la **dirección de máxima variabilidad** de los datos (primera componente).  
+- Luego busca una segunda dirección ortogonal a la primera que explique la máxima varianza restante, y así sucesivamente.  
+- Permite mirar los datos tanto desde el punto de vista de los **individuos** (observaciones) como de las **variables** (cómo se relacionan entre sí).
+
+## Normalización y matriz de correlación
+
+Cuando las variables están en diferentes unidades, el primer paso es **normalizar** cada variable:
+
+$$
+y_{ik} = \frac{x_{ik} - \bar x_k}{s_k}
+$$
+
+donde \(\bar x_k\) es la media de la variable \(X_k\) y \(s_k\) su desviación estándar.
+
+Con los datos normalizados construimos la **matriz de correlaciones** \(R\), que en notación matricial puede escribirse como:
+
+\[
+R = Y^\top Y
+\]
+
+De esta matriz calculamos sus **valores propios** (\(\lambda_i\)) y **vectores propios**, que corresponden a:
+
+- Los **ejes preferenciales de información** (direcciones en las que hay más varianza).  
+- La proporción de varianza explicada por cada componente:
+
+$$
+\text{contribución}_i = \frac{\lambda_i}{\sum_j \lambda_j}
+$$
+
+---
+
+# Configuración inicial en R
+
+## Carga de librerías
+
+En este laboratorio usaremos algunas librerías para facilitar el análisis:
+
+```{r librerias}
+library(tidyverse)           # Manipulación de datos
+library(psych)               # KMO, Bartlett, análisis psicométrico
+library(corrplot)            # Gráficos de matrices de correlación
+library(PerformanceAnalytics)# chart.Correlation
+```
+
+## Ruta de trabajo (opcional)
+
+Mantenemos la misma lógica de ruta de datos que en los laboratorios anteriores de ECO_EPG:
+
+```{r ruta-datos}
+ruta_datos <- "C:/Users/manue/Desktop/lab-econometria/labs_epg/data_epg"
+
+# Puedes revisar el contenido de la carpeta
+list.files(ruta_datos)
+```
+
+En este laboratorio usaremos principalmente **datasets incluidos en R**, de manera que puedas ejecutar el código incluso si no has descargado archivos adicionales.
+
+---
+
+# Ejemplo 1: PCA con datos de autos (`mtcars`)
+
+En este primer ejemplo aplicaremos PCA al dataset `mtcars` (incluido en R), que contiene información de distintos modelos de autos:
+
+- `mpg`: millas por galón (consumo).  
+- `hp`: caballos de fuerza.  
+- `wt`: peso del auto.  
+- `qsec`: tiempo en 1/4 de milla.  
+- Entre otras variables.
+
+La idea es **resumir** varias características técnicas de los autos en unas pocas **componentes principales**.
+
+## Selección y exploración de variables
+
+```{r ejemplo1-datos}
+data(mtcars)
+
+# Seleccionamos algunas variables numéricas de interés
+datos_auto <- mtcars %>% 
+  select(mpg, hp, wt, qsec, disp, drat)
+
+summary(datos_auto)
+```
+
+::: {.callout-tip}
+Siempre es importante ver el **rango** y la **escala** de las variables:
+
+- `mpg` está en millas por galón.  
+- `hp` en caballos de fuerza.  
+- `wt` en miles de libras.  
+- `qsec` en segundos.  
+
+Si no normalizamos, las variables con mayor escala dominarán el análisis.
+:::
+
+## Matriz de correlación
+
+Antes de hacer PCA miramos la relación entre variables:
+
+```{r ejemplo1-correlaciones}
+cor_auto <- cor(datos_auto)
+round(cor_auto, 2)
+
+corrplot(cor_auto,
+         type  = "upper",
+         order = "hclust",
+         tl.col = "black",
+         tl.srt = 45)
+
+chart.Correlation(datos_auto,
+                  histogram = TRUE,
+                  pch       = 19)
+```
+
+## Test de Bartlett y KMO
+
+Aplicamos los tests que se mencionan en el PDF teórico:
+
+- **Bartlett**: contrasta si la matriz de correlación es esférica.  
+- **KMO**: evalúa la adecuación del muestreo para análisis factorial/PCA.
+
+```{r ejemplo1-bartlett-kmo}
+psych::cortest.bartlett(cor_auto, n = nrow(datos_auto))
+
+KMO(cor_auto)
+```
+
+::: {.callout-note}
+- Si el **p-value** de Bartlett es pequeño, la matriz de correlación es **distinta** de la identidad, lo que favorece el uso de PCA.  
+- Un **KMO** cercano a 1 indica que las variables comparten suficiente varianza común como para aplicar análisis factorial o PCA.
+:::
+
+## Normalización de las variables
+
+Normalizamos las variables para que todas queden en escala comparable:
+
+```{r ejemplo1-normalizacion}
+datos_auto_norm <- scale(datos_auto)
+
+head(datos_auto_norm)
+```
+
+## PCA con `prcomp`
+
+Usamos la función base `prcomp`, que trabaja sobre la matriz de datos:
+
+```{r ejemplo1-pca}
+pca_auto <- prcomp(datos_auto,
+                   center = TRUE,  # restar la media
+                   scale. = TRUE)  # dividir por la desviación estándar
+
+summary(pca_auto)
+```
+
+El `summary` muestra:
+
+- La **desviación estándar** de cada componente.  
+- La **proporción de varianza** explicada por cada componente.  
+- La **varianza acumulada** (muy útil para decidir cuántas componentes retener).
+
+## Valores propios y varianza explicada
+
+Los **valores propios** se obtienen elevando al cuadrado las desviaciones estándar de las componentes:
+
+```{r ejemplo1-eigenvalues}
+eigenvalues <- pca_auto$sdev^2
+eigenvalues
+
+prop_var <- eigenvalues / sum(eigenvalues)
+prop_var
+
+acum_var <- cumsum(prop_var)
+acum_var
+```
+
+### Gráfico de sedimentación (scree plot)
+
+```{r ejemplo1-screeplot}
+plot(prop_var,
+     type = "b",
+     xlab = "Componente principal",
+     ylab = "Proporción de varianza explicada",
+     main = "Gráfico de sedimentación (scree plot)")
+
+abline(h = 0.1, lty = 2, col = "red")
+```
+
+::: {.callout-tip}
+Ideas típicas para decidir el número de componentes:
+
+- Mantener las componentes que explican en conjunto, por ejemplo, **70%-80%** de la varianza.  
+- Detenerse cuando el scree plot muestra un **“codo”** evidente.  
+- Mantener sólo las componentes con valor propio mayor que 1 (criterio de Kaiser) cuando se trabaja sobre matriz de correlación.
+:::
+
+## Cargas (loadings) e interpretación
+
+Las **cargas** son las correlaciones entre las variables originales y las componentes:
+
+```{r ejemplo1-loadings}
+pca_auto$rotation
+```
+
+- Valores altos (en valor absoluto) indican que la variable tiene una gran influencia en esa componente.  
+- El **signo** indica dirección de la relación (positiva o negativa).
+
+## Coordenadas de los individuos (scores)
+
+```{r ejemplo1-scores}
+head(pca_auto$x)
+```
+
+Cada fila corresponde a un auto, y cada columna a su coordenada en una componente principal (por ejemplo, PC1, PC2).
+
+## Biplot: individuos y variables
+
+```{r ejemplo1-biplot, fig.height=5}
+biplot(pca_auto,
+       scale = 0,
+       cex   = 0.7)
+```
+
+::: {.callout-note}
+- Los **puntos** son los autos (individuos).  
+- Las **flechas** representan las variables originales.  
+- La dirección y longitud de cada flecha muestran cómo cada variable contribuye a las primeras componentes.
+:::
+
+---
+
+# Ejemplo 2: PCA con datos simulados de indicadores regionales
+
+Ahora construiremos un segundo ejemplo, inventando un conjunto de datos que se parezca a una situación típica en economía o gestión: indicadores para distintas **regiones**.
+
+Supongamos que medimos para cada región:
+
+- `ingreso_pc`: ingreso per cápita.  
+- `desempleo`: tasa de desempleo.  
+- `escolaridad`: años promedio de estudio.  
+- `pobreza`: porcentaje de población bajo la línea de pobreza.  
+- `gini`: índice de desigualdad (0–1).  
+
+La idea es usar PCA para encontrar **patrones conjuntos** entre estos indicadores.
+
+## Creación de datos simulados
+
+```{r ejemplo2-simular-datos, set.seed=123}
+set.seed(123)
+
+n_regiones <- 16
+
+datos_regiones <- tibble(
+  region      = paste("Region", 1:n_regiones),
+  ingreso_pc  = round(rnorm(n_regiones, mean = 800000, sd = 150000)),
+  desempleo   = round(rnorm(n_regiones, mean = 8, sd = 2), 1),
+  escolaridad = round(rnorm(n_regiones, mean = 11, sd = 1.5), 1),
+  pobreza     = round(rnorm(n_regiones, mean = 15, sd = 5), 1),
+  gini        = round(rnorm(n_regiones, mean = 0.45, sd = 0.05), 2)
+)
+
+datos_regiones
+```
+
+## Exploración inicial
+
+```{r ejemplo2-summary}
+summary(select(datos_regiones, -region))
+```
+
+## Matriz de correlación
+
+```{r ejemplo2-correlacion}
+vars_reg <- select(datos_regiones, -region)
+cor_reg  <- cor(vars_reg)
+round(cor_reg, 2)
+
+corrplot(cor_reg,
+         type  = "upper",
+         order = "hclust",
+         tl.col = "black",
+         tl.srt = 45)
+
+chart.Correlation(vars_reg, histogram = TRUE, pch = 19)
+```
+
+## Bartlett y KMO
+
+```{r ejemplo2-tests}
+psych::cortest.bartlett(cor_reg, n = nrow(datos_regiones))
+
+KMO(cor_reg)
+```
+
+## PCA sobre indicadores regionales
+
+```{r ejemplo2-pca}
+pca_reg <- prcomp(vars_reg,
+                  center = TRUE,
+                  scale. = TRUE)
+
+summary(pca_reg)
+```
+
+### Varianza explicada
+
+```{r ejemplo2-varianza}
+eig_reg   <- pca_reg$sdev^2
+prop_reg  <- eig_reg / sum(eig_reg)
+acum_reg  <- cumsum(prop_reg)
+
+prop_reg
+acum_reg
+
+plot(prop_reg,
+     type = "b",
+     xlab = "Componente principal",
+     ylab = "Proporción de varianza explicada",
+     main = "Scree plot - indicadores regionales")
+```
+
+## Interpretación de las componentes
+
+```{r ejemplo2-loadings}
+pca_reg$rotation
+```
+
+::: {.callout-note}
+- Una componente con alta carga positiva en `ingreso_pc` y `escolaridad` y carga negativa en `pobreza` podría interpretarse como un **índice de desarrollo socioeconómico**.  
+- Otra componente con alta carga en `desempleo` y `gini` podría interpretarse como un patrón de **inestabilidad laboral y desigualdad**.
+:::
+
+## Coordenadas de las regiones en el espacio de componentes
+
+```{r ejemplo2-scores}
+scores_reg <- as_tibble(pca_reg$x) %>%
+  mutate(region = datos_regiones$region)
+
+scores_reg
+```
+
+### Gráfico de las regiones en PC1–PC2
+
+```{r ejemplo2-plot-scores, fig.height=5}
+ggplot(scores_reg, aes(x = PC1, y = PC2, label = region)) +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "grey70") +
+  geom_vline(xintercept = 0, linetype = "dashed", color = "grey70") +
+  geom_point() +
+  geom_text(vjust = -0.5, size = 3) +
+  labs(title = "Regiones en el espacio de las dos primeras componentes",
+       x = "Componente principal 1",
+       y = "Componente principal 2") +
+  theme_minimal()
+```
+
+## Biplot con variables e individuos
+
+```{r ejemplo2-biplot, fig.height=5}
+biplot(pca_reg,
+       scale = 0,
+       cex   = 0.7)
+```
+
+---
+
+# Cierre del laboratorio
+
+En este laboratorio trabajaste, apoyado en el PDF del **Capítulo 6: Componentes Principales**, los siguientes aspectos:
+
+- La **motivación** del PCA como técnica de reducción de dimensión y exploración de datos multivariados.  
+- La importancia de **normalizar** las variables cuando están en distintas escalas.  
+- La construcción de la **matriz de correlaciones** y el uso de **Bartlett** y **KMO** para evaluar si el PCA (o análisis factorial) es razonable.  
+- El cálculo e interpretación de **valores propios**, **varianza explicada** y **scree plot**.  
+- La lectura de las **cargas (loadings)** de las variables y de las **coordenadas (scores)** de los individuos.  
+- La interpretación conjunta de individuos y variables a través de **biplots**.
+
+Estos elementos son la base para aplicar PCA en contextos reales de economía y gestión, donde a menudo trabajamos con muchos indicadores simultáneamente y necesitamos **resumir la información** de forma clara y robusta.

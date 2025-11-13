@@ -1,0 +1,669 @@
+---
+title: "Capitulo_5 _Logit_y_otros _analisis"
+author: "Econometría para la Gestión (ECO_EPG) - FEN UAH"
+lang: es
+format:
+  html:
+    toc: true
+    number-sections: true
+    smooth-scroll: true
+  pdf:
+    pdf-engine: xelatex
+    toc: true
+    number-sections: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo    = TRUE,
+  message = FALSE,
+  warning = FALSE,
+  fig.align = "center"
+)
+```
+
+
+# 1. Material descargable
+
+[Descargar PDF de contenidos teóricos](pdf_epg/Capitulo_5 _Logit_y_otros _analisis.pdf){download="true"}
+
+[Descargar PDF de contenidos teóricos](pdf_epg/Capitulo_5.1_logit_y_probit.pdf){download="true"}
+
+
+El documento **"Capitulo 5 Logit y otros analisis"** desarrolla, entre otros, los siguientes puntos:
+
+- **Complementos a la regresión múltiple lineal**.  
+- **Modelo Logit**:
+  - Formulación del modelo logístico para variables binarias.  
+  - Función logit e inversa logística.  
+  - Interpretación de los coeficientes como **odds ratios (OR)**.  
+  - Validación mediante matrices de confusión y partición de datos (train/test).  
+- **Análisis de la Varianza (ANOVA)**:
+  - Factores y comparación de medias.  
+  - Uso del test de Tukey para comparar pares de medias.  
+- **MANOVA**:
+  - Análisis de varianza con múltiples variables respuesta.  
+  - Supuestos de normalidad y homogeneidad de varianzas.  
+
+En este laboratorio llevamos esa teoría a la práctica con distintos ejemplos en R.
+
+# Configuración inicial en R
+
+## Carga de librerías
+
+En este capítulo usamos varias librerías especializadas:
+
+```{r librerias}
+#install.packages(c(
+#  "openxlsx",
+#  "DAAG",
+#  "ROCR",
+#  "ROCit",
+#  "caret",
+#  "pROC",
+#  "plotROC",
+#  "lattice",
+#  "ggpubr",
+#  "MVN",
+#  "biotools",
+#  "car",
+#  "lsr",
+#  "ggplot2"
+#))
+library(openxlsx)
+library(DAAG)     # contiene datasets como frogs, sugar, appletaste, UCBAdmissions
+library(ROCR)     # curvas ROC y AUC
+library(ROCit)    # otra forma de construir ROC
+library(caret)    # matriz de confusión y métricas de clasificación
+library(pROC)     # ROC con intervalos de confianza
+library(plotROC)  # ROC con ggplot2
+library(lattice)  # gráficos tipo trellis (para sugar, appletaste)
+library(ggpubr)   # boxplots lindos para datos de ratas
+library(MVN)      # pruebas de normalidad multivariante
+library(biotools) # Box's M
+library(car)      # Levene (homogeneidad de varianzas)
+library(lsr)      # etaSquared (tamaño de efecto)
+library(ggplot2)
+```
+
+## Ruta de trabajo (si la necesitas)
+
+En este lab la mayoría de los datos vienen de **paquetes de R**, no de archivos externos.  
+Pero mantenemos la misma lógica de ruta de tu proyecto por consistencia:
+
+```{r ruta-datos}
+ruta_datos <- "C:/Users/manue/Desktop/lab-econometria/labs_epg/data_epg"
+
+# Puedes revisar qué archivos tienes ahí (opcional)
+list.files(ruta_datos)
+```
+
+---
+
+# Parte 1: Modelo Logit con datos de ranas (`frogs`)
+
+En este ejemplo trabajamos con el dataset `frogs` del paquete **DAAG**, que registra la **presencia o ausencia** de una especie de rana en distintos sitios de observación, junto con variables ambientales.
+
+- Variable respuesta:  
+  - `pres.abs` (0 = ausencia, 1 = presencia).  
+- Variables explicativas:  
+  - `distance`, `NoOfPools`, `NoOfSites`, `avrain`, `altitude`, `meanmin`, `meanmax`, etc.
+
+## Exploración inicial de los datos
+
+```{r frogs-datos}
+data(frogs)  # carga el dataset desde DAAG
+str(frogs)
+head(frogs)
+```
+
+## Mapa de puntos con presencia/ausencia
+
+```{r frogs-mapa}
+plot(
+  northing ~ easting,
+  data = frogs,
+  pch  = c(1, 16)[frogs$pres.abs + 1],
+  xlab = "Metros este de puntos de referencia",
+  ylab = "Metros norte"
+)
+```
+
+::: {.callout-note}
+- Círculos y puntos sólidos representan sitios con **ausencia/presencia**.  
+- Esto ayuda a ver si hay patrones espaciales (por ejemplo, la especie se concentra en ciertas zonas).
+:::
+
+## Relación entre variables explicativas
+
+```{r frogs-pairs}
+pairs(frogs[, c(5:10, 4)],
+      oma = c(2, 2, 2, 2),
+      cex = 0.5)
+```
+
+Aquí exploramos cómo se relacionan entre sí variables ambientales como `distance`, `NoOfPools`, `NoOfSites`, `avrain`, `altitude`, `meanmin`, `meanmax`.
+
+## Densidades y posibles transformaciones
+
+La idea es ver la distribución de algunas variables clave y pensar en transformaciones que las hagan más “amigables” para el modelo (por ejemplo, simétricas o menos sesgadas).
+
+```{r frogs-densidades, fig.height=4}
+par(mfrow = c(1, 3))
+for(nam in c("distance", "NoOfPools", "NoOfSites")){
+  y <- frogs[, nam]
+  plot(density(y), main = "", xlab = nam)
+}
+
+par(mfrow = c(1, 3))
+for(nam in c("distance", "NoOfPools", "NoOfSites")){
+  y <- frogs[, nam]
+  plot(density(sqrt(y)), main = "", xlab = paste("sqrt(", nam, ")"))
+}
+
+par(mfrow = c(1, 3))
+for(nam in c("distance", "NoOfPools", "NoOfSites")){
+  y <- frogs[, nam]
+  plot(density(log(y)), main = "", xlab = paste("log(", nam, ")"))
+}
+par(mfrow = c(1, 1))
+```
+
+::: {.callout-tip}
+En el PDF se comenta que para algunas variables conviene usar:
+
+- `log(distance)`  
+- `log(NoOfPools)`  
+- Transformaciones sobre `NoOfSites` y combinaciones de temperaturas (`meanmax + meanmin`, `meanmax - meanmin`).
+:::
+
+## Correlaciones entre variables climáticas
+
+```{r frogs-corr-altura}
+with(frogs, cor(altitude, meanmax))
+
+with(frogs, cor(cbind(
+  altitude,
+  "meanmax+meanmin" = meanmin + meanmax,
+  "meanmax-meanmin" = meanmin - meanmax
+)))
+```
+
+Y un gráfico de pares con transformaciones:
+
+```{r frogs-pairs-transform}
+with(frogs,
+     pairs(
+       cbind(
+         log(distance), log(NoOfPools), NoOfSites,
+         avrain, altitude, meanmax + meanmin, meanmax - meanmin
+       ),
+       col    = "gray",
+       labels = c("log(distance)", "log(NoOfPools)", "NoOfSites",
+                  "Av. rainfall", "altitude",
+                  "meanmax+meanmin", "meanmax-meanmin"),
+       panel  = panel.smooth
+     )
+)
+```
+
+---
+
+## Modelo logit: especificación y ajuste
+
+Recordemos que un modelo logit asume:
+
+$$
+\Pr(\text{pres.abs} = 1 \mid X) = \frac{1}{1 + e^{-(X\beta)}},
+$$
+
+y que el **logit** de la probabilidad es lineal en las X:
+
+$$
+\log\left(\frac{p}{1-p}\right) = X\beta.
+$$
+
+### Modelo logit inicial (`frogs.glm0`)
+
+```{r frogs-glm0}
+frogs.glm0 <- glm(
+  pres.abs ~ log(distance) + log(NoOfPools) + NoOfSites +
+    avrain + I(meanmin + meanmax) + I(meanmin - meanmax),
+  family = binomial,
+  data   = frogs
+)
+
+summary(frogs.glm0)
+```
+
+### Modelo logit reducido (`frogs.glm1`)
+
+Quitamos algunas variables para ver si un modelo más simple puede funcionar bien:
+
+```{r frogs-glm1}
+frogs.glm1 <- glm(
+  pres.abs ~ log(distance) + log(NoOfPools) +
+    I(meanmin + meanmax) + I(meanmin - meanmax),
+  family = binomial,
+  data   = frogs
+)
+
+summary(frogs.glm1)
+```
+
+::: {.callout-note}
+- **Signo** del coeficiente: indica si la variable aumenta o reduce la probabilidad de presencia.  
+- **Magnitud**: se interpreta mejor usando la exponencial (odds ratios).  
+- **p-value**: indica si la variable aporta significativamente al modelo logit.
+:::
+
+## Tipos de predicción
+
+```{r frogs-predicciones}
+# Probabilidades ajustadas
+head(fitted(frogs.glm1))
+
+# Probabilidades con predict(type = "response")
+head(predict(frogs.glm1, type = "response"))
+
+# Escala lineal del predictor (logit)
+head(predict(frogs.glm1, type = "link"))
+
+# Valores ajustados en la escala lineal con errores estándar
+pred_link <- predict(frogs.glm1, type = "link", se.fit = TRUE)
+str(pred_link)
+```
+
+## Aporte de cada variable: `termplot`
+
+```{r frogs-termplot, fig.height=4}
+par(mfrow = c(1, 4), pty = "s")
+
+frogs$maxminSum  <- with(frogs, meanmax + meanmin)
+frogs$maxminDiff <- with(frogs, meanmax - meanmin)
+
+frogs.glm <- glm(
+  pres.abs ~ log(distance) + log(NoOfPools) +
+    maxminSum + maxminDiff,
+  family = binomial,
+  data   = frogs
+)
+
+termplot(frogs.glm)
+par(mfrow = c(1, 1))
+```
+
+::: {.callout-note}
+Cada gráfico muestra cómo se relaciona la **respuesta en escala logit** con una variable, manteniendo las demás fijas. Es un análogo al “efecto parcial” de cada regresor.
+:::
+
+## Validación cruzada del modelo logit
+
+```{r frogs-cv}
+CVbinary(frogs.glm0)
+CVbinary(frogs.glm)
+```
+
+Estas funciones entregan estimaciones de error de clasificación usando validación cruzada, lo que ayuda a medir la capacidad predictiva del modelo.
+
+## Odds Ratios (OR) e intervalos de confianza
+
+```{r frogs-or}
+exp(coef(frogs.glm))
+
+exp(cbind(OR = coef(frogs.glm),
+          confint(frogs.glm)))
+```
+
+::: {.callout-tip}
+- Un OR > 1 indica que una **mayor** X está asociada a **mayor riesgo** de presencia (o ser clasificado como 1).  
+- Un OR < 1 indica un efecto protector (menor probabilidad de presencia).
+:::
+
+## Matriz de confusión y precisión
+
+Primero calculamos las probabilidades y luego definimos una **regla de corte** (threshold) para clasificar 0/1:
+
+```{r frogs-confusion}
+frogs$rankP <- predict(frogs.glm, newdata = frogs, type = "response")
+plot(frogs$pres.abs, frogs$rankP,
+     xlab = "Presencia real (0/1)", ylab = "Probabilidad estimada")
+
+fitted.results <- predict(frogs.glm, newdata = frogs, type = "response")
+fitted.results <- ifelse(fitted.results > 0.399779, 1, 0)
+
+misClasificError <- mean(fitted.results != frogs$pres.abs)
+print(paste("Accuracy", 1 - misClasificError))
+
+matrizConfusion <- table(Real = frogs$pres.abs,
+                         Predicho = fitted.results)
+matrizConfusion
+```
+
+Usando `caret::confusionMatrix`:
+
+```{r frogs-caret}
+CM_logit <- confusionMatrix(
+  as.factor(fitted.results),
+  as.factor(frogs$pres.abs)
+)
+CM_logit
+```
+
+## Curva ROC y AUC con `ROCR`
+
+```{r frogs-roc-rocr}
+p  <- predict(frogs.glm, newdata = frogs, type = "response")
+pr <- prediction(p, frogs$pres.abs)
+prf <- performance(pr, measure = "tpr", x.measure = "fpr")
+plot(prf, main = "Curva ROC (ROCR)")
+
+cutoffs <- data.frame(
+  cut = prf@alpha.values[[1]],
+  fpr = prf@x.values[[1]],
+  tpr = prf@y.values[[1]]
+)
+
+head(subset(cutoffs, fpr <= 0.2))
+
+auc <- performance(pr, measure = "auc")
+auc <- auc@y.values[[1]]
+auc
+```
+
+---
+
+# Parte 2: Modelo logit con tablas de contingencia y ANOVA univariado
+
+En esta parte veremos tres ejemplos más cortos:
+
+1. Un modelo logit usando la tabla **UCBAdmissions**.  
+2. Un ANOVA de un factor con el dataset **sugar**.  
+3. Un ANOVA de dos factores con **appletaste**.
+
+## Caso UCBAdmissions (logit con categorías)
+
+`UCBAdmissions` es una tabla 2x2x6 que contiene:
+
+- Admisión (Admitted / Rejected)  
+- Género (Male / Female)  
+- Departamento (A–F)
+
+```{r ucb-datos}
+UCBAdmissions
+dimnames(UCBAdmissions)
+```
+
+Construimos un `data.frame` con admitidos y rechazados:
+
+```{r ucb-prepara}
+UCB <- as.data.frame.table(UCBAdmissions["Admitted", , ])
+names(UCB)[3] <- "admit"
+
+UCB$reject <- as.data.frame.table(UCBAdmissions["Rejected", , ])$Freq
+
+UCB$Gender <- relevel(UCB$Gender, ref = "Male")
+
+UCB$total <- UCB$admit + UCB$reject
+UCB$p     <- UCB$admit / UCB$total
+
+head(UCB)
+```
+
+### Modelo logit con interacción Dept * Gender
+
+```{r ucb-glm}
+UCB.glm <- glm(
+  p ~ Dept * Gender,
+  family  = binomial,
+  data    = UCB,
+  weights = total
+)
+
+anova(UCB.glm, test = "Chisq")
+summary(UCB.glm)
+summary(UCB.glm)$coef
+```
+
+::: {.callout-note}
+- El modelo captura cómo la probabilidad de admisión cambia por **departamento** y **género**, incluyendo la **interacción** entre ambos.  
+- El resultado ilustra el clásico ejemplo de **sesgo aparente** por género y cómo la estructura por departamentos altera la interpretación (paradoja de Simpson).
+:::
+
+## ANOVA de un factor: dataset `sugar`
+
+Este ejemplo se centra en un **diseño de tratamientos** (trt) y la variable respuesta `weight` (peso).
+
+```{r sugar-datos}
+data(sugar)
+head(sugar)
+
+library(lattice)
+stripplot(trt ~ weight,
+          pch  = 0,
+          xlab = "Weight (mg)",
+          data = sugar,
+          aspect = 0.5)
+
+levels(sugar$trt)
+```
+
+### Ajuste del modelo ANOVA
+
+```{r sugar-anova}
+sugar.aov <- aov(weight ~ trt, data = sugar)
+model.matrix(sugar.aov)
+
+summary.lm(sugar.aov)
+```
+
+::: {.callout-note}
+- El intercepto está asociado a una categoría base (por ejemplo, **Control**).  
+- Cada coeficiente representa la **diferencia** de cada tratamiento respecto al control.  
+- Probamos si hay diferencias significativas en el peso promedio entre tratamientos.
+:::
+
+### Medias y comparaciones múltiples (Tukey)
+
+```{r sugar-posthoc}
+predict(sugar.aov)
+
+sem <- summary.lm(sugar.aov)$sigma / sqrt(3)  # 3 observaciones por grupo
+
+boxplot(sugar$weight ~ sugar$trt,
+        xlab = "Tratamiento", ylab = "Peso",
+        main = "Distribución de peso por tratamiento")
+
+TukeyHSD(sugar.aov, conf.level = 0.95)
+plot(TukeyHSD(sugar.aov, conf.level = 0.95), las = 2)
+```
+
+## ANOVA de dos factores: `appletaste`
+
+Este dataset contiene evaluaciones de aftertaste (sabor residual) de distintos productos de manzana por distintos panelistas.
+
+```{r appletaste-datos}
+data(appletaste)
+head(appletaste)
+
+# Eliminamos un panelista en particular (k)
+appletaste1 <- appletaste[appletaste$panelist != "k", ]
+
+table(appletaste1$product, appletaste1$panelist)
+sapply(appletaste1, is.factor)
+```
+
+### ANOVA con panelista y producto
+
+```{r appletaste-anova}
+appletaste.aov <- aov(aftertaste ~ panelist + product,
+                      data = appletaste1)
+
+summary(appletaste.aov)
+
+boxplot(appletaste1$aftertaste ~ appletaste1$product,
+        main = "Aftertaste por producto")
+
+boxplot(appletaste1$aftertaste ~ appletaste1$panelist,
+        main = "Aftertaste por panelista")
+
+TukeyHSD(appletaste.aov, conf.level = 0.95)
+```
+
+::: {.callout-note}
+- El ANOVA permite separar el efecto del **producto** del efecto del **panelista**.  
+- En la práctica, nos interesa si el **producto** tiene un efecto significativo en la evaluación, más allá de la variabilidad entre panelistas.
+:::
+
+---
+
+# Parte 3: MANOVA y análisis multivariante con datos de ratas
+
+En este último ejemplo se trabaja con datos simulados de ratas con:
+
+- `y1`: peso inicial.  
+- `y2`: peso final.  
+- `y3`: peso del tumor.  
+- Factores: `temp` (temperatura ambiental) y `sex` (sexo).
+
+## Generar el dataset
+
+```{r ratas-datos}
+pesos <- c(
+  18.15, 16.51, 0.24, 19.15, 19.49, 0.16, 18.68,
+  19.50, 0.32, 18.35, 19.81, 0.17, 19.54, 19.84,
+  0.20, 20.58, 19.44, 0.22, 21.27, 23.30, 0.33,
+  18.87, 22.00, 0.25, 19.57, 22.30, 0.45, 20.66,
+  21.08, 0.20, 20.15, 18.95, 0.35, 21.56, 20.34,
+  0.20, 20.74, 16.69, 0.31, 20.22, 19.00, 0.18,
+  20.02, 19.26, 0.41, 18.38, 17.92, 0.30, 17.20,
+  15.90, 0.28, 20.85, 19.90, 0.17
+)
+
+y1 <- pesos[c(TRUE, FALSE, FALSE)]
+y2 <- pesos[c(FALSE, TRUE, FALSE)]
+y3 <- pesos[c(FALSE, FALSE, TRUE)]
+
+temp <- factor(c(rep(4, 6), rep(20, 6), rep(34, 6)))
+sex  <- factor(rep(c(rep("M", 3), rep("H", 3)), 3))
+
+ratas <- data.frame(y1, y2, y3, temp, sex)
+head(ratas)
+```
+
+## Boxplots exploratorios
+
+```{r ratas-boxplots}
+ggboxplot(ratas, x = "sex", y = c("y1", "y2"),
+          merge = TRUE, palette = "jco")
+
+ggboxplot(ratas, x = "temp", y = c("y1", "y2"),
+          merge = TRUE, palette = "jco")
+```
+
+## Estadísticos agrupados (media, n, sd)
+
+```{r ratas-aggregate}
+aggregate(ratas[, 1:3], list(sex = ratas$sex, temp = ratas$temp), mean)
+aggregate(ratas[, 1:3], list(sex = ratas$sex, temp = ratas$temp), length)
+aggregate(ratas[, 1:3], list(sex = ratas$sex, temp = ratas$temp), sd)
+```
+
+## Normalidad univariada por grupo
+
+Definimos una función que calcula el p-value del test de Shapiro–Wilk:
+
+```{r ratas-normalidad}
+normal <- function(vec){
+  shapiro.test(vec)$p.value
+}
+
+aggregate(ratas[, 1:3], list(sex = ratas$sex, temp = ratas$temp), normal)
+```
+
+::: {.callout-note}
+- P-values grandes sugieren que **no podemos rechazar** normalidad para esa combinación de grupo y variable.  
+- Esto es un requisito para aplicar ANOVA/MANOVA de forma estricta.
+:::
+
+## Modelos MANOVA
+
+Planteamos distintos modelos multivariantes:
+
+```{r ratas-manova}
+mod1   <- manova(cbind(y1, y2, y3) ~ sex + temp, data = ratas)
+summary(mod1)
+
+mod1.1 <- manova(cbind(y1, y2, y3) ~ temp, data = ratas)
+summary(mod1.1)
+
+mod2   <- manova(cbind(y1, y2, y3) ~ sex * temp, data = ratas)
+summary(mod2)
+```
+
+::: {.callout-note}
+- MANOVA evalúa si los factores (sexo, temperatura, e interacción) tienen efectos **conjuntos** sobre el vector \((y1, y2, y3)\).  
+- Si hay significancia, se justifica mirar luego análisis univariados para cada variable por separado.
+:::
+
+## ANOVA univariados asociados
+
+```{r ratas-aov}
+m1 <- aov(y1 ~ temp,        data = ratas)
+m2 <- aov(y2 ~ temp,        data = ratas)
+m3 <- aov(y3 ~ temp,        data = ratas)
+m4 <- aov(y1 ~ temp * sex,  data = ratas)
+m5 <- aov(y2 ~ temp * sex,  data = ratas)
+m6 <- aov(y3 ~ temp * sex,  data = ratas)
+
+summary(m1)
+summary(m2)
+summary(m3)
+summary(m4)
+summary(m5)
+summary(m6)
+```
+
+### Tamaño de efecto (eta cuadrado)
+
+```{r ratas-eta}
+etaSquared(m2)
+etaSquared(m5)
+```
+
+::: {.callout-note}
+Regla de interpretación de **eta²** (aproximada):
+
+- 0.01 → efecto pequeño.  
+- 0.06 → efecto mediano.  
+- > 0.14 → efecto grande.
+
+Esto ayuda a complementar la **significancia estadística** con una medida de **magnitud del efecto**.
+:::
+
+### Comparaciones múltiples (Tukey) para una de las ANOVA
+
+```{r ratas-tukey}
+post <- TukeyHSD(m2)
+post
+plot(post)
+```
+
+---
+
+# Cierre del laboratorio
+
+En este capítulo trabajaste con:
+
+- **Modelos logit** en contexto espacial (`frogs`) y con tablas de contingencia (`UCBAdmissions`), aprendiendo a:
+  - Interpretar coeficientes en términos de **odds ratios**.  
+  - Evaluar desempeño mediante **ROC**, **AUC**, matrices de confusión y accuracy.  
+
+- **ANOVA** para comparar medias entre tratamientos (`sugar`) y para diseños con dos factores (`appletaste`).  
+
+- **MANOVA** y análisis multivariante (`ratas`), incluyendo:
+  - Comprobación de supuestos (normalidad, homogeneidad de varianzas).  
+  - Interpretación de efectos conjuntos e individuales.  
+  - Tamaño de efecto mediante **eta²**.
+
+Estos procedimientos son la base para muchos análisis empíricos modernos en economía, negocios, salud y ciencias sociales, más allá del modelo de regresión lineal clásico.

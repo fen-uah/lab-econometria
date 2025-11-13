@@ -1,249 +1,565 @@
 ---
-title: "01_Introducción_y_Estadística_Descriptiva"
+title: "Capitulo 1 Introduccion_y_Estadistica_Descriptiva"
+author: "Econometría para la Gestión (ECO_EPG) - FEN UAH"
+lang: es
 format:
   html:
     toc: true
-    toc-title: "Contenido"
+    number-sections: true
     smooth-scroll: true
-    code-fold: false
-    code-copy: true
-execute:
-  echo: true
-  warning: false
-  message: false
+  pdf:
+    pdf-engine: xelatex
+    toc: true
+    number-sections: true
 ---
 
-# 📘 Material Teórico
-
-> Este laboratorio se basa en el documento **"01_Introducción_y_Estadística_Descriptiva (versión imprimible)"**, donde se revisan los conceptos fundamentales de la estadística descriptiva y su aplicación práctica en RStudio.
-
-[Descargar documento en PDF](../pdf_epg/01_Introduccion_y_Estadistica_Descriptiva_version_imprimible.pdf){.btn target="_blank" rel="noopener"}
-
-------------------------------------------------------------------------
-
-## 📑 Contenido del PDF
-
-1.  **Introducción a la estadística**
-    -   Concepto de variable aleatoria y datos
-    -   Tipos de datos: cualitativos y cuantitativos\
-2.  **Métodos gráficos para datos cualitativos y cuantitativos**
-    -   Gráfico de barras, torta y Pareto\
-    -   Histogramas y densidades
-3.  **Medidas numéricas**
-    -   Media, mediana, moda, rango, varianza, desviación estándar, coeficiente de variación\
-4.  **Distribuciones y normalidad**
-    -   Pruebas de Shapiro-Wilk y Kolmogorov-Smirnov\
-    -   Q-Q plot\
-5.  **Asimetría y curtosis**
-
-------------------------------------------------------------------------
-
-# 🧠 Objetivo del Laboratorio
-
-Aprender a aplicar herramientas básicas de **estadística descriptiva** en R, utilizando datos **cualitativos** y **cuantitativos**, comprendiendo cómo construir gráficos, calcular medidas y verificar normalidad de una distribución.
-
-------------------------------------------------------------------------
-
-# 🔧 Preparación del entorno
-
-```{r}
-# Instalar librerías si no están disponibles
-# install.packages(c("openxlsx", "qcc", "modeest", "psych", "moments"))
-
-library(openxlsx)  # para leer archivos Excel
-library(qcc)       # para gráficos de control y Pareto
-library(modeest)   # para calcular la moda
-library(psych)     # para análisis descriptivo
-library(moments)   # para asimetría y curtosis
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo    = TRUE,
+  message = FALSE,
+  warning = FALSE,
+  fig.align = "center"
+)
 ```
 
-------------------------------------------------------------------------
+# Material descargable
 
-# 🧩 Parte A — Datos cualitativos
+[Descargar PDF de contenidos teóricos](pdf_epg/Capitulo%20_1_Introduccion_y_Estadistica_Descriptiva.pdf){download="true"}
 
-```{r}
-datos1 <- read.xlsx("../data_epg/Ejemplo1.xlsx", sheet = "Hoja1", colNames = TRUE)
+El PDF **"Capitulo 1 Introduccion_y_Estadistica_Descriptiva"** desarrolla los siguientes temas principales (a modo de índice):
+
+-   **1.1 Introducción**
+    -   Definición y términos básicos de la estadística.\
+    -   Diferencia entre estadística descriptiva e inferencial.\
+    -   Importancia de la variabilidad.
+-   **1.2 Elementos Fundamentales de Estadística**
+    -   Población, muestra, unidad experimental.\
+    -   Variable, parámetros poblacionales y estimadores muestrales.\
+    -   Ejemplos de problemas descriptivos y de inferencia.
+-   **1.3 Tipos de Datos**
+    -   Datos cuantitativos.\
+    -   Datos cualitativos (nominales y ordinales).\
+    -   Por qué el tipo de dato determina qué herramientas estadísticas usar.
+-   **1.4 Estadística Descriptiva**
+    -   Métodos gráficos y numéricos para describir datos cualitativos.\
+    -   Métodos gráficos para describir datos cuantitativos.\
+    -   Métodos numéricos para describir datos cuantitativos.\
+    -   Medidas de tendencia central (media, mediana, moda).\
+    -   Medidas de variación (rango, varianza, desviación estándar).\
+    -   Medidas de posición relativa (percentiles, cuartiles, z-scores).
+    -   Medidas de asimetría (skewness).\
+    -   Medidas de concentración de datos (kurtosis).
+
+En este laboratorio, llevaremos varios de estos conceptos a la práctica usando **R**.
+
+# Configuración inicial en R
+
+En esta sección cargaremos las **librerías** necesarias y definiremos la **ruta a los datos**.
+
+## Carga de librerías
+
+```{r librerias}
+# Cargamos las librerías necesarias para el laboratorio
+library(openxlsx)  # leer archivos Excel (.xlsx)
+library(qcc)       # diagrama de Pareto
+library(modeest)   # moda (mfv = most frequent value)
+library(psych)     # funciones de estadística descriptiva (útil en otros labs)
+library(moments)   # skewness y kurtosis
+```
+
+::: callout-tip
+Si alguna librería no está instalada, puedes hacerlo con:
+
+``` r
+install.packages("nombre_del_paquete")
+```
+
+Por ejemplo: `install.packages("openxlsx")`.
+:::
+
+## Definir la ruta de trabajo
+
+Vamos a guardar la ruta donde están los datos en un objeto llamado `ruta_datos`.\
+Esto hace que el código sea más fácil de mantener si cambiamos de carpeta en el futuro.
+
+```{r ruta-datos}
+# Definimos la ruta donde están los archivos de datos del laboratorio.
+# IMPORTANTE: Ajusta esta ruta si tu carpeta tiene otro nombre o ubicación.
+
+ruta_datos <- "C:/Users/manue/Desktop/lab-econometria/labs_epg/data_epg"
+
+# Podemos verificar el contenido de la carpeta (opcional)
+list.files(ruta_datos)
+```
+
+::: callout-note
+En R es recomendable usar **/ (slash)** en lugar de **\\** en las rutas de Windows.\
+Por eso escribimos `"C:/Users/manue/Desktop/..."` en lugar de `"C:\\Users\\..."`.
+:::
+
+### Ejemplo 1: Accidentes y métodos gráficos para datos cualitativos
+
+En este ejemplo trabajamos con **datos cualitativos** (categorías de accidentes) y sus **frecuencias**.
+
+La idea es:
+
+1.  Leer una tabla de frecuencias desde Excel.\
+2.  Calcular las **frecuencias relativas**.\
+3.  Representar los datos con:
+    -   Gráfico de barras.\
+    -   Gráfico de torta (pie).\
+    -   Diagrama de Pareto.
+
+Cargar los datos del Ejemplo 1
+
+```{r ejemplo1-lectura}
+# Construimos la ruta completa al archivo Excel del Ejemplo 1
+archivo_ejemplo1 <- file.path(ruta_datos, "Ejemplo1.xlsx")
+
+# Leemos el archivo Excel
+datos1 <- read.xlsx(
+  archivo_ejemplo1,
+  sheet    = "Hoja1",
+  colNames = TRUE
+)
+
+# Vemos las primeras filas para entender la estructura
 head(datos1)
 ```
 
-🔍 **Explicación**\
-`read.xlsx()` lee archivos Excel. `head()` muestra las primeras filas del conjunto de datos.
+::: callout-note
+En este archivo esperamos tener al menos estas columnas:
 
-------------------------------------------------------------------------
+-   `Categoria`: tipo de accidente.\
+-   `Frecuencia`: cuántas veces se observó cada tipo de accidente.
+:::
 
-```{r}
-total <- sum(datos1$Frecuencia, na.rm = TRUE)
+### Cálculo de frecuencias relativas
+
+La **frecuencia relativa** se define como:
+
+$$\text{frecuencia relativa} = \frac{\text{frecuencia de la categoría}}{\text{total de observaciones}}. $$
+
+```{r ejemplo1-frecuencias}
+# Total de accidentes (suma de las frecuencias)
+total <- sum(datos1$Frecuencia)
+
+# Creamos una nueva columna con la frecuencia relativa
 datos1$relativa <- datos1$Frecuencia / total
+
+# Revisamos la tabla con frecuencia absoluta y relativa
 datos1
 ```
 
-🔍 **Explicación**\
-Calcula la frecuencia total y la frecuencia relativa (proporción de cada categoría).
+Ahora queremos una versión “lista para graficar” de las frecuencias relativas:
 
-------------------------------------------------------------------------
+```{r ejemplo1-relativo}
+# Convertimos la columna relativa en un vector fila
+relativo <- t(as.data.frame(datos1$relativa))
 
-```{r}
-relativo <- setNames(as.numeric(datos1$relativa), datos1$Categoria)
+# Asignamos como nombres de columnas las categorías
+colnames(relativo) <- datos1$Categoria
+
 relativo
 ```
 
-🔍 **Explicación**\
-Asigna nombres a los valores para construir gráficos.
+::: callout-tip
+-   `t()` transpone la tabla (cambia filas por columnas).\
+-   Esto nos deja un **vector fila** donde cada columna es una categoría distinta.
+:::
 
-------------------------------------------------------------------------
+### Gráfico de barras
 
-```{r}
-barplot(relativo,
-        xlab = "Categorías de accidentes",
-        ylab = "Frecuencia relativa",
-        las = 2,
-        col = "steelblue",
-        main = "Gráfico de barras de frecuencias relativas")
+El gráfico de barras es una forma estándar de mostrar **frecuencias** (o frecuencias relativas) de variables cualitativas.
+
+```{r ejemplo1-barplot}
+barplot(
+  relativo,
+  xlab = "Accidentes",
+  ylab = "Frecuencia relativa",
+  las  = 2  # rota las etiquetas del eje X para que se lean mejor
+)
 ```
 
-🔍 **Explicación**\
-Crea un gráfico de barras para visualizar proporciones entre categorías.
+::: callout-note
+-   Cada barra representa una **categoría de accidente**.\
+-   La altura de la barra representa la **frecuencia relativa** (proporción del total).\
+-   `las = 2` rota las etiquetas del eje horizontal para evitar que se encimen.
+:::
 
-------------------------------------------------------------------------
+### Gráfico de torta (pie chart)
 
-```{r}
-pie(relativo,
-    labels = names(relativo),
-    col = rainbow(length(relativo)),
-    main = "Distribución porcentual de accidentes")
+El gráfico de torta muestra la proporción de cada categoría como una “porción” de un círculo.
+
+```{r ejemplo1-pie}
+pie(
+  relativo,
+  labels = datos1$Categoria,
+  main   = "Accidentes de generación de energía"
+)
 ```
 
-🔍 **Explicación**\
-Gráfico circular para representar la proporción de cada categoría.
+::: callout-tip
+-   El gráfico de torta es útil para resaltar la **proporción** de cada categoría.\
+-   Sin embargo, para comparar categorías muy parecidas entre sí, un **gráfico de barras** suele ser más claro.
+:::
 
-------------------------------------------------------------------------
+### Diagrama de Pareto
 
-```{r}
-par(mar = rep(3, 4))
-pareto.chart(relativo,
-             ylab = "Frecuencia relativa",
-             main = "Diagrama de Pareto: Categorías de accidentes")
-par(mar = c(5, 4, 4, 2) + 0.1)
+El **diagrama de Pareto** ordena las categorías de mayor a menor frecuencia y muestra también la acumulación.
+
+```{r ejemplo1-pareto}
+# Creamos un vector nombrado: cada elemento es la frecuencia relativa,
+# y el nombre es la categoría
+relativo2 <- datos1$relativa
+names(relativo2) <- datos1$Categoria
+
+# Ajustamos márgenes del gráfico (opcional)
+par(mar = rep(4, 4))
+
+pareto.chart(relativo2)
 ```
 
-🔍 **Explicación**\
-El diagrama de Pareto ordena categorías y muestra la proporción acumulada.
+::: callout-note
+El diagrama de Pareto permite:
 
-------------------------------------------------------------------------
+-   Identificar cuáles son las **categorías más frecuentes** (las más importantes).\
+-   Visualizar la **acumulación**: por ejemplo, ver qué porcentaje del total representan las primeras 2 o 3 categorías.
 
-# 📊 Parte B — Datos cuantitativos
+Esto es muy útil en gestión para aplicar el principio de **80/20**:\
+una pequeña cantidad de causas suele explicar gran parte de los efectos.
+:::
 
-```{r}
-datos2 <- read.xlsx("../data_epg/Ejemplo2.xlsx", sheet = "Hoja1", colNames = TRUE)
+### Ejemplo 2: Rendimiento de vehículos y estadística descriptiva
 
-milla <- 1.6093
-galon <- 3.78
-factorconversion <- milla / galon
-datos2$EPA_Mileage_Ratings_km_l <- factorconversion * datos2$EPA_Mileage_Ratings_milla_galon
-```
+En este ejemplo trabajaremos con **datos cuantitativos**: rendimiento de vehículos medido por la **EPA** (Environmental Protection Agency).
 
-🔍 **Explicación**\
-Convierte unidades de rendimiento de millas/galón a km/litro.
+Pasos principales:
 
-------------------------------------------------------------------------
+1.  Convertir las unidades de rendimiento de millas/galón a km/litro.\
+2.  Explorar los datos con:
+    -   Gráfico simple.\
+    -   Histograma.\
+    -   Densidad estimada y comparación con la normal.\
+    -   Boxplot.\
+3.  Calcular medidas descriptivas:
+    -   Media, mediana, moda, rango, desviación estándar, coeficiente de variación.\
+4.  Evaluar la normalidad:
+    -   Prueba de Shapiro-Wilk.\
+    -   Prueba de Kolmogorov-Smirnov.\
+    -   Gráfico QQ.\
+    -   Skewness y kurtosis.
 
-```{r}
-plot(datos2$EPA_Mileage_Ratings_km_l,
-     main = "Rendimiento EPA (km/l)",
-     ylab = "km/l",
-     xlab = "Observaciones",
-     type = "b", col = "darkgreen")
-```
+### Cargar los datos del Ejemplo 2
 
-🔍 **Explicación**\
-Muestra el rendimiento por observación (útil para detectar valores atípicos).
+```{r ejemplo2-lectura}
+archivo_ejemplo2 <- file.path(ruta_datos, "Ejemplo2.xlsx")
 
-------------------------------------------------------------------------
-
-```{r}
-hist(datos2$EPA_Mileage_Ratings_km_l,
-     main = "Histograma del rendimiento (EPA)",
-     xlab = "km/l",
-     freq = FALSE,
-     col = "lightblue")
-
-lines(density(datos2$EPA_Mileage_Ratings_km_l, na.rm = TRUE))
-m <- mean(datos2$EPA_Mileage_Ratings_km_l, na.rm = TRUE)
-s <- sd(datos2$EPA_Mileage_Ratings_km_l, na.rm = TRUE)
-curve(dnorm(x, mean = m, sd = s), add = TRUE, col = "red", lwd = 2)
-```
-
-🔍 **Explicación**\
-Combina histograma, densidad empírica y curva normal teórica para comparar formas.
-
-------------------------------------------------------------------------
-
-```{r}
-boxplot(datos2$EPA_Mileage_Ratings_km_l,
-        main = "Diagrama de cajas",
-        ylab = "km/l",
-        col = "lightgreen",
-        outline = TRUE)
-```
-
-🔍 **Explicación**\
-El boxplot muestra mediana, cuartiles y posibles valores extremos.
-
-------------------------------------------------------------------------
-
-```{r}
-media   <- mean(datos2$EPA_Mileage_Ratings_km_l, na.rm = TRUE)
-mediana <- median(datos2$EPA_Mileage_Ratings_km_l, na.rm = TRUE)
-moda    <- mfv(datos2$EPA_Mileage_Ratings_km_l)
-rango   <- range(datos2$EPA_Mileage_Ratings_km_l, na.rm = TRUE)
-desv    <- sd(datos2$EPA_Mileage_Ratings_km_l, na.rm = TRUE)
-cv      <- desv / media
-cuant   <- quantile(datos2$EPA_Mileage_Ratings_km_l, probs = c(0, 0.25, 0.5, 0.75, 1), na.rm = TRUE)
-list(Media = media, Mediana = mediana, Moda = moda,
-     Minimo = rango[1], Maximo = rango[2],
-     Desviacion = desv, Coef_Variacion = cv,
-     Cuantiles = cuant)
-```
-
-🔍 **Explicación**\
-Calcula medidas de tendencia central, dispersión y posición.
-
-------------------------------------------------------------------------
-
-```{r}
-shapiro.test(datos2$EPA_Mileage_Ratings_km_l)
-ks.test(datos2$EPA_Mileage_Ratings_km_l, pnorm, m, s)
-qqnorm(datos2$EPA_Mileage_Ratings_km_l, main = "Q-Q Plot Normal")
-qqline(datos2$EPA_Mileage_Ratings_km_l, col = "red", lwd = 2)
-```
-
-🔍 **Explicación**\
-Evalúa la normalidad mediante pruebas estadísticas y gráfico Q-Q.
-
-------------------------------------------------------------------------
-
-```{r}
-asimetria <- skewness(datos2$EPA_Mileage_Ratings_km_l, na.rm = TRUE)
-curtosis  <- kurtosis(datos2$EPA_Mileage_Ratings_km_l, na.rm = TRUE)
-c(skewness = asimetria, kurtosis = curtosis)
-```
-
-🔍 **Explicación**\
-Mide la forma de la distribución: asimetría (cola) y curtosis (peso de colas).
-
-------------------------------------------------------------------------
-
-```{r}
-set.seed(123)
-datos_simulados <- rnorm(
-  n = sum(!is.na(datos2$EPA_Mileage_Ratings_km_l)),
-  mean = m, sd = s
+datos2 <- read.xlsx(
+  archivo_ejemplo2,
+  sheet    = "Hoja1",
+  colNames = TRUE
 )
 
-hist(datos_simulados, main = "Simulación normal teórica",
-     xlab = "km/l (simulado)", freq = FALSE, col = "lightgray")
-curve(dnorm(x, mean = m, sd = s), add = TRUE, lwd = 2, col = "blue")
+head(datos2)
 ```
 
-🔍 **Explicación**\
-Simula una muestra normal teórica y la compara con los datos observados.
+::: callout-note
+En este archivo esperamos tener una columna llamada, por ejemplo:
+
+-   `EPA_Mileage_Ratings_milla_galon`: rendimiento en millas por galón.
+:::
+
+### Conversión de unidades: de millas/galón a km/litro
+
+Recordemos las equivalencias:
+
+-   1 milla ≈ 1.6093 kilómetros.\
+-   1 galón ≈ 3.78 litros.
+
+Entonces, el factor de conversión es:
+
+$$\text{factor} = \frac{1.6093}{3.78}.$$
+
+```{r ejemplo2-conversion}
+milla <- 1.6093
+galon <- 3.78
+
+factorconversion <- milla / galon
+factorconversion
+```
+
+Aplicamos este factor a la columna de rendimiento:
+
+```{r ejemplo2-nueva-variable}
+datos2$EPA_Mileage_Ratings_km_l <- factorconversion * datos2$EPA_Mileage_Ratings_milla_galon
+
+# Resumen de la nueva variable
+summary(datos2$EPA_Mileage_Ratings_km_l)
+```
+
+::: callout-tip
+Crear una **nueva columna** (en lugar de sobrescribir la original) permite:
+
+-   Conservar las unidades originales.\
+-   Comparar resultados y evitar errores de interpretación.
+:::
+
+### Gráfico simple de la serie
+
+```{r ejemplo2-plot}
+plot(
+  datos2$EPA_Mileage_Ratings_km_l,
+  main = "Rendimiento EPA en km/l",
+  xlab = "Observación",
+  ylab = "Rendimiento (km/l)"
+)
+```
+
+Este gráfico muestra cómo varía el rendimiento (en km/l) a lo largo de las observaciones.
+
+## Histograma y densidad
+
+### Histograma de frecuencias (escala de densidad)
+
+```{r ejemplo2-histograma}
+hist(
+  datos2$EPA_Mileage_Ratings_km_l,
+  main = "Histograma de frecuencias EPA",
+  xlab = "Rendimiento (km/l)",
+  freq = FALSE  # FALSE => el eje Y representa densidad, no conteos
+)
+```
+
+### Densidad estimada y comparación con la normal
+
+```{r ejemplo2-densidad}
+# Estimación de la densidad empírica
+plot(
+  density(datos2$EPA_Mileage_Ratings_km_l),
+  main = "Densidad de frecuencias EPA",
+  xlab = "Rendimiento (km/l)"
+)
+
+# Añadimos la curva de una Normal con misma media y desviación estándar
+curve(
+  dnorm(
+    x,
+    mean = mean(datos2$EPA_Mileage_Ratings_km_l, na.rm = TRUE),
+    sd   = sd(datos2$EPA_Mileage_Ratings_km_l,   na.rm = TRUE)
+  ),
+  add = TRUE,
+  col = "red"
+)
+```
+
+::: callout-note
+-   La curva negra representa la **densidad empírica** estimada a partir de los datos.\
+-   La curva roja representa una **distribución normal teórica** con la **misma media y desviación estándar** que la muestra.\
+-   Comparar ambas curvas nos da una idea visual de qué tan “normal” parece la distribución.
+:::
+
+### Boxplot (gráfico de cajas)
+
+El boxplot resume:
+
+-   Mediana.\
+-   Cuartiles (Q1 y Q3).\
+-   Rango intercuartílico.\
+-   Posibles valores atípicos (outliers).
+
+```{r ejemplo2-boxplot}
+boxplot(
+  datos2$EPA_Mileage_Ratings_km_l,
+  main    = "Gráfico de cajas 1",
+  ylab    = "Rendimiento (km/l)",
+  outline = TRUE  # muestra los posibles outliers
+)
+```
+
+### Medidas descriptivas: centro y dispersión
+
+Calculamos:
+
+-   **Media**.\
+-   **Mediana**.\
+-   **Moda** (usando `mfv`).\
+-   **Rango**.\
+-   **Desviación estándar**.\
+-   **Coeficiente de variación**.
+
+```{r ejemplo2-medidas}
+media   <- mean(datos2$EPA_Mileage_Ratings_km_l, na.rm = TRUE)
+mediana <- median(datos2$EPA_Mileage_Ratings_km_l, na.rm = TRUE)
+moda    <- mfv(datos2$EPA_Mileage_Ratings_km_l)  # most frequent value
+rango   <- range(datos2$EPA_Mileage_Ratings_km_l, na.rm = TRUE)
+desv    <- sd(datos2$EPA_Mileage_Ratings_km_l, na.rm = TRUE)
+
+coeficiente_variacion <- desv / media
+
+media
+mediana
+moda
+rango
+desv
+coeficiente_variacion
+```
+
+::: callout-note
+-   La **media** es el promedio aritmético.\
+-   La **mediana** es el valor central de los datos ordenados.\
+-   La **moda** es el valor que más se repite.\
+-   El **coeficiente de variación** es adimensional y se interpreta como:
+
+$$CV = \frac{\text{desviación estándar}}{\text{media}}. $$
+
+Es útil para comparar la variabilidad relativa entre diferentes variables.
+:::
+
+## Pruebas de normalidad
+
+Aplicamos dos pruebas clásicas de normalidad:
+
+### Prueba de Shapiro-Wilk
+
+```{r ejemplo2-shapiro}
+shapiro.test(datos2$EPA_Mileage_Ratings_km_l)
+```
+
+-   **H0:** los datos provienen de una distribución normal.\
+-   **H1:** los datos NO provienen de una distribución normal.
+
+Si el **p-valor** es menor a 0.05, rechazamos H0 y concluimos que los datos **no son normales**.
+
+### Prueba de Kolmogorov-Smirnov
+
+```{r ejemplo2-ks}
+ks.test(
+  datos2$EPA_Mileage_Ratings_km_l,
+  pnorm,
+  mean(datos2$EPA_Mileage_Ratings_km_l, na.rm = TRUE),
+  sd(datos2$EPA_Mileage_Ratings_km_l,   na.rm = TRUE)
+)
+```
+
+Aquí comparamos la distribución muestral con una **normal teórica** con:
+
+-   media = media muestral\
+-   desviación estándar = desviación estándar muestral
+
+## Simulación de una distribución normal comparable
+
+Generamos datos simulados desde una distribución normal con la misma media y desviación estándar que los datos reales, y comparamos los histogramas.
+
+```{r ejemplo2-simulacion}
+set.seed(123)  # para reproducibilidad
+
+datos_simulados <- rnorm(
+  1000,
+  mean = mean(datos2$EPA_Mileage_Ratings_km_l, na.rm = TRUE),
+  sd   = sd(datos2$EPA_Mileage_Ratings_km_l,   na.rm = TRUE)
+)
+
+# Histograma de los datos simulados
+hist(
+  datos_simulados,
+  main = "Histograma de datos simulados (Normal)",
+  xlab = "Rendimiento (km/l)"
+)
+
+# Histograma de los datos reales con curva normal
+hist(
+  datos2$EPA_Mileage_Ratings_km_l,
+  freq = FALSE,
+  main = "Datos EPA con curva normal teórica",
+  xlab = "Rendimiento (km/l)"
+)
+
+curve(
+  dnorm(
+    x,
+    mean = mean(datos2$EPA_Mileage_Ratings_km_l, na.rm = TRUE),
+    sd   = sd(datos2$EPA_Mileage_Ratings_km_l,   na.rm = TRUE)
+  ),
+  add = TRUE,
+  col = "red"
+)
+```
+
+## Cuantiles y valores teóricos
+
+Calculamos los **cuantiles** (percentiles) y luego los valores teóricos de una normal para los percentiles 25% y 75% usando `qnorm`.
+
+```{r ejemplo2-cuantiles}
+# Cuantiles 0%, 25%, 50%, 75% y 100%
+quantile(
+  datos2$EPA_Mileage_Ratings_km_l,
+  prob = c(0, 0.25, 0.5, 0.75, 1),
+  na.rm = TRUE
+)
+```
+
+Ahora calculamos los valores que corresponderían al 25% y 75% bajo una distribución normal con la misma media y desviación estándar:
+
+```{r ejemplo2-z-teoricos}
+z_0.75 <- mean(datos2$EPA_Mileage_Ratings_km_l, na.rm = TRUE) +
+  qnorm(0.75) * sd(datos2$EPA_Mileage_Ratings_km_l, na.rm = TRUE)
+
+z_0.25 <- mean(datos2$EPA_Mileage_Ratings_km_l, na.rm = TRUE) +
+  qnorm(0.25) * sd(datos2$EPA_Mileage_Ratings_km_l, na.rm = TRUE)
+
+z_0.75
+z_0.25
+```
+
+## Gráfico QQ (quantile-quantile)
+
+El gráfico QQ compara los cuantiles de los datos con los cuantiles de una normal teórica.
+
+```{r ejemplo2-qqplot}
+qqnorm(datos2$EPA_Mileage_Ratings_km_l)
+qqline(datos2$EPA_Mileage_Ratings_km_l, col = "red")
+```
+
+-   Si los puntos siguen aproximadamente la línea roja, la distribución de los datos es **cercana a la normal**.\
+-   Desviaciones sistemáticas indican diferencias respecto a la normalidad (colas más pesadas, asimetría, etc.).
+
+## Asimetría (skewness) y curtosis (kurtosis)
+
+Finalmente, medimos la **forma** de la distribución mediante:
+
+-   **Skewness**: mide la asimetría.\
+-   **Kurtosis**: mide el “apuntamiento” o peso de las colas comparado con una normal.
+
+```{r ejemplo2-skew-kurtosis}
+skewness(datos2$EPA_Mileage_Ratings_km_l, na.rm = TRUE)
+kurtosis(datos2$EPA_Mileage_Ratings_km_l, na.rm = TRUE)
+```
+
+::: callout-note
+-   Si **skewness \> 0**: asimetría hacia la derecha (cola más larga a la derecha).\
+
+-   Si **skewness \< 0**: asimetría hacia la izquierda.
+
+-   Para la curtosis (definición clásica):
+
+    -   Una distribución normal tiene **kurtosis ≈ 3**.\
+    -   Si kurtosis \> 3: colas más pesadas (leptocúrtica).\
+    -   Si kurtosis \< 3: colas más ligeras (platicúrtica).
+:::
+
+## Resumen final del Ejemplo 2
+
+En este ejemplo aprendimos a:
+
+-   Convertir unidades (millas/galón → km/l).\
+-   Explorar datos cuantitativos con gráficos:
+    -   Plot simple, histograma, densidad, boxplot y QQ-plot.\
+-   Calcular medidas descriptivas:
+    -   Media, mediana, moda, rango, desviación estándar, coeficiente de variación.\
+-   Evaluar la normalidad de una variable usando:
+    -   Pruebas de hipótesis (Shapiro-Wilk, Kolmogorov-Smirnov).\
+    -   Comparación visual con una distribución normal.\
+    -   Skewness y kurtosis.
+
+Estos pasos son la base para análisis más avanzados en econometría, donde **suponemos frecuentemente normalidad** en los errores o en ciertas variables.

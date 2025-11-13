@@ -1,367 +1,275 @@
 ---
-title: "Laboratorio 3_epg: Regresión Múltiple"
-subtitle: "Econometría para la Gestión — FEN-UAH"
+title: "Capitulo_3_Regresion_Multiple"
+author: "Econometría para la Gestión (ECO_EPG) - FEN UAH"
+lang: es
 format:
   html:
     toc: true
-    toc-depth: 3
-    smooth-scroll: true
-    code-link: true
     number-sections: true
-    html-math-method: mathjax
-execute:
-  echo: true
-  message: false
-  warning: false
-editor: 
-  markdown: 
-    wrap: 72
+    smooth-scroll: true
+  pdf:
+    pdf-engine: xelatex
+    toc: true
+    number-sections: true
 ---
 
-> **Material de apoyo elaborado a partir del texto de Fernando A. Crespo
-> R. (2021) para el curso Econometría para la Gestión — FEN-UAH.**
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo    = TRUE,
+  message = FALSE,
+  warning = FALSE,
+  fig.align = "center"
+)
+```
 
-## Regresión Múltiple
 
-Lo primero en un modelo de regresión múltiple es estudiar la **relación entre las variables**.  
-Para ello se utiliza la **matriz de correlación**, donde se despliegan los coeficientes de correlación para cada par de variables.
+# 1. Material descargable
 
-**Multicolinealidad:** ocurre cuando dos o más variables presentan una alta correlación entre ellas.  
-Esto implica que existe una relación directa entre las variables, haciendo difícil determinar cuánto aporta cada una a la explicación de la variable dependiente.  
-Dos variables con alta correlación **no proporcionan información adicional**.
+[Descargar PDF de contenidos teóricos](pdf_epg/Capitulo_3_Regresion_Multiple.pdf){download="true"}
 
-**Regla general para elegir variables:**
 
-1. No debe haber correlación alta entre variables predictoras o explicativas ($x$).  
-2. Se debe preferir incluir variables independientes entre sí.
+El documento incluye:
 
----
+- Matriz de correlación y multicolinealidad.  
+- Supuestos del modelo clásico de regresión múltiple.  
+- Derivación de estimadores OLS \((X'X)^{-1}X'Y\).  
+- Varianza del error y matriz de covarianza del estimador.  
+- \(R^2\), \(R^2\) ajustado y prueba F global.  
+- Inferencia individual sobre coeficientes (\(t\)-tests).  
+- Intervalos de confianza.  
+- Predicción:  
+  - Fórmula teórica \( \hat{y}_0 = x_0'\hat{\beta} \)  
+  - Intervalo: \( \hat{y}_0 \pm s\sqrt{1+h_0}t \).  
+- Pruebas de autocorrelación y heterocedasticidad.
 
-## Marco Teórico: Modelo Clásico de Regresión Múltiple Lineal
+# Configuración inicial
 
-El modelo lineal múltiple se puede escribir de forma matricial como:
+```{r}
+library(openxlsx)
+library(corrplot)
+library(lmtest)
+```
 
-$$
-y = 1_n \beta_0 + x_1 \beta_1 + x_2 \beta_2 + \dots + x_k \beta_k + \varepsilon
-\tag{3.1}
-$$
-
-o en forma compacta:
-
-$$
-Y = X\beta + \varepsilon
-\tag{3.2}
-$$
-
-donde:  
-- $Y$ es el vector de observaciones dependientes ($n \times 1$).  
-- $X$ es la matriz de observaciones de las variables explicativas ($n \times (k+1)$).  
-- $\beta$ es el vector de parámetros desconocidos ($\beta_0, \beta_1, \dots, \beta_k$).  
-- $\varepsilon$ es el vector de errores aleatorios.
-
----
-
-## Supuestos del Modelo Clásico
-
-### Supuesto 1
-$$
-Y = X\beta + \varepsilon
-\tag{3.3}
-$$
-
-### Supuesto 2  
-$X \in \mathbb{R}^{n \times (k+1)}$ tiene **rango completo** (condición de identificación).
-
-### Supuesto 3  
-El error tiene esperanza condicional nula:
-
-$$
-E[\varepsilon | X] = 
-\begin{bmatrix}
-E[\varepsilon_1|X] \\
-E[\varepsilon_2|X] \\
-\vdots \\
-E[\varepsilon_n|X]
-\end{bmatrix}
-= 0
-\tag{3.4}
-$$
-
-Además:
-
-$$
-\text{Var}[\varepsilon_j | X] = \sigma^2, \quad j = 1, \dots, n
-\tag{3.5}
-$$
-
-$$
-\text{Cov}[\varepsilon_i, \varepsilon_j | X] = 0, \quad i \neq j
-\tag{3.6}
-$$
-
-Esto implica **homocedasticidad** (varianza constante) y **no autocorrelación** entre los errores.
-
-### Supuesto 4  
-$$
-E[\varepsilon \varepsilon'] = \sigma^2 I_n
-\tag{3.7}
-$$
-
-### Supuesto 5  
-$X$ es **no estocástica**, es decir, se asume conocida o fija en el muestreo.
-
-### Supuesto 6  
-Los errores son normales:
-
-$$
-\varepsilon | X \sim N(0, \sigma^2 I_n)
-\tag{3.8}
-$$
-
----
-
-## Estimadores de la Regresión
-
-Los estimadores se pueden obtener por dos vías:
-
-1. **Máxima verosimilitud**, dada la normalidad de los errores.  
-2. **Mínimos cuadrados ordinarios (OLS)**.
-
-Minimizamos la suma de cuadrados de los errores:
-
-$$
-S(\beta) = (Y - X\beta)'(Y - X\beta)
-\tag{3.9}
-$$
-
-Desarrollando:
-
-$$
-S(\beta) = Y'Y - 2Y'X\beta + \beta'(X'X)\beta
-\tag{3.10}
-$$
-
-Derivando respecto a $\beta$ e igualando a cero:
-
-$$
-S'(\beta) = -2X'Y + 2(X'X)\beta = 0
-\tag{3.11}
-$$
-
-De donde obtenemos el estimador:
+Definimos tu ruta de datos:
 
-$$
-\hat{\beta} = (X'X)^{-1}X'Y
-\tag{3.12}
-$$
-
-El vector estimado de valores ajustados es:
-
-$$
-\hat{Y} = X\hat{\beta} = X(X'X)^{-1}X'Y
-\tag{3.13}
-$$
+```{r}
+ruta_datos <- "C:/Users/manue/Desktop/lab-econometria/labs_epg/data_epg"
+list.files(ruta_datos)
+```
 
-Y los residuos estimados:
+# Lectura de datos
 
-$$
-\hat{\varepsilon} = Y - \hat{Y} = (I - X(X'X)^{-1}X')Y
-\tag{3.14}
-$$
-
----
+```{r}
+archivo <- file.path(ruta_datos, "costos.xlsx")
+datos <- read.xlsx(archivo, sheet="Hoja1", colNames=TRUE)
+head(datos)
+```
 
-**Propiedades útiles:**
+Los datos contienen:
 
-$$
-X'\hat{\varepsilon} = 0, \qquad \hat{Y}'\hat{\varepsilon} = 0
-\tag{3.15}
-$$
+- **Costos_generales** (variable dependiente).  
+- **Horas_maquina** y **Numero_preparaciones** (variables explicativas).
 
-La variación cuadrática de los residuos es:
+# Matriz de correlación
 
-$$
-\hat{\varepsilon}'\hat{\varepsilon} = Y'(I - X(X'X)^{-1}X')Y
-\tag{3.16}
-$$
+La matriz de correlación nos permite:
 
----
+- Detectar **relaciones lineales** entre pares de variables.  
+- Identificar **multicolinealidad** entre regresores.
 
-## Coeficiente de Determinación ($R^2$)
+```{r}
+r <- cor(datos)
+r
+```
 
-A partir de (3.16):
+### Gráficos de exploración
 
-$$
-Y'Y = (\hat{Y} + \hat{\varepsilon})'(\hat{Y} + \hat{\varepsilon}) = \hat{Y}'\hat{Y} + \hat{\varepsilon}'\hat{\varepsilon}
-\tag{3.17}
-$$
+```{r}
+pairs(datos)
+corrplot(r, method="circle", type="lower", diag=FALSE,
+         tl.col="black", tl.cex=1, tl.srt=45)
+```
 
-En términos de varianzas:
+::: {.callout-note}
+🔍 **Interpretación pedagógica:**  
+- Valores altos en la correlación entre regresores → **multicolinealidad**.  
+- Esto puede inflar varianzas de los estimadores y hacer inestables los coeficientes.  
+- La matriz y el `corrplot` permiten detectar problemas antes de ajustar el modelo.
+:::
 
-$$
-\sum_{j=1}^{n}(Y_j - \bar{Y})^2 = \sum_{j=1}^{n}(\hat{Y}_j - \bar{Y})^2 + \sum_{j=1}^{n}\hat{\varepsilon}_j^2
-\tag{3.18}
-$$
+# Modelo de regresión múltiple
 
-Por tanto:
+Ajustamos el modelo:
 
 $$
-R^2 = 1 - \frac{\sum_{j=1}^{n}\hat{\varepsilon}_j^2}{\sum_{j=1}^{n}(Y_j - \bar{Y})^2}
-= \frac{\sum_{j=1}^{n}(\hat{Y}_j - \bar{Y})^2}{\sum_{j=1}^{n}(Y_j - \bar{Y})^2}
-\tag{3.19}
+\text{Costos} = \beta_0 + \beta_1(\text{Horas\_maquina}) + \beta_2(\text{Numero\_preparaciones}) + \varepsilon
 $$
-
----
 
-### Contraste F global
+```{r}
+modelo <- lm(Costos_generales ~ Horas_maquina + Numero_preparaciones, data=datos)
+summary(modelo)
+```
 
-Hipótesis:
+::: {.callout-note}
+- **Prueba individual (t test):** evalúa si cada \(\beta_j\) es distinto de 0.  
+- **Prueba global (F test):** evalúa si el modelo en conjunto explica la variable dependiente.  
+- **Signo de \(\beta_j\):** indica dirección del efecto.  
+- **Magnitud:** indica cuánto cambia Y ante un cambio unitario en el regresor.  
+- **p-values pequeños:** evidencia estadística de relación significativa.
+:::
 
-$$
-H_0: \beta_1 = \beta_2 = \dots = \beta_k = 0
-\tag{3.20}
-$$
-
-El estadístico es:
+# Residuos del modelo
 
-$$
-F = \frac{R^2 / k}{(1 - R^2) / (n - k - 1)} \sim F_{k,\, n - k - 1}
-\tag{3.21}
-$$
+```{r}
+epsilon <- modelo$residuals
+hist(epsilon)
+plot(density(epsilon))
+mean(epsilon)
+```
 
-Rechazamos $H_0$ si $P(F \ge f) \le \alpha$.
+### Normalidad de los residuos
 
----
+```{r}
+shapiro.test(epsilon)
+```
 
-### Propiedades de los estimadores
-
-$$
-E[\hat{\beta}] = \beta, \qquad
-\text{Cov}(\hat{\beta}) = \sigma^2 (X'X)^{-1}
-\tag{3.22}
-$$
+### Autocorrelación (Durbin–Watson)
 
-Para los residuos:
+```{r}
+dwtest(modelo, alternative="two.sided", iterations=1000)
+```
 
-$$
-E[\hat{\varepsilon}] = 0, \qquad
-\text{Cov}(\hat{\varepsilon}) = \sigma^2 [I - X(X'X)^{-1}X']
-\tag{3.23}
-$$
+Interpretación:
+- DW ≈ 2 → no autocorrelación  
+- DW < 2 → autocorrelación positiva  
+- DW > 2 → autocorrelación negativa  
 
-Estimador insesgado de $\sigma^2$:
+### Heterocedasticidad (Breusch–Pagan)
 
-$$
-s^2 = \frac{\hat{\varepsilon}'\hat{\varepsilon}}{n - k - 1}
-\tag{3.24}
-$$
+```{r}
+bptest(modelo)
+```
 
----
+# Estadístico F calculado a mano
 
-### Contraste individual para $\beta_j$
+```{r}
+R2 <- 0.9472
+F <- (R2/2)/((1-R2)/(12-3))
+F
+qf(0.05, 2, 9, lower.tail=FALSE)
+```
 
-$$
-H_0: \beta_j = \beta_j^*, \qquad H_1: \beta_j \neq \beta_j^*
-\tag{3.25}
-$$
+Interpretación: si F calculado > F crítico → el modelo **aporta información significativa**.
 
-El estadístico:
+# Desviación estándar del error
 
-$$
-t_j = \frac{\hat{\beta}_j - \beta_j^*}{s \sqrt{(X'X)^{-1}_{jj}}}
-\sim t_{n - k - 1}
-\tag{3.26}
-$$
+```{r}
+s <- sqrt(sum(epsilon^2)/(12-2-1))
+s
+```
 
-Rechazamos $H_0$ si $|t_j| > t_{\alpha/2,\, n - k - 1}$.
+# Intervalos de confianza de los coeficientes
 
-El **p-valor** se obtiene como:
+```{r}
+confint(modelo)
+```
 
-$$
-p = P(|t_j| > |t_j^{obs}|)
-\tag{3.27}
-$$
+### Cálculo manual del intervalo
 
----
+```{r}
+se <- sqrt(diag(vcov(modelo)))
+t <- -1*qt(0.025, 12-2-1, lower.tail=FALSE)
 
-### Intervalos de confianza
+BHM <- 65.44
+sbhm <- 6.74
 
-Para cada $\beta_j$:
+limitsupBHM <- BHM + t*sbhm
+limitinfBHM <- BHM - t*sbhm
+limitsupBHM; limitinfBHM
+```
 
-$$
-\hat{\beta}_j \pm t_{\alpha/2,\, n - k - 1} \, s \sqrt{(X'X)^{-1}_{jj}}
-\tag{3.28}
-$$
+# Intervalo para la varianza del error
 
-Para la varianza del error:
+```{r}
+gamma1 <- qchisq(0.025, 12-2-1)
+gamma2 <- qchisq(0.975, 12-2-1)
 
-$$
-\left[
-\frac{(n - k - 1)s^2}{\chi^2_{n - k - 1,\, 1 - \alpha/2}},
-\quad
-\frac{(n - k - 1)s^2}{\chi^2_{n - k - 1,\, \alpha/2}}
-\right]
-\tag{3.29}
-$$
+s2_LI <- (12-2-1) * s^2 / gamma2
+s2_LS <- (12-2-1) * s^2 / gamma1
 
----
+s2_LI; s2_LS
+```
 
-### Predicción
+# Predicción puntual
 
-Para un nuevo vector $x_0$ (incluyendo el valor 1 si el modelo tiene constante):
+```{r}
+nuevo <- data.frame(Horas_maquina=2000, Numero_preparaciones=220)
 
-$$
-\hat{y}_0 = x_0' \hat{\beta}
-\tag{3.30}
-$$
+valor_predicho <- predict(modelo, newdata=nuevo)
+valor_predicho
+```
 
-Varianza del estimador:
+# Intervalo de confianza con `predict`
 
-$$
-h_0 = x_0'(X'X)^{-1}x_0
-\tag{3.31}
-$$
+```{r}
+valor_predicho2 <- predict(modelo, newdata=nuevo, interval="confidence")
+valor_predicho2
+```
 
-Intervalo de confianza para la predicción:
+# Predicción manual paso a paso
 
-$$
-\hat{y}_0 \pm s \sqrt{1 + h_0} \; t_{\alpha/2,\, n - k - 1}
-\tag{3.32}
-$$
+Construimos la matriz \(X\):
 
----
+```{r}
+X <- cbind(1, datos$Horas_maquina, datos$Numero_preparaciones)
+M <- solve(t(X) %*% X)
+beta <- M %*% t(X) %*% datos$Costos_generales
 
-### Diagnósticos de supuestos
+x0 <- c(1, 2000, 220)
+h0 <- t(x0) %*% M %*% x0
 
-**Durbin–Watson (autocorrelación de errores):**
+y0 <- t(beta) %*% x0
+y0
+```
 
-$$
-D = \frac{\sum_{i=2}^{n} (e_i - e_{i-1})^2}{\sum_{i=1}^{n} e_i^2}
-\tag{3.33}
-$$
+### Intervalo manual
 
-- Si $D \approx 2$: no hay autocorrelación.  
-- Si $D \approx 0$: autocorrelación positiva.  
-- Si $D \approx 4$: autocorrelación negativa.
+```{r}
+y_limsup <- y0 + s*sqrt(1+h0)*qt(0.975, 12-2-1, lower.tail=FALSE)
+y_liminf <- y0 - s*sqrt(1+h0)*qt(0.975, 12-2-1, lower.tail=FALSE)
 
----
+y_liminf; y_limsup
+```
 
-**Test de Breusch–Pagan (homocedasticidad):**
+# Gráfico Y real vs Y predicho
 
-$$
-H_0: \text{Var}(\varepsilon_i) = \sigma^2 \quad \forall i
-\tag{3.34}
-$$
+```{r}
+plot(modelo$fitted.values, datos$Costos_generales,
+     main="Revisión Valor Real vs Valor Predicho")
+lines(c(140000,200000), c(140000,200000))
+```
 
-Si el valor-p es **mayor que 0.05**, se asume que los errores tienen **varianza constante**.
+# Modelo sin constante
 
----
+```{r}
+modelo2 <- lm(Costos_generales ~ Horas_maquina + Numero_preparaciones - 1, data=datos)
+summary(modelo2)
+```
 
-> ✅ **Resumen:**  
-> El modelo clásico de regresión múltiple lineal supone linealidad, independencia, homocedasticidad y normalidad.  
-> Los estimadores OLS son **BLUE** (Best Linear Unbiased Estimators) bajo estos supuestos.
+### Análisis de residuos modelo sin constante
 
+```{r}
+epsilon <- modelo2$residuals
+hist(epsilon)
+plot(density(epsilon))
+shapiro.test(epsilon)
 
+dwtest(modelo2,alternative="two.sided",iterations=1000)
+bptest(modelo2)
+```
 
+### Gráfico final
 
-Crespo, F. A. (2021). *Regresión Múltiple*. Universidad Alberto Hurtado.
+```{r}
+plot(modelo2$fitted.values, datos$Costos_generales,
+     main="Revisión Valor Real vs Valor Predicho (sin consta

@@ -1,0 +1,2307 @@
+% Options for packages loaded elsewhere
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+%
+\documentclass[
+  spanish,
+  letterpaper,
+  DIV=11,
+  numbers=noendperiod]{scrartcl}
+\usepackage{xcolor}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{5}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+% Make \paragraph and \subparagraph free-standing
+\makeatletter
+\ifx\paragraph\undefined\else
+  \let\oldparagraph\paragraph
+  \renewcommand{\paragraph}{
+    \@ifstar
+      \xxxParagraphStar
+      \xxxParagraphNoStar
+  }
+  \newcommand{\xxxParagraphStar}[1]{\oldparagraph*{#1}\mbox{}}
+  \newcommand{\xxxParagraphNoStar}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+  \let\oldsubparagraph\subparagraph
+  \renewcommand{\subparagraph}{
+    \@ifstar
+      \xxxSubParagraphStar
+      \xxxSubParagraphNoStar
+  }
+  \newcommand{\xxxSubParagraphStar}[1]{\oldsubparagraph*{#1}\mbox{}}
+  \newcommand{\xxxSubParagraphNoStar}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+\makeatother
+
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{241,243,245}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.40,0.45,0.13}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\BuiltInTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\ExtensionTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.28,0.35,0.67}{#1}}
+\newcommand{\ImportTok}[1]{\textcolor[rgb]{0.00,0.46,0.62}{#1}}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.07,0.07,0.07}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
+
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+
+
+
+\ifLuaTeX
+\usepackage[bidi=basic]{babel}
+\else
+\usepackage[bidi=default]{babel}
+\fi
+% get rid of language-specific shorthands (see #6817):
+\let\LanguageShortHands\languageshorthands
+\def\languageshorthands#1{}
+
+
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+
+
+ 
+
+
+\KOMAoption{captions}{tableheading}
+\makeatletter
+\@ifpackageloaded{tcolorbox}{}{\usepackage[skins,breakable]{tcolorbox}}
+\@ifpackageloaded{fontawesome5}{}{\usepackage{fontawesome5}}
+\definecolor{quarto-callout-color}{HTML}{909090}
+\definecolor{quarto-callout-note-color}{HTML}{0758E5}
+\definecolor{quarto-callout-important-color}{HTML}{CC1914}
+\definecolor{quarto-callout-warning-color}{HTML}{EB9113}
+\definecolor{quarto-callout-tip-color}{HTML}{00A047}
+\definecolor{quarto-callout-caution-color}{HTML}{FC5300}
+\definecolor{quarto-callout-color-frame}{HTML}{acacac}
+\definecolor{quarto-callout-note-color-frame}{HTML}{4582ec}
+\definecolor{quarto-callout-important-color-frame}{HTML}{d9534f}
+\definecolor{quarto-callout-warning-color-frame}{HTML}{f0ad4e}
+\definecolor{quarto-callout-tip-color-frame}{HTML}{02b875}
+\definecolor{quarto-callout-caution-color-frame}{HTML}{fd7e14}
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\AtBeginDocument{%
+\ifdefined\contentsname
+  \renewcommand*\contentsname{Tabla de contenidos}
+\else
+  \newcommand\contentsname{Tabla de contenidos}
+\fi
+\ifdefined\listfigurename
+  \renewcommand*\listfigurename{Listado de Figuras}
+\else
+  \newcommand\listfigurename{Listado de Figuras}
+\fi
+\ifdefined\listtablename
+  \renewcommand*\listtablename{Listado de Tablas}
+\else
+  \newcommand\listtablename{Listado de Tablas}
+\fi
+\ifdefined\figurename
+  \renewcommand*\figurename{Figura}
+\else
+  \newcommand\figurename{Figura}
+\fi
+\ifdefined\tablename
+  \renewcommand*\tablename{Tabla}
+\else
+  \newcommand\tablename{Tabla}
+\fi
+}
+\@ifpackageloaded{float}{}{\usepackage{float}}
+\floatstyle{ruled}
+\@ifundefined{c@chapter}{\newfloat{codelisting}{h}{lop}}{\newfloat{codelisting}{h}{lop}[chapter]}
+\floatname{codelisting}{Listado}
+\newcommand*\listoflistings{\listof{codelisting}{Listado de Listados}}
+\makeatother
+\makeatletter
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
+\makeatother
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Capitulo\_4\_Uso\_de\_la\_Regresion\_Multiple},
+  pdfauthor={Econometría para la Gestión (ECO\_EPG) - FEN UAH},
+  pdflang={es},
+  colorlinks=true,
+  linkcolor={blue},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={Blue},
+  pdfcreator={LaTeX via pandoc}}
+
+
+\title{Capitulo\_4\_Uso\_de\_la\_Regresion\_Multiple}
+\author{Econometría para la Gestión (ECO\_EPG) - FEN UAH}
+\date{}
+\begin{document}
+\maketitle
+
+\renewcommand*\contentsname{Tabla de contenidos}
+{
+\hypersetup{linkcolor=}
+\setcounter{tocdepth}{3}
+\tableofcontents
+}
+
+\section{1. Material descargable}\label{material-descargable}
+
+\href{pdf_epg/Capitulo_4_Uso_de_la_Regresion_Multiple.pdf}{Descargar PDF
+de contenidos teóricos}
+
+\section{Configuración inicial en
+R}\label{configuraciuxf3n-inicial-en-r}
+
+\subsection{Carga de librerías}\label{carga-de-libreruxedas}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(openxlsx)}
+\FunctionTok{library}\NormalTok{(MASS)      }\CommentTok{\# funciones adicionales para modelos lineales}
+\FunctionTok{library}\NormalTok{(corrplot)  }\CommentTok{\# correlaciones gráficas}
+\FunctionTok{library}\NormalTok{(lmtest)    }\CommentTok{\# pruebas como Durbin{-}Watson, Breusch{-}Pagan}
+\FunctionTok{library}\NormalTok{(ggplot2)   }\CommentTok{\# gráficos avanzados}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Definir ruta de trabajo}\label{definir-ruta-de-trabajo}
+
+En tu proyecto utilizaremos la ruta:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ruta\_datos }\OtherTok{\textless{}{-}} \StringTok{"C:/Users/manue/Desktop/lab{-}econometria/labs\_epg/data\_epg"}
+
+\CommentTok{\# Verificamos que la carpeta exista y revisamos algunos archivos}
+\FunctionTok{list.files}\NormalTok{(ruta\_datos)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+ [1] "annos_mantenimiento.xlsx" "auto_peso_consumo.xlsx"  
+ [3] "costos.xlsx"              "data_PCA_Decathlon.csv"  
+ [5] "data_PCA_ExpertWine.csv"  "Ejemplo1.xlsx"           
+ [7] "Ejemplo2.xlsx"            "millaje.txt"             
+ [9] "orange.csv"               "tabla_ejemplo_R.xlsx"    
+\end{verbatim}
+
+\begin{tcolorbox}[enhanced jigsaw, bottomrule=.15mm, toprule=.15mm, coltitle=black, colback=white, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Tip}, colframe=quarto-callout-tip-color-frame, left=2mm, toptitle=1mm, titlerule=0mm, arc=.35mm, opacitybacktitle=0.6, rightrule=.15mm, breakable, bottomtitle=1mm, leftrule=.75mm, opacityback=0, colbacktitle=quarto-callout-tip-color!10!white]
+
+Si copias este laboratorio a otro computador, solo deberás
+\textbf{cambiar la ruta} de \texttt{ruta\_datos} para que apunte a la
+nueva carpeta donde estén \texttt{millaje.txt} y otros archivos de
+datos.
+
+\end{tcolorbox}
+
+\section{Parte 1: Regresión múltiple con inversión publicitaria (tv,
+radio,
+periodico)}\label{parte-1-regresiuxf3n-muxfaltiple-con-inversiuxf3n-publicitaria-tv-radio-periodico}
+
+En esta primera parte trabajaremos con un ejemplo clásico de marketing:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{tv}: gasto en publicidad en TV (en miles de dólares).\\
+\item
+  \textbf{radio}: gasto en publicidad en radio.\\
+\item
+  \textbf{periodico}: gasto en publicidad en periódicos.\\
+\item
+  \textbf{ventas}: ventas del producto (en miles de unidades).
+\end{itemize}
+
+La idea es entender \textbf{cómo se relacionan las ventas con los
+distintos medios publicitarios}, usando regresión múltiple.
+
+\subsection{Crear el conjunto de
+datos}\label{crear-el-conjunto-de-datos}
+
+El script genera los vectores directamente en R y luego los combina en
+un \texttt{data.frame}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tv }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\FloatTok{230.1}\NormalTok{, }\FloatTok{44.5}\NormalTok{, }\FloatTok{17.2}\NormalTok{, }\FloatTok{151.5}\NormalTok{, }\FloatTok{180.8}\NormalTok{, }\FloatTok{8.7}\NormalTok{, }\FloatTok{57.5}\NormalTok{, }\FloatTok{120.2}\NormalTok{, }\FloatTok{8.6}\NormalTok{, }\FloatTok{199.8}\NormalTok{, }\FloatTok{66.1}\NormalTok{, }\FloatTok{214.7}\NormalTok{,}
+         \FloatTok{23.8}\NormalTok{, }\FloatTok{97.5}\NormalTok{, }\FloatTok{204.1}\NormalTok{, }\FloatTok{195.4}\NormalTok{, }\FloatTok{67.8}\NormalTok{, }\FloatTok{281.4}\NormalTok{, }\FloatTok{69.2}\NormalTok{, }\FloatTok{147.3}\NormalTok{, }\FloatTok{218.4}\NormalTok{, }\FloatTok{237.4}\NormalTok{, }\FloatTok{13.2}\NormalTok{,}
+         \FloatTok{228.3}\NormalTok{, }\FloatTok{62.3}\NormalTok{, }\FloatTok{262.9}\NormalTok{, }\FloatTok{142.9}\NormalTok{, }\FloatTok{240.1}\NormalTok{, }\FloatTok{248.8}\NormalTok{, }\FloatTok{70.6}\NormalTok{, }\FloatTok{292.9}\NormalTok{, }\FloatTok{112.9}\NormalTok{, }\FloatTok{97.2}\NormalTok{, }\FloatTok{265.6}\NormalTok{,}
+         \FloatTok{95.7}\NormalTok{, }\FloatTok{290.7}\NormalTok{, }\FloatTok{266.9}\NormalTok{, }\FloatTok{74.7}\NormalTok{, }\FloatTok{43.1}\NormalTok{, }\FloatTok{228.0}\NormalTok{, }\FloatTok{202.5}\NormalTok{, }\FloatTok{177.0}\NormalTok{, }\FloatTok{293.6}\NormalTok{, }\FloatTok{206.9}\NormalTok{, }\FloatTok{25.1}\NormalTok{,}
+         \FloatTok{175.1}\NormalTok{, }\FloatTok{89.7}\NormalTok{, }\FloatTok{239.9}\NormalTok{, }\FloatTok{227.2}\NormalTok{, }\FloatTok{66.9}\NormalTok{, }\FloatTok{199.8}\NormalTok{, }\FloatTok{100.4}\NormalTok{, }\FloatTok{216.4}\NormalTok{, }\FloatTok{182.6}\NormalTok{, }\FloatTok{262.7}\NormalTok{, }\FloatTok{198.9}\NormalTok{,}
+         \FloatTok{7.3}\NormalTok{, }\FloatTok{136.2}\NormalTok{, }\FloatTok{210.8}\NormalTok{, }\FloatTok{210.7}\NormalTok{, }\FloatTok{53.5}\NormalTok{, }\FloatTok{261.3}\NormalTok{, }\FloatTok{239.3}\NormalTok{, }\FloatTok{102.7}\NormalTok{, }\FloatTok{131.1}\NormalTok{, }\FloatTok{69.0}\NormalTok{, }\FloatTok{31.5}\NormalTok{,}
+         \FloatTok{139.3}\NormalTok{, }\FloatTok{237.4}\NormalTok{, }\FloatTok{216.8}\NormalTok{, }\FloatTok{199.1}\NormalTok{, }\FloatTok{109.8}\NormalTok{, }\FloatTok{26.8}\NormalTok{, }\FloatTok{129.4}\NormalTok{, }\FloatTok{213.4}\NormalTok{, }\FloatTok{16.9}\NormalTok{, }\FloatTok{27.5}\NormalTok{, }\FloatTok{120.5}\NormalTok{,}
+         \FloatTok{5.4}\NormalTok{, }\FloatTok{116.0}\NormalTok{, }\FloatTok{76.4}\NormalTok{, }\FloatTok{239.8}\NormalTok{, }\FloatTok{75.3}\NormalTok{, }\FloatTok{68.4}\NormalTok{, }\FloatTok{213.5}\NormalTok{, }\FloatTok{193.2}\NormalTok{, }\FloatTok{76.3}\NormalTok{, }\FloatTok{110.7}\NormalTok{, }\FloatTok{88.3}\NormalTok{,}
+         \FloatTok{109.8}\NormalTok{, }\FloatTok{134.3}\NormalTok{, }\FloatTok{28.6}\NormalTok{, }\FloatTok{217.7}\NormalTok{, }\FloatTok{250.9}\NormalTok{, }\FloatTok{107.4}\NormalTok{, }\FloatTok{163.3}\NormalTok{, }\FloatTok{197.6}\NormalTok{, }\FloatTok{184.9}\NormalTok{, }\FloatTok{289.7}\NormalTok{,}
+         \FloatTok{135.2}\NormalTok{, }\FloatTok{222.4}\NormalTok{, }\FloatTok{296.4}\NormalTok{, }\FloatTok{280.2}\NormalTok{, }\FloatTok{187.9}\NormalTok{, }\FloatTok{238.2}\NormalTok{, }\FloatTok{137.9}\NormalTok{, }\FloatTok{25.0}\NormalTok{, }\FloatTok{90.4}\NormalTok{, }\FloatTok{13.1}\NormalTok{, }\FloatTok{255.4}\NormalTok{,}
+         \FloatTok{225.8}\NormalTok{, }\FloatTok{241.7}\NormalTok{, }\FloatTok{175.7}\NormalTok{, }\FloatTok{209.6}\NormalTok{, }\FloatTok{78.2}\NormalTok{, }\FloatTok{75.1}\NormalTok{, }\FloatTok{139.2}\NormalTok{, }\FloatTok{76.4}\NormalTok{, }\FloatTok{125.7}\NormalTok{, }\FloatTok{19.4}\NormalTok{, }\FloatTok{141.3}\NormalTok{,}
+         \FloatTok{18.8}\NormalTok{, }\FloatTok{224.0}\NormalTok{, }\FloatTok{123.1}\NormalTok{, }\FloatTok{229.5}\NormalTok{, }\FloatTok{87.2}\NormalTok{, }\FloatTok{7.8}\NormalTok{, }\FloatTok{80.2}\NormalTok{, }\FloatTok{220.3}\NormalTok{, }\FloatTok{59.6}\NormalTok{, }\FloatTok{0.7}\NormalTok{, }\FloatTok{265.2}\NormalTok{,}
+         \FloatTok{8.4}\NormalTok{, }\FloatTok{219.8}\NormalTok{, }\FloatTok{36.9}\NormalTok{, }\FloatTok{48.3}\NormalTok{, }\FloatTok{25.6}\NormalTok{, }\FloatTok{273.7}\NormalTok{, }\FloatTok{43.0}\NormalTok{, }\FloatTok{184.9}\NormalTok{, }\FloatTok{73.4}\NormalTok{, }\FloatTok{193.7}\NormalTok{, }\FloatTok{220.5}\NormalTok{,}
+         \FloatTok{104.6}\NormalTok{, }\FloatTok{96.2}\NormalTok{, }\FloatTok{140.3}\NormalTok{, }\FloatTok{240.1}\NormalTok{, }\FloatTok{243.2}\NormalTok{, }\FloatTok{38.0}\NormalTok{, }\FloatTok{44.7}\NormalTok{, }\FloatTok{280.7}\NormalTok{, }\FloatTok{121.0}\NormalTok{, }\FloatTok{197.6}\NormalTok{, }\FloatTok{171.3}\NormalTok{,}
+         \FloatTok{187.8}\NormalTok{, }\FloatTok{4.1}\NormalTok{, }\FloatTok{93.9}\NormalTok{, }\FloatTok{149.8}\NormalTok{, }\FloatTok{11.7}\NormalTok{, }\FloatTok{131.7}\NormalTok{, }\FloatTok{172.5}\NormalTok{, }\FloatTok{85.7}\NormalTok{, }\FloatTok{188.4}\NormalTok{, }\FloatTok{163.5}\NormalTok{, }\FloatTok{117.2}\NormalTok{,}
+         \FloatTok{234.5}\NormalTok{, }\FloatTok{17.9}\NormalTok{, }\FloatTok{206.8}\NormalTok{, }\FloatTok{215.4}\NormalTok{, }\FloatTok{284.3}\NormalTok{, }\FloatTok{50.0}\NormalTok{, }\FloatTok{164.5}\NormalTok{, }\FloatTok{19.6}\NormalTok{, }\FloatTok{168.4}\NormalTok{, }\FloatTok{222.4}\NormalTok{, }\FloatTok{276.9}\NormalTok{,}
+         \FloatTok{248.4}\NormalTok{, }\FloatTok{170.2}\NormalTok{, }\FloatTok{276.7}\NormalTok{, }\FloatTok{165.6}\NormalTok{, }\FloatTok{156.6}\NormalTok{, }\FloatTok{218.5}\NormalTok{, }\FloatTok{56.2}\NormalTok{, }\FloatTok{287.6}\NormalTok{, }\FloatTok{253.8}\NormalTok{, }\FloatTok{205.0}\NormalTok{,}
+         \FloatTok{139.5}\NormalTok{, }\FloatTok{191.1}\NormalTok{, }\FloatTok{286.0}\NormalTok{, }\FloatTok{18.7}\NormalTok{, }\FloatTok{39.5}\NormalTok{, }\FloatTok{75.5}\NormalTok{, }\FloatTok{17.2}\NormalTok{, }\FloatTok{166.8}\NormalTok{, }\FloatTok{149.7}\NormalTok{, }\FloatTok{38.2}\NormalTok{, }\FloatTok{94.2}\NormalTok{,}
+         \FloatTok{177.0}\NormalTok{, }\FloatTok{283.6}\NormalTok{, }\FloatTok{232.1}\NormalTok{)}
+
+\NormalTok{radio }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\FloatTok{37.8}\NormalTok{, }\FloatTok{39.3}\NormalTok{, }\FloatTok{45.9}\NormalTok{, }\FloatTok{41.3}\NormalTok{, }\FloatTok{10.8}\NormalTok{, }\FloatTok{48.9}\NormalTok{, }\FloatTok{32.8}\NormalTok{, }\FloatTok{19.6}\NormalTok{, }\FloatTok{2.1}\NormalTok{, }\FloatTok{2.6}\NormalTok{, }\FloatTok{5.8}\NormalTok{, }\FloatTok{24.0}\NormalTok{,}
+           \FloatTok{35.1}\NormalTok{, }\FloatTok{7.6}\NormalTok{, }\FloatTok{32.9}\NormalTok{, }\FloatTok{47.7}\NormalTok{, }\FloatTok{36.6}\NormalTok{, }\FloatTok{39.6}\NormalTok{, }\FloatTok{20.5}\NormalTok{, }\FloatTok{23.9}\NormalTok{, }\FloatTok{27.7}\NormalTok{, }\FloatTok{5.1}\NormalTok{, }\FloatTok{15.9}\NormalTok{, }\FloatTok{16.9}\NormalTok{,}
+           \FloatTok{12.6}\NormalTok{, }\FloatTok{3.5}\NormalTok{, }\FloatTok{29.3}\NormalTok{, }\FloatTok{16.7}\NormalTok{, }\FloatTok{27.1}\NormalTok{, }\FloatTok{16.0}\NormalTok{, }\FloatTok{28.3}\NormalTok{, }\FloatTok{17.4}\NormalTok{, }\FloatTok{1.5}\NormalTok{, }\FloatTok{20.0}\NormalTok{, }\FloatTok{1.4}\NormalTok{, }\FloatTok{4.1}\NormalTok{,}
+           \FloatTok{43.8}\NormalTok{, }\FloatTok{49.4}\NormalTok{, }\FloatTok{26.7}\NormalTok{, }\FloatTok{37.7}\NormalTok{, }\FloatTok{22.3}\NormalTok{, }\FloatTok{33.4}\NormalTok{, }\FloatTok{27.7}\NormalTok{, }\FloatTok{8.4}\NormalTok{, }\FloatTok{25.7}\NormalTok{, }\FloatTok{22.5}\NormalTok{, }\FloatTok{9.9}\NormalTok{, }\FloatTok{41.5}\NormalTok{,}
+           \FloatTok{15.8}\NormalTok{, }\FloatTok{11.7}\NormalTok{, }\FloatTok{3.1}\NormalTok{, }\FloatTok{9.6}\NormalTok{, }\FloatTok{41.7}\NormalTok{, }\FloatTok{46.2}\NormalTok{, }\FloatTok{28.8}\NormalTok{, }\FloatTok{49.4}\NormalTok{, }\FloatTok{28.1}\NormalTok{, }\FloatTok{19.2}\NormalTok{, }\FloatTok{49.6}\NormalTok{, }\FloatTok{29.5}\NormalTok{,}
+           \FloatTok{2.0}\NormalTok{, }\FloatTok{42.7}\NormalTok{, }\FloatTok{15.5}\NormalTok{, }\FloatTok{29.6}\NormalTok{, }\FloatTok{42.8}\NormalTok{, }\FloatTok{9.3}\NormalTok{, }\FloatTok{24.6}\NormalTok{, }\FloatTok{14.5}\NormalTok{, }\FloatTok{27.5}\NormalTok{, }\FloatTok{43.9}\NormalTok{, }\FloatTok{30.6}\NormalTok{, }\FloatTok{14.3}\NormalTok{,}
+           \FloatTok{33.0}\NormalTok{, }\FloatTok{5.7}\NormalTok{, }\FloatTok{24.6}\NormalTok{, }\FloatTok{43.7}\NormalTok{, }\FloatTok{1.6}\NormalTok{, }\FloatTok{28.5}\NormalTok{, }\FloatTok{29.9}\NormalTok{, }\FloatTok{7.7}\NormalTok{, }\FloatTok{26.7}\NormalTok{, }\FloatTok{4.1}\NormalTok{, }\FloatTok{20.3}\NormalTok{, }\FloatTok{44.5}\NormalTok{,}
+           \FloatTok{43.0}\NormalTok{, }\FloatTok{18.4}\NormalTok{, }\FloatTok{27.5}\NormalTok{, }\FloatTok{40.6}\NormalTok{, }\FloatTok{25.5}\NormalTok{, }\FloatTok{47.8}\NormalTok{, }\FloatTok{4.9}\NormalTok{, }\FloatTok{1.5}\NormalTok{, }\FloatTok{33.5}\NormalTok{, }\FloatTok{36.5}\NormalTok{, }\FloatTok{14.0}\NormalTok{, }\FloatTok{31.6}\NormalTok{,}
+           \FloatTok{3.5}\NormalTok{, }\FloatTok{21.0}\NormalTok{, }\FloatTok{42.3}\NormalTok{, }\FloatTok{41.7}\NormalTok{, }\FloatTok{4.3}\NormalTok{, }\FloatTok{36.3}\NormalTok{, }\FloatTok{10.1}\NormalTok{, }\FloatTok{17.2}\NormalTok{, }\FloatTok{34.3}\NormalTok{, }\FloatTok{46.4}\NormalTok{, }\FloatTok{11.0}\NormalTok{, }\FloatTok{0.3}\NormalTok{,}
+           \FloatTok{0.4}\NormalTok{, }\FloatTok{26.9}\NormalTok{, }\FloatTok{8.2}\NormalTok{, }\FloatTok{38.0}\NormalTok{, }\FloatTok{15.4}\NormalTok{, }\FloatTok{20.6}\NormalTok{, }\FloatTok{46.8}\NormalTok{, }\FloatTok{35.0}\NormalTok{, }\FloatTok{14.3}\NormalTok{, }\FloatTok{0.8}\NormalTok{, }\FloatTok{36.9}\NormalTok{, }\FloatTok{16.0}\NormalTok{,}
+           \FloatTok{26.8}\NormalTok{, }\FloatTok{21.7}\NormalTok{, }\FloatTok{2.4}\NormalTok{, }\FloatTok{34.6}\NormalTok{, }\FloatTok{32.3}\NormalTok{, }\FloatTok{11.8}\NormalTok{, }\FloatTok{38.9}\NormalTok{, }\FloatTok{0.0}\NormalTok{, }\FloatTok{49.0}\NormalTok{, }\FloatTok{12.0}\NormalTok{, }\FloatTok{39.6}\NormalTok{, }\FloatTok{2.9}\NormalTok{,}
+           \FloatTok{27.2}\NormalTok{, }\FloatTok{33.5}\NormalTok{, }\FloatTok{38.6}\NormalTok{, }\FloatTok{47.0}\NormalTok{, }\FloatTok{39.0}\NormalTok{, }\FloatTok{28.9}\NormalTok{, }\FloatTok{25.9}\NormalTok{, }\FloatTok{43.9}\NormalTok{, }\FloatTok{17.0}\NormalTok{, }\FloatTok{35.4}\NormalTok{, }\FloatTok{33.2}\NormalTok{, }\FloatTok{5.7}\NormalTok{,}
+           \FloatTok{14.8}\NormalTok{, }\FloatTok{1.9}\NormalTok{, }\FloatTok{7.3}\NormalTok{, }\FloatTok{49.0}\NormalTok{, }\FloatTok{40.3}\NormalTok{, }\FloatTok{25.8}\NormalTok{, }\FloatTok{13.9}\NormalTok{, }\FloatTok{8.4}\NormalTok{, }\FloatTok{23.3}\NormalTok{, }\FloatTok{39.7}\NormalTok{, }\FloatTok{21.1}\NormalTok{, }\FloatTok{11.6}\NormalTok{,}
+           \FloatTok{43.5}\NormalTok{, }\FloatTok{1.3}\NormalTok{, }\FloatTok{36.9}\NormalTok{, }\FloatTok{18.4}\NormalTok{, }\FloatTok{18.1}\NormalTok{, }\FloatTok{35.8}\NormalTok{, }\FloatTok{18.1}\NormalTok{, }\FloatTok{36.8}\NormalTok{, }\FloatTok{14.7}\NormalTok{, }\FloatTok{3.4}\NormalTok{, }\FloatTok{37.6}\NormalTok{, }\FloatTok{5.2}\NormalTok{,}
+           \FloatTok{23.6}\NormalTok{, }\FloatTok{10.6}\NormalTok{, }\FloatTok{11.6}\NormalTok{, }\FloatTok{20.9}\NormalTok{, }\FloatTok{20.1}\NormalTok{, }\FloatTok{7.1}\NormalTok{, }\FloatTok{3.4}\NormalTok{, }\FloatTok{48.9}\NormalTok{, }\FloatTok{30.2}\NormalTok{, }\FloatTok{7.8}\NormalTok{, }\FloatTok{2.3}\NormalTok{, }\FloatTok{10.0}\NormalTok{,}
+           \FloatTok{2.6}\NormalTok{, }\FloatTok{5.4}\NormalTok{, }\FloatTok{5.7}\NormalTok{, }\FloatTok{43.0}\NormalTok{, }\FloatTok{21.3}\NormalTok{, }\FloatTok{45.1}\NormalTok{, }\FloatTok{2.1}\NormalTok{, }\FloatTok{28.7}\NormalTok{, }\FloatTok{13.9}\NormalTok{, }\FloatTok{12.1}\NormalTok{, }\FloatTok{41.1}\NormalTok{, }\FloatTok{10.8}\NormalTok{,}
+           \FloatTok{4.1}\NormalTok{, }\FloatTok{42.0}\NormalTok{, }\FloatTok{35.6}\NormalTok{, }\FloatTok{3.7}\NormalTok{, }\FloatTok{4.9}\NormalTok{, }\FloatTok{9.3}\NormalTok{, }\FloatTok{42.0}\NormalTok{, }\FloatTok{8.6}\NormalTok{)}
+
+\NormalTok{periodico }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\FloatTok{69.2}\NormalTok{, }\FloatTok{45.1}\NormalTok{, }\FloatTok{69.3}\NormalTok{, }\FloatTok{58.5}\NormalTok{, }\FloatTok{58.4}\NormalTok{, }\FloatTok{75.0}\NormalTok{, }\FloatTok{23.5}\NormalTok{, }\FloatTok{11.6}\NormalTok{, }\FloatTok{1.0}\NormalTok{, }\FloatTok{21.2}\NormalTok{, }\FloatTok{24.2}\NormalTok{,}
+               \FloatTok{4.0}\NormalTok{, }\FloatTok{65.9}\NormalTok{, }\FloatTok{7.2}\NormalTok{, }\FloatTok{46.0}\NormalTok{, }\FloatTok{52.9}\NormalTok{, }\FloatTok{114.0}\NormalTok{, }\FloatTok{55.8}\NormalTok{, }\FloatTok{18.3}\NormalTok{, }\FloatTok{19.1}\NormalTok{, }\FloatTok{53.4}\NormalTok{, }\FloatTok{23.5}\NormalTok{,}
+               \FloatTok{49.6}\NormalTok{, }\FloatTok{26.2}\NormalTok{, }\FloatTok{18.3}\NormalTok{, }\FloatTok{19.5}\NormalTok{, }\FloatTok{12.6}\NormalTok{, }\FloatTok{22.9}\NormalTok{, }\FloatTok{22.9}\NormalTok{, }\FloatTok{40.8}\NormalTok{, }\FloatTok{43.2}\NormalTok{, }\FloatTok{38.6}\NormalTok{, }\FloatTok{30.0}\NormalTok{,}
+               \FloatTok{0.3}\NormalTok{, }\FloatTok{7.4}\NormalTok{, }\FloatTok{8.5}\NormalTok{, }\FloatTok{5.0}\NormalTok{, }\FloatTok{45.7}\NormalTok{, }\FloatTok{35.1}\NormalTok{, }\FloatTok{32.0}\NormalTok{, }\FloatTok{31.6}\NormalTok{, }\FloatTok{38.7}\NormalTok{, }\FloatTok{1.8}\NormalTok{, }\FloatTok{26.4}\NormalTok{, }\FloatTok{43.3}\NormalTok{,}
+               \FloatTok{31.5}\NormalTok{, }\FloatTok{35.7}\NormalTok{, }\FloatTok{18.5}\NormalTok{, }\FloatTok{49.9}\NormalTok{, }\FloatTok{36.8}\NormalTok{, }\FloatTok{34.6}\NormalTok{, }\FloatTok{3.6}\NormalTok{, }\FloatTok{39.6}\NormalTok{, }\FloatTok{58.7}\NormalTok{, }\FloatTok{15.9}\NormalTok{, }\FloatTok{60.0}\NormalTok{,}
+               \FloatTok{41.4}\NormalTok{, }\FloatTok{16.6}\NormalTok{, }\FloatTok{37.7}\NormalTok{, }\FloatTok{9.3}\NormalTok{, }\FloatTok{21.4}\NormalTok{, }\FloatTok{54.7}\NormalTok{, }\FloatTok{27.3}\NormalTok{, }\FloatTok{8.4}\NormalTok{, }\FloatTok{28.9}\NormalTok{, }\FloatTok{0.9}\NormalTok{, }\FloatTok{2.2}\NormalTok{, }\FloatTok{10.2}\NormalTok{,}
+               \FloatTok{11.0}\NormalTok{, }\FloatTok{27.2}\NormalTok{, }\FloatTok{38.7}\NormalTok{, }\FloatTok{31.7}\NormalTok{, }\FloatTok{19.3}\NormalTok{, }\FloatTok{31.3}\NormalTok{, }\FloatTok{13.1}\NormalTok{, }\FloatTok{89.4}\NormalTok{, }\FloatTok{20.7}\NormalTok{, }\FloatTok{14.2}\NormalTok{, }\FloatTok{9.4}\NormalTok{,}
+               \FloatTok{23.1}\NormalTok{, }\FloatTok{22.3}\NormalTok{, }\FloatTok{36.9}\NormalTok{, }\FloatTok{32.5}\NormalTok{, }\FloatTok{35.6}\NormalTok{, }\FloatTok{33.8}\NormalTok{, }\FloatTok{65.7}\NormalTok{, }\FloatTok{16.0}\NormalTok{, }\FloatTok{63.2}\NormalTok{, }\FloatTok{73.4}\NormalTok{, }\FloatTok{51.4}\NormalTok{,}
+               \FloatTok{9.3}\NormalTok{, }\FloatTok{33.0}\NormalTok{, }\FloatTok{59.0}\NormalTok{, }\FloatTok{72.3}\NormalTok{, }\FloatTok{10.9}\NormalTok{, }\FloatTok{52.9}\NormalTok{, }\FloatTok{5.9}\NormalTok{, }\FloatTok{22.0}\NormalTok{, }\FloatTok{51.2}\NormalTok{, }\FloatTok{45.9}\NormalTok{, }\FloatTok{49.8}\NormalTok{,}
+               \FloatTok{100.9}\NormalTok{, }\FloatTok{21.4}\NormalTok{, }\FloatTok{17.9}\NormalTok{, }\FloatTok{5.3}\NormalTok{, }\FloatTok{59.0}\NormalTok{, }\FloatTok{29.7}\NormalTok{, }\FloatTok{23.2}\NormalTok{, }\FloatTok{25.6}\NormalTok{, }\FloatTok{5.5}\NormalTok{, }\FloatTok{56.5}\NormalTok{, }\FloatTok{23.2}\NormalTok{,}
+               \FloatTok{2.4}\NormalTok{, }\FloatTok{10.7}\NormalTok{, }\FloatTok{34.5}\NormalTok{, }\FloatTok{52.7}\NormalTok{, }\FloatTok{25.6}\NormalTok{, }\FloatTok{14.8}\NormalTok{, }\FloatTok{79.2}\NormalTok{, }\FloatTok{22.3}\NormalTok{, }\FloatTok{46.2}\NormalTok{, }\FloatTok{50.4}\NormalTok{, }\FloatTok{15.6}\NormalTok{,}
+               \FloatTok{12.4}\NormalTok{, }\FloatTok{74.2}\NormalTok{, }\FloatTok{25.9}\NormalTok{, }\FloatTok{50.6}\NormalTok{, }\FloatTok{9.2}\NormalTok{, }\FloatTok{3.2}\NormalTok{, }\FloatTok{43.1}\NormalTok{, }\FloatTok{8.7}\NormalTok{, }\FloatTok{43.0}\NormalTok{, }\FloatTok{2.1}\NormalTok{, }\FloatTok{45.1}\NormalTok{, }\FloatTok{65.6}\NormalTok{,}
+               \FloatTok{8.5}\NormalTok{, }\FloatTok{9.3}\NormalTok{, }\FloatTok{59.7}\NormalTok{, }\FloatTok{20.5}\NormalTok{, }\FloatTok{1.7}\NormalTok{, }\FloatTok{12.9}\NormalTok{, }\FloatTok{75.6}\NormalTok{, }\FloatTok{37.9}\NormalTok{, }\FloatTok{34.4}\NormalTok{, }\FloatTok{38.9}\NormalTok{, }\FloatTok{9.0}\NormalTok{, }\FloatTok{8.7}\NormalTok{,}
+               \FloatTok{44.3}\NormalTok{, }\FloatTok{11.9}\NormalTok{, }\FloatTok{20.6}\NormalTok{, }\FloatTok{37.0}\NormalTok{, }\FloatTok{48.7}\NormalTok{, }\FloatTok{14.2}\NormalTok{, }\FloatTok{37.7}\NormalTok{, }\FloatTok{9.5}\NormalTok{, }\FloatTok{5.7}\NormalTok{, }\FloatTok{50.5}\NormalTok{, }\FloatTok{24.3}\NormalTok{,}
+               \FloatTok{45.2}\NormalTok{, }\FloatTok{34.6}\NormalTok{, }\FloatTok{30.7}\NormalTok{, }\FloatTok{49.3}\NormalTok{, }\FloatTok{25.6}\NormalTok{, }\FloatTok{7.4}\NormalTok{, }\FloatTok{5.4}\NormalTok{, }\FloatTok{84.8}\NormalTok{, }\FloatTok{21.6}\NormalTok{, }\FloatTok{19.4}\NormalTok{, }\FloatTok{57.6}\NormalTok{,}
+               \FloatTok{6.4}\NormalTok{, }\FloatTok{18.4}\NormalTok{, }\FloatTok{47.4}\NormalTok{, }\FloatTok{17.0}\NormalTok{, }\FloatTok{12.8}\NormalTok{, }\FloatTok{13.1}\NormalTok{, }\FloatTok{41.8}\NormalTok{, }\FloatTok{20.3}\NormalTok{, }\FloatTok{35.2}\NormalTok{, }\FloatTok{23.7}\NormalTok{, }\FloatTok{17.6}\NormalTok{,}
+               \FloatTok{8.3}\NormalTok{, }\FloatTok{27.4}\NormalTok{, }\FloatTok{29.7}\NormalTok{, }\FloatTok{71.8}\NormalTok{, }\FloatTok{30.0}\NormalTok{, }\FloatTok{19.6}\NormalTok{, }\FloatTok{26.6}\NormalTok{, }\FloatTok{18.2}\NormalTok{, }\FloatTok{3.7}\NormalTok{, }\FloatTok{23.4}\NormalTok{, }\FloatTok{5.8}\NormalTok{, }\FloatTok{6.0}\NormalTok{,}
+               \FloatTok{31.6}\NormalTok{, }\FloatTok{3.6}\NormalTok{, }\FloatTok{6.0}\NormalTok{, }\FloatTok{13.8}\NormalTok{, }\FloatTok{8.1}\NormalTok{, }\FloatTok{6.4}\NormalTok{, }\FloatTok{66.2}\NormalTok{, }\FloatTok{8.7}\NormalTok{)}
+
+\NormalTok{ventas }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\FloatTok{22.1}\NormalTok{, }\FloatTok{10.4}\NormalTok{, }\FloatTok{9.3}\NormalTok{, }\FloatTok{18.5}\NormalTok{, }\FloatTok{12.9}\NormalTok{, }\FloatTok{7.2}\NormalTok{, }\FloatTok{11.8}\NormalTok{, }\FloatTok{13.2}\NormalTok{, }\FloatTok{4.8}\NormalTok{, }\FloatTok{10.6}\NormalTok{, }\FloatTok{8.6}\NormalTok{, }\FloatTok{17.4}\NormalTok{,}
+            \FloatTok{9.2}\NormalTok{, }\FloatTok{9.7}\NormalTok{, }\FloatTok{19.0}\NormalTok{, }\FloatTok{22.4}\NormalTok{, }\FloatTok{12.5}\NormalTok{, }\FloatTok{24.4}\NormalTok{, }\FloatTok{11.3}\NormalTok{, }\FloatTok{14.6}\NormalTok{, }\FloatTok{18.0}\NormalTok{, }\FloatTok{12.5}\NormalTok{, }\FloatTok{5.6}\NormalTok{, }\FloatTok{15.5}\NormalTok{,}
+            \FloatTok{9.7}\NormalTok{, }\FloatTok{12.0}\NormalTok{, }\FloatTok{15.0}\NormalTok{, }\FloatTok{15.9}\NormalTok{, }\FloatTok{18.9}\NormalTok{, }\FloatTok{10.5}\NormalTok{, }\FloatTok{21.4}\NormalTok{, }\FloatTok{11.9}\NormalTok{, }\FloatTok{9.6}\NormalTok{, }\FloatTok{17.4}\NormalTok{, }\FloatTok{9.5}\NormalTok{, }\FloatTok{12.8}\NormalTok{,}
+            \FloatTok{25.4}\NormalTok{, }\FloatTok{14.7}\NormalTok{, }\FloatTok{10.1}\NormalTok{, }\FloatTok{21.5}\NormalTok{, }\FloatTok{16.6}\NormalTok{, }\FloatTok{17.1}\NormalTok{, }\FloatTok{20.7}\NormalTok{, }\FloatTok{12.9}\NormalTok{, }\FloatTok{8.5}\NormalTok{, }\FloatTok{14.9}\NormalTok{, }\FloatTok{10.6}\NormalTok{, }\FloatTok{23.2}\NormalTok{,}
+            \FloatTok{14.8}\NormalTok{, }\FloatTok{9.7}\NormalTok{, }\FloatTok{11.4}\NormalTok{, }\FloatTok{10.7}\NormalTok{, }\FloatTok{22.6}\NormalTok{, }\FloatTok{21.2}\NormalTok{, }\FloatTok{20.2}\NormalTok{, }\FloatTok{23.7}\NormalTok{, }\FloatTok{5.5}\NormalTok{, }\FloatTok{13.2}\NormalTok{, }\FloatTok{23.8}\NormalTok{, }\FloatTok{18.4}\NormalTok{,}
+            \FloatTok{8.1}\NormalTok{, }\FloatTok{24.2}\NormalTok{, }\FloatTok{15.7}\NormalTok{, }\FloatTok{14.0}\NormalTok{, }\FloatTok{18.0}\NormalTok{, }\FloatTok{9.3}\NormalTok{, }\FloatTok{9.5}\NormalTok{, }\FloatTok{13.4}\NormalTok{, }\FloatTok{18.9}\NormalTok{, }\FloatTok{22.3}\NormalTok{, }\FloatTok{18.3}\NormalTok{, }\FloatTok{12.4}\NormalTok{,}
+            \FloatTok{8.8}\NormalTok{, }\FloatTok{11.0}\NormalTok{, }\FloatTok{17.0}\NormalTok{, }\FloatTok{8.7}\NormalTok{, }\FloatTok{6.9}\NormalTok{, }\FloatTok{14.2}\NormalTok{, }\FloatTok{5.3}\NormalTok{, }\FloatTok{11.0}\NormalTok{, }\FloatTok{11.8}\NormalTok{, }\FloatTok{12.3}\NormalTok{, }\FloatTok{11.3}\NormalTok{, }\FloatTok{13.6}\NormalTok{,}
+            \FloatTok{21.7}\NormalTok{, }\FloatTok{15.2}\NormalTok{, }\FloatTok{12.0}\NormalTok{, }\FloatTok{16.0}\NormalTok{, }\FloatTok{12.9}\NormalTok{, }\FloatTok{16.7}\NormalTok{, }\FloatTok{11.2}\NormalTok{, }\FloatTok{7.3}\NormalTok{, }\FloatTok{19.4}\NormalTok{, }\FloatTok{22.2}\NormalTok{, }\FloatTok{11.5}\NormalTok{, }\FloatTok{16.9}\NormalTok{,}
+            \FloatTok{11.7}\NormalTok{, }\FloatTok{15.5}\NormalTok{, }\FloatTok{25.4}\NormalTok{, }\FloatTok{17.2}\NormalTok{, }\FloatTok{11.7}\NormalTok{, }\FloatTok{23.8}\NormalTok{, }\FloatTok{14.8}\NormalTok{, }\FloatTok{14.7}\NormalTok{, }\FloatTok{20.7}\NormalTok{, }\FloatTok{19.2}\NormalTok{, }\FloatTok{7.2}\NormalTok{, }\FloatTok{8.7}\NormalTok{,}
+            \FloatTok{5.3}\NormalTok{, }\FloatTok{19.8}\NormalTok{, }\FloatTok{13.4}\NormalTok{, }\FloatTok{21.8}\NormalTok{, }\FloatTok{14.1}\NormalTok{, }\FloatTok{15.9}\NormalTok{, }\FloatTok{14.6}\NormalTok{, }\FloatTok{12.6}\NormalTok{, }\FloatTok{12.2}\NormalTok{, }\FloatTok{9.4}\NormalTok{, }\FloatTok{15.9}\NormalTok{, }\FloatTok{6.6}\NormalTok{,}
+            \FloatTok{15.5}\NormalTok{, }\FloatTok{7.0}\NormalTok{, }\FloatTok{11.6}\NormalTok{, }\FloatTok{15.2}\NormalTok{, }\FloatTok{19.7}\NormalTok{, }\FloatTok{10.6}\NormalTok{, }\FloatTok{6.6}\NormalTok{, }\FloatTok{8.8}\NormalTok{, }\FloatTok{24.7}\NormalTok{, }\FloatTok{9.7}\NormalTok{, }\FloatTok{1.6}\NormalTok{, }\FloatTok{12.7}\NormalTok{,}
+            \FloatTok{5.7}\NormalTok{, }\FloatTok{19.6}\NormalTok{, }\FloatTok{10.8}\NormalTok{, }\FloatTok{11.6}\NormalTok{, }\FloatTok{9.5}\NormalTok{, }\FloatTok{20.8}\NormalTok{, }\FloatTok{9.6}\NormalTok{, }\FloatTok{20.7}\NormalTok{, }\FloatTok{10.9}\NormalTok{, }\FloatTok{19.2}\NormalTok{, }\FloatTok{20.1}\NormalTok{, }\FloatTok{10.4}\NormalTok{,}
+            \FloatTok{11.4}\NormalTok{, }\FloatTok{10.3}\NormalTok{, }\FloatTok{13.2}\NormalTok{, }\FloatTok{25.4}\NormalTok{, }\FloatTok{10.9}\NormalTok{, }\FloatTok{10.1}\NormalTok{, }\FloatTok{16.1}\NormalTok{, }\FloatTok{11.6}\NormalTok{, }\FloatTok{16.6}\NormalTok{, }\FloatTok{19.0}\NormalTok{, }\FloatTok{15.6}\NormalTok{,}
+            \FloatTok{3.2}\NormalTok{, }\FloatTok{15.3}\NormalTok{, }\FloatTok{10.1}\NormalTok{, }\FloatTok{7.3}\NormalTok{, }\FloatTok{12.9}\NormalTok{, }\FloatTok{14.4}\NormalTok{, }\FloatTok{13.3}\NormalTok{, }\FloatTok{14.9}\NormalTok{, }\FloatTok{18.0}\NormalTok{, }\FloatTok{11.9}\NormalTok{, }\FloatTok{11.9}\NormalTok{, }\FloatTok{8.0}\NormalTok{,}
+            \FloatTok{12.2}\NormalTok{, }\FloatTok{17.1}\NormalTok{, }\FloatTok{15.0}\NormalTok{, }\FloatTok{8.4}\NormalTok{, }\FloatTok{14.5}\NormalTok{, }\FloatTok{7.6}\NormalTok{, }\FloatTok{11.7}\NormalTok{, }\FloatTok{11.5}\NormalTok{, }\FloatTok{27.0}\NormalTok{, }\FloatTok{20.2}\NormalTok{, }\FloatTok{11.7}\NormalTok{, }\FloatTok{11.8}\NormalTok{,}
+            \FloatTok{12.6}\NormalTok{, }\FloatTok{10.5}\NormalTok{, }\FloatTok{12.2}\NormalTok{, }\FloatTok{8.7}\NormalTok{, }\FloatTok{26.2}\NormalTok{, }\FloatTok{17.6}\NormalTok{, }\FloatTok{22.6}\NormalTok{, }\FloatTok{10.3}\NormalTok{, }\FloatTok{17.3}\NormalTok{, }\FloatTok{15.9}\NormalTok{, }\FloatTok{6.7}\NormalTok{, }\FloatTok{10.8}\NormalTok{,}
+            \FloatTok{9.9}\NormalTok{, }\FloatTok{5.9}\NormalTok{, }\FloatTok{19.6}\NormalTok{, }\FloatTok{17.3}\NormalTok{, }\FloatTok{7.6}\NormalTok{, }\FloatTok{9.7}\NormalTok{, }\FloatTok{12.8}\NormalTok{, }\FloatTok{25.5}\NormalTok{, }\FloatTok{13.4}\NormalTok{)}
+
+\NormalTok{datos }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(tv, radio, periodico, ventas)}
+\FunctionTok{head}\NormalTok{(datos)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+     tv radio periodico ventas
+1 230.1  37.8      69.2   22.1
+2  44.5  39.3      45.1   10.4
+3  17.2  45.9      69.3    9.3
+4 151.5  41.3      58.5   18.5
+5 180.8  10.8      58.4   12.9
+6   8.7  48.9      75.0    7.2
+\end{verbatim}
+
+\subsection{Correlaciones y
+multicolinealidad}\label{correlaciones-y-multicolinealidad}
+
+Primero, miramos las correlaciones entre variables:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{pairs}\NormalTok{(datos)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{lab04_epg_files/figure-pdf/corr-publicidad-1.pdf}}
+\end{center}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{r }\OtherTok{\textless{}{-}} \FunctionTok{cor}\NormalTok{(datos)}
+\NormalTok{r}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+                  tv      radio  periodico    ventas
+tv        1.00000000 0.05480866 0.05664787 0.7822244
+radio     0.05480866 1.00000000 0.35410375 0.5762226
+periodico 0.05664787 0.35410375 1.00000000 0.2282990
+ventas    0.78222442 0.57622257 0.22829903 1.0000000
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{corrplot}\NormalTok{(r, }\AttributeTok{method=}\StringTok{"circle"}\NormalTok{, }\AttributeTok{type=}\StringTok{"lower"}\NormalTok{, }\AttributeTok{diag=}\ConstantTok{FALSE}\NormalTok{,}
+         \AttributeTok{tl.col=}\StringTok{"black"}\NormalTok{, }\AttributeTok{tl.cex=}\FloatTok{0.8}\NormalTok{, }\AttributeTok{tl.srt=}\DecValTok{45}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{lab04_epg_files/figure-pdf/corr-publicidad-2.pdf}}
+\end{center}
+
+\begin{tcolorbox}[enhanced jigsaw, bottomrule=.15mm, toprule=.15mm, coltitle=black, colback=white, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Nota}, colframe=quarto-callout-note-color-frame, left=2mm, toptitle=1mm, titlerule=0mm, arc=.35mm, opacitybacktitle=0.6, rightrule=.15mm, breakable, bottomtitle=1mm, leftrule=.75mm, opacityback=0, colbacktitle=quarto-callout-note-color!10!white]
+
+Interpretación:
+
+\begin{itemize}
+\tightlist
+\item
+  La columna \textbf{ventas} te muestra cómo se relaciona la variable
+  respuesta con cada medio.\\
+\item
+  Si dos regresores (por ejemplo, \texttt{tv} y \texttt{radio}) tienen
+  \textbf{correlación muy alta}, podría haber multicolinealidad.\\
+\item
+  El \texttt{corrplot} ayuda a ver estas relaciones de forma más clara
+  que solo con la matriz numérica.
+\end{itemize}
+
+\end{tcolorbox}
+
+\subsection{Modelo con las tres
+variables}\label{modelo-con-las-tres-variables}
+
+Ajustamos el modelo completo:
+
+{[} \text{ventas} = \beta\_0 + \beta\_1 \text{tv} + \beta\_2
+\text{radio} + \beta\_3 \text{periodico} + \varepsilon {]}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{modelo\_full }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(ventas }\SpecialCharTok{\textasciitilde{}}\NormalTok{ tv }\SpecialCharTok{+}\NormalTok{ radio }\SpecialCharTok{+}\NormalTok{ periodico, }\AttributeTok{data =}\NormalTok{ datos)}
+\FunctionTok{summary}\NormalTok{(modelo\_full)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+Call:
+lm(formula = ventas ~ tv + radio + periodico, data = datos)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-8.8277 -0.8908  0.2418  1.1893  2.8292 
+
+Coefficients:
+             Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  2.938889   0.311908   9.422   <2e-16 ***
+tv           0.045765   0.001395  32.809   <2e-16 ***
+radio        0.188530   0.008611  21.893   <2e-16 ***
+periodico   -0.001037   0.005871  -0.177     0.86    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 1.686 on 196 degrees of freedom
+Multiple R-squared:  0.8972,    Adjusted R-squared:  0.8956 
+F-statistic: 570.3 on 3 and 196 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+\begin{tcolorbox}[enhanced jigsaw, bottomrule=.15mm, toprule=.15mm, coltitle=black, colback=white, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Nota}, colframe=quarto-callout-note-color-frame, left=2mm, toptitle=1mm, titlerule=0mm, arc=.35mm, opacitybacktitle=0.6, rightrule=.15mm, breakable, bottomtitle=1mm, leftrule=.75mm, opacityback=0, colbacktitle=quarto-callout-note-color!10!white]
+
+Mira especialmente:
+
+\begin{itemize}
+\tightlist
+\item
+  El \textbf{p-value} de cada coeficiente → te indica si esa variable es
+  significativa.\\
+\item
+  El \textbf{p-value} de la prueba F → si el modelo completo explica
+  significativamente a \texttt{ventas}.\\
+\item
+  El \textbf{R\^{}2} y \textbf{R\^{}2 ajustado} → qué porcentaje de la
+  variación se explica por los regresores.
+\end{itemize}
+
+\end{tcolorbox}
+
+\subsection{Modelo sin variable no
+significativa}\label{modelo-sin-variable-no-significativa}
+
+Si el coeficiente de \texttt{periodico} no es significativo, podemos
+intentar un modelo más parsimonioso:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{modelo }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(ventas }\SpecialCharTok{\textasciitilde{}}\NormalTok{ tv }\SpecialCharTok{+}\NormalTok{ radio, }\AttributeTok{data =}\NormalTok{ datos)}
+\FunctionTok{summary}\NormalTok{(modelo)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+Call:
+lm(formula = ventas ~ tv + radio, data = datos)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-8.7977 -0.8752  0.2422  1.1708  2.8328 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  2.92110    0.29449   9.919   <2e-16 ***
+tv           0.04575    0.00139  32.909   <2e-16 ***
+radio        0.18799    0.00804  23.382   <2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 1.681 on 197 degrees of freedom
+Multiple R-squared:  0.8972,    Adjusted R-squared:  0.8962 
+F-statistic: 859.6 on 2 and 197 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+\begin{tcolorbox}[enhanced jigsaw, bottomrule=.15mm, toprule=.15mm, coltitle=black, colback=white, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Tip}, colframe=quarto-callout-tip-color-frame, left=2mm, toptitle=1mm, titlerule=0mm, arc=.35mm, opacitybacktitle=0.6, rightrule=.15mm, breakable, bottomtitle=1mm, leftrule=.75mm, opacityback=0, colbacktitle=quarto-callout-tip-color!10!white]
+
+Eliminar variables no significativas:
+
+\begin{itemize}
+\tightlist
+\item
+  Simplifica la interpretación.\\
+\item
+  Puede mejorar la capacidad predictiva fuera de muestra.\\
+\item
+  Siempre es recomendable comparar modelos (por ejemplo, con ANOVA o
+  criterios de información).
+\end{itemize}
+
+\end{tcolorbox}
+
+\subsection{Superficie de regresión en
+3D}\label{superficie-de-regresiuxf3n-en-3d}
+
+Como ahora el modelo solo depende de \textbf{tv} y \textbf{radio},
+podemos visualizar la ``superficie de regresión'' y cómo se ubican los
+datos alrededor de ella.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{rango\_tv }\OtherTok{\textless{}{-}} \FunctionTok{range}\NormalTok{(datos}\SpecialCharTok{$}\NormalTok{tv)}
+\NormalTok{nuevos\_valores\_tv }\OtherTok{\textless{}{-}} \FunctionTok{seq}\NormalTok{(}\AttributeTok{from =}\NormalTok{ rango\_tv[}\DecValTok{1}\NormalTok{], }\AttributeTok{to =}\NormalTok{ rango\_tv[}\DecValTok{2}\NormalTok{], }\AttributeTok{length.out =} \DecValTok{20}\NormalTok{)}
+
+\NormalTok{rango\_radio }\OtherTok{\textless{}{-}} \FunctionTok{range}\NormalTok{(datos}\SpecialCharTok{$}\NormalTok{radio)}
+\NormalTok{nuevos\_valores\_radio }\OtherTok{\textless{}{-}} \FunctionTok{seq}\NormalTok{(}\AttributeTok{from =}\NormalTok{ rango\_radio[}\DecValTok{1}\NormalTok{], }\AttributeTok{to =}\NormalTok{ rango\_radio[}\DecValTok{2}\NormalTok{],}
+                            \AttributeTok{length.out =} \DecValTok{20}\NormalTok{)}
+
+\NormalTok{predicciones }\OtherTok{\textless{}{-}} \FunctionTok{outer}\NormalTok{(}
+  \AttributeTok{X =}\NormalTok{ nuevos\_valores\_tv,}
+  \AttributeTok{Y =}\NormalTok{ nuevos\_valores\_radio, }
+  \AttributeTok{FUN =} \ControlFlowTok{function}\NormalTok{(tv, radio) \{}
+    \FunctionTok{predict}\NormalTok{(}\AttributeTok{object =}\NormalTok{ modelo, }\AttributeTok{newdata =} \FunctionTok{data.frame}\NormalTok{(tv, radio))}
+\NormalTok{  \}}
+\NormalTok{)}
+
+\NormalTok{superficie }\OtherTok{\textless{}{-}} \FunctionTok{persp}\NormalTok{(}
+  \AttributeTok{x =}\NormalTok{ nuevos\_valores\_tv,}
+  \AttributeTok{y =}\NormalTok{ nuevos\_valores\_radio,}
+  \AttributeTok{z =}\NormalTok{ predicciones,}
+  \AttributeTok{theta =} \DecValTok{18}\NormalTok{, }\AttributeTok{phi =} \DecValTok{20}\NormalTok{,}
+  \AttributeTok{col =} \StringTok{"lightblue"}\NormalTok{, }\AttributeTok{shade =} \FloatTok{0.1}\NormalTok{,}
+  \AttributeTok{xlab =} \StringTok{"tv"}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"radio"}\NormalTok{, }\AttributeTok{zlab =} \StringTok{"ventas"}\NormalTok{,}
+  \AttributeTok{ticktype =} \StringTok{"detailed"}\NormalTok{,}
+  \AttributeTok{main =} \StringTok{"Predicción ventas \textasciitilde{} tv + radio"}
+\NormalTok{)}
+
+\NormalTok{observaciones }\OtherTok{\textless{}{-}} \FunctionTok{trans3d}\NormalTok{(datos}\SpecialCharTok{$}\NormalTok{tv, datos}\SpecialCharTok{$}\NormalTok{radio, datos}\SpecialCharTok{$}\NormalTok{ventas, superficie)}
+\NormalTok{error }\OtherTok{\textless{}{-}} \FunctionTok{trans3d}\NormalTok{(datos}\SpecialCharTok{$}\NormalTok{tv, datos}\SpecialCharTok{$}\NormalTok{radio, }\FunctionTok{fitted}\NormalTok{(modelo), superficie)}
+
+\FunctionTok{points}\NormalTok{(observaciones, }\AttributeTok{col =} \StringTok{"red"}\NormalTok{, }\AttributeTok{pch =} \DecValTok{16}\NormalTok{)}
+\FunctionTok{segments}\NormalTok{(observaciones}\SpecialCharTok{$}\NormalTok{x, observaciones}\SpecialCharTok{$}\NormalTok{y, error}\SpecialCharTok{$}\NormalTok{x, error}\SpecialCharTok{$}\NormalTok{y)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{lab04_epg_files/figure-pdf/superficie-simple-1.pdf}}
+\end{center}
+
+\begin{tcolorbox}[enhanced jigsaw, bottomrule=.15mm, toprule=.15mm, coltitle=black, colback=white, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Nota}, colframe=quarto-callout-note-color-frame, left=2mm, toptitle=1mm, titlerule=0mm, arc=.35mm, opacitybacktitle=0.6, rightrule=.15mm, breakable, bottomtitle=1mm, leftrule=.75mm, opacityback=0, colbacktitle=quarto-callout-note-color!10!white]
+
+\begin{itemize}
+\tightlist
+\item
+  Los puntos rojos son las \textbf{observaciones reales}.\\
+\item
+  Las líneas verticales muestran la \textbf{distancia} entre la
+  superficie de predicción y los datos → son los errores del modelo.\\
+\item
+  Si las líneas son pequeñas, el ajuste es bueno.
+\end{itemize}
+
+\end{tcolorbox}
+
+\subsection{Análisis de residuos del modelo
+reducido}\label{anuxe1lisis-de-residuos-del-modelo-reducido}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{shapiro.test}\NormalTok{(modelo}\SpecialCharTok{$}\NormalTok{residuals)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+    Shapiro-Wilk normality test
+
+data:  modelo$residuals
+W = 0.91804, p-value = 4.19e-09
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{hist}\NormalTok{(modelo}\SpecialCharTok{$}\NormalTok{residuals, }\AttributeTok{main=}\StringTok{"Histograma de residuos"}\NormalTok{, }\AttributeTok{xlab=}\StringTok{"Residuo"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{lab04_epg_files/figure-pdf/residuos-modelo-1.pdf}}
+\end{center}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(}\FunctionTok{density}\NormalTok{(modelo}\SpecialCharTok{$}\NormalTok{residuals), }\AttributeTok{main=}\StringTok{"Densidad de residuos"}\NormalTok{, }\AttributeTok{xlab=}\StringTok{"Residuo"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{lab04_epg_files/figure-pdf/residuos-modelo-2.pdf}}
+\end{center}
+
+Pruebas de autocorrelación y heterocedasticidad:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{dwtest}\NormalTok{(modelo, }\AttributeTok{alternative =}\StringTok{"two.sided"}\NormalTok{, }\AttributeTok{iterations =} \DecValTok{1000}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+    Durbin-Watson test
+
+data:  modelo
+DW = 2.0808, p-value = 0.5656
+alternative hypothesis: true autocorrelation is not 0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{bptest}\NormalTok{(modelo)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+    studentized Breusch-Pagan test
+
+data:  modelo
+BP = 4.8093, df = 2, p-value = 0.0903
+\end{verbatim}
+
+Gráfico de valores reales vs estimados:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(modelo}\SpecialCharTok{$}\NormalTok{fitted.values, datos}\SpecialCharTok{$}\NormalTok{ventas,}
+     \AttributeTok{xlab =} \StringTok{"Ventas estimadas"}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"Ventas reales"}\NormalTok{,}
+     \AttributeTok{main =} \StringTok{"Ventas reales vs estimadas (modelo sin periodico)"}\NormalTok{)}
+\FunctionTok{lines}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{25}\NormalTok{), }\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{25}\NormalTok{), }\AttributeTok{col =} \StringTok{"red"}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{lab04_epg_files/figure-pdf/reales-vs-ajustados-1.pdf}}
+\end{center}
+
+\begin{tcolorbox}[enhanced jigsaw, bottomrule=.15mm, toprule=.15mm, coltitle=black, colback=white, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Nota}, colframe=quarto-callout-note-color-frame, left=2mm, toptitle=1mm, titlerule=0mm, arc=.35mm, opacitybacktitle=0.6, rightrule=.15mm, breakable, bottomtitle=1mm, leftrule=.75mm, opacityback=0, colbacktitle=quarto-callout-note-color!10!white]
+
+\begin{itemize}
+\tightlist
+\item
+  Si los puntos se alinean alrededor de la diagonal roja → el modelo
+  predice razonablemente bien.\\
+\item
+  Desviaciones sistemáticas o patrones curvos indicarían que falta
+  estructura (no linealidad, interacciones, etc.).
+\end{itemize}
+
+\end{tcolorbox}
+
+\subsection{Incorporar una interacción tv *
+radio}\label{incorporar-una-interacciuxf3n-tv-radio}
+
+Ahora probamos un modelo donde el efecto de la TV \textbf{depende del
+nivel de radio} (y viceversa).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tv\_radio }\OtherTok{\textless{}{-}}\NormalTok{ tv }\SpecialCharTok{*}\NormalTok{ radio}
+
+\NormalTok{modelo\_interaccion }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(ventas }\SpecialCharTok{\textasciitilde{}}\NormalTok{ tv }\SpecialCharTok{+}\NormalTok{ radio }\SpecialCharTok{+}\NormalTok{ tv}\SpecialCharTok{:}\NormalTok{radio, }\AttributeTok{data =}\NormalTok{ datos)}
+\FunctionTok{summary}\NormalTok{(modelo\_interaccion)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+Call:
+lm(formula = ventas ~ tv + radio + tv:radio, data = datos)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-6.3366 -0.4028  0.1831  0.5948  1.5246 
+
+Coefficients:
+             Estimate Std. Error t value Pr(>|t|)    
+(Intercept) 6.750e+00  2.479e-01  27.233   <2e-16 ***
+tv          1.910e-02  1.504e-03  12.699   <2e-16 ***
+radio       2.886e-02  8.905e-03   3.241   0.0014 ** 
+tv:radio    1.086e-03  5.242e-05  20.727   <2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.9435 on 196 degrees of freedom
+Multiple R-squared:  0.9678,    Adjusted R-squared:  0.9673 
+F-statistic:  1963 on 3 and 196 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+Analizamos los residuos del nuevo modelo:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{shapiro.test}\NormalTok{(modelo\_interaccion}\SpecialCharTok{$}\NormalTok{residuals)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+    Shapiro-Wilk normality test
+
+data:  modelo_interaccion$residuals
+W = 0.8469, p-value = 3.047e-13
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{hist}\NormalTok{(modelo\_interaccion}\SpecialCharTok{$}\NormalTok{residuals, }\AttributeTok{main=}\StringTok{"Histograma residuos modelo interacción"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{lab04_epg_files/figure-pdf/residuos-interaccion-1.pdf}}
+\end{center}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(}\FunctionTok{density}\NormalTok{(modelo\_interaccion}\SpecialCharTok{$}\NormalTok{residuals),}
+     \AttributeTok{main=}\StringTok{"Densidad residuos modelo interacción"}\NormalTok{, }\AttributeTok{xlab=}\StringTok{"Residuo"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{lab04_epg_files/figure-pdf/residuos-interaccion-2.pdf}}
+\end{center}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{dwtest}\NormalTok{(modelo\_interaccion, }\AttributeTok{alternative =}\StringTok{"two.sided"}\NormalTok{, }\AttributeTok{iterations =} \DecValTok{1000}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+    Durbin-Watson test
+
+data:  modelo_interaccion
+DW = 2.2236, p-value = 0.1103
+alternative hypothesis: true autocorrelation is not 0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{bptest}\NormalTok{(modelo\_interaccion)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+    studentized Breusch-Pagan test
+
+data:  modelo_interaccion
+BP = 14.324, df = 3, p-value = 0.002495
+\end{verbatim}
+
+Ventas reales vs estimadas con interacción:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(modelo\_interaccion}\SpecialCharTok{$}\NormalTok{fitted.values, datos}\SpecialCharTok{$}\NormalTok{ventas,}
+     \AttributeTok{xlab =} \StringTok{"Ventas estimadas"}\NormalTok{,}
+     \AttributeTok{ylab =} \StringTok{"Ventas reales"}\NormalTok{,}
+     \AttributeTok{main =} \StringTok{"Ventas reales vs estimadas (modelo con interacción)"}\NormalTok{)}
+\FunctionTok{lines}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{25}\NormalTok{), }\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{25}\NormalTok{), }\AttributeTok{col =} \StringTok{"red"}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{lab04_epg_files/figure-pdf/reales-vs-ajustados-interaccion-1.pdf}}
+\end{center}
+
+\subsection{Superficie del modelo con
+interacción}\label{superficie-del-modelo-con-interacciuxf3n}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{rango\_tv }\OtherTok{\textless{}{-}} \FunctionTok{range}\NormalTok{(datos}\SpecialCharTok{$}\NormalTok{tv)}
+\NormalTok{nuevos\_valores\_tv }\OtherTok{\textless{}{-}} \FunctionTok{seq}\NormalTok{(}\AttributeTok{from =}\NormalTok{ rango\_tv[}\DecValTok{1}\NormalTok{], }\AttributeTok{to =}\NormalTok{ rango\_tv[}\DecValTok{2}\NormalTok{], }\AttributeTok{length.out =} \DecValTok{20}\NormalTok{)}
+
+\NormalTok{rango\_radio }\OtherTok{\textless{}{-}} \FunctionTok{range}\NormalTok{(datos}\SpecialCharTok{$}\NormalTok{radio)}
+\NormalTok{nuevos\_valores\_radio }\OtherTok{\textless{}{-}} \FunctionTok{seq}\NormalTok{(}\AttributeTok{from =}\NormalTok{ rango\_radio[}\DecValTok{1}\NormalTok{], }\AttributeTok{to =}\NormalTok{ rango\_radio[}\DecValTok{2}\NormalTok{], }\AttributeTok{length.out =} \DecValTok{20}\NormalTok{)}
+
+\NormalTok{predicciones }\OtherTok{\textless{}{-}} \FunctionTok{outer}\NormalTok{(}
+  \AttributeTok{X =}\NormalTok{ nuevos\_valores\_tv,}
+  \AttributeTok{Y =}\NormalTok{ nuevos\_valores\_radio, }
+  \AttributeTok{FUN =} \ControlFlowTok{function}\NormalTok{(tv, radio) \{}
+    \FunctionTok{predict}\NormalTok{(}\AttributeTok{object =}\NormalTok{ modelo\_interaccion,}
+            \AttributeTok{newdata =} \FunctionTok{data.frame}\NormalTok{(tv, radio))}
+\NormalTok{  \}}
+\NormalTok{)}
+
+\NormalTok{superficie }\OtherTok{\textless{}{-}} \FunctionTok{persp}\NormalTok{(}
+  \AttributeTok{x =}\NormalTok{ nuevos\_valores\_tv,}
+  \AttributeTok{y =}\NormalTok{ nuevos\_valores\_radio,}
+  \AttributeTok{z =}\NormalTok{ predicciones,}
+  \AttributeTok{theta =} \DecValTok{18}\NormalTok{, }\AttributeTok{phi =} \DecValTok{20}\NormalTok{,}
+  \AttributeTok{col =} \StringTok{"lightblue"}\NormalTok{, }\AttributeTok{shade =} \FloatTok{0.1}\NormalTok{,}
+  \AttributeTok{xlab =} \StringTok{"tv"}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"radio"}\NormalTok{, }\AttributeTok{zlab =} \StringTok{"ventas"}\NormalTok{,}
+  \AttributeTok{ticktype =} \StringTok{"detailed"}\NormalTok{,}
+  \AttributeTok{main =} \StringTok{"Predicción ventas \textasciitilde{} tv + radio + tv:radio"}
+\NormalTok{)}
+
+\NormalTok{observaciones }\OtherTok{\textless{}{-}} \FunctionTok{trans3d}\NormalTok{(datos}\SpecialCharTok{$}\NormalTok{tv, datos}\SpecialCharTok{$}\NormalTok{radio, datos}\SpecialCharTok{$}\NormalTok{ventas, superficie)}
+\NormalTok{error }\OtherTok{\textless{}{-}} \FunctionTok{trans3d}\NormalTok{(datos}\SpecialCharTok{$}\NormalTok{tv, datos}\SpecialCharTok{$}\NormalTok{radio, }\FunctionTok{fitted}\NormalTok{(modelo\_interaccion), superficie)}
+
+\FunctionTok{points}\NormalTok{(observaciones, }\AttributeTok{col =} \StringTok{"red"}\NormalTok{, }\AttributeTok{pch =} \DecValTok{16}\NormalTok{)}
+\FunctionTok{segments}\NormalTok{(observaciones}\SpecialCharTok{$}\NormalTok{x, observaciones}\SpecialCharTok{$}\NormalTok{y, error}\SpecialCharTok{$}\NormalTok{x, error}\SpecialCharTok{$}\NormalTok{y)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{lab04_epg_files/figure-pdf/superficie-interaccion-1.pdf}}
+\end{center}
+
+\subsection{Comparación de modelos con
+ANOVA}\label{comparaciuxf3n-de-modelos-con-anova}
+
+Comparamos el modelo sin interacción y el modelo con interacción:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{anova}\NormalTok{(modelo, modelo\_interaccion)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Analysis of Variance Table
+
+Model 1: ventas ~ tv + radio
+Model 2: ventas ~ tv + radio + tv:radio
+  Res.Df    RSS Df Sum of Sq      F    Pr(>F)    
+1    197 556.91                                  
+2    196 174.48  1    382.43 429.59 < 2.2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
+
+\begin{tcolorbox}[enhanced jigsaw, bottomrule=.15mm, toprule=.15mm, coltitle=black, colback=white, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Nota}, colframe=quarto-callout-note-color-frame, left=2mm, toptitle=1mm, titlerule=0mm, arc=.35mm, opacitybacktitle=0.6, rightrule=.15mm, breakable, bottomtitle=1mm, leftrule=.75mm, opacityback=0, colbacktitle=quarto-callout-note-color!10!white]
+
+\begin{itemize}
+\tightlist
+\item
+  Si la prueba ANOVA da un \textbf{p-value pequeño}, la interacción
+  aporta información estadísticamente significativa.\\
+\item
+  Además de la significancia, es importante revisar residuos y lógica
+  económica del modelo.
+\end{itemize}
+
+\end{tcolorbox}
+
+\subsection{Modelo con interacción y término cuadrático en
+tv}\label{modelo-con-interacciuxf3n-y-tuxe9rmino-cuadruxe1tico-en-tv}
+
+Probamos un modelo más flexible:
+
+{[} \text{ventas} = \beta\_0 + \beta\_1 \text{tv} + \beta\_2
+\text{radio} + \beta\_3 \text{tv}\^{}2 + \beta\_4
+(\text{tv}\cdot\text{radio}) + \varepsilon {]}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{modelo\_interaccion\_1 }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(ventas }\SpecialCharTok{\textasciitilde{}}\NormalTok{ tv }\SpecialCharTok{+}\NormalTok{ radio }\SpecialCharTok{+} \FunctionTok{I}\NormalTok{(tv}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{) }\SpecialCharTok{+}\NormalTok{ tv}\SpecialCharTok{:}\NormalTok{radio, }\AttributeTok{data =}\NormalTok{ datos)}
+\FunctionTok{summary}\NormalTok{(modelo\_interaccion\_1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+Call:
+lm(formula = ventas ~ tv + radio + I(tv^2) + tv:radio, data = datos)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-4.9949 -0.2969 -0.0066  0.3798  1.1686 
+
+Coefficients:
+              Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  5.137e+00  1.927e-01  26.663  < 2e-16 ***
+tv           5.092e-02  2.232e-03  22.810  < 2e-16 ***
+radio        3.516e-02  5.901e-03   5.959 1.17e-08 ***
+I(tv^2)     -1.097e-04  6.893e-06 -15.920  < 2e-16 ***
+tv:radio     1.077e-03  3.466e-05  31.061  < 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.6238 on 195 degrees of freedom
+Multiple R-squared:  0.986, Adjusted R-squared:  0.9857 
+F-statistic:  3432 on 4 and 195 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(modelo\_interaccion\_1}\SpecialCharTok{$}\NormalTok{fitted.values, datos}\SpecialCharTok{$}\NormalTok{ventas,}
+     \AttributeTok{xlab =} \StringTok{"Ventas estimadas"}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"Ventas reales"}\NormalTok{,}
+     \AttributeTok{main =} \StringTok{"Ventas reales vs estimadas (modelo con tv\^{}2 e interacción)"}\NormalTok{)}
+\FunctionTok{lines}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{27}\NormalTok{), }\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{27}\NormalTok{), }\AttributeTok{col =} \StringTok{"red"}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{lab04_epg_files/figure-pdf/modelo-interaccion-cuadratico-1.pdf}}
+\end{center}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{hist}\NormalTok{(modelo\_interaccion\_1}\SpecialCharTok{$}\NormalTok{residuals, }\AttributeTok{main=}\StringTok{"Histograma residuos modelo\_interaccion\_1"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{lab04_epg_files/figure-pdf/modelo-interaccion-cuadratico-2.pdf}}
+\end{center}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(}\FunctionTok{density}\NormalTok{(modelo\_interaccion\_1}\SpecialCharTok{$}\NormalTok{residuals),}
+     \AttributeTok{main=}\StringTok{"Densidad residuos modelo\_interaccion\_1"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{lab04_epg_files/figure-pdf/modelo-interaccion-cuadratico-3.pdf}}
+\end{center}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{shapiro.test}\NormalTok{(modelo\_interaccion\_1}\SpecialCharTok{$}\NormalTok{residuals)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+    Shapiro-Wilk normality test
+
+data:  modelo_interaccion_1$residuals
+W = 0.80888, p-value = 6.359e-15
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{dwtest}\NormalTok{(modelo\_interaccion\_1, }\AttributeTok{alternative =}\StringTok{"two.sided"}\NormalTok{, }\AttributeTok{iterations =} \DecValTok{1000}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+    Durbin-Watson test
+
+data:  modelo_interaccion_1
+DW = 2.204, p-value = 0.1432
+alternative hypothesis: true autocorrelation is not 0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{bptest}\NormalTok{(modelo\_interaccion\_1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+    studentized Breusch-Pagan test
+
+data:  modelo_interaccion_1
+BP = 19.986, df = 4, p-value = 0.0005027
+\end{verbatim}
+
+\section{Parte 2: Regresión polinomial y transformaciones (ejemplo de
+millaje)}\label{parte-2-regresiuxf3n-polinomial-y-transformaciones-ejemplo-de-millaje}
+
+En esta parte trabajamos con el archivo \texttt{millaje.txt}, que
+contiene información de autos:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{mpg}: millas por galón (consumo).\\
+\item
+  \texttt{hp}: horsepower (potencia del motor).\\
+\item
+  \texttt{vol}: alguna medida de volumen/cilindrada del motor.
+\end{itemize}
+
+Queremos modelar el \textbf{consumo de combustible} (\texttt{mpg}) en
+función de la potencia (\texttt{hp}) y otras características, usando
+polinomios y transformaciones.
+
+\subsection{Cargar los datos de
+millaje}\label{cargar-los-datos-de-millaje}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{archivo\_millaje }\OtherTok{\textless{}{-}} \FunctionTok{file.path}\NormalTok{(ruta\_datos, }\StringTok{"millaje.txt"}\NormalTok{)}
+
+\NormalTok{millaje }\OtherTok{\textless{}{-}} \FunctionTok{read.table}\NormalTok{(}\AttributeTok{file =}\NormalTok{ archivo\_millaje, }\AttributeTok{header =} \ConstantTok{TRUE}\NormalTok{)}
+\FunctionTok{head}\NormalTok{(millaje)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+   mpg  sp   wt vol hp
+1 65.4  96 17.5  89 49
+2 56.0  97 20.0  92 55
+3 55.9  97 20.0  92 55
+4 49.0 105 20.0  92 70
+5 46.5  96 20.0  92 53
+6 46.2 105 20.0  89 70
+\end{verbatim}
+
+\subsection{Correlaciones y gráficos}\label{correlaciones-y-gruxe1ficos}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{r\_auto }\OtherTok{\textless{}{-}} \FunctionTok{cor}\NormalTok{(millaje)}
+\NormalTok{r\_auto}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+           mpg          sp         wt         vol          hp
+mpg  1.0000000 -0.68844623 -0.9050849 -0.36861368 -0.78985635
+sp  -0.6884462  1.00000000  0.6785339 -0.04306242  0.96654517
+wt  -0.9050849  0.67853388  1.0000000  0.38495423  0.83222021
+vol -0.3686137 -0.04306242  0.3849542  1.00000000  0.07647905
+hp  -0.7898564  0.96654517  0.8322202  0.07647905  1.00000000
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{pairs}\NormalTok{(millaje)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{lab04_epg_files/figure-pdf/corr-millaje-1.pdf}}
+\end{center}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{corrplot}\NormalTok{(r\_auto, }\AttributeTok{method=}\StringTok{"circle"}\NormalTok{, }\AttributeTok{type=}\StringTok{"lower"}\NormalTok{, }\AttributeTok{diag=}\ConstantTok{FALSE}\NormalTok{,}
+         \AttributeTok{tl.col=}\StringTok{"black"}\NormalTok{, }\AttributeTok{tl.cex=}\FloatTok{0.8}\NormalTok{, }\AttributeTok{tl.srt=}\DecValTok{45}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{lab04_epg_files/figure-pdf/corr-millaje-2.pdf}}
+\end{center}
+
+Gráfico simple de \texttt{mpg} vs \texttt{hp}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(}
+  \AttributeTok{x =}\NormalTok{ millaje}\SpecialCharTok{$}\NormalTok{hp,}
+  \AttributeTok{y =}\NormalTok{ millaje}\SpecialCharTok{$}\NormalTok{mpg,}
+  \AttributeTok{main =} \StringTok{"Consumo vs potencia motor"}\NormalTok{,}
+  \AttributeTok{xlab =} \StringTok{"hp (potencia)"}\NormalTok{,}
+  \AttributeTok{ylab =} \StringTok{"mpg (millas por galón)"}\NormalTok{,}
+  \AttributeTok{pch =} \DecValTok{20}\NormalTok{,}
+  \AttributeTok{col =} \StringTok{"grey"}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{lab04_epg_files/figure-pdf/scatter-hp-mpg-1.pdf}}
+\end{center}
+
+\subsection{Modelo lineal simple en hp y
+vol}\label{modelo-lineal-simple-en-hp-y-vol}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{modelo\_lineal }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(mpg }\SpecialCharTok{\textasciitilde{}}\NormalTok{ hp }\SpecialCharTok{+}\NormalTok{ vol, }\AttributeTok{data =}\NormalTok{ millaje)}
+\FunctionTok{summary}\NormalTok{(modelo\_lineal)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+Call:
+lm(formula = mpg ~ hp + vol, data = millaje)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-10.556  -3.411  -0.687   2.736  21.058 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept) 63.40255    2.91066  21.783  < 2e-16 ***
+hp          -0.13485    0.01052 -12.818  < 2e-16 ***
+vol         -0.13993    0.02698  -5.187 1.61e-06 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 5.366 on 79 degrees of freedom
+Multiple R-squared:  0.7194,    Adjusted R-squared:  0.7123 
+F-statistic: 101.3 on 2 and 79 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+Visualizamos la recta de regresión en función de \texttt{hp}
+(manteniendo fijo \texttt{vol} en el promedio, de manera implícita):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(}
+  \AttributeTok{x =}\NormalTok{ millaje}\SpecialCharTok{$}\NormalTok{hp,}
+  \AttributeTok{y =}\NormalTok{ millaje}\SpecialCharTok{$}\NormalTok{mpg,}
+  \AttributeTok{main =} \StringTok{"Consumo vs potencia motor (modelo lineal)"}\NormalTok{,}
+  \AttributeTok{xlab =} \StringTok{"hp"}\NormalTok{,}
+  \AttributeTok{ylab =} \StringTok{"mpg"}\NormalTok{,}
+  \AttributeTok{pch  =} \DecValTok{20}\NormalTok{,}
+  \AttributeTok{col  =} \StringTok{"grey"}
+\NormalTok{)}
+\FunctionTok{abline}\NormalTok{(modelo\_lineal, }\AttributeTok{lwd =} \DecValTok{3}\NormalTok{, }\AttributeTok{col =} \StringTok{"red"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{lab04_epg_files/figure-pdf/linea-simple-1.pdf}}
+\end{center}
+
+\begin{tcolorbox}[enhanced jigsaw, bottomrule=.15mm, toprule=.15mm, coltitle=black, colback=white, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Nota}, colframe=quarto-callout-note-color-frame, left=2mm, toptitle=1mm, titlerule=0mm, arc=.35mm, opacitybacktitle=0.6, rightrule=.15mm, breakable, bottomtitle=1mm, leftrule=.75mm, opacityback=0, colbacktitle=quarto-callout-note-color!10!white]
+
+Este gráfico es más ilustrativo que riguroso (porque el modelo usa
+también \texttt{vol}), pero sirve para visualizar la tendencia lineal
+negativa: a mayor \texttt{hp}, menor \texttt{mpg}.
+
+\end{tcolorbox}
+
+\subsection{Modelo polinomial
+cuadrático}\label{modelo-polinomial-cuadruxe1tico}
+
+Ahora permitimos una relación \textbf{no lineal} entre \texttt{hp} y
+\texttt{mpg}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{modelo\_pol2 }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(mpg }\SpecialCharTok{\textasciitilde{}}\NormalTok{ vol }\SpecialCharTok{+}\NormalTok{ hp }\SpecialCharTok{+} \FunctionTok{I}\NormalTok{(hp}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{), }\AttributeTok{data =}\NormalTok{ millaje)}
+\FunctionTok{summary}\NormalTok{(modelo\_pol2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+Call:
+lm(formula = mpg ~ vol + hp + I(hp^2), data = millaje)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-8.4677 -2.9686 -0.6293  2.3102 15.0791 
+
+Coefficients:
+              Estimate Std. Error t value Pr(>|t|)    
+(Intercept) 73.3557314  2.8205235  26.008  < 2e-16 ***
+vol         -0.0546235  0.0255711  -2.136   0.0358 *  
+hp          -0.4115233  0.0436316  -9.432 1.57e-14 ***
+I(hp^2)      0.0008294  0.0001283   6.466 8.01e-09 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 4.357 on 78 degrees of freedom
+Multiple R-squared:  0.8173,    Adjusted R-squared:  0.8103 
+F-statistic: 116.3 on 3 and 78 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{modelo\_cuadratico }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(mpg }\SpecialCharTok{\textasciitilde{}} \FunctionTok{poly}\NormalTok{(hp, }\DecValTok{2}\NormalTok{), }\AttributeTok{data =}\NormalTok{ millaje)}
+\FunctionTok{summary}\NormalTok{(modelo\_cuadratico)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+Call:
+lm(formula = mpg ~ poly(hp, 2), data = millaje)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-8.2059 -3.3067 -0.4611  2.4724 14.3716 
+
+Coefficients:
+             Estimate Std. Error t value Pr(>|t|)    
+(Intercept)   33.7817     0.4919  68.674  < 2e-16 ***
+poly(hp, 2)1 -71.1198     4.4545 -15.966  < 2e-16 ***
+poly(hp, 2)2  38.4953     4.4545   8.642 4.87e-13 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 4.454 on 79 degrees of freedom
+Multiple R-squared:  0.8067,    Adjusted R-squared:  0.8018 
+F-statistic: 164.8 on 2 and 79 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+Comparación gráfico predicho vs real:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(modelo\_pol2}\SpecialCharTok{$}\NormalTok{fitted.values, millaje}\SpecialCharTok{$}\NormalTok{mpg,}
+     \AttributeTok{xlab =} \StringTok{"mpg estimado"}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"mpg real"}\NormalTok{,}
+     \AttributeTok{main =} \StringTok{"Ajuste modelo polinomial (grado 2)"}\NormalTok{)}
+\FunctionTok{lines}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{10}\NormalTok{, }\DecValTok{60}\NormalTok{), }\FunctionTok{c}\NormalTok{(}\DecValTok{10}\NormalTok{, }\DecValTok{60}\NormalTok{), }\AttributeTok{col =} \StringTok{"red"}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{lab04_epg_files/figure-pdf/ajuste-pol2-1.pdf}}
+\end{center}
+
+\subsection{Análisis de residuos del modelo
+polinomial}\label{anuxe1lisis-de-residuos-del-modelo-polinomial}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{shapiro.test}\NormalTok{(modelo\_pol2}\SpecialCharTok{$}\NormalTok{residuals)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+    Shapiro-Wilk normality test
+
+data:  modelo_pol2$residuals
+W = 0.95926, p-value = 0.0107
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{hist}\NormalTok{(modelo\_pol2}\SpecialCharTok{$}\NormalTok{residuals, }\AttributeTok{main=}\StringTok{"Histograma residuos modelo\_pol2"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{lab04_epg_files/figure-pdf/residuos-pol2-1.pdf}}
+\end{center}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(}\FunctionTok{density}\NormalTok{(modelo\_pol2}\SpecialCharTok{$}\NormalTok{residuals),}
+     \AttributeTok{main=}\StringTok{"Densidad residuos modelo\_pol2"}\NormalTok{, }\AttributeTok{xlab=}\StringTok{"Residuo"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{lab04_epg_files/figure-pdf/residuos-pol2-2.pdf}}
+\end{center}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{par}\NormalTok{(}\AttributeTok{mfrow =} \FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{2}\NormalTok{))}
+\FunctionTok{plot}\NormalTok{(modelo\_pol2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{lab04_epg_files/figure-pdf/residuos-pol2-3.pdf}}
+\end{center}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{par}\NormalTok{(}\AttributeTok{mfrow =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+Comparación formal entre el modelo lineal y el polinomial:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{anova}\NormalTok{(modelo\_lineal, modelo\_pol2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Analysis of Variance Table
+
+Model 1: mpg ~ hp + vol
+Model 2: mpg ~ vol + hp + I(hp^2)
+  Res.Df    RSS Df Sum of Sq      F    Pr(>F)    
+1     79 2274.8                                  
+2     78 1480.9  1    793.86 41.813 8.009e-09 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
+
+Si el p-valor es pequeño, el término cuadrático mejora
+significativamente el modelo.
+
+\subsection{Curva predicha del modelo
+polinomial}\label{curva-predicha-del-modelo-polinomial}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(}
+  \AttributeTok{x =}\NormalTok{ millaje}\SpecialCharTok{$}\NormalTok{hp,}
+  \AttributeTok{y =}\NormalTok{ millaje}\SpecialCharTok{$}\NormalTok{mpg,}
+  \AttributeTok{main =} \StringTok{"Consumo vs potencia motor (modelo cuadrático)"}\NormalTok{,}
+  \AttributeTok{xlab =} \StringTok{"hp"}\NormalTok{,}
+  \AttributeTok{ylab =} \StringTok{"mpg"}\NormalTok{,}
+  \AttributeTok{pch  =} \DecValTok{20}\NormalTok{,}
+  \AttributeTok{col  =} \StringTok{"grey"}
+\NormalTok{)}
+
+\NormalTok{puntos\_interpolados }\OtherTok{\textless{}{-}} \FunctionTok{seq}\NormalTok{(}\AttributeTok{from =} \FunctionTok{min}\NormalTok{(millaje}\SpecialCharTok{$}\NormalTok{hp), }\AttributeTok{to =} \FunctionTok{max}\NormalTok{(millaje}\SpecialCharTok{$}\NormalTok{hp), }\AttributeTok{by =} \DecValTok{1}\NormalTok{)}
+
+\NormalTok{prediccion }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(}
+  \AttributeTok{object =}\NormalTok{ modelo\_pol2,}
+  \AttributeTok{newdata =} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{hp =}\NormalTok{ millaje}\SpecialCharTok{$}\NormalTok{hp, }\AttributeTok{vol =}\NormalTok{ millaje}\SpecialCharTok{$}\NormalTok{vol)}
+\NormalTok{)}
+
+\FunctionTok{lines}\NormalTok{(}\FunctionTok{sort}\NormalTok{(millaje}\SpecialCharTok{$}\NormalTok{hp), prediccion[}\FunctionTok{order}\NormalTok{(millaje}\SpecialCharTok{$}\NormalTok{hp)],}
+      \AttributeTok{col =} \StringTok{"red"}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{lab04_epg_files/figure-pdf/curva-pol2-1.pdf}}
+\end{center}
+
+\subsection{Visualización con
+ggplot2}\label{visualizaciuxf3n-con-ggplot2}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(millaje, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ hp, }\AttributeTok{y =}\NormalTok{ mpg)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{(}\AttributeTok{colour =} \StringTok{"grey"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{stat\_smooth}\NormalTok{(}\AttributeTok{method =} \StringTok{"lm"}\NormalTok{, }\AttributeTok{formula =}\NormalTok{ y }\SpecialCharTok{\textasciitilde{}}\NormalTok{ hp }\SpecialCharTok{+} \FunctionTok{I}\NormalTok{(hp}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Consumo vs potencia motor (modelo cuadrático)"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme\_bw}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{lab04_epg_files/figure-pdf/ggplot-pol2-1.pdf}}
+\end{center}
+
+\subsection{Polinomios de grados más
+altos}\label{polinomios-de-grados-muxe1s-altos}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ggplot}\NormalTok{(millaje, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ hp, }\AttributeTok{y =}\NormalTok{ mpg)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{(}\AttributeTok{colour =} \StringTok{"grey"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{stat\_smooth}\NormalTok{(}\AttributeTok{method =} \StringTok{"lm"}\NormalTok{, }\AttributeTok{formula =}\NormalTok{ y }\SpecialCharTok{\textasciitilde{}} \FunctionTok{poly}\NormalTok{(x, }\DecValTok{2}\NormalTok{),  }\AttributeTok{colour =} \StringTok{"red"}\NormalTok{,   }\AttributeTok{se =} \ConstantTok{FALSE}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{stat\_smooth}\NormalTok{(}\AttributeTok{method =} \StringTok{"lm"}\NormalTok{, }\AttributeTok{formula =}\NormalTok{ y }\SpecialCharTok{\textasciitilde{}} \FunctionTok{poly}\NormalTok{(x, }\DecValTok{5}\NormalTok{),  }\AttributeTok{colour =} \StringTok{"blue"}\NormalTok{,  }\AttributeTok{se =} \ConstantTok{FALSE}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{stat\_smooth}\NormalTok{(}\AttributeTok{method =} \StringTok{"lm"}\NormalTok{, }\AttributeTok{formula =}\NormalTok{ y }\SpecialCharTok{\textasciitilde{}} \FunctionTok{poly}\NormalTok{(x, }\DecValTok{10}\NormalTok{), }\AttributeTok{colour =} \StringTok{"green"}\NormalTok{, }\AttributeTok{se =} \ConstantTok{FALSE}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Polinomios de grados 2, 5 y 10"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme\_bw}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{lab04_epg_files/figure-pdf/ggplot-polinomios-1.pdf}}
+\end{center}
+
+\begin{tcolorbox}[enhanced jigsaw, bottomrule=.15mm, toprule=.15mm, coltitle=black, colback=white, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Nota}, colframe=quarto-callout-note-color-frame, left=2mm, toptitle=1mm, titlerule=0mm, arc=.35mm, opacitybacktitle=0.6, rightrule=.15mm, breakable, bottomtitle=1mm, leftrule=.75mm, opacityback=0, colbacktitle=quarto-callout-note-color!10!white]
+
+Observa cómo los polinomios de grados más altos se ajustan fuertemente a
+los datos, pero pueden \textbf{sobreajustar} (overfitting) y producir
+curvas muy oscilantes poco realistas.
+
+\end{tcolorbox}
+
+\subsection{Modelos polinomiales y
+comparación}\label{modelos-polinomiales-y-comparaciuxf3n}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{modelo\_5 }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(mpg }\SpecialCharTok{\textasciitilde{}} \FunctionTok{poly}\NormalTok{(hp, }\DecValTok{5}\NormalTok{), }\AttributeTok{data =}\NormalTok{ millaje)}
+\FunctionTok{summary}\NormalTok{(modelo\_5)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+Call:
+lm(formula = mpg ~ poly(hp, 5), data = millaje)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-7.9505 -2.5323 -0.4598  3.2027 10.9823 
+
+Coefficients:
+             Estimate Std. Error t value Pr(>|t|)    
+(Intercept)   33.7817     0.4503  75.018  < 2e-16 ***
+poly(hp, 5)1 -71.1198     4.0778 -17.441  < 2e-16 ***
+poly(hp, 5)2  38.4953     4.0778   9.440 1.92e-14 ***
+poly(hp, 5)3 -15.3033     4.0778  -3.753  0.00034 ***
+poly(hp, 5)4   7.5552     4.0778   1.853  0.06780 .  
+poly(hp, 5)5  -3.5388     4.0778  -0.868  0.38822    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 4.078 on 76 degrees of freedom
+Multiple R-squared:  0.8441,    Adjusted R-squared:  0.8339 
+F-statistic: 82.31 on 5 and 76 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{modelo\_5\_correjido }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(mpg }\SpecialCharTok{\textasciitilde{}}\NormalTok{ vol }\SpecialCharTok{+}\NormalTok{ hp }\SpecialCharTok{+} \FunctionTok{I}\NormalTok{(hp}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{I}\NormalTok{(hp}\SpecialCharTok{\^{}}\DecValTok{3}\NormalTok{), }\AttributeTok{data =}\NormalTok{ millaje)}
+\FunctionTok{summary}\NormalTok{(modelo\_5\_correjido)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+Call:
+lm(formula = mpg ~ vol + hp + I(hp^2) + I(hp^3), data = millaje)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-7.6503 -2.6022 -0.3181  2.6926 11.4477 
+
+Coefficients:
+              Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  9.236e+01  5.361e+00  17.229  < 2e-16 ***
+vol         -6.226e-02  2.345e-02  -2.655 0.009634 ** 
+hp          -8.414e-01  1.135e-01  -7.410 1.38e-10 ***
+I(hp^2)      3.765e-03  7.355e-04   5.119 2.20e-06 ***
+I(hp^3)     -5.782e-06  1.430e-06  -4.044 0.000124 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 3.983 on 77 degrees of freedom
+Multiple R-squared:  0.8493,    Adjusted R-squared:  0.8415 
+F-statistic: 108.5 on 4 and 77 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{anova}\NormalTok{(modelo\_cuadratico, modelo\_5\_correjido)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+Analysis of Variance Table
+
+Model 1: mpg ~ poly(hp, 2)
+Model 2: mpg ~ vol + hp + I(hp^2) + I(hp^3)
+  Res.Df    RSS Df Sum of Sq      F    Pr(>F)    
+1     79 1567.5                                  
+2     77 1221.5  2    346.02 10.906 6.758e-05 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
+
+Análisis de residuos:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{shapiro.test}\NormalTok{(modelo\_5\_correjido}\SpecialCharTok{$}\NormalTok{residuals)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+    Shapiro-Wilk normality test
+
+data:  modelo_5_correjido$residuals
+W = 0.98456, p-value = 0.4319
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{hist}\NormalTok{(modelo\_5\_correjido}\SpecialCharTok{$}\NormalTok{residuals, }\AttributeTok{main =} \StringTok{"Histograma residuos modelo\_5\_correjido"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{lab04_epg_files/figure-pdf/residuos-5corr-1.pdf}}
+\end{center}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(}\FunctionTok{density}\NormalTok{(modelo\_5\_correjido}\SpecialCharTok{$}\NormalTok{residuals),}
+     \AttributeTok{main =} \StringTok{"Densidad residuos modelo\_5\_correjido"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{lab04_epg_files/figure-pdf/residuos-5corr-2.pdf}}
+\end{center}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(modelo\_5\_correjido}\SpecialCharTok{$}\NormalTok{fitted.values, millaje}\SpecialCharTok{$}\NormalTok{mpg,}
+     \AttributeTok{xlab =} \StringTok{"mpg estimado"}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"mpg real"}\NormalTok{,}
+     \AttributeTok{main =} \StringTok{"Ajuste modelo\_5\_correjido"}\NormalTok{)}
+\FunctionTok{lines}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{10}\NormalTok{, }\DecValTok{60}\NormalTok{), }\FunctionTok{c}\NormalTok{(}\DecValTok{10}\NormalTok{, }\DecValTok{60}\NormalTok{), }\AttributeTok{col =} \StringTok{"red"}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{lab04_epg_files/figure-pdf/residuos-5corr-3.pdf}}
+\end{center}
+
+\subsection{Transformaciones de la variable
+respuesta}\label{transformaciones-de-la-variable-respuesta}
+
+Buscamos mejorar la normalidad de los residuos y la homocedasticidad
+usando transformaciones de \texttt{mpg}:
+
+\subsubsection{Transformación
+logarítmica}\label{transformaciuxf3n-logaruxedtmica}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{modelo\_pol2\_trans }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(}\FunctionTok{log}\NormalTok{(}\DecValTok{1} \SpecialCharTok{+}\NormalTok{ mpg) }\SpecialCharTok{\textasciitilde{}}\NormalTok{ vol }\SpecialCharTok{+}\NormalTok{ hp }\SpecialCharTok{+} \FunctionTok{I}\NormalTok{(hp}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{), }\AttributeTok{data =}\NormalTok{ millaje)}
+\FunctionTok{summary}\NormalTok{(modelo\_pol2\_trans)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+Call:
+lm(formula = log(1 + mpg) ~ vol + hp + I(hp^2), data = millaje)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.31049 -0.06894 -0.02497  0.07082  0.33219 
+
+Coefficients:
+              Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  4.581e+00  7.376e-02  62.104  < 2e-16 ***
+vol         -1.846e-03  6.687e-04  -2.761  0.00718 ** 
+hp          -1.011e-02  1.141e-03  -8.858 2.03e-13 ***
+I(hp^2)      1.734e-05  3.354e-06   5.171 1.75e-06 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.1139 on 78 degrees of freedom
+Multiple R-squared:  0.8557,    Adjusted R-squared:  0.8501 
+F-statistic: 154.1 on 3 and 78 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(modelo\_pol2\_trans}\SpecialCharTok{$}\NormalTok{residuals, modelo\_pol2\_trans}\SpecialCharTok{$}\NormalTok{fitted.values,}
+     \AttributeTok{main =} \StringTok{"Residuos vs ajustados (log(1+mpg))"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{lab04_epg_files/figure-pdf/modelo-log-1.pdf}}
+\end{center}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(}\FunctionTok{log}\NormalTok{(}\DecValTok{1} \SpecialCharTok{+}\NormalTok{ millaje}\SpecialCharTok{$}\NormalTok{mpg), modelo\_pol2\_trans}\SpecialCharTok{$}\NormalTok{fitted.values,}
+     \AttributeTok{main =} \StringTok{"Valores reales transformados vs ajustados"}\NormalTok{)}
+\FunctionTok{lines}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{5}\NormalTok{), }\FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{5}\NormalTok{), }\AttributeTok{col =} \StringTok{"red"}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{lab04_epg_files/figure-pdf/modelo-log-2.pdf}}
+\end{center}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{shapiro.test}\NormalTok{(modelo\_pol2\_trans}\SpecialCharTok{$}\NormalTok{residuals)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+    Shapiro-Wilk normality test
+
+data:  modelo_pol2_trans$residuals
+W = 0.98398, p-value = 0.4003
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{hist}\NormalTok{(modelo\_pol2\_trans}\SpecialCharTok{$}\NormalTok{residuals, }\AttributeTok{main =} \StringTok{"Histograma residuos modelo\_pol2\_trans"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{lab04_epg_files/figure-pdf/modelo-log-3.pdf}}
+\end{center}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(}\FunctionTok{density}\NormalTok{(modelo\_pol2\_trans}\SpecialCharTok{$}\NormalTok{residuals),}
+     \AttributeTok{main =} \StringTok{"Densidad residuos modelo\_pol2\_trans"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{lab04_epg_files/figure-pdf/modelo-log-4.pdf}}
+\end{center}
+
+\subsubsection{Transformación raíz
+cuadrada}\label{transformaciuxf3n-rauxedz-cuadrada}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{modelo\_pol3\_trans }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(}\FunctionTok{sqrt}\NormalTok{(mpg) }\SpecialCharTok{\textasciitilde{}}\NormalTok{ vol }\SpecialCharTok{+}\NormalTok{ hp }\SpecialCharTok{+} \FunctionTok{I}\NormalTok{(hp}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{), }\AttributeTok{data =}\NormalTok{ millaje)}
+\FunctionTok{summary}\NormalTok{(modelo\_pol3\_trans)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+Call:
+lm(formula = sqrt(mpg) ~ vol + hp + I(hp^2), data = millaje)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.70979 -0.22004 -0.05431  0.19640  0.95714 
+
+Coefficients:
+              Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  9.031e+00  2.232e-01  40.459  < 2e-16 ***
+vol         -5.083e-03  2.024e-03  -2.512   0.0141 *  
+hp          -3.256e-02  3.453e-03  -9.429 1.59e-14 ***
+I(hp^2)      6.117e-05  1.015e-05   6.027 5.21e-08 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.3448 on 78 degrees of freedom
+Multiple R-squared:  0.8442,    Adjusted R-squared:  0.8383 
+F-statistic: 140.9 on 3 and 78 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{shapiro.test}\NormalTok{(modelo\_pol3\_trans}\SpecialCharTok{$}\NormalTok{residuals)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+    Shapiro-Wilk normality test
+
+data:  modelo_pol3_trans$residuals
+W = 0.97571, p-value = 0.1217
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(modelo\_pol3\_trans}\SpecialCharTok{$}\NormalTok{residuals, modelo\_pol3\_trans}\SpecialCharTok{$}\NormalTok{fitted.values,}
+     \AttributeTok{main =} \StringTok{"Residuos vs ajustados (sqrt(mpg))"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{lab04_epg_files/figure-pdf/modelo-sqrt-1.pdf}}
+\end{center}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(}\FunctionTok{sqrt}\NormalTok{(millaje}\SpecialCharTok{$}\NormalTok{mpg), modelo\_pol3\_trans}\SpecialCharTok{$}\NormalTok{fitted.values,}
+     \AttributeTok{main =} \StringTok{"sqrt(mpg) real vs ajustado"}\NormalTok{)}
+\FunctionTok{lines}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{4}\NormalTok{, }\DecValTok{8}\NormalTok{), }\FunctionTok{c}\NormalTok{(}\DecValTok{4}\NormalTok{, }\DecValTok{8}\NormalTok{), }\AttributeTok{col =} \StringTok{"red"}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{lab04_epg_files/figure-pdf/modelo-sqrt-2.pdf}}
+\end{center}
+
+\subsubsection{Transformación
+1/sqrt(mpg)}\label{transformaciuxf3n-1sqrtmpg}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{modelo\_pol4\_trans }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(}\DecValTok{1}\SpecialCharTok{/}\FunctionTok{sqrt}\NormalTok{(mpg) }\SpecialCharTok{\textasciitilde{}}\NormalTok{ vol }\SpecialCharTok{+}\NormalTok{ hp }\SpecialCharTok{+} \FunctionTok{I}\NormalTok{(hp}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{), }\AttributeTok{data =}\NormalTok{ millaje)}
+\FunctionTok{summary}\NormalTok{(modelo\_pol4\_trans)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+Call:
+lm(formula = 1/sqrt(mpg) ~ vol + hp + I(hp^2), data = millaje)
+
+Residuals:
+      Min        1Q    Median        3Q       Max 
+-0.032371 -0.007178  0.001601  0.005842  0.044607 
+
+Coefficients:
+              Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  8.354e-02  7.154e-03  11.677  < 2e-16 ***
+vol          1.823e-04  6.486e-05   2.811 0.006249 ** 
+hp           8.284e-04  1.107e-04   7.485 9.28e-11 ***
+I(hp^2)     -1.219e-06  3.253e-07  -3.747 0.000341 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.01105 on 78 degrees of freedom
+Multiple R-squared:  0.8501,    Adjusted R-squared:  0.8444 
+F-statistic: 147.5 on 3 and 78 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(modelo\_pol4\_trans}\SpecialCharTok{$}\NormalTok{residuals, modelo\_pol4\_trans}\SpecialCharTok{$}\NormalTok{fitted.values,}
+     \AttributeTok{main =} \StringTok{"Residuos vs ajustados (1/sqrt(mpg))"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{lab04_epg_files/figure-pdf/modelo-inv-sqrt-1.pdf}}
+\end{center}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(}\DecValTok{1}\SpecialCharTok{/}\FunctionTok{sqrt}\NormalTok{(millaje}\SpecialCharTok{$}\NormalTok{mpg), modelo\_pol4\_trans}\SpecialCharTok{$}\NormalTok{fitted.values,}
+     \AttributeTok{main =} \StringTok{"1/sqrt(mpg) real vs ajustado"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{lab04_epg_files/figure-pdf/modelo-inv-sqrt-2.pdf}}
+\end{center}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{shapiro.test}\NormalTok{(modelo\_pol4\_trans}\SpecialCharTok{$}\NormalTok{residuals)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+    Shapiro-Wilk normality test
+
+data:  modelo_pol4_trans$residuals
+W = 0.94789, p-value = 0.002249
+\end{verbatim}
+
+\subsubsection{Transformaciones más
+complejas}\label{transformaciones-muxe1s-complejas}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{modelo\_pol2\_tran\_2 }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(}\FunctionTok{log}\NormalTok{(}\DecValTok{1} \SpecialCharTok{+}\NormalTok{ mpg) }\SpecialCharTok{\textasciitilde{}}\NormalTok{ vol }\SpecialCharTok{+}\NormalTok{ hp }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\DecValTok{1} \SpecialCharTok{+}\NormalTok{ hp) }\SpecialCharTok{+} \FunctionTok{I}\NormalTok{(hp}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{),}
+                         \AttributeTok{data =}\NormalTok{ millaje)}
+\FunctionTok{summary}\NormalTok{(modelo\_pol2\_tran\_2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+Call:
+lm(formula = log(1 + mpg) ~ vol + hp + log(1 + hp) + I(hp^2), 
+    data = millaje)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.35624 -0.06687 -0.00430  0.07828  0.29355 
+
+Coefficients:
+              Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  7.340e+00  1.236e+00   5.937 7.87e-08 ***
+vol         -2.076e-03  6.602e-04  -3.144  0.00237 ** 
+hp           2.231e-03  5.630e-03   0.396  0.69297    
+log(1 + hp) -8.215e-01  3.675e-01  -2.236  0.02827 *  
+I(hp^2)     -2.564e-06  9.486e-06  -0.270  0.78768    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.1111 on 77 degrees of freedom
+Multiple R-squared:  0.8645,    Adjusted R-squared:  0.8574 
+F-statistic: 122.8 on 4 and 77 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(}\FunctionTok{log}\NormalTok{(}\DecValTok{1} \SpecialCharTok{+}\NormalTok{ millaje}\SpecialCharTok{$}\NormalTok{mpg), modelo\_pol2\_tran\_2}\SpecialCharTok{$}\NormalTok{fitted.values,}
+     \AttributeTok{main =} \StringTok{"log(1+mpg) real vs ajustado (modelo\_tran\_2)"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{lab04_epg_files/figure-pdf/modelos-log-hp-1.pdf}}
+\end{center}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{shapiro.test}\NormalTok{(modelo\_pol2\_tran\_2}\SpecialCharTok{$}\NormalTok{residuals)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+    Shapiro-Wilk normality test
+
+data:  modelo_pol2_tran_2$residuals
+W = 0.98972, p-value = 0.7645
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{hist}\NormalTok{(modelo\_pol2\_tran\_2}\SpecialCharTok{$}\NormalTok{residuals, }\AttributeTok{main =} \StringTok{"Histograma residuos modelo\_tran\_2"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{lab04_epg_files/figure-pdf/modelos-log-hp-2.pdf}}
+\end{center}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(}\FunctionTok{density}\NormalTok{(modelo\_pol2\_tran\_2}\SpecialCharTok{$}\NormalTok{residuals),}
+     \AttributeTok{main =} \StringTok{"Densidad residuos modelo\_tran\_2"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{lab04_epg_files/figure-pdf/modelos-log-hp-3.pdf}}
+\end{center}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(modelo\_pol2\_tran\_2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{lab04_epg_files/figure-pdf/modelos-log-hp-4.pdf}}
+\end{center}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{lab04_epg_files/figure-pdf/modelos-log-hp-5.pdf}}
+\end{center}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{lab04_epg_files/figure-pdf/modelos-log-hp-6.pdf}}
+\end{center}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{lab04_epg_files/figure-pdf/modelos-log-hp-7.pdf}}
+\end{center}
+
+Otro modelo más flexible:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{modelo\_pol2\_tran\_3 }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(}\FunctionTok{log}\NormalTok{(}\DecValTok{1} \SpecialCharTok{+}\NormalTok{ mpg) }\SpecialCharTok{\textasciitilde{}}\NormalTok{ hp }\SpecialCharTok{+} \FunctionTok{I}\NormalTok{(}\DecValTok{1}\SpecialCharTok{/}\NormalTok{hp) }\SpecialCharTok{+} \FunctionTok{I}\NormalTok{(}\DecValTok{1}\SpecialCharTok{/}\NormalTok{(hp}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)) }\SpecialCharTok{+}
+                           \FunctionTok{log}\NormalTok{(}\DecValTok{1} \SpecialCharTok{+}\NormalTok{ hp) }\SpecialCharTok{+} \FunctionTok{I}\NormalTok{(hp}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{),}
+                         \AttributeTok{data =}\NormalTok{ millaje)}
+\FunctionTok{summary}\NormalTok{(modelo\_pol2\_tran\_3)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+Call:
+lm(formula = log(1 + mpg) ~ hp + I(1/hp) + I(1/(hp^2)) + log(1 + 
+    hp) + I(hp^2), data = millaje)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.33860 -0.07127 -0.01969  0.07723  0.30307 
+
+Coefficients:
+              Estimate Std. Error t value Pr(>|t|)
+(Intercept) -2.034e+01  7.517e+01  -0.271    0.787
+hp          -3.355e-02  8.029e-02  -0.418    0.677
+I(1/hp)      4.093e+02  1.224e+03   0.334    0.739
+I(1/(hp^2)) -5.165e+03  1.705e+04  -0.303    0.763
+log(1 + hp)  5.049e+00  1.558e+01   0.324    0.747
+I(hp^2)      3.600e-05  7.142e-05   0.504    0.616
+
+Residual standard error: 0.1187 on 76 degrees of freedom
+Multiple R-squared:  0.8475,    Adjusted R-squared:  0.8374 
+F-statistic: 84.45 on 5 and 76 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{shapiro.test}\NormalTok{(modelo\_pol2\_tran\_3}\SpecialCharTok{$}\NormalTok{residuals)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+    Shapiro-Wilk normality test
+
+data:  modelo_pol2_tran_3$residuals
+W = 0.98744, p-value = 0.6104
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(modelo\_pol2\_tran\_3)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{lab04_epg_files/figure-pdf/modelo-tran-3-1.pdf}}
+\end{center}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{lab04_epg_files/figure-pdf/modelo-tran-3-2.pdf}}
+\end{center}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{lab04_epg_files/figure-pdf/modelo-tran-3-3.pdf}}
+\end{center}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{lab04_epg_files/figure-pdf/modelo-tran-3-4.pdf}}
+\end{center}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(}\FunctionTok{log}\NormalTok{(}\DecValTok{1} \SpecialCharTok{+}\NormalTok{ millaje}\SpecialCharTok{$}\NormalTok{mpg), modelo\_pol2\_tran\_3}\SpecialCharTok{$}\NormalTok{fitted.values,}
+     \AttributeTok{main =} \StringTok{"log(1+mpg) real vs ajustado (modelo\_tran\_3)"}\NormalTok{)}
+\FunctionTok{lines}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{3}\NormalTok{, }\FloatTok{4.5}\NormalTok{), }\FunctionTok{c}\NormalTok{(}\DecValTok{3}\NormalTok{, }\FloatTok{4.5}\NormalTok{), }\AttributeTok{col =} \StringTok{"red"}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{lab04_epg_files/figure-pdf/modelo-tran-3-5.pdf}}
+\end{center}
+
+\subsubsection{Modelos sin constante y
+selección}\label{modelos-sin-constante-y-selecciuxf3n}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{modelo\_pol2\_tran\_4 }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(}\FunctionTok{log}\NormalTok{(}\DecValTok{1} \SpecialCharTok{+}\NormalTok{ mpg) }\SpecialCharTok{\textasciitilde{}}\NormalTok{ hp }\SpecialCharTok{+} \FunctionTok{I}\NormalTok{(}\DecValTok{1}\SpecialCharTok{/}\NormalTok{hp) }\SpecialCharTok{+} \FunctionTok{I}\NormalTok{(}\DecValTok{1}\SpecialCharTok{/}\NormalTok{(hp}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)) }\SpecialCharTok{+}
+                           \FunctionTok{log}\NormalTok{(}\DecValTok{1} \SpecialCharTok{+}\NormalTok{ hp) }\SpecialCharTok{+} \FunctionTok{I}\NormalTok{(hp}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{) }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{,}
+                         \AttributeTok{data =}\NormalTok{ millaje)}
+\FunctionTok{summary}\NormalTok{(modelo\_pol2\_tran\_4)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+Call:
+lm(formula = log(1 + mpg) ~ hp + I(1/hp) + I(1/(hp^2)) + log(1 + 
+    hp) + I(hp^2) - 1, data = millaje)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.34452 -0.07355 -0.01464  0.07509  0.30562 
+
+Coefficients:
+              Estimate Std. Error t value Pr(>|t|)  
+hp          -1.202e-02  1.098e-02  -1.094   0.2772  
+I(1/hp)      7.934e+01  1.074e+02   0.738   0.4625  
+I(1/(hp^2)) -6.299e+02  3.147e+03  -0.200   0.8419  
+log(1 + hp)  8.319e-01  3.658e-01   2.274   0.0258 *
+I(hp^2)      1.725e-05  1.732e-05   0.996   0.3223  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.1179 on 77 degrees of freedom
+Multiple R-squared:  0.9989,    Adjusted R-squared:  0.9989 
+F-statistic: 1.459e+04 on 5 and 77 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(}\FunctionTok{log}\NormalTok{(}\DecValTok{1} \SpecialCharTok{+}\NormalTok{ millaje}\SpecialCharTok{$}\NormalTok{mpg), modelo\_pol2\_tran\_4}\SpecialCharTok{$}\NormalTok{fitted.values,}
+     \AttributeTok{main =} \StringTok{"Modelo\_tran\_4 (sin constante)"}\NormalTok{)}
+\FunctionTok{lines}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{3}\NormalTok{, }\FloatTok{4.5}\NormalTok{), }\FunctionTok{c}\NormalTok{(}\DecValTok{3}\NormalTok{, }\FloatTok{4.5}\NormalTok{), }\AttributeTok{col =} \StringTok{"red"}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{lab04_epg_files/figure-pdf/modelos-sin-constante-1.pdf}}
+\end{center}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{modelo\_pol2\_tran\_5 }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(}\FunctionTok{log}\NormalTok{(}\DecValTok{1} \SpecialCharTok{+}\NormalTok{ mpg) }\SpecialCharTok{\textasciitilde{}}\NormalTok{ hp }\SpecialCharTok{+} \FunctionTok{I}\NormalTok{(}\DecValTok{1}\SpecialCharTok{/}\NormalTok{hp) }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\DecValTok{1} \SpecialCharTok{+}\NormalTok{ hp) }\SpecialCharTok{+} \FunctionTok{I}\NormalTok{(hp}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{) }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{,}
+                         \AttributeTok{data =}\NormalTok{ millaje)}
+\FunctionTok{summary}\NormalTok{(modelo\_pol2\_tran\_5)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+Call:
+lm(formula = log(1 + mpg) ~ hp + I(1/hp) + log(1 + hp) + I(hp^2) - 
+    1, data = millaje)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.33926 -0.07379 -0.01700  0.07535  0.30724 
+
+Coefficients:
+              Estimate Std. Error t value Pr(>|t|)    
+hp          -1.410e-02  3.554e-03  -3.967 0.000161 ***
+I(1/hp)      5.795e+01  1.116e+01   5.194  1.6e-06 ***
+log(1 + hp)  9.030e-01  8.687e-02  10.394  < 2e-16 ***
+I(hp^2)      2.041e-05  7.119e-06   2.867 0.005328 ** 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.1172 on 78 degrees of freedom
+Multiple R-squared:  0.9989,    Adjusted R-squared:  0.9989 
+F-statistic: 1.846e+04 on 4 and 78 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{shapiro.test}\NormalTok{(modelo\_pol2\_tran\_5}\SpecialCharTok{$}\NormalTok{residuals)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+    Shapiro-Wilk normality test
+
+data:  modelo_pol2_tran_5$residuals
+W = 0.98884, p-value = 0.7058
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(}\FunctionTok{log}\NormalTok{(}\DecValTok{1} \SpecialCharTok{+}\NormalTok{ millaje}\SpecialCharTok{$}\NormalTok{mpg), modelo\_pol2\_tran\_5}\SpecialCharTok{$}\NormalTok{fitted.values,}
+     \AttributeTok{main =} \StringTok{"Modelo\_tran\_5 (sin constante)"}\NormalTok{)}
+\FunctionTok{lines}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{3}\NormalTok{, }\FloatTok{4.5}\NormalTok{), }\FunctionTok{c}\NormalTok{(}\DecValTok{3}\NormalTok{, }\FloatTok{4.5}\NormalTok{), }\AttributeTok{col =} \StringTok{"red"}\NormalTok{, }\AttributeTok{lwd =} \DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{lab04_epg_files/figure-pdf/modelos-sin-constante-2.pdf}}
+\end{center}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(modelo\_pol2\_tran\_5)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{lab04_epg_files/figure-pdf/modelos-sin-constante-3.pdf}}
+\end{center}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{lab04_epg_files/figure-pdf/modelos-sin-constante-4.pdf}}
+\end{center}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{lab04_epg_files/figure-pdf/modelos-sin-constante-5.pdf}}
+\end{center}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{lab04_epg_files/figure-pdf/modelos-sin-constante-6.pdf}}
+\end{center}
+
+\subsubsection{Un modelo candidato
+``bueno''}\label{un-modelo-candidato-bueno}
+
+El script sugiere como uno de los mejores:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{modelo\_pol2\_tran\_6 }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(}\FunctionTok{log}\NormalTok{(}\DecValTok{1} \SpecialCharTok{+}\NormalTok{ mpg) }\SpecialCharTok{\textasciitilde{}} \FunctionTok{log}\NormalTok{(}\DecValTok{1} \SpecialCharTok{+}\NormalTok{ hp) }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{, }\AttributeTok{data =}\NormalTok{ millaje)}
+\FunctionTok{summary}\NormalTok{(modelo\_pol2\_tran\_6)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+Call:
+lm(formula = log(1 + mpg) ~ log(1 + hp) - 1, data = millaje)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-1.3860 -0.3480  0.1168  0.3870  1.3059 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+log(1 + hp)  0.73870    0.01383   53.42   <2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.5883 on 81 degrees of freedom
+Multiple R-squared:  0.9724,    Adjusted R-squared:  0.9721 
+F-statistic:  2854 on 1 and 81 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{shapiro.test}\NormalTok{(modelo\_pol2\_tran\_6}\SpecialCharTok{$}\NormalTok{residuals)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+    Shapiro-Wilk normality test
+
+data:  modelo_pol2_tran_6$residuals
+W = 0.97148, p-value = 0.06443
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{hist}\NormalTok{(modelo\_pol2\_tran\_6}\SpecialCharTok{$}\NormalTok{residuals,}
+     \AttributeTok{main =} \StringTok{"Histograma residuos modelo\_tran\_6"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{lab04_epg_files/figure-pdf/modelo-tran-6-y-7-1.pdf}}
+\end{center}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(}\FunctionTok{density}\NormalTok{(modelo\_pol2\_tran\_6}\SpecialCharTok{$}\NormalTok{residuals),}
+     \AttributeTok{main =} \StringTok{"Densidad residuos modelo\_tran\_6"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{lab04_epg_files/figure-pdf/modelo-tran-6-y-7-2.pdf}}
+\end{center}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(modelo\_pol2\_tran\_6)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{lab04_epg_files/figure-pdf/modelo-tran-6-y-7-3.pdf}}
+\end{center}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{lab04_epg_files/figure-pdf/modelo-tran-6-y-7-4.pdf}}
+\end{center}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{lab04_epg_files/figure-pdf/modelo-tran-6-y-7-5.pdf}}
+\end{center}
+
+\begin{center}
+\pandocbounded{\includegraphics[keepaspectratio]{lab04_epg_files/figure-pdf/modelo-tran-6-y-7-6.pdf}}
+\end{center}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{modelo\_pol2\_tran\_7 }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(}\FunctionTok{log}\NormalTok{(}\DecValTok{1} \SpecialCharTok{+}\NormalTok{ mpg) }\SpecialCharTok{\textasciitilde{}}\NormalTok{ vol }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\DecValTok{1} \SpecialCharTok{+}\NormalTok{ hp) }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{, }\AttributeTok{data =}\NormalTok{ millaje)}
+\FunctionTok{summary}\NormalTok{(modelo\_pol2\_tran\_7)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+
+Call:
+lm(formula = log(1 + mpg) ~ vol + log(1 + hp) - 1, data = millaje)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-1.3617 -0.3668  0.1028  0.4405  1.2853 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+vol         0.003047   0.002943   1.035    0.304    
+log(1 + hp) 0.674633   0.063404  10.640   <2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.588 on 80 degrees of freedom
+Multiple R-squared:  0.9728,    Adjusted R-squared:  0.9721 
+F-statistic:  1429 on 2 and 80 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+\begin{tcolorbox}[enhanced jigsaw, bottomrule=.15mm, toprule=.15mm, coltitle=black, colback=white, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Nota}, colframe=quarto-callout-note-color-frame, left=2mm, toptitle=1mm, titlerule=0mm, arc=.35mm, opacitybacktitle=0.6, rightrule=.15mm, breakable, bottomtitle=1mm, leftrule=.75mm, opacityback=0, colbacktitle=quarto-callout-note-color!10!white]
+
+En la práctica, al elegir entre varios modelos transformados, debes
+considerar:
+
+\begin{itemize}
+\tightlist
+\item
+  Supuestos sobre los \textbf{residuos} (normalidad,
+  homocedasticidad).\\
+\item
+  Interpretabilidad económica de los coeficientes.\\
+\item
+  Capacidad predictiva (idealmente evaluada fuera de muestra).\\
+\item
+  Parsimonia: preferir el modelo más simple que explique bien los datos.
+\end{itemize}
+
+\end{tcolorbox}
+
+\section{Cierre del laboratorio}\label{cierre-del-laboratorio}
+
+En este laboratorio trabajaste con:
+
+\begin{itemize}
+\tightlist
+\item
+  Regresión múltiple con \textbf{eliminación de variables
+  irrelevantes}.\\
+\item
+  Inclusión de \textbf{interacciones} y términos \textbf{cuadráticos}.\\
+\item
+  Visualizaciones 3D de superficies de regresión.\\
+\item
+  Modelos polinomiales de distintos grados.\\
+\item
+  Comparación de modelos vía \textbf{ANOVA}.\\
+\item
+  Uso de \textbf{transformaciones} (log, raíz, recíprocos) para mejorar
+  los supuestos.
+\end{itemize}
+
+Todo esto forma parte del ``arsenal'' que usarás en cursos posteriores
+de econometría y en aplicaciones reales para ajustar modelos más
+realistas y robustos
+
+
+
+
+\end{document}

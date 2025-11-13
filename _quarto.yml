@@ -12,10 +12,7 @@ project:
     - eco_epg.qmd
     - eco_eco.qmd
     - labs_eco/*.qmd
-    - "labs_epg/*.qmd"
-execute: 
-  output-dir: labs_eco
-  
+    - labs_epg/*.qmd
 website:
   title: ""
   site-url: https://fen-uah.github.io/lab-econometria/

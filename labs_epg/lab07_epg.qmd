@@ -1,0 +1,470 @@
+---
+title: "Capitulo_7_Analisis_Factorial"
+author: "Econometría para la Gestión (ECO_EPG) - FEN UAH"
+lang: es
+format:
+  html:
+    toc: true
+    number-sections: true
+    smooth-scroll: true
+  pdf:
+    pdf-engine: xelatex
+    toc: true
+    number-sections: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo    = TRUE,
+  message = FALSE,
+  warning = FALSE,
+  fig.align = "center"
+)
+```
+
+
+# 1. Material descargable
+
+[Descargar PDF de contenidos teóricos](pdf_epg/Capitulo_7_Analisis_Factorial.pdf){download="true"}
+
+[Descargar PDF de contenidos teóricos](pdf_epg/Capitulo_7.1_Analisis_Factorial.pdf){download="true"}
+
+# Recordatorio teórico: PCA y análisis factorial
+
+A muy grandes rasgos, el **Análisis de Componentes Principales (PCA)** busca:
+
+- Reducir un conjunto de p variables originales (X1, ..., Xp) a un número menor de **componentes** (Z1, ..., Zz), con z < p.  
+- Cada componente es una **combinación lineal** de las variables originales que captura la máxima varianza posible.  
+- Es un método de **aprendizaje no supervisado**: no hay variable respuesta, sólo interesa la estructura interna de las X.
+
+Pasos habituales:
+
+1. **Estandarizar** las variables si están en escalas diferentes (media 0, desviación estándar 1).  
+2. Calcular la **matriz de correlación** R.  
+3. Obtener **valores propios** (lambda_i) y **vectores propios** (direcciones principales).  
+4. Decidir cuántas componentes retener (porcentaje de varianza explicada, gráfico de sedimentación, criterio de Kaiser, etc.).  
+5. Interpretar las componentes mirando las **cargas** (correlación variable–componente).  
+6. Analizar gráficos de **individuos** y **variables** para comprender la estructura de los datos.
+
+Además, se suele evaluar:
+
+- **Test de Bartlett**: contrasta si la matriz de correlación es suficientemente distinta de la identidad (si es esférica, PCA no tiene mucho sentido).  
+- **KMO**: mide la adecuación muestral (valores altos indican que es apropiado usar análisis factorial/PCA).  
+
+---
+
+# Configuración inicial en R
+
+## Carga de librerías
+
+```{r librerias}
+#install.packages(c(
+#  "FactoMineR",       # PCA y métodos multivariados 
+#  "psych",            # Análisis psicométrico (KMO, etc.)
+#  "corrplot",         # Gráficos de correlación
+#  "PerformanceAnalytics"  # Estadísticos financieros y correlaciones
+#))
+
+library(FactoMineR)       # PCA y funciones de análisis factorial
+library(dplyr)            # Manipulación de datos
+library(psych)            # KMO, análisis psicométrico
+library(corrplot)         # Matriz de correlaciones graficadas
+library(PerformanceAnalytics) # chart.Correlation
+```
+
+## Ruta de trabajo
+
+Usaremos la ruta estándar de tus labs:
+
+```{r ruta-datos}
+ruta_datos <- "C:/Users/manue/Desktop/lab-econometria/labs_epg/data_epg"
+
+list.files(ruta_datos)
+```
+
+---
+
+# Parte 1: PCA con datos de Decathlon
+
+En el primer ejercicio analizaremos resultados de atletas en un **decathlon**.
+
+- Cada fila: un atleta.  
+- Columnas 1 a 10: variables cuantitativas de desempeño (distancias, tiempos, puntajes).  
+- Otras columnas: información complementaria (competición, ranking, etc.).
+
+## Importar datos de Decathlon
+
+En el script original se usa un archivo CSV con `;` como separador:
+
+```{r leer-decathlon}
+archivo_decathlon <- file.path(ruta_datos, "data_PCA_Decathlon.csv")
+
+decathlon <- read.table(
+  archivo_decathlon,
+  header      = TRUE,
+  sep         = ";",
+  dec         = ".",
+  row.names   = 1,
+  check.names = FALSE
+)
+
+summary(decathlon)
+```
+
+::: {.callout-tip}
+Observa:
+
+- Número de **individuos** (atletas).  
+- Número de **variables cuantitativas activas** (primeras 10 columnas).  
+- Variables adicionales (competición, ranking, etc.) que luego usaremos como **suplementarias**.
+:::
+
+## Estandarización manual (opcional)
+
+El PCA de `FactoMineR::PCA` ya estandariza por defecto las variables cuantitativas, pero el script muestra cómo hacerlo explícitamente:
+
+```{r decathlonnorm}
+decathlonnorm <- decathlon[, 1:10] %>% 
+  mutate_all(~ scale(.) %>% as.vector)
+
+head(decathlonnorm)
+```
+
+## Matriz de correlación
+
+Antes de hacer PCA, miramos las correlaciones entre variables:
+
+```{r corr-decathlon}
+cor.mat <- round(cor(decathlon[, 1:10]), 2)
+cor.mat
+
+corrplot(
+  cor.mat,
+  type  = "upper",
+  order = "hclust",
+  tl.col = "black",
+  tl.srt = 45
+)
+
+chart.Correlation(decathlon[, 1:10],
+                  histogram = TRUE,
+                  pch       = 19)
+```
+
+::: {.callout-note}
+- Correlaciones altas (en valor absoluto) entre variables sugieren **redundancia de información**, lo que hace atractivo aplicar PCA.  
+- `corrplot` agrupa visualmente las variables con patrones de correlación similares.
+:::
+
+## PCA con variables activas (primeras 10 columnas)
+
+```{r pca-decathlon-activo}
+res <- PCA(decathlon[, 1:10], ncp = 5)
+summary.PCA(res)
+print(res)
+```
+
+Aquí usamos sólo las **variables activas** (sin incluir todavía variables suplementarias).
+
+### Adecuación del análisis factorial: Bartlett y KMO
+
+```{r tests-decathlon}
+bartlett.test(decathlon[, 1:10])
+KMO(decathlon[, 1:10])
+```
+
+::: {.callout-note}
+- Un p-value pequeño en **Bartlett** indica que la matriz de correlaciones **no es esférica**, por lo que PCA tiene sentido.  
+- **KMO** cercano a 1 indica buena adecuación; valores muy bajos desaconsejan el análisis factorial.
+:::
+
+## PCA con variables suplementarias
+
+Supongamos que las columnas 11 y 12 son **cuantitativas suplementarias** (no influyen en la construcción de las componentes) y la 13 es una **cualitativa suplementaria** (por ejemplo, tipo de competición).
+
+```{r pca-decathlon-completa}
+res <- PCA(
+  decathlon,
+  ncp        = 5,
+  quanti.sup = 11:12,
+  quali.sup  = 13
+)
+
+summary(res, nbelements = Inf)
+print(res)
+```
+
+### Valores propios y varianza explicada
+
+```{r eigen-decathlon}
+eigenvalues <- res$eig
+eigenvalues[, 1:3]
+
+barplot(
+  eigenvalues[, 2],
+  names.arg = 1:nrow(eigenvalues),
+  main = "Porcentaje de varianza explicada",
+  xlab = "Componentes principales",
+  ylab = "Porcentaje de varianza",
+  col  = "steelblue"
+)
+
+lines(x = 1:nrow(eigenvalues),
+      y = eigenvalues[, 2],
+      type = "b",
+      pch  = 19,
+      col  = "red")
+```
+
+::: {.callout-tip}
+- La primera columna son los **valores propios** (lambda_i).  
+- La segunda columna es el **porcentaje de varianza explicada**.  
+- Fíjate cuántas componentes necesitas para explicar, por ejemplo, el **70%–80%** de la varianza.
+:::
+
+## Descripción de las dimensiones
+
+`dimdesc` ayuda a interpretar cada componente, relacionándola con las variables originales:
+
+```{r dimdesc-decathlon}
+dimdesc(res)
+dimdesc(res, axes = c(1, 2, 3, 4, 5))
+dimdesc(res, proba = 0.2)
+```
+
+## Coordenadas, cos2 y contribuciones de las variables
+
+```{r var-metrics-decathlon}
+# Coordenadas de las variables
+res$var$coord
+
+# Calidad de representación (cos2)
+res$var$cos2
+
+# Contribuciones (en %)
+res$var$contrib
+```
+
+### Gráfico de variables
+
+```{r plot-var-decathlon}
+plot(res, choix = "var", title = "Variables - componentes 1 y 2", axes = 1:2)
+plot(res, choix = "var", title = "Variables - componentes 3 y 4", axes = 3:4)
+```
+
+::: {.callout-note}
+- Las variables cercanas unas a otras están **positivamente correlacionadas**.  
+- Variables opuestas en un mismo eje tienen correlación **negativa**.  
+- La distancia al origen indica la **importancia** en esas componentes (cos2 alto).
+:::
+
+## Individuos: coordenadas, cos2 y contribuciones
+
+```{r ind-metrics-decathlon}
+# Coordenadas de los individuos
+head(res$ind$coord)
+
+# Calidad de representación
+head(res$ind$cos2)
+
+# Contribuciones
+head(res$ind$contrib)
+```
+
+### Gráfico de individuos
+
+```{r plot-ind-decathlon}
+# Sin mostrar las variables cualitativas
+plot(res, cex = 0.8, invisible = "quali",
+     title = "Individuos - PCA Decathlon")
+
+# Coloreando por competición (columna 13)
+plot(res, cex = 0.8, habillage = 13,
+     title = "Individuos por tipo de competición")
+```
+
+### Elipses de confianza por categoría
+
+```{r ellipses-decathlon}
+plotellipses(res)
+```
+
+### Otras vistas y selección de individuos
+
+```{r plot-ind-opciones}
+# Dimensiones 3 y 4
+plot(res, choix = "ind", cex = 0.8, habillage = 13,
+     title = "Individuos (dim 3 y 4)", axes = 3:4)
+
+# Seleccionar individuos bien representados
+plot(res, cex = 0.8, habillage = 13, select = "cos2 0.7")
+
+# Seleccionar individuos con mayor contribución
+plot(res, cex = 0.8, habillage = 13, select = "contrib 5")
+
+# Seleccionar individuos específicos (por nombre)
+plot(res, cex = 0.8, habillage = 13,
+     select = c("Clay", "Karpov"))
+```
+
+### Selección de variables importantes
+
+```{r plot-var-select-decathlon}
+plot(res, choix = "var", select = "contrib 5")
+```
+
+### Gráfico con varios argumentos
+
+```{r plot-decathlon-mix}
+plot(
+  res,
+  cex        = 0.8,
+  habillage  = 13,
+  select     = "cos2 0.7",
+  title      = "Decathlon",
+  cex.main   = 1.1,
+  cex.axis   = 0.9,
+  shadow     = TRUE,
+  auto       = "y"
+)
+```
+
+---
+
+# Parte 2: PCA con datos de jugos de naranja (`orange`)
+
+En el segundo bloque analizamos una base de datos de jugos de naranja:
+
+- Columnas 1 a 14: **variables cuantitativas** (por ejemplo, atributos químicos/sensoriales).  
+- Columnas 15 y 16: **variables cualitativas suplementarias** (por ejemplo, origen, tipo de marca, etc.).
+
+## Importar datos de orange
+
+```{r leer-orange}
+archivo_orange <- file.path(ruta_datos, "orange.csv")
+
+orange <- read.table(
+  archivo_orange,
+  header      = TRUE,
+  sep         = ";",
+  dec         = ".",
+  row.names   = 1,
+  check.names = FALSE
+)
+
+summary(orange)
+```
+
+## PCA con variables activas (1 a 14)
+
+```{r pca-orange}
+res <- PCA(orange[, 1:14], ncp = 3)
+summary(res)
+print(res)
+```
+
+## PCA con variables suplementarias
+
+Consideramos ahora que las columnas 15 y 16 son cualitativas suplementarias (por ejemplo, **origen** del jugo).
+
+```{r pca-orange-sup}
+res2 <- PCA(orange, quali.sup = 15:16)
+summary(res2, nbelements = Inf)
+```
+
+## Valores propios y varianza explicada
+
+```{r eigen-orange}
+eigenvalues <- res$eig
+eigenvalues[, 1:3]
+```
+
+## Test de Bartlett y KMO para orange
+
+```{r tests-orange}
+bartlett.test(orange[, 1:14])
+KMO(orange[, 1:14])
+```
+
+## Descripción de las dimensiones
+
+```{r dimdesc-orange}
+dimdesc(res)
+dimdesc(res, axes = c(1, 2))
+dimdesc(res, proba = 0.2)
+```
+
+## Gráficos de individuos y variables
+
+### Individuos
+
+```{r plot-ind-orange}
+# Individuos sin variables cualitativas
+plot(res, cex = 0.8, invisible = "quali",
+     title = "Individuos - PCA Orange")
+
+# Coloreados según variable de origen (si existe en el dataset)
+plot(res2, cex = 0.8, habillage = "Origin")
+```
+
+### Elipses de confianza
+
+```{r ellipses-orange}
+plotellipses(res)
+```
+
+
+### Selección de individuos y variables
+
+```{r select-ind-var-orange}
+# Individuos bien representados
+plot(res, cex = 0.8, habillage = 13, select = "cos2 0.7")
+
+# Individuos con mayor contribución
+plot(res, cex = 0.8, habillage = 13, select = "contrib 5")
+
+# Individuos específicos (ejemplo: marcas específicas)
+plot(res, cex = 0.8, habillage = 13,
+     select = c("Fruvita fr.", "Tropicana fr."))
+
+# Variables que más contribuyen
+plot(res, choix = "var", select = "contrib 5")
+```
+
+### Gráfico combinado (orange)
+
+```{r plot-orange-mix}
+plot(
+  res,
+  cex        = 0.8,
+  habillage  = 13,
+  select     = "cos2 0.7",
+  title      = "Orange juices PCA",
+  cex.main   = 1.1,
+  cex.axis   = 0.9,
+  shadow     = TRUE,
+  auto       = "y"
+)
+```
+
+---
+
+# Cierre del laboratorio
+
+En este laboratorio:
+
+- Aplicaste **PCA** a dos conjuntos de datos reales (Decathlon y jugos de naranja).  
+- Revisaste la idoneidad del análisis mediante **Bartlett** y **KMO**.  
+- Interpretaste **valores propios**, varianza explicada y elegiste cuántas componentes retener.  
+- Analizaste:
+
+  - Cargas de las variables (coordenadas y cos2).  
+  - Contribuciones de variables e individuos.  
+  - Gráficos de individuos por grupos, con **elipses de confianza**.  
+  - Variables e individuos “más importantes” (por contribución o calidad de representación).  
+
+Estos elementos son fundamentales para:
+
+- Reducir dimensionalidad en bases con muchas variables.  
+- Explorar estructuras latentes antes de aplicar otros métodos (clustering, regresión, etc.).  
+- Construir indicadores sintéticos a partir de múltiples variables observadas.

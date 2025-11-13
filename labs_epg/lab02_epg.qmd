@@ -1,19 +1,518 @@
 ---
-title: "Laboratorio 2_epg: Correlación y Regresión Lineal Simple"
-subtitle: "Econometría para la Gestión — FEN-UAH"
+title: "Capitulo 2 Correlación y Regresión Simple"
+author: "Econometría para la Gestión (ECO_EPG) - FEN UAH"
+lang: es
 format:
   html:
     toc: true
-    toc-depth: 3
-    smooth-scroll: true
-    code-link: true
     number-sections: true
-    html-math-method: mathjax
-execute:
-  echo: true
-  message: false
-  warning: false
-editor:
-  markdown:
+    smooth-scroll: true
+  pdf:
+    pdf-engine: xelatex
+    toc: true
+    number-sections: true
+editor: 
+  markdown: 
     wrap: 72
 ---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo    = TRUE,
+  message = FALSE,
+  warning = FALSE,
+  fig.align = "center"
+)
+```
+
+# 1. Material descargable
+
+[Descargar PDF de contenidos
+teóricos](pdf_epg/Capitulo_2_Correlacion_regresion_simple.pdf){download="true"}
+
+El PDF **"Capitulo_2_Correlacion_regresion_simple"** desarrolla los
+siguientes temas principales (a modo de índice):
+
+-   Covarianza y correlación.\
+-   Diagramas de dispersión.\
+-   Prueba de hipótesis para la correlación.\
+-   Ecuaciones lineales y modelo lineal simple.\
+-   Método de mínimos cuadrados.\
+-   Residuos y error estándar de la estimación.\
+-   Predicción e intervalos de confianza.\
+-   Coeficiente de determinación simple (R\^2).\
+-   Prueba de hipótesis sobre el parámetro de pendiente (\beta\_1).
+
+En este laboratorio llevaremos varios de estos conceptos a la práctica
+con **R**.
+
+# Configuración inicial en R
+
+En esta sección cargaremos las **librerías** necesarias y definiremos la
+**ruta a los datos**.
+
+## Carga de librerías
+
+```{r librerias}
+# Cargamos las librerías necesarias para el laboratorio
+library(openxlsx)  # leer archivos Excel (.xlsx)
+```
+
+::: callout-tip
+Si alguna librería no está instalada, puedes hacerlo con:
+
+``` r
+install.packages("openxlsx")
+```
+:::
+
+## Definir la ruta de trabajo
+
+Vamos a guardar la ruta donde están los datos en un objeto llamado
+`ruta_datos`.\
+Así solo modificamos una línea si cambiamos la carpeta en el futuro.
+
+```{r ruta-datos}
+# Definimos la ruta donde están los archivos de datos del laboratorio.
+# IMPORTANTE: Ajusta esta ruta si tu carpeta tiene otro nombre o ubicación.
+
+ruta_datos <- "C:/Users/manue/Desktop/lab-econometria/labs_epg/data_epg"
+
+# Podemos verificar el contenido de la carpeta (opcional)
+list.files(ruta_datos)
+```
+
+::: callout-note
+En R es recomendable usar **/** (slash) en lugar de **\\** en las rutas
+de Windows.\
+Por eso escribimos `"C:/Users/manue/Desktop/..."` en lugar de
+`"C:\\Users\\..."`.
+:::
+
+# Ejemplo 1: Correlación entre peso del auto y consumo de gasolina
+
+En este ejemplo estudiaremos la relación entre:
+
+-   `Peso_Libras`: peso del automóvil (en libras).\
+-   `Consumo_Millas_por_galon`: rendimiento (millas por galón).
+
+La idea es:
+
+1.  Graficar un **diagrama de dispersión**.\
+2.  Calcular el **coeficiente de correlación**.\
+3.  Realizar una **prueba de hipótesis** para ver si la correlación es
+    distinta de cero.
+
+## Lectura de los datos de autos
+
+```{r ejemplo1-lectura}
+archivo_autos <- file.path(ruta_datos, "auto_peso_consumo.xlsx")
+
+datos <- read.xlsx(
+  archivo_autos,
+  sheet    = "Hoja1",
+  colNames = TRUE
+)
+
+# Vemos las primeras filas
+head(datos)
+```
+
+Esperamos que el archivo contenga, al menos, las columnas:
+
+-   `Peso_Libras`\
+-   `Consumo_Millas_por_galon`
+
+## Diagrama de dispersión
+
+El **diagrama de dispersión** nos permite ver visualmente si existe una
+relación lineal entre las variables.
+
+```{r ejemplo1-plot}
+plot(
+  datos$Peso_Libras,
+  datos$Consumo_Millas_por_galon,
+  xlab = "Peso (libras)",
+  ylab = "Consumo (millas por galón)",
+  main = "Relación entre peso del auto y consumo"
+)
+```
+
+::: callout-note
+-   Si al aumentar el peso el consumo (millas por galón) **disminuye**,
+    la nube de puntos tendrá una forma descendente → **correlación
+    negativa**.\
+-   Si al aumentar el peso el consumo **aumentara**, veríamos una nube
+    ascendente → **correlación positiva**.\
+-   Si no hay patrón claro, la correlación podría ser cercana a cero.
+:::
+
+## Cálculo de la correlación
+
+El coeficiente de correlación de Pearson mide la **intensidad y
+dirección** de la relación lineal entre dos variables numéricas.
+
+```{r ejemplo1-cor}
+r <- cor(datos$Peso_Libras, datos$Consumo_Millas_por_galon)
+r
+```
+
+-   \(r\) está entre -1 y 1.\
+-   (r \< 0): relación negativa.\
+-   (r \> 0): relación positiva.\
+-   (\|r\|) cercano a 1 → relación lineal fuerte.\
+-   (\|r\|) cercano a 0 → relación lineal débil.
+
+## Prueba de hipótesis para la correlación (cálculo manual)
+
+En la teoría se plantea la prueba:
+
+$$
+H_0: \rho = 0 \quad \text{vs} \quad H_1: \rho \neq 0
+$$
+
+La idea es ver si la correlación poblacional (\rho) podría ser cero o
+no.
+
+En el script se calcula el **error estándar** del coeficiente de
+correlación y luego el estadístico t:
+
+```{r ejemplo1-t-manual}
+# Cálculo manual basado en la fórmula del error estándar de r
+sr <- sqrt((1 - r) / 3)   # comentario original: n número de datos menos 2
+
+t <- r / sr               # estadístico t aproximado
+
+t
+```
+
+Luego se calcula el **valor crítico** y el **p-valor** usando la
+distribución t de Student:
+
+```{r ejemplo1-critico-pvalor}
+c <- qt(0.025, 3, lower.tail = FALSE)  # valor crítico (cola superior)
+c
+
+# p-valor aproximado
+pt(-t, 3, lower.tail = FALSE)
+```
+
+::: callout-note
+-   Si el **p-valor** es pequeño (por ejemplo, menor que 0.05),
+    rechazamos (H_0) y concluimos que la correlación es
+    **significativamente distinta de cero**.\
+-   Si el p-valor es grande, no tenemos evidencia suficiente para
+    afirmar que exista correlación lineal distinta de cero.
+:::
+
+## Prueba de hipótesis para la correlación con `cor.test`
+
+En lugar de hacer todos los cálculos “a mano”, R nos ofrece la función
+`cor.test`, que:
+
+-   Calcula el coeficiente de correlación.\
+-   Realiza la prueba de hipótesis.\
+-   Entrega el p-valor y un intervalo de confianza para (\rho).
+
+```{r ejemplo1-cor-test}
+cor.test(datos$Peso_Libras, datos$Consumo_Millas_por_galon)
+```
+
+::: callout-tip
+Siempre que sea posible, conviene **verificar los resultados manuales**
+con funciones integradas como `cor.test`, ya que éstas manejan bien
+detalles como el tamaño de muestra, grados de libertad y supuestos.
+:::
+
+# Ejemplo 2: Correlación y regresión del costo de mantenimiento
+
+En este ejemplo utilizamos datos de:
+
+-   `Tiempo_operacion`: años de operación de un bus.\
+-   `Costo_Mantenimiento`: costo anual de mantenimiento (por ejemplo, en
+    dólares).
+
+Queremos:
+
+1.  Ver si existe correlación entre el tiempo de operación y el costo de
+    mantenimiento.\
+2.  Ajustar una **regresión lineal simple** para predecir el costo a
+    partir del tiempo.\
+3.  Evaluar los residuos y la calidad del ajuste.\
+4.  Calcular predicciones e intervalos de confianza.
+
+## Lectura de los datos de mantenimiento
+
+```{r ejemplo2-lectura}
+archivo_mant <- file.path(ruta_datos, "annos_mantenimiento.xlsx")
+
+datos2 <- read.xlsx(
+  archivo_mant,
+  sheet    = "Hoja1",
+  colNames = TRUE
+)
+
+head(datos2)
+```
+
+Esperamos las columnas:
+
+-   `Tiempo_operacion`\
+-   `Costo_Mantenimiento`
+
+## Diagrama de dispersión
+
+```{r ejemplo2-plot}
+plot(
+  datos2$Tiempo_operacion,
+  datos2$Costo_Mantenimiento,
+  xlab = "Tiempo de operación (años)",
+  ylab = "Costo de mantenimiento (unidades monetarias)",
+  main = "Relación entre tiempo de operación y costo de mantenimiento"
+)
+```
+
+::: callout-note
+Este gráfico permite ver si al aumentar los años de operación los costos
+de mantenimiento tienden a subir.\
+Si la nube de puntos sugiere una recta ascendente, tiene sentido ajustar
+un modelo lineal.
+:::
+
+## Cálculo de la correlación y prueba de hipótesis
+
+```{r ejemplo2-cor}
+r <- cor(datos2$Tiempo_operacion, datos2$Costo_Mantenimiento)
+r
+```
+
+Nuevamente, calculamos el error estándar y el estadístico t de forma
+manual (siguiendo la lógica del script original):
+
+```{r ejemplo2-t-manual}
+sr <- sqrt((1 - r) / 7)  # comentario original: aquí se usa 7 como "n - 2"
+
+t <- r / sr
+t
+```
+
+Se podría obtener un valor crítico (aunque en el script se reutiliza un
+valor con 3 grados de libertad), y luego:
+
+```{r ejemplo2-cor-test}
+cor.test(datos2$Tiempo_operacion, datos2$Costo_Mantenimiento)
+```
+
+::: callout-tip
+`cor.test` es la forma recomendada de hacer la prueba de hipótesis para
+la correlación, ya que usa la fórmula teórica correcta y ajusta
+automáticamente los grados de libertad.
+:::
+
+## Ajuste del modelo de regresión lineal simple
+
+Planteamos el modelo:
+
+$$\text{Costo\_Mantenimiento} = \beta\_0 + \beta\_1
+\cdot \text{Tiempo\_operacion} + \varepsilon $$
+
+Lo estimamos con `lm`:
+
+```{r ejemplo2-lm}
+modelo <- lm(Costo_Mantenimiento ~ Tiempo_operacion, data = datos2)
+
+summary(modelo)
+```
+
+El output de `summary(modelo)` incluye:
+
+-   Estimaciones de (\beta\_0) (intercepto) y (\beta\_1) (pendiente).\
+-   Error estándar de cada coeficiente.\
+-   Estadístico t y p-valor para probar si los coeficientes son
+    distintos de cero.\
+-   (R\^2): porcentaje de variabilidad en el costo explicado por el
+    tiempo de operación.
+
+::: callout-note
+-   Si el p-valor asociado a la pendiente (\beta\_1) es pequeño (ej. \<
+    0.05), concluimos que el tiempo de operación es un **buen
+    predictor** del costo de mantenimiento.\
+-   Un (R\^2) alto indica que el modelo lineal explica gran parte de la
+    variabilidad del costo.
+:::
+
+## Predicción para 5 años de operación
+
+Supongamos que queremos predecir el **costo de mantenimiento** para un
+bus con **5 años** de operación.
+
+```{r ejemplo2-prediccion-puntual}
+nuevo <- data.frame(Tiempo_operacion = c(5))  # valor donde evaluamos el modelo
+
+valor_predicho <- predict(object = modelo, newdata = nuevo)
+
+valor_predicho
+```
+
+Este es el **valor esperado** de costo de mantenimiento según el modelo
+lineal.
+
+## Análisis de residuos
+
+Los residuos son las diferencias entre los valores observados y los
+valores ajustados por el modelo:
+
+$$ \hat{\varepsilon}\_i = y_i - \hat{y}\_i $$
+
+```{r ejemplo2-residuos}
+# Vector de residuos
+modelo$residuals
+
+# Histograma de residuos
+hist(
+  modelo$residuals,
+  main = "Histograma de residuos",
+  xlab = "Residuo"
+)
+
+# Densidad de los residuos
+plot(
+  density(modelo$residuals),
+  main = "Densidad de residuos",
+  xlab = "Residuo"
+)
+
+# Media de los residuos
+mean(modelo$residuals)
+```
+
+::: callout-note
+-   En un buen modelo lineal, los residuos deberían:
+    -   Tener **media cercana a cero**.\
+    -   No mostrar patrones sistemáticos.\
+    -   Aproximarse a una **distribución normal** (especialmente
+        importante para los intervalos de confianza).\
+-   El histograma y la densidad ayudan a evaluar visualmente estas
+    propiedades.
+:::
+
+## Cálculo del error estándar de la estimación (s\_{y,x})
+
+El script calcula manualmente el error estándar de la estimación a
+partir de los residuos:
+
+$$ s\_{y,x} = \sqrt{\frac{\sum \hat{\varepsilon}_i^2}{n - 2}} $$
+
+```{r ejemplo2-syx}
+s_yx <- sqrt(sum(modelo$residuals^2) / 7)  # aquí se usa 7 como "n - 2"
+s_yx
+```
+
+Este valor mide la **dispersión típica** de los puntos alrededor de la
+recta de regresión.
+
+## Intervalo de predicción para un valor individual (x_0 = 5)
+
+Para un valor específico (x_0 = 5), el error estándar de la predicción
+se calcula (según la teoría) como:
+
+$$ s\_{\hat{y}x} = s\_{y,x}
+\sqrt{1 + \frac{1}{n} + \frac{(x_0 - \bar{x})^2}{\sum (x_i - \bar{x})^2}}
+$$
+
+El script implementa esto en varios pasos.
+
+```{r ejemplo2-spred}
+raiz <- sqrt(
+  1 +
+    1 / 9 +
+    (5 - mean(datos2$Tiempo_operacion))^2 /
+      sum((datos2$Tiempo_operacion - mean(datos2$Tiempo_operacion))^2)
+)
+
+s_hatyx <- s_yx * raiz
+s_hatyx
+```
+
+Luego se obtiene el valor crítico t y se calculan los límites del
+**intervalo de predicción**:
+
+```{r ejemplo2-intervalo-prediccion}
+t_crit <- qt(0.025, 7, lower.tail = FALSE)  # valor crítico t para 95%
+
+lim_sup <- valor_predicho + t_crit * s_hatyx
+lim_inf <- valor_predicho - t_crit * s_hatyx
+
+lim_inf
+lim_sup
+```
+
+::: callout-note
+-   Este intervalo responde a la pregunta:\
+    \> “¿En qué rango esperamos que caiga **un nuevo costo de
+    mantenimiento individual** para un bus con 5 años de operación, con
+    un 95% de confianza?”\
+-   Es más ancho que el intervalo para la **media** porque incluye la
+    variabilidad individual.
+:::
+
+## Intervalo de confianza para la media del costo cuando (x_0 = 5)
+
+Si en lugar de un valor individual queremos estimar la **media
+poblacional** del costo para buses con 5 años de operación, el error
+estándar es:
+
+\[ s\_{\hat{\mu}x} = s\_{y,x}
+\sqrt{\frac{1}{n} + \frac{(x_0 - \bar{x})^2}{\sum (x_i - \bar{x})^2}} \]
+
+En el script:
+
+```{r ejemplo2-smean}
+raiz1 <- sqrt(
+  1 / 9 +
+    (5 - mean(datos2$Tiempo_operacion))^2 /
+      sum((datos2$Tiempo_operacion - mean(datos2$Tiempo_operacion))^2)
+)
+
+s_hatmux <- s_yx * raiz1
+s_hatmux
+```
+
+Sin embargo, una forma más directa es usar `predict` con
+`interval = "confidence"`:
+
+```{r ejemplo2-predict-confidence}
+valor_predicho_conf <- predict(
+  object = modelo,
+  newdata = nuevo,
+  interval = "confidence"  # intervalo de confianza para la media
+)
+
+valor_predicho_conf
+```
+
+::: callout-tip
+-   `interval = "confidence"`: intervalo de confianza para la **media**
+    del costo en (x_0).\
+-   `interval = "prediction"`: intervalo de predicción para un **nuevo
+    valor individual**.
+:::
+
+# Resumen del laboratorio
+
+En este laboratorio aprendiste a:
+
+-   Construir y analizar **diagramas de dispersión**.\
+-   Calcular el **coeficiente de correlación** y probar si es
+    significativamente distinto de cero.\
+-   Ajustar un **modelo de regresión lineal simple** en R con `lm`.\
+-   Interpretar el output de `summary(modelo)` (coeficientes, p-valores,
+    (R\^2)).\
+-   Analizar los **residuos** para evaluar los supuestos del modelo.\
+-   Calcular **predicciones puntuales**.\
+-   Construir **intervalos de predicción** e **intervalos de confianza**
+    usando tanto fórmulas como la función `predict`.
+
+Estos conceptos son fundamentales para los análisis econométricos que
+verás más adelante, donde la regresión lineal es una herramienta
+central.
