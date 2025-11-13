@@ -18,14 +18,14 @@ Objetivos:
 A continuación se presenta un listado completo de los laboratorios, disponibles en tres formatos: **HTML** y **PDF**.
 
 1. **Capítulo 1 – Introducción y estadística descriptiva**  
-   [HTML](labs_epg/lab03_epg_nopred.html){target="_blank"} <a href="labs_epg/lab03_epg_nopred.pdf" download>PDF</a>
+   [HTML](labs_epg/lab01_epg.html){target="_blank"} <a href="labs_epg/lab01_epg.pdf" download>PDF</a>
 
 2. **Capítulo 2 – Correlación y regresión lineal simple**  
    [HTML](labs_epg/lab02_epg.html){target="_blank"} <a href="labs_epg/lab02_epg.pdf" download>PDF</a>
 
 3. **Capítulo 3 – Regresión múltiple**  
-   [HTML](labs_epg/lab03_epg.html){target="_blank"} <a href="labs_epg/lab03_epg.pdf" download>PDF</a>
-
+    [HTML](labs_epg/lab03_epg_nopred.html){target="_blank"} <a href="labs_epg/lab03_epg_nopred.pdf" download>PDF</a>
+    
 4. **Capítulo 4 – Uso avanzado de la regresión múltiple**  
    [HTML](labs_epg/lab04_epg.html){target="_blank"} <a href="labs_epg/lab04_epg.pdf" download>PDF</a>
 
