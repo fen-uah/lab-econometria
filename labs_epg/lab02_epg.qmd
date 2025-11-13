@@ -41,7 +41,7 @@ siguientes temas principales (a modo de índice):
 -   Residuos y error estándar de la estimación.\
 -   Predicción e intervalos de confianza.\
 -   Coeficiente de determinación simple (R\^2).\
--   Prueba de hipótesis sobre el parámetro de pendiente (\beta\_1).
+-   Prueba de hipótesis sobre el parámetro de pendiente (\beta_1).
 
 En este laboratorio llevaremos varios de estos conceptos a la práctica
 con **R**.
@@ -83,10 +83,10 @@ list.files(ruta_datos)
 ```
 
 ::: callout-note
-En R es recomendable usar **/** (slash) en lugar de **\\** en las rutas
+En R es recomendable usar **/** (slash) en lugar de **** en las rutas
 de Windows.\
 Por eso escribimos `"C:/Users/manue/Desktop/..."` en lugar de
-`"C:\\Users\\..."`.
+`"C:Users..."`.
 :::
 
 # Ejemplo 1: Correlación entre peso del auto y consumo de gasolina
@@ -157,7 +157,7 @@ r <- cor(datos$Peso_Libras, datos$Consumo_Millas_por_galon)
 r
 ```
 
--   \(r\) está entre -1 y 1.\
+-   $r$ está entre -1 y 1.\
 -   (r \< 0): relación negativa.\
 -   (r \> 0): relación positiva.\
 -   (\|r\|) cercano a 1 → relación lineal fuerte.\
@@ -313,8 +313,8 @@ automáticamente los grados de libertad.
 
 Planteamos el modelo:
 
-$$\text{Costo\_Mantenimiento} = \beta\_0 + \beta\_1
-\cdot \text{Tiempo\_operacion} + \varepsilon $$
+$$\text{Costo_Mantenimiento} = \beta_0 + \beta_1
+\cdot \text{Tiempo_operacion} + \varepsilon $$
 
 Lo estimamos con `lm`:
 
@@ -326,7 +326,7 @@ summary(modelo)
 
 El output de `summary(modelo)` incluye:
 
--   Estimaciones de (\beta\_0) (intercepto) y (\beta\_1) (pendiente).\
+-   Estimaciones de (\beta_0) (intercepto) y (\beta_1) (pendiente).\
 -   Error estándar de cada coeficiente.\
 -   Estadístico t y p-valor para probar si los coeficientes son
     distintos de cero.\
@@ -334,7 +334,7 @@ El output de `summary(modelo)` incluye:
     tiempo de operación.
 
 ::: callout-note
--   Si el p-valor asociado a la pendiente (\beta\_1) es pequeño (ej. \<
+-   Si el p-valor asociado a la pendiente (\beta_1) es pequeño (ej. \<
     0.05), concluimos que el tiempo de operación es un **buen
     predictor** del costo de mantenimiento.\
 -   Un (R\^2) alto indica que el modelo lineal explica gran parte de la
@@ -362,7 +362,7 @@ lineal.
 Los residuos son las diferencias entre los valores observados y los
 valores ajustados por el modelo:
 
-$$ \hat{\varepsilon}\_i = y_i - \hat{y}\_i $$
+$$ \hat{\varepsilon}_i = y_i - \hat{y}_i $$
 
 ```{r ejemplo2-residuos}
 # Vector de residuos
@@ -396,12 +396,12 @@ mean(modelo$residuals)
     propiedades.
 :::
 
-## Cálculo del error estándar de la estimación (s\_{y,x})
+## Cálculo del error estándar de la estimación (s_{y,x})
 
 El script calcula manualmente el error estándar de la estimación a
 partir de los residuos:
 
-$$ s\_{y,x} = \sqrt{\frac{\sum \hat{\varepsilon}_i^2}{n - 2}} $$
+$$ s_{y,x} = \sqrt{\frac{\sum \hat{\varepsilon}_i^2}{n - 2}} $$
 
 ```{r ejemplo2-syx}
 s_yx <- sqrt(sum(modelo$residuals^2) / 7)  # aquí se usa 7 como "n - 2"
@@ -416,7 +416,7 @@ recta de regresión.
 Para un valor específico (x_0 = 5), el error estándar de la predicción
 se calcula (según la teoría) como:
 
-$$ s\_{\hat{y}x} = s\_{y,x}
+$$ s_{\hat{y}x} = s_{y,x}
 \sqrt{1 + \frac{1}{n} + \frac{(x_0 - \bar{x})^2}{\sum (x_i - \bar{x})^2}}
 $$
 
@@ -462,7 +462,7 @@ Si en lugar de un valor individual queremos estimar la **media
 poblacional** del costo para buses con 5 años de operación, el error
 estándar es:
 
-$$ s\_{\hat{\mu}x} = s\_{y,x}
+$$ s_{\hat{\mu}x} = s_{y,x}
 \sqrt{\frac{1}{n} + \frac{(x_0 - \bar{x})^2}{\sum (x_i - \bar{x})^2}} $$
 En el script:
 

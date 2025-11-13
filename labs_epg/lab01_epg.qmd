@@ -93,8 +93,8 @@ list.files(ruta_datos)
 ```
 
 ::: callout-note
-En R es recomendable usar **/ (slash)** en lugar de **\\** en las rutas de Windows.\
-Por eso escribimos `"C:/Users/manue/Desktop/..."` en lugar de `"C:\\Users\\..."`.
+En R es recomendable usar **/ (slash)** en lugar de **** en las rutas de Windows.\
+Por eso escribimos `"C:/Users/manue/Desktop/..."` en lugar de `"C:Users..."`.
 :::
 
 ### Ejemplo 1: Accidentes y métodos gráficos para datos cualitativos

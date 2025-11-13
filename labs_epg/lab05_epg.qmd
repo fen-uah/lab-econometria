@@ -602,7 +602,7 @@ summary(mod2)
 ```
 
 ::: {.callout-note}
-- MANOVA evalúa si los factores (sexo, temperatura, e interacción) tienen efectos **conjuntos** sobre el vector \((y1, y2, y3)\).  
+- MANOVA evalúa si los factores (sexo, temperatura, e interacción) tienen efectos **conjuntos** sobre el vector $(y1, y2, y3)$.  
 - Si hay significancia, se justifica mirar luego análisis univariados para cada variable por separado.
 :::
 

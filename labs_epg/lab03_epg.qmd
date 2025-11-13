@@ -32,14 +32,14 @@ El documento incluye:
 
 - Matriz de correlación y multicolinealidad.  
 - Supuestos del modelo clásico de regresión múltiple.  
-- Derivación de estimadores OLS \((X'X)^{-1}X'Y\).  
+- Derivación de estimadores OLS $(X'X)^{-1}X'Y$.  
 - Varianza del error y matriz de covarianza del estimador.  
-- \(R^2\), \(R^2\) ajustado y prueba F global.  
-- Inferencia individual sobre coeficientes (\(t\)-tests).  
+- $R^2$, $R^2$ ajustado y prueba F global.  
+- Inferencia individual sobre coeficientes ($t$-tests).  
 - Intervalos de confianza.  
 - Predicción:  
-  - Fórmula teórica \( \hat{y}_0 = x_0'\hat{\beta} \)  
-  - Intervalo: \( \hat{y}_0 \pm s\sqrt{1+h_0}t \).  
+  - Fórmula teórica $ \hat{y}_0 = x_0'\hat{\beta} $  
+  - Intervalo: $ \hat{y}_0 \pm s\sqrt{1+h_0}t $.  
 - Pruebas de autocorrelación y heterocedasticidad.
 
 # Configuración inicial
@@ -102,7 +102,7 @@ corrplot(r, method="circle", type="lower", diag=FALSE,
 Ajustamos el modelo:
 
 $$
-\text{Costos} = \beta_0 + \beta_1(\text{Horas\_maquina}) + \beta_2(\text{Numero\_preparaciones}) + \varepsilon
+\text{Costos} = \beta_0 + \beta_1(\text{Horas_maquina}) + \beta_2(\text{Numero_preparaciones}) + \varepsilon
 $$
 
 ```{r}
@@ -111,9 +111,9 @@ summary(modelo)
 ```
 
 ::: {.callout-note}
-- **Prueba individual (t test):** evalúa si cada \(\beta_j\) es distinto de 0.  
+- **Prueba individual (t test):** evalúa si cada $\beta_j$ es distinto de 0.  
 - **Prueba global (F test):** evalúa si el modelo en conjunto explica la variable dependiente.  
-- **Signo de \(\beta_j\):** indica dirección del efecto.  
+- **Signo de $\beta_j$:** indica dirección del efecto.  
 - **Magnitud:** indica cuánto cambia Y ante un cambio unitario en el regresor.  
 - **p-values pequeños:** evidencia estadística de relación significativa.
 :::
@@ -218,7 +218,7 @@ valor_predicho2
 
 # Predicción manual paso a paso
 
-Construimos la matriz \(X\):
+Construimos la matriz $X$:
 
 ```{r}
 X <- cbind(1, datos$Horas_maquina, datos$Numero_preparaciones)
@@ -267,4 +267,3 @@ shapiro.test(epsilon)
 dwtest(modelo2,alternative="two.sided",iterations=1000)
 bptest(modelo2)
 ```
-

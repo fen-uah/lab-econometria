@@ -30,8 +30,8 @@ knitr::opts_chunk$set(
 e acuerdo al PDF teórico, el **Análisis de Componentes Principales (PCA)** es un método estadístico que:
 
 - Busca **simplificar la complejidad** de un espacio de muchas variables (dimensiones) conservando la mayor parte posible de la información.  
-- Supone que tenemos \(n\) individuos y \(p\) variables \((X_1, \dots, X_p)\).  
-- Intenta encontrar un número menor de factores subyacentes \(z < p\) (las **componentes principales**) que expliquen aproximadamente lo mismo que las \(p\) variables originales.  
+- Supone que tenemos $n$ individuos y $p$ variables $(X_1, \dots, X_p)$.  
+- Intenta encontrar un número menor de factores subyacentes $z < p$ (las **componentes principales**) que expliquen aproximadamente lo mismo que las $p$ variables originales.  
 - Pertenece a los métodos de **aprendizaje no supervisado (unsupervised learning)**: no hay una variable respuesta, sólo queremos entender la estructura interna de las variables explicativas.
 
 Intuitivamente, el PCA:
@@ -48,15 +48,15 @@ $$
 y_{ik} = \frac{x_{ik} - \bar x_k}{s_k}
 $$
 
-donde \(\bar x_k\) es la media de la variable \(X_k\) y \(s_k\) su desviación estándar.
+donde $\bar x_k$ es la media de la variable $X_k$ y $s_k$ su desviación estándar.
 
-Con los datos normalizados construimos la **matriz de correlaciones** \(R\), que en notación matricial puede escribirse como:
+Con los datos normalizados construimos la **matriz de correlaciones** $R$, que en notación matricial puede escribirse como:
 
 \[
 R = Y^\top Y
 \]
 
-De esta matriz calculamos sus **valores propios** (\(\lambda_i\)) y **vectores propios**, que corresponden a:
+De esta matriz calculamos sus **valores propios** ($\lambda_i$) y **vectores propios**, que corresponden a:
 
 - Los **ejes preferenciales de información** (direcciones en las que hay más varianza).  
 - La proporción de varianza explicada por cada componente:
