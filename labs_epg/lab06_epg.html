@@ -1,0 +1,1408 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Econometría para la Gestión (ECO_EPG) - FEN UAH">
+
+<title>Capitulo_6_Componentes_Principales</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-360b3b5b5cb1aa80d6666be010f1eb0d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No se han encontrado resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../img/logo.png" alt="" class="navbar-logo light-content">
+    <img src="../img/logo.png" alt="" class="navbar-logo dark-content">
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Buscar"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Navegación de palanca" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Inicio</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../codigos.html"> 
+<span class="menu-text">Material de Estudio</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../datos.html"> 
+<span class="menu-text">Datos</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../proyectos.html"> 
+<span class="menu-text">Proyectos</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">En esta página</h2>
+   
+  <ul>
+  <li><a href="#material-descargable" id="toc-material-descargable" class="nav-link active" data-scroll-target="#material-descargable"><span class="header-section-number">1</span> 1. Material descargable</a>
+  <ul class="collapse">
+  <li><a href="#normalización-y-matriz-de-correlación" id="toc-normalización-y-matriz-de-correlación" class="nav-link" data-scroll-target="#normalización-y-matriz-de-correlación"><span class="header-section-number">1.1</span> Normalización y matriz de correlación</a></li>
+  </ul></li>
+  <li><a href="#configuración-inicial-en-r" id="toc-configuración-inicial-en-r" class="nav-link" data-scroll-target="#configuración-inicial-en-r"><span class="header-section-number">2</span> Configuración inicial en R</a>
+  <ul class="collapse">
+  <li><a href="#carga-de-librerías" id="toc-carga-de-librerías" class="nav-link" data-scroll-target="#carga-de-librerías"><span class="header-section-number">2.1</span> Carga de librerías</a></li>
+  <li><a href="#ruta-de-trabajo-opcional" id="toc-ruta-de-trabajo-opcional" class="nav-link" data-scroll-target="#ruta-de-trabajo-opcional"><span class="header-section-number">2.2</span> Ruta de trabajo (opcional)</a></li>
+  </ul></li>
+  <li><a href="#ejemplo-1-pca-con-datos-de-autos-mtcars" id="toc-ejemplo-1-pca-con-datos-de-autos-mtcars" class="nav-link" data-scroll-target="#ejemplo-1-pca-con-datos-de-autos-mtcars"><span class="header-section-number">3</span> Ejemplo 1: PCA con datos de autos (<code>mtcars</code>)</a>
+  <ul class="collapse">
+  <li><a href="#selección-y-exploración-de-variables" id="toc-selección-y-exploración-de-variables" class="nav-link" data-scroll-target="#selección-y-exploración-de-variables"><span class="header-section-number">3.1</span> Selección y exploración de variables</a></li>
+  <li><a href="#matriz-de-correlación" id="toc-matriz-de-correlación" class="nav-link" data-scroll-target="#matriz-de-correlación"><span class="header-section-number">3.2</span> Matriz de correlación</a></li>
+  <li><a href="#test-de-bartlett-y-kmo" id="toc-test-de-bartlett-y-kmo" class="nav-link" data-scroll-target="#test-de-bartlett-y-kmo"><span class="header-section-number">3.3</span> Test de Bartlett y KMO</a></li>
+  <li><a href="#normalización-de-las-variables" id="toc-normalización-de-las-variables" class="nav-link" data-scroll-target="#normalización-de-las-variables"><span class="header-section-number">3.4</span> Normalización de las variables</a></li>
+  <li><a href="#pca-con-prcomp" id="toc-pca-con-prcomp" class="nav-link" data-scroll-target="#pca-con-prcomp"><span class="header-section-number">3.5</span> PCA con <code>prcomp</code></a></li>
+  <li><a href="#valores-propios-y-varianza-explicada" id="toc-valores-propios-y-varianza-explicada" class="nav-link" data-scroll-target="#valores-propios-y-varianza-explicada"><span class="header-section-number">3.6</span> Valores propios y varianza explicada</a>
+  <ul class="collapse">
+  <li><a href="#gráfico-de-sedimentación-scree-plot" id="toc-gráfico-de-sedimentación-scree-plot" class="nav-link" data-scroll-target="#gráfico-de-sedimentación-scree-plot"><span class="header-section-number">3.6.1</span> Gráfico de sedimentación (scree plot)</a></li>
+  </ul></li>
+  <li><a href="#cargas-loadings-e-interpretación" id="toc-cargas-loadings-e-interpretación" class="nav-link" data-scroll-target="#cargas-loadings-e-interpretación"><span class="header-section-number">3.7</span> Cargas (loadings) e interpretación</a></li>
+  <li><a href="#coordenadas-de-los-individuos-scores" id="toc-coordenadas-de-los-individuos-scores" class="nav-link" data-scroll-target="#coordenadas-de-los-individuos-scores"><span class="header-section-number">3.8</span> Coordenadas de los individuos (scores)</a></li>
+  <li><a href="#biplot-individuos-y-variables" id="toc-biplot-individuos-y-variables" class="nav-link" data-scroll-target="#biplot-individuos-y-variables"><span class="header-section-number">3.9</span> Biplot: individuos y variables</a></li>
+  </ul></li>
+  <li><a href="#ejemplo-2-pca-con-datos-simulados-de-indicadores-regionales" id="toc-ejemplo-2-pca-con-datos-simulados-de-indicadores-regionales" class="nav-link" data-scroll-target="#ejemplo-2-pca-con-datos-simulados-de-indicadores-regionales"><span class="header-section-number">4</span> Ejemplo 2: PCA con datos simulados de indicadores regionales</a>
+  <ul class="collapse">
+  <li><a href="#creación-de-datos-simulados" id="toc-creación-de-datos-simulados" class="nav-link" data-scroll-target="#creación-de-datos-simulados"><span class="header-section-number">4.1</span> Creación de datos simulados</a></li>
+  <li><a href="#exploración-inicial" id="toc-exploración-inicial" class="nav-link" data-scroll-target="#exploración-inicial"><span class="header-section-number">4.2</span> Exploración inicial</a></li>
+  <li><a href="#matriz-de-correlación-1" id="toc-matriz-de-correlación-1" class="nav-link" data-scroll-target="#matriz-de-correlación-1"><span class="header-section-number">4.3</span> Matriz de correlación</a></li>
+  <li><a href="#bartlett-y-kmo" id="toc-bartlett-y-kmo" class="nav-link" data-scroll-target="#bartlett-y-kmo"><span class="header-section-number">4.4</span> Bartlett y KMO</a></li>
+  <li><a href="#pca-sobre-indicadores-regionales" id="toc-pca-sobre-indicadores-regionales" class="nav-link" data-scroll-target="#pca-sobre-indicadores-regionales"><span class="header-section-number">4.5</span> PCA sobre indicadores regionales</a>
+  <ul class="collapse">
+  <li><a href="#varianza-explicada" id="toc-varianza-explicada" class="nav-link" data-scroll-target="#varianza-explicada"><span class="header-section-number">4.5.1</span> Varianza explicada</a></li>
+  </ul></li>
+  <li><a href="#interpretación-de-las-componentes" id="toc-interpretación-de-las-componentes" class="nav-link" data-scroll-target="#interpretación-de-las-componentes"><span class="header-section-number">4.6</span> Interpretación de las componentes</a></li>
+  <li><a href="#coordenadas-de-las-regiones-en-el-espacio-de-componentes" id="toc-coordenadas-de-las-regiones-en-el-espacio-de-componentes" class="nav-link" data-scroll-target="#coordenadas-de-las-regiones-en-el-espacio-de-componentes"><span class="header-section-number">4.7</span> Coordenadas de las regiones en el espacio de componentes</a>
+  <ul class="collapse">
+  <li><a href="#gráfico-de-las-regiones-en-pc1pc2" id="toc-gráfico-de-las-regiones-en-pc1pc2" class="nav-link" data-scroll-target="#gráfico-de-las-regiones-en-pc1pc2"><span class="header-section-number">4.7.1</span> Gráfico de las regiones en PC1–PC2</a></li>
+  </ul></li>
+  <li><a href="#biplot-con-variables-e-individuos" id="toc-biplot-con-variables-e-individuos" class="nav-link" data-scroll-target="#biplot-con-variables-e-individuos"><span class="header-section-number">4.8</span> Biplot con variables e individuos</a></li>
+  </ul></li>
+  <li><a href="#cierre-del-laboratorio" id="toc-cierre-del-laboratorio" class="nav-link" data-scroll-target="#cierre-del-laboratorio"><span class="header-section-number">5</span> Cierre del laboratorio</a></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Otros formatos</h2><ul><li><a href="lab06_epg.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Capitulo_6_Componentes_Principales</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Autor/a</div>
+    <div class="quarto-title-meta-contents">
+             <p>Econometría para la Gestión (ECO_EPG) - FEN UAH </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="material-descargable" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> 1. Material descargable</h1>
+<p><a href="pdf_epg/Capitulo_6_Componentes_Principales.pdf" download="true">Descargar PDF de contenidos teóricos</a></p>
+<p>e acuerdo al PDF teórico, el <strong>Análisis de Componentes Principales (PCA)</strong> es un método estadístico que:</p>
+<ul>
+<li>Busca <strong>simplificar la complejidad</strong> de un espacio de muchas variables (dimensiones) conservando la mayor parte posible de la información.<br>
+</li>
+<li>Supone que tenemos <span class="math inline">\(n\)</span> individuos y <span class="math inline">\(p\)</span> variables <span class="math inline">\((X_1, \dots, X_p)\)</span>.<br>
+</li>
+<li>Intenta encontrar un número menor de factores subyacentes <span class="math inline">\(z &lt; p\)</span> (las <strong>componentes principales</strong>) que expliquen aproximadamente lo mismo que las <span class="math inline">\(p\)</span> variables originales.<br>
+</li>
+<li>Pertenece a los métodos de <strong>aprendizaje no supervisado (unsupervised learning)</strong>: no hay una variable respuesta, sólo queremos entender la estructura interna de las variables explicativas.</li>
+</ul>
+<p>Intuitivamente, el PCA:</p>
+<ul>
+<li>Busca la <strong>dirección de máxima variabilidad</strong> de los datos (primera componente).<br>
+</li>
+<li>Luego busca una segunda dirección ortogonal a la primera que explique la máxima varianza restante, y así sucesivamente.<br>
+</li>
+<li>Permite mirar los datos tanto desde el punto de vista de los <strong>individuos</strong> (observaciones) como de las <strong>variables</strong> (cómo se relacionan entre sí).</li>
+</ul>
+<section id="normalización-y-matriz-de-correlación" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="normalización-y-matriz-de-correlación"><span class="header-section-number">1.1</span> Normalización y matriz de correlación</h2>
+<p>Cuando las variables están en diferentes unidades, el primer paso es <strong>normalizar</strong> cada variable:</p>
+<p><span class="math display">\[
+y_{ik} = \frac{x_{ik} - \bar x_k}{s_k}
+\]</span></p>
+<p>donde <span class="math inline">\(\bar x_k\)</span> es la media de la variable <span class="math inline">\(X_k\)</span> y <span class="math inline">\(s_k\)</span> su desviación estándar.</p>
+<p>Con los datos normalizados construimos la <strong>matriz de correlaciones</strong> <span class="math inline">\(R\)</span>, que en notación matricial puede escribirse como:</p>
+<p>[ R = Y^Y ]</p>
+<p>De esta matriz calculamos sus <strong>valores propios</strong> (<span class="math inline">\(\lambda_i\)</span>) y <strong>vectores propios</strong>, que corresponden a:</p>
+<ul>
+<li>Los <strong>ejes preferenciales de información</strong> (direcciones en las que hay más varianza).<br>
+</li>
+<li>La proporción de varianza explicada por cada componente:</li>
+</ul>
+<p><span class="math display">\[
+\text{contribución}_i = \frac{\lambda_i}{\sum_j \lambda_j}
+\]</span></p>
+<hr>
+</section>
+</section>
+<section id="configuración-inicial-en-r" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Configuración inicial en R</h1>
+<section id="carga-de-librerías" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="carga-de-librerías"><span class="header-section-number">2.1</span> Carga de librerías</h2>
+<p>En este laboratorio usaremos algunas librerías para facilitar el análisis:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)           <span class="co"># Manipulación de datos</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych)               <span class="co"># KMO, Bartlett, análisis psicométrico</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(corrplot)            <span class="co"># Gráficos de matrices de correlación</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(PerformanceAnalytics)<span class="co"># chart.Correlation</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="ruta-de-trabajo-opcional" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="ruta-de-trabajo-opcional"><span class="header-section-number">2.2</span> Ruta de trabajo (opcional)</h2>
+<p>Mantenemos la misma lógica de ruta de datos que en los laboratorios anteriores de ECO_EPG:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>ruta_datos <span class="ot">&lt;-</span> <span class="st">"C:/Users/manue/Desktop/lab-econometria/labs_epg/data_epg"</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Puedes revisar el contenido de la carpeta</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">list.files</span>(ruta_datos)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "annos_mantenimiento.xlsx" "auto_peso_consumo.xlsx"  
+ [3] "costos.xlsx"              "data_PCA_Decathlon.csv"  
+ [5] "data_PCA_ExpertWine.csv"  "Ejemplo1.xlsx"           
+ [7] "Ejemplo2.xlsx"            "millaje.txt"             
+ [9] "orange.csv"               "tabla_ejemplo_R.xlsx"    </code></pre>
+</div>
+</div>
+<p>En este laboratorio usaremos principalmente <strong>datasets incluidos en R</strong>, de manera que puedas ejecutar el código incluso si no has descargado archivos adicionales.</p>
+<hr>
+</section>
+</section>
+<section id="ejemplo-1-pca-con-datos-de-autos-mtcars" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Ejemplo 1: PCA con datos de autos (<code>mtcars</code>)</h1>
+<p>En este primer ejemplo aplicaremos PCA al dataset <code>mtcars</code> (incluido en R), que contiene información de distintos modelos de autos:</p>
+<ul>
+<li><code>mpg</code>: millas por galón (consumo).<br>
+</li>
+<li><code>hp</code>: caballos de fuerza.<br>
+</li>
+<li><code>wt</code>: peso del auto.<br>
+</li>
+<li><code>qsec</code>: tiempo en 1/4 de milla.<br>
+</li>
+<li>Entre otras variables.</li>
+</ul>
+<p>La idea es <strong>resumir</strong> varias características técnicas de los autos en unas pocas <strong>componentes principales</strong>.</p>
+<section id="selección-y-exploración-de-variables" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="selección-y-exploración-de-variables"><span class="header-section-number">3.1</span> Selección y exploración de variables</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(mtcars)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Seleccionamos algunas variables numéricas de interés</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>datos_auto <span class="ot">&lt;-</span> mtcars <span class="sc">%&gt;%</span> </span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(mpg, hp, wt, qsec, disp, drat)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(datos_auto)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      mpg              hp              wt             qsec      
+ Min.   :10.40   Min.   : 52.0   Min.   :1.513   Min.   :14.50  
+ 1st Qu.:15.43   1st Qu.: 96.5   1st Qu.:2.581   1st Qu.:16.89  
+ Median :19.20   Median :123.0   Median :3.325   Median :17.71  
+ Mean   :20.09   Mean   :146.7   Mean   :3.217   Mean   :17.85  
+ 3rd Qu.:22.80   3rd Qu.:180.0   3rd Qu.:3.610   3rd Qu.:18.90  
+ Max.   :33.90   Max.   :335.0   Max.   :5.424   Max.   :22.90  
+      disp            drat      
+ Min.   : 71.1   Min.   :2.760  
+ 1st Qu.:120.8   1st Qu.:3.080  
+ Median :196.3   Median :3.695  
+ Mean   :230.7   Mean   :3.597  
+ 3rd Qu.:326.0   3rd Qu.:3.920  
+ Max.   :472.0   Max.   :4.930  </code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Siempre es importante ver el <strong>rango</strong> y la <strong>escala</strong> de las variables:</p>
+<ul>
+<li><code>mpg</code> está en millas por galón.<br>
+</li>
+<li><code>hp</code> en caballos de fuerza.<br>
+</li>
+<li><code>wt</code> en miles de libras.<br>
+</li>
+<li><code>qsec</code> en segundos.</li>
+</ul>
+<p>Si no normalizamos, las variables con mayor escala dominarán el análisis.</p>
+</div>
+</div>
+</section>
+<section id="matriz-de-correlación" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="matriz-de-correlación"><span class="header-section-number">3.2</span> Matriz de correlación</h2>
+<p>Antes de hacer PCA miramos la relación entre variables:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>cor_auto <span class="ot">&lt;-</span> <span class="fu">cor</span>(datos_auto)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(cor_auto, <span class="dv">2</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       mpg    hp    wt  qsec  disp  drat
+mpg   1.00 -0.78 -0.87  0.42 -0.85  0.68
+hp   -0.78  1.00  0.66 -0.71  0.79 -0.45
+wt   -0.87  0.66  1.00 -0.17  0.89 -0.71
+qsec  0.42 -0.71 -0.17  1.00 -0.43  0.09
+disp -0.85  0.79  0.89 -0.43  1.00 -0.71
+drat  0.68 -0.45 -0.71  0.09 -0.71  1.00</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot</span>(cor_auto,</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">type  =</span> <span class="st">"upper"</span>,</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">order =</span> <span class="st">"hclust"</span>,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">tl.col =</span> <span class="st">"black"</span>,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">tl.srt =</span> <span class="dv">45</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lab06_epg_files/figure-html/ejemplo1-correlaciones-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chart.Correlation</span>(datos_auto,</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">histogram =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">pch       =</span> <span class="dv">19</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lab06_epg_files/figure-html/ejemplo1-correlaciones-2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="test-de-bartlett-y-kmo" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="test-de-bartlett-y-kmo"><span class="header-section-number">3.3</span> Test de Bartlett y KMO</h2>
+<p>Aplicamos los tests que se mencionan en el PDF teórico:</p>
+<ul>
+<li><strong>Bartlett</strong>: contrasta si la matriz de correlación es esférica.<br>
+</li>
+<li><strong>KMO</strong>: evalúa la adecuación del muestreo para análisis factorial/PCA.</li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>psych<span class="sc">::</span><span class="fu">cortest.bartlett</span>(cor_auto, <span class="at">n =</span> <span class="fu">nrow</span>(datos_auto))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$chisq
+[1] 181.2473
+
+$p.value
+[1] 1.332068e-30
+
+$df
+[1] 15</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">KMO</span>(cor_auto)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Kaiser-Meyer-Olkin factor adequacy
+Call: KMO(r = cor_auto)
+Overall MSA =  0.76
+MSA for each item = 
+ mpg   hp   wt qsec disp drat 
+0.83 0.83 0.70 0.52 0.78 0.85 </code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Nota
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Si el <strong>p-value</strong> de Bartlett es pequeño, la matriz de correlación es <strong>distinta</strong> de la identidad, lo que favorece el uso de PCA.<br>
+</li>
+<li>Un <strong>KMO</strong> cercano a 1 indica que las variables comparten suficiente varianza común como para aplicar análisis factorial o PCA.</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="normalización-de-las-variables" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="normalización-de-las-variables"><span class="header-section-number">3.4</span> Normalización de las variables</h2>
+<p>Normalizamos las variables para que todas queden en escala comparable:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>datos_auto_norm <span class="ot">&lt;-</span> <span class="fu">scale</span>(datos_auto)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(datos_auto_norm)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                         mpg         hp           wt       qsec        disp
+Mazda RX4          0.1508848 -0.5350928 -0.610399567 -0.7771651 -0.57061982
+Mazda RX4 Wag      0.1508848 -0.5350928 -0.349785269 -0.4637808 -0.57061982
+Datsun 710         0.4495434 -0.7830405 -0.917004624  0.4260068 -0.99018209
+Hornet 4 Drive     0.2172534 -0.5350928 -0.002299538  0.8904872  0.22009369
+Hornet Sportabout -0.2307345  0.4129422  0.227654255 -0.4637808  1.04308123
+Valiant           -0.3302874 -0.6080186  0.248094592  1.3269868 -0.04616698
+                        drat
+Mazda RX4          0.5675137
+Mazda RX4 Wag      0.5675137
+Datsun 710         0.4739996
+Hornet 4 Drive    -0.9661175
+Hornet Sportabout -0.8351978
+Valiant           -1.5646078</code></pre>
+</div>
+</div>
+</section>
+<section id="pca-con-prcomp" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="pca-con-prcomp"><span class="header-section-number">3.5</span> PCA con <code>prcomp</code></h2>
+<p>Usamos la función base <code>prcomp</code>, que trabaja sobre la matriz de datos:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>pca_auto <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(datos_auto,</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">center =</span> <span class="cn">TRUE</span>,  <span class="co"># restar la media</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">scale. =</span> <span class="cn">TRUE</span>)  <span class="co"># dividir por la desviación estándar</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(pca_auto)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Importance of components:
+                          PC1    PC2     PC3     PC4    PC5     PC6
+Standard deviation     2.0463 1.0715 0.57737 0.39289 0.3533 0.22799
+Proportion of Variance 0.6979 0.1913 0.05556 0.02573 0.0208 0.00866
+Cumulative Proportion  0.6979 0.8892 0.94481 0.97054 0.9913 1.00000</code></pre>
+</div>
+</div>
+<p>El <code>summary</code> muestra:</p>
+<ul>
+<li>La <strong>desviación estándar</strong> de cada componente.<br>
+</li>
+<li>La <strong>proporción de varianza</strong> explicada por cada componente.<br>
+</li>
+<li>La <strong>varianza acumulada</strong> (muy útil para decidir cuántas componentes retener).</li>
+</ul>
+</section>
+<section id="valores-propios-y-varianza-explicada" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="valores-propios-y-varianza-explicada"><span class="header-section-number">3.6</span> Valores propios y varianza explicada</h2>
+<p>Los <strong>valores propios</strong> se obtienen elevando al cuadrado las desviaciones estándar de las componentes:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>eigenvalues <span class="ot">&lt;-</span> pca_auto<span class="sc">$</span>sdev<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>eigenvalues</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4.18739648 1.14811212 0.33335666 0.15436054 0.12479601 0.05197818</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>prop_var <span class="ot">&lt;-</span> eigenvalues <span class="sc">/</span> <span class="fu">sum</span>(eigenvalues)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>prop_var</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.697899413 0.191352020 0.055559444 0.025726757 0.020799335 0.008663031</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>acum_var <span class="ot">&lt;-</span> <span class="fu">cumsum</span>(prop_var)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>acum_var</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.6978994 0.8892514 0.9448109 0.9705376 0.9913370 1.0000000</code></pre>
+</div>
+</div>
+<section id="gráfico-de-sedimentación-scree-plot" class="level3" data-number="3.6.1">
+<h3 data-number="3.6.1" class="anchored" data-anchor-id="gráfico-de-sedimentación-scree-plot"><span class="header-section-number">3.6.1</span> Gráfico de sedimentación (scree plot)</h3>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(prop_var,</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">"b"</span>,</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Componente principal"</span>,</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"Proporción de varianza explicada"</span>,</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Gráfico de sedimentación (scree plot)"</span>)</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="fl">0.1</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"red"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lab06_epg_files/figure-html/ejemplo1-screeplot-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Ideas típicas para decidir el número de componentes:</p>
+<ul>
+<li>Mantener las componentes que explican en conjunto, por ejemplo, <strong>70%-80%</strong> de la varianza.<br>
+</li>
+<li>Detenerse cuando el scree plot muestra un <strong>“codo”</strong> evidente.<br>
+</li>
+<li>Mantener sólo las componentes con valor propio mayor que 1 (criterio de Kaiser) cuando se trabaja sobre matriz de correlación.</li>
+</ul>
+</div>
+</div>
+</section>
+</section>
+<section id="cargas-loadings-e-interpretación" class="level2" data-number="3.7">
+<h2 data-number="3.7" class="anchored" data-anchor-id="cargas-loadings-e-interpretación"><span class="header-section-number">3.7</span> Cargas (loadings) e interpretación</h2>
+<p>Las <strong>cargas</strong> son las correlaciones entre las variables originales y las componentes:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>pca_auto<span class="sc">$</span>rotation</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            PC1         PC2         PC3         PC4        PC5         PC6
+mpg  -0.4586835 -0.05867609 -0.19479235 -0.78205878  0.1111533  0.35249327
+hp    0.4258534 -0.36147576  0.14613554 -0.12301873  0.8057408  0.04771555
+wt    0.4386179  0.29953457  0.41776208 -0.10438337 -0.2301541  0.69246040
+qsec -0.2528320  0.76284877  0.34059066 -0.04268124  0.4218755 -0.24152663
+disp  0.4660354  0.06065296  0.09688406 -0.60001871 -0.2946297 -0.56825752
+drat -0.3670963 -0.43652537  0.80049152 -0.02259258 -0.1437714 -0.11277675</code></pre>
+</div>
+</div>
+<ul>
+<li>Valores altos (en valor absoluto) indican que la variable tiene una gran influencia en esa componente.<br>
+</li>
+<li>El <strong>signo</strong> indica dirección de la relación (positiva o negativa).</li>
+</ul>
+</section>
+<section id="coordenadas-de-los-individuos-scores" class="level2" data-number="3.8">
+<h2 data-number="3.8" class="anchored" data-anchor-id="coordenadas-de-los-individuos-scores"><span class="header-section-number">3.8</span> Coordenadas de los individuos (scores)</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(pca_auto<span class="sc">$</span>x)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                         PC1          PC2        PC3        PC4         PC5
+Mazda RX4         -0.8425806 -0.873469391 -0.2282783  0.3742725 -0.51522641
+Mazda RX4 Wag     -0.8075041 -0.556341552 -0.0126678  0.3336931 -0.44299870
+Datsun 710        -1.6850448  0.040006569 -0.1564937  0.4057157  0.03340433
+Hornet 4 Drive    -0.0964443  1.294377904 -0.5702297 -0.2520788  0.04326023
+Hornet Sportabout  1.2915096  0.006516693 -0.5250741 -0.4813192 -0.12822104
+Valiant            0.2187309  2.005957905 -0.7258399  0.3136170  0.21465335
+                          PC6
+Mazda RX4          0.05293884
+Mazda RX4 Wag      0.15771326
+Datsun 710        -0.10756126
+Hornet 4 Drive    -0.18173489
+Hornet Sportabout -0.29051949
+Valiant           -0.09145688</code></pre>
+</div>
+</div>
+<p>Cada fila corresponde a un auto, y cada columna a su coordenada en una componente principal (por ejemplo, PC1, PC2).</p>
+</section>
+<section id="biplot-individuos-y-variables" class="level2" data-number="3.9">
+<h2 data-number="3.9" class="anchored" data-anchor-id="biplot-individuos-y-variables"><span class="header-section-number">3.9</span> Biplot: individuos y variables</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">biplot</span>(pca_auto,</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">scale =</span> <span class="dv">0</span>,</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">cex   =</span> <span class="fl">0.7</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lab06_epg_files/figure-html/ejemplo1-biplot-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Nota
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Los <strong>puntos</strong> son los autos (individuos).<br>
+</li>
+<li>Las <strong>flechas</strong> representan las variables originales.<br>
+</li>
+<li>La dirección y longitud de cada flecha muestran cómo cada variable contribuye a las primeras componentes.</li>
+</ul>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="ejemplo-2-pca-con-datos-simulados-de-indicadores-regionales" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Ejemplo 2: PCA con datos simulados de indicadores regionales</h1>
+<p>Ahora construiremos un segundo ejemplo, inventando un conjunto de datos que se parezca a una situación típica en economía o gestión: indicadores para distintas <strong>regiones</strong>.</p>
+<p>Supongamos que medimos para cada región:</p>
+<ul>
+<li><code>ingreso_pc</code>: ingreso per cápita.<br>
+</li>
+<li><code>desempleo</code>: tasa de desempleo.<br>
+</li>
+<li><code>escolaridad</code>: años promedio de estudio.<br>
+</li>
+<li><code>pobreza</code>: porcentaje de población bajo la línea de pobreza.<br>
+</li>
+<li><code>gini</code>: índice de desigualdad (0–1).</li>
+</ul>
+<p>La idea es usar PCA para encontrar <strong>patrones conjuntos</strong> entre estos indicadores.</p>
+<section id="creación-de-datos-simulados" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="creación-de-datos-simulados"><span class="header-section-number">4.1</span> Creación de datos simulados</h2>
+<div class="cell" data-layout-align="center" data-set.seed="123">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>n_regiones <span class="ot">&lt;-</span> <span class="dv">16</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>datos_regiones <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">region      =</span> <span class="fu">paste</span>(<span class="st">"Region"</span>, <span class="dv">1</span><span class="sc">:</span>n_regiones),</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">ingreso_pc  =</span> <span class="fu">round</span>(<span class="fu">rnorm</span>(n_regiones, <span class="at">mean =</span> <span class="dv">800000</span>, <span class="at">sd =</span> <span class="dv">150000</span>)),</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">desempleo   =</span> <span class="fu">round</span>(<span class="fu">rnorm</span>(n_regiones, <span class="at">mean =</span> <span class="dv">8</span>, <span class="at">sd =</span> <span class="dv">2</span>), <span class="dv">1</span>),</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">escolaridad =</span> <span class="fu">round</span>(<span class="fu">rnorm</span>(n_regiones, <span class="at">mean =</span> <span class="dv">11</span>, <span class="at">sd =</span> <span class="fl">1.5</span>), <span class="dv">1</span>),</span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">pobreza     =</span> <span class="fu">round</span>(<span class="fu">rnorm</span>(n_regiones, <span class="at">mean =</span> <span class="dv">15</span>, <span class="at">sd =</span> <span class="dv">5</span>), <span class="dv">1</span>),</span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">gini        =</span> <span class="fu">round</span>(<span class="fu">rnorm</span>(n_regiones, <span class="at">mean =</span> <span class="fl">0.45</span>, <span class="at">sd =</span> <span class="fl">0.05</span>), <span class="dv">2</span>)</span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>datos_regiones</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 16 × 6
+   region    ingreso_pc desempleo escolaridad pobreza  gini
+   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;
+ 1 Region 1      715929       9          12.3    18.9  0.4 
+ 2 Region 2      765473       4.1        12.3    14.6  0.47
+ 3 Region 3     1033806       9.4        12.2    16.3  0.47
+ 4 Region 4      810576       7.1        12      14.9  0.45
+ 5 Region 5      819393       5.9        11.8    14.8  0.5 
+ 6 Region 6     1057260       7.6        10.9    21.8  0.55
+ 7 Region 7      869137       5.9        10.5    13.9  0.43
+ 8 Region 8      610241       6.5        10.4    22.6  0.33
+ 9 Region 9      696972       6.7        10       7.3  0.5 
+10 Region 10     733151       4.6        10.7    17.9  0.41
+11 Region 11     983612       9.7         9.1    15.6  0.42
+12 Region 12     853972       8.3        14.3    16.1  0.5 
+13 Region 13     860116       5.7        12.8    16.9  0.44
+14 Region 14     816602      10.5         9.3    12.5  0.39
+15 Region 15     716624       8.9        10.4    13.3  0.46
+16 Region 16    1068037       7.4        10.3     9.9  0.44</code></pre>
+</div>
+</div>
+</section>
+<section id="exploración-inicial" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="exploración-inicial"><span class="header-section-number">4.2</span> Exploración inicial</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">select</span>(datos_regiones, <span class="sc">-</span>region))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   ingreso_pc        desempleo       escolaridad       pobreza     
+ Min.   : 610241   Min.   : 4.100   Min.   : 9.10   Min.   : 7.30  
+ 1st Qu.: 729019   1st Qu.: 5.900   1st Qu.:10.38   1st Qu.:13.75  
+ Median : 817998   Median : 7.250   Median :10.80   Median :15.25  
+ Mean   : 838181   Mean   : 7.331   Mean   :11.21   Mean   :15.46  
+ 3rd Qu.: 897756   3rd Qu.: 8.925   3rd Qu.:12.22   3rd Qu.:17.15  
+ Max.   :1068037   Max.   :10.500   Max.   :14.30   Max.   :22.60  
+      gini       
+ Min.   :0.3300  
+ 1st Qu.:0.4175  
+ Median :0.4450  
+ Mean   :0.4475  
+ 3rd Qu.:0.4775  
+ Max.   :0.5500  </code></pre>
+</div>
+</div>
+</section>
+<section id="matriz-de-correlación-1" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="matriz-de-correlación-1"><span class="header-section-number">4.3</span> Matriz de correlación</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>vars_reg <span class="ot">&lt;-</span> <span class="fu">select</span>(datos_regiones, <span class="sc">-</span>region)</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>cor_reg  <span class="ot">&lt;-</span> <span class="fu">cor</span>(vars_reg)</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(cor_reg, <span class="dv">2</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            ingreso_pc desempleo escolaridad pobreza  gini
+ingreso_pc        1.00      0.30       -0.01   -0.06  0.44
+desempleo         0.30      1.00       -0.23   -0.06 -0.09
+escolaridad      -0.01     -0.23        1.00    0.26  0.34
+pobreza          -0.06     -0.06        0.26    1.00 -0.22
+gini              0.44     -0.09        0.34   -0.22  1.00</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot</span>(cor_reg,</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">type  =</span> <span class="st">"upper"</span>,</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">order =</span> <span class="st">"hclust"</span>,</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">tl.col =</span> <span class="st">"black"</span>,</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">tl.srt =</span> <span class="dv">45</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lab06_epg_files/figure-html/ejemplo2-correlacion-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chart.Correlation</span>(vars_reg, <span class="at">histogram =</span> <span class="cn">TRUE</span>, <span class="at">pch =</span> <span class="dv">19</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lab06_epg_files/figure-html/ejemplo2-correlacion-2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="bartlett-y-kmo" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="bartlett-y-kmo"><span class="header-section-number">4.4</span> Bartlett y KMO</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>psych<span class="sc">::</span><span class="fu">cortest.bartlett</span>(cor_reg, <span class="at">n =</span> <span class="fu">nrow</span>(datos_regiones))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$chisq
+[1] 9.531286
+
+$p.value
+[1] 0.4825305
+
+$df
+[1] 10</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">KMO</span>(cor_reg)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Kaiser-Meyer-Olkin factor adequacy
+Call: KMO(r = cor_reg)
+Overall MSA =  0.38
+MSA for each item = 
+ ingreso_pc   desempleo escolaridad     pobreza        gini 
+       0.40        0.46        0.39        0.30        0.38 </code></pre>
+</div>
+</div>
+</section>
+<section id="pca-sobre-indicadores-regionales" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="pca-sobre-indicadores-regionales"><span class="header-section-number">4.5</span> PCA sobre indicadores regionales</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>pca_reg <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(vars_reg,</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">center =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">scale. =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(pca_reg)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Importance of components:
+                          PC1    PC2    PC3    PC4     PC5
+Standard deviation     1.2525 1.2071 1.0262 0.7718 0.57039
+Proportion of Variance 0.3138 0.2914 0.2106 0.1191 0.06507
+Cumulative Proportion  0.3138 0.6052 0.8158 0.9349 1.00000</code></pre>
+</div>
+</div>
+<section id="varianza-explicada" class="level3" data-number="4.5.1">
+<h3 data-number="4.5.1" class="anchored" data-anchor-id="varianza-explicada"><span class="header-section-number">4.5.1</span> Varianza explicada</h3>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>eig_reg   <span class="ot">&lt;-</span> pca_reg<span class="sc">$</span>sdev<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>prop_reg  <span class="ot">&lt;-</span> eig_reg <span class="sc">/</span> <span class="fu">sum</span>(eig_reg)</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>acum_reg  <span class="ot">&lt;-</span> <span class="fu">cumsum</span>(prop_reg)</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>prop_reg</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.31375635 0.29143673 0.21061115 0.11912759 0.06506818</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>acum_reg</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.3137564 0.6051931 0.8158042 0.9349318 1.0000000</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(prop_reg,</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">"b"</span>,</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Componente principal"</span>,</span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"Proporción de varianza explicada"</span>,</span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Scree plot - indicadores regionales"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lab06_epg_files/figure-html/ejemplo2-varianza-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="interpretación-de-las-componentes" class="level2" data-number="4.6">
+<h2 data-number="4.6" class="anchored" data-anchor-id="interpretación-de-las-componentes"><span class="header-section-number">4.6</span> Interpretación de las componentes</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>pca_reg<span class="sc">$</span>rotation</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                   PC1        PC2        PC3          PC4        PC5
+ingreso_pc   0.6287024  0.2048168  0.3221309  0.471827456 -0.4862035
+desempleo    0.1577429  0.5621811  0.5069584 -0.605120552  0.1894515
+escolaridad  0.2260606 -0.6701855  0.1702061 -0.549672409 -0.4106557
+pobreza     -0.2399983 -0.3756731  0.7540961  0.330237323  0.3515011
+gini         0.6864021 -0.2274283 -0.2039456  0.003394633  0.6599418</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Nota
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Una componente con alta carga positiva en <code>ingreso_pc</code> y <code>escolaridad</code> y carga negativa en <code>pobreza</code> podría interpretarse como un <strong>índice de desarrollo socioeconómico</strong>.<br>
+</li>
+<li>Otra componente con alta carga en <code>desempleo</code> y <code>gini</code> podría interpretarse como un patrón de <strong>inestabilidad laboral y desigualdad</strong>.</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="coordenadas-de-las-regiones-en-el-espacio-de-componentes" class="level2" data-number="4.7">
+<h2 data-number="4.7" class="anchored" data-anchor-id="coordenadas-de-las-regiones-en-el-espacio-de-componentes"><span class="header-section-number">4.7</span> Coordenadas de las regiones en el espacio de componentes</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>scores_reg <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(pca_reg<span class="sc">$</span>x) <span class="sc">%&gt;%</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">region =</span> datos_regiones<span class="sc">$</span>region)</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>scores_reg</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 16 × 6
+       PC1    PC2    PC3     PC4      PC5 region   
+     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;    
+ 1 -1.07   -0.335  1.15  -1.11   -0.00143 Region 1 
+ 2 -0.0845 -1.63  -1.17   0.296  -0.190   Region 2 
+ 3  1.47    0.260  1.22  -0.319  -0.420   Region 3 
+ 4  0.0496 -0.451 -0.148 -0.381  -0.179   Region 4 
+ 5  0.611  -0.909 -0.691  0.113   0.342   Region 5 
+ 6  1.92   -0.497  1.39   1.33    1.19    Region 6 
+ 7 -0.225   0.180 -0.638  0.718  -0.406   Region 7 
+ 8 -3.21   -0.387  0.977  0.403   0.141   Region 8 
+ 9  0.287   0.742 -2.44  -0.493   0.712   Region 9 
+10 -1.43   -0.812 -0.434  0.931  -0.00298 Region 10
+11  0.160   2.05   0.863  0.575   0.0168  Region 11
+12  1.30   -1.46   0.602 -1.43   -0.158   Region 12
+13  0.0352 -1.34   0.111  0.0974 -0.678   Region 13
+14 -0.705   2.38   0.227 -0.605  -0.0228  Region 14
+15 -0.261   0.835 -0.424 -0.792   0.791   Region 15
+16  1.16    1.37  -0.600  0.656  -1.14    Region 16</code></pre>
+</div>
+</div>
+<section id="gráfico-de-las-regiones-en-pc1pc2" class="level3" data-number="4.7.1">
+<h3 data-number="4.7.1" class="anchored" data-anchor-id="gráfico-de-las-regiones-en-pc1pc2"><span class="header-section-number">4.7.1</span> Gráfico de las regiones en PC1–PC2</h3>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(scores_reg, <span class="fu">aes</span>(<span class="at">x =</span> PC1, <span class="at">y =</span> PC2, <span class="at">label =</span> region)) <span class="sc">+</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"grey70"</span>) <span class="sc">+</span></span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">color =</span> <span class="st">"grey70"</span>) <span class="sc">+</span></span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">vjust =</span> <span class="sc">-</span><span class="fl">0.5</span>, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Regiones en el espacio de las dos primeras componentes"</span>,</span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Componente principal 1"</span>,</span>
+<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Componente principal 2"</span>) <span class="sc">+</span></span>
+<span id="cb53-9"><a href="#cb53-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lab06_epg_files/figure-html/ejemplo2-plot-scores-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="biplot-con-variables-e-individuos" class="level2" data-number="4.8">
+<h2 data-number="4.8" class="anchored" data-anchor-id="biplot-con-variables-e-individuos"><span class="header-section-number">4.8</span> Biplot con variables e individuos</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">biplot</span>(pca_reg,</span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">scale =</span> <span class="dv">0</span>,</span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">cex   =</span> <span class="fl">0.7</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lab06_epg_files/figure-html/ejemplo2-biplot-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="cierre-del-laboratorio" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Cierre del laboratorio</h1>
+<p>En este laboratorio trabajaste, apoyado en el PDF del <strong>Capítulo 6: Componentes Principales</strong>, los siguientes aspectos:</p>
+<ul>
+<li>La <strong>motivación</strong> del PCA como técnica de reducción de dimensión y exploración de datos multivariados.<br>
+</li>
+<li>La importancia de <strong>normalizar</strong> las variables cuando están en distintas escalas.<br>
+</li>
+<li>La construcción de la <strong>matriz de correlaciones</strong> y el uso de <strong>Bartlett</strong> y <strong>KMO</strong> para evaluar si el PCA (o análisis factorial) es razonable.<br>
+</li>
+<li>El cálculo e interpretación de <strong>valores propios</strong>, <strong>varianza explicada</strong> y <strong>scree plot</strong>.<br>
+</li>
+<li>La lectura de las <strong>cargas (loadings)</strong> de las variables y de las <strong>coordenadas (scores)</strong> de los individuos.<br>
+</li>
+<li>La interpretación conjunta de individuos y variables a través de <strong>biplots</strong>.</li>
+</ul>
+<p>Estos elementos son la base para aplicar PCA en contextos reales de economía y gestión, donde a menudo trabajamos con muchos indicadores simultáneamente y necesitamos <strong>resumir la información</strong> de forma clara y robusta.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiado");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiado");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/fen-uah\.github\.io\/lab-econometria\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© 2025 FEN-UAH</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Sitio desarrollado con Quarto</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
