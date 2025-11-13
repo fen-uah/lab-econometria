@@ -33,3 +33,7 @@ El profesor Fernando Crespo es un experto en Ciencia de Datos, Machine Learning 
 #### Manuel Labraña Rojas: Ayudante
 
 Manuel Labraña Rojas es un estudiante de Ingeniería Comercial con Mención en Economía de la Universidad Alberto Hurtado (UAH). desempeñándose como Ayudante de Cátedra. Además, colabora en el área de investigación como Ayudante del proyecto "Repositorio de Econometría", contribuyendo a su funcionamiento y desarrollo web.
+
+### Rodrigo Ortiz: Docente e Investigador
+
+Rodrigo Ortiz es doctor en finanzas por la Universidad Adolfo Ibáñez. Su área de investigación consiste en modelos con variable dependiente censurada, junto con la metodología de pseudo-panel, aplicados a preguntas de innovación empresarial, como los obstáculos para innovar, las restricciones financieras para innovar y el impacto del soporte público en la innovación. Actualmente se desempeña como Profesor en la Universidad Alberto Hurtado.

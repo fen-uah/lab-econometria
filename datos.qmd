@@ -26,7 +26,15 @@ Las bases provienen de distintas instituciones nacionales e internacionales, ent
 
 -   **Banco Central de Chile**, a través de su sistema [SIETE](https://si3.bcentral.cl/siete).
 
--   **Instituto Nacional de Estadistica**, a través de su sistema [INE-DATOS](https://www.ine.gob.cl/).
+-   **Instituto Nacional de Estadistica**, con multiples datos en: [INE-DATOS](https://www.ine.gob.cl/)
+
+-   **Business Environment and Enterprise Performance Survey (BEEPS) – EBRD & World Bank**, a través de su sistema  [DATOS](https://www.ebrd.com/home/what-we-do/office-of-the-chief-economist/beeps/business-environment-enterprise-performance-survey-data.html), Levanta información estandarizada sobre el entorno de negocios, desempeño de las empresas, obstáculos a la inversión, finanzas, innovación, infraestructura y gobernanza.
+
+-   **Encuesta de Desarrollo e Innovación Tecnológica (EDIT) – DANE (Colombia)**, a través de su sistema [Transparencia](https://www.dane.gov.co/index.php/estadisticas-por-tema/tecnologia-e-innovacion/encuesta-de-desarrollo-e-innovacion-tecnologica-edit) Recoge datos detallados sobre actividades de innovación, inversión en tecnología, adopción digital, barreras, resultados innovadores y vínculos con universidades y centros tecnológicos.
+
+- **Encuesta Nacional de Innovación – PRODUCE (Perú)** a través de su sistema [Menu de Estudios Economicos](https://ogeiee.produce.gob.pe/index.php/en/shortcode/normatividad-metodologia-oee/encuesta-nacional-de-innovacion),  mide las actividades de innovación, capacidades tecnológicas, inversión en I+D, impactos productivos y desafíos que enfrentan las empresas. 
+
+- **Encuesta Nacional de Actividades de Ciencia, Tecnología e Innovación (ACTI) – Ecuador** a través de su sistema [INEC](https://www.ecuadorencifras.gob.ec/encuesta-nacional-de-actividades-de-ciencia-tecnologia-e-innovacion-acti/), recopila información sobre inversión en I+D, personal dedicado a actividades científicas y tecnológicas, innovación empresarial, colaboración institucional y desempeño innovador. 
 
 se proyecta integrar información de **ODEPA**en el caso de queerer realizar un proyecto orientado al sector agricola y otros organismos públicos vinculados al ámbito económico, social y producitivo.
 

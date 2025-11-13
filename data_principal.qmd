@@ -2,15 +2,15 @@
 title: "Encuestas"
 ---
 
-Las **bases de datos de encuestas** incluidas en este repositorio reúnen información oficial y representativa de distintos ámbitos sociales y económicos de Chile, provenientes de instituciones como el **Instituto Nacional de Estadísticas (INE)** y el **Ministerio de Desarrollo Social y Familia**. Estas encuestas abarcan temas como **salud, empleo, ingresos, gasto de los hogares y uso del tiempo**, entre otros, permitiendo realizar análisis econométricos con un alto nivel de profundidad.
+Las **bases de datos de encuestas** incluidas en este repositorio reúnen información oficial, representativa y comparativamente robusta sobre distintos ámbitos sociales, económicos y productivos de Chile y otros países. En el caso chileno, provienen de instituciones como el **Instituto Nacional de Estadísticas (INE)** y el **Ministerio de Desarrollo Social y Familia**, mientras que las encuestas internacionales provienen de organismos como el **Banco Mundial**, **EBRD**, **DANE (Colombia)**, **PRODUCE (Perú)** e **INEC (Ecuador)**.
 
-Entre las principales se encuentran la **Encuesta de Presupuestos Familiares**, la **Encuesta Nacional de Salud**, la **Encuesta de Uso del Tiempo** y la **Encuesta de Mercado Laboral**, todas con una amplia cobertura de variables demográficas, laborales y socioeconómicas.
+En su conjunto, abarcan temas como **salud, empleo, ingresos, gasto de los hogares, innovación empresarial, inversión tecnológica, productividad, entorno de negocios, uso del tiempo, infraestructura, gobernanza, financiamiento y desempeño económico**, permitiendo realizar análisis econométricos de alta complejidad y comparaciones internacionales rigurosas.
 
-Estas fuentes resultan especialmente valiosas para el desarrollo de **modelos de regresión**, estudios de **determinantes sociales y económicos**, y comparaciones entre grupos de población. Además, su estructura multidimensional permite combinar distintas áreas de análisis —como ingreso, género, educación y bienestar— fomentando una comprensión integral de la realidad económica y social del país.
+Estas fuentes resultan especialmente valiosas para el desarrollo de **modelos de regresión**, estudios de **determinantes socioeconómicos**, análisis de **innovación y productividad**, construcción de **paneles y pseudo-paneles**, y evaluaciones del impacto de políticas públicas. Su estructura multidimensional permite combinar áreas como ingreso, educación, género, tecnología, inversión e innovación, facilitando una comprensión integral de la realidad económica y social.
 
 En conjunto, estas encuestas constituyen una base sólida para el aprendizaje aplicado de la econometría, ofreciendo datos confiables y actualizados para desarrollar ejercicios, informes y proyectos con rigor estadístico.
 
-Cada sección de datos cuenta con el mismo formato de presentacion, conteniendo las siguientes variables: 
+Cada sección de datos cuenta con el mismo formato de presentacion, conteniendo las siguientes variables:
 
 -   **Años**: periodo temporal cubierto.
 
