@@ -392,7 +392,7 @@ exploración}\label{gruxe1ficos-de-exploraciuxf3n}
 \pandocbounded{\includegraphics[keepaspectratio]{lab03_epg_files/figure-pdf/unnamed-chunk-5-2.pdf}}
 \end{center}
 
-\begin{tcolorbox}[enhanced jigsaw, bottomrule=.15mm, arc=.35mm, breakable, colbacktitle=quarto-callout-note-color!10!white, toptitle=1mm, titlerule=0mm, coltitle=black, left=2mm, colback=white, leftrule=.75mm, toprule=.15mm, opacitybacktitle=0.6, colframe=quarto-callout-note-color-frame, bottomtitle=1mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Nota}, rightrule=.15mm, opacityback=0]
+\begin{tcolorbox}[enhanced jigsaw, opacitybacktitle=0.6, toprule=.15mm, colbacktitle=quarto-callout-note-color!10!white, coltitle=black, colframe=quarto-callout-note-color-frame, opacityback=0, breakable, toptitle=1mm, arc=.35mm, left=2mm, leftrule=.75mm, titlerule=0mm, bottomtitle=1mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Nota}, colback=white, rightrule=.15mm, bottomrule=.15mm]
 
 🔍 \textbf{Interpretación pedagógica:}\\
 - Valores altos en la correlación entre regresores →
@@ -443,7 +443,7 @@ Multiple R-squared:  0.9472,    Adjusted R-squared:  0.9354
 F-statistic: 80.66 on 2 and 9 DF,  p-value: 1.792e-06
 \end{verbatim}
 
-\begin{tcolorbox}[enhanced jigsaw, bottomrule=.15mm, arc=.35mm, breakable, colbacktitle=quarto-callout-note-color!10!white, toptitle=1mm, titlerule=0mm, coltitle=black, left=2mm, colback=white, leftrule=.75mm, toprule=.15mm, opacitybacktitle=0.6, colframe=quarto-callout-note-color-frame, bottomtitle=1mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Nota}, rightrule=.15mm, opacityback=0]
+\begin{tcolorbox}[enhanced jigsaw, opacitybacktitle=0.6, toprule=.15mm, colbacktitle=quarto-callout-note-color!10!white, coltitle=black, colframe=quarto-callout-note-color-frame, opacityback=0, breakable, toptitle=1mm, arc=.35mm, left=2mm, leftrule=.75mm, titlerule=0mm, bottomtitle=1mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Nota}, colback=white, rightrule=.15mm, bottomrule=.15mm]
 
 \begin{itemize}
 \tightlist
@@ -848,20 +848,6 @@ alternative hypothesis: true autocorrelation is not 0
 data:  modelo2
 BP = 0.33027, df = 1, p-value = 0.5655
 \end{verbatim}
-
-\subsubsection{Gráfico final}\label{gruxe1fico-final}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{plot}\NormalTok{(modelo2}\SpecialCharTok{$}\NormalTok{fitted.values, datos}\SpecialCharTok{$}\NormalTok{Costos\_generales,}
-     \AttributeTok{main=}\StringTok{"Revisión Valor Real vs Valor Predicho (sin constante)"}\NormalTok{)}
-\FunctionTok{lines}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{130000}\NormalTok{,}\DecValTok{200000}\NormalTok{), }\FunctionTok{c}\NormalTok{(}\DecValTok{130000}\NormalTok{,}\DecValTok{200000}\NormalTok{))}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{center}
-\pandocbounded{\includegraphics[keepaspectratio]{lab03_epg_files/figure-pdf/unnamed-chunk-23-1.pdf}}
-\end{center}
 
 
 

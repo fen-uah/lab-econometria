@@ -235,7 +235,6 @@ window.Quarto = {
   <li><a href="#modelo-sin-constante" id="toc-modelo-sin-constante"><span class="header-section-number">15</span> Modelo sin constante</a>
   <ul>
   <li><a href="#análisis-de-residuos-modelo-sin-constante" id="toc-análisis-de-residuos-modelo-sin-constante"><span class="header-section-number">15.0.1</span> Análisis de residuos modelo sin constante</a></li>
-  <li><a href="#gráfico-final" id="toc-gráfico-final"><span class="header-section-number">15.0.2</span> Gráfico final</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -721,21 +720,6 @@ alternative hypothesis: true autocorrelation is not 0</code></pre>
 
 data:  modelo2
 BP = 0.33027, df = 1, p-value = 0.5655</code></pre>
-</div>
-</div>
-</section>
-<section id="gráfico-final" class="level3" data-number="15.0.2">
-<h3 data-number="15.0.2"><span class="header-section-number">15.0.2</span> Gráfico final</h3>
-<div class="cell" data-layout-align="center">
-<div class="sourceCode" id="cb56"><pre class="sourceCode r cell-code"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(modelo2<span class="sc">$</span>fitted.values, datos<span class="sc">$</span>Costos_generales,</span>
-<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">main=</span><span class="st">&quot;Revisión Valor Real vs Valor Predicho (sin constante)&quot;</span>)</span>
-<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">c</span>(<span class="dv">130000</span>,<span class="dv">200000</span>), <span class="fu">c</span>(<span class="dv">130000</span>,<span class="dv">200000</span>))</span></code></pre></div>
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img src="lab03_epg_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid quarto-figure quarto-figure-center" width="672" /></p>
-</figure>
-</div>
 </div>
 </div>
 <div id="quarto-navigation-envelope" class="hidden">
