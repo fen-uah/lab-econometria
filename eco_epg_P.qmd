@@ -1,0 +1,41 @@
+---
+title: "Proyectos de Econometría para la Gestión - Mención Administración"
+format:
+  html:
+    toc: false
+    smooth-scroll: true
+---
+
+Los proyectos presentados a continuación son los destacados por los docentes y ayudantes, organizados por año y semestre del curso, junto con sus respectivos documentos descargables.
+
+# Proyectos 2do semestre 2025
+
+-   **p1**
+
+**Autores:**
+
+**Resumen**:
+
+\[Descargar Informe PDF\]
+
+\[Descargar Presentación PDF\]
+
+-   **p2**
+
+**Autores:**
+
+**Resumen**:
+
+\[Descargar Informe PDF\]
+
+\[Descargar Presentación PDF\]
+
+-   **p3**
+
+**Autores:**
+
+**Resumen**:
+
+\[Descargar Informe PDF\]
+
+\[Descargar Presentación PDF\] \# Proyectos 2026

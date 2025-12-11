@@ -207,7 +207,7 @@
     "href": "labs_epg/lab05_epg.html#validación-cruzada-del-modelo-logit",
     "title": "Capitulo_5 _Logit_y_otros _analisis",
     "section": "3.9 Validación cruzada del modelo logit",
-    "text": "3.9 Validación cruzada del modelo logit\n\nCVbinary(frogs.glm0)\n\n\nFold:  10 7 2 6 4 8 3 5 1 9\nInternal estimate of accuracy = 0.778\nCross-validation estimate of accuracy = 0.769\n\nCVbinary(frogs.glm)\n\n\nFold:  6 3 5 4 8 2 7 1 9 10\nInternal estimate of accuracy = 0.778\nCross-validation estimate of accuracy = 0.778\n\n\nEstas funciones entregan estimaciones de error de clasificación usando validación cruzada, lo que ayuda a medir la capacidad predictiva del modelo."
+    "text": "3.9 Validación cruzada del modelo logit\n\nCVbinary(frogs.glm0)\n\n\nFold:  9 8 10 1 4 5 6 7 3 2\nInternal estimate of accuracy = 0.778\nCross-validation estimate of accuracy = 0.769\n\nCVbinary(frogs.glm)\n\n\nFold:  8 2 3 1 5 7 10 6 4 9\nInternal estimate of accuracy = 0.778\nCross-validation estimate of accuracy = 0.769\n\n\nEstas funciones entregan estimaciones de error de clasificación usando validación cruzada, lo que ayuda a medir la capacidad predictiva del modelo."
   },
   {
     "objectID": "labs_epg/lab05_epg.html#odds-ratios-or-e-intervalos-de-confianza",
@@ -371,6 +371,13 @@
     "text": "2.9 Resumen final del Ejemplo 2\nEn este ejemplo aprendimos a:\n\nConvertir unidades (millas/galón → km/l).\n\nExplorar datos cuantitativos con gráficos:\n\nPlot simple, histograma, densidad, boxplot y QQ-plot.\n\n\nCalcular medidas descriptivas:\n\nMedia, mediana, moda, rango, desviación estándar, coeficiente de variación.\n\n\nEvaluar la normalidad de una variable usando:\n\nPruebas de hipótesis (Shapiro-Wilk, Kolmogorov-Smirnov).\n\nComparación visual con una distribución normal.\n\nSkewness y kurtosis.\n\n\nEstos pasos son la base para análisis más avanzados en econometría, donde suponemos frecuentemente normalidad en los errores o en ciertas variables."
   },
   {
+    "objectID": "eco_epg_P.html",
+    "href": "eco_epg_P.html",
+    "title": "Proyectos de Econometría para la Gestión - Mención Administración",
+    "section": "",
+    "text": "Los proyectos presentados a continuación son los destacados por los docentes y ayudantes, organizados por año y semestre del curso, junto con sus respectivos documentos descargables.\n\nProyectos 2do semestre 2025\n\np1\n\nAutores:\nResumen:\n[Descargar Informe PDF]\n[Descargar Presentación PDF]\n\np2\n\nAutores:\nResumen:\n[Descargar Informe PDF]\n[Descargar Presentación PDF]\n\np3\n\nAutores:\nResumen:\n[Descargar Informe PDF]\n[Descargar Presentación PDF] # Proyectos 2026"
+  },
+  {
     "objectID": "eco_eco.html",
     "href": "eco_eco.html",
     "title": "Econometría - Mención Economía",
@@ -403,14 +410,21 @@
     "href": "proyectos.html",
     "title": "Proyectos",
     "section": "",
-    "text": "La sección Proyectos tiene como propósito ofrecer un espacio para que los estudiantes de la Facultad de Economía y Negocios de la Universidad Alberto Hurtado puedan publicar y compartir sus trabajos e investigaciones desarrolladas en los cursos de Econometría y Econometría para la Gestión.\nEste repositorio busca fomentar un entorno de aprendizaje colaborativo e interactivo, donde tanto docentes como estudiantes puedan evaluar, comentar y retroalimentar los proyectos presentados. De esta forma, se promueve la aplicación práctica de los contenidos del curso y el fortalecimiento de las habilidades analíticas y comunicacionales de los futuros profesionales.\nAUN NO DISPONIBLE, EVALUANDO COMPATIBILIDAD CON GOOGLE FORMS U OTRAS APLICACIONES"
+    "text": "La sección Proyectos tiene como propósito ofrecer un espacio para que los estudiantes de la Facultad de Economía y Negocios de la Universidad Alberto Hurtado puedan publicar y compartir sus trabajos e investigaciones desarrolladas en los cursos de Econometría y Econometría para la Gestión.\nEste repositorio busca fomentar un entorno de aprendizaje colaborativo e interactivo, donde tanto docentes como estudiantes puedan evaluar, comentar y retroalimentar los proyectos presentados. De esta forma, se promueve la aplicación práctica de los contenidos del curso y el fortalecimiento de las habilidades analíticas y comunicacionales de los futuros profesionales.\nEn cada curso encontrarás, separados por año, los proyectos destacados de cada generación, junto con sus respectivas presentaciones e informes descargables."
   },
   {
     "objectID": "proyectos.html#section",
     "href": "proyectos.html#section",
     "title": "Proyectos",
     "section": "",
-    "text": "La sección Proyectos tiene como propósito ofrecer un espacio para que los estudiantes de la Facultad de Economía y Negocios de la Universidad Alberto Hurtado puedan publicar y compartir sus trabajos e investigaciones desarrolladas en los cursos de Econometría y Econometría para la Gestión.\nEste repositorio busca fomentar un entorno de aprendizaje colaborativo e interactivo, donde tanto docentes como estudiantes puedan evaluar, comentar y retroalimentar los proyectos presentados. De esta forma, se promueve la aplicación práctica de los contenidos del curso y el fortalecimiento de las habilidades analíticas y comunicacionales de los futuros profesionales.\nAUN NO DISPONIBLE, EVALUANDO COMPATIBILIDAD CON GOOGLE FORMS U OTRAS APLICACIONES"
+    "text": "La sección Proyectos tiene como propósito ofrecer un espacio para que los estudiantes de la Facultad de Economía y Negocios de la Universidad Alberto Hurtado puedan publicar y compartir sus trabajos e investigaciones desarrolladas en los cursos de Econometría y Econometría para la Gestión.\nEste repositorio busca fomentar un entorno de aprendizaje colaborativo e interactivo, donde tanto docentes como estudiantes puedan evaluar, comentar y retroalimentar los proyectos presentados. De esta forma, se promueve la aplicación práctica de los contenidos del curso y el fortalecimiento de las habilidades analíticas y comunicacionales de los futuros profesionales.\nEn cada curso encontrarás, separados por año, los proyectos destacados de cada generación, junto con sus respectivas presentaciones e informes descargables."
+  },
+  {
+    "objectID": "proyectos.html#cursos",
+    "href": "proyectos.html#cursos",
+    "title": "Proyectos",
+    "section": "Cursos",
+    "text": "Cursos\n\n\nProyectos Econometría Mención Economía\n\nVer Curso\n\n\nProyectos Econometría para la Gestión Mención Administración\n\nVer Curso"
   },
   {
     "objectID": "datos.html",
@@ -445,7 +459,7 @@
     "href": "index.html#descripción-del-sitio-web",
     "title": "",
     "section": "Descripción del Sitio Web",
-    "text": "Descripción del Sitio Web\nEste sitio web es una iniciativa conjunta de los profesores Fernando Crespo y Rocío Valdebenito, docentes de la Facultad de Economía y Negocios de la Universidad Alberto Hurtado (UAH). Está dirigido a los estudiantes de la carrera de Ingeniería Comercial, con mención en Economía y Administración de Empresas, que cursan las asignaturas de Econometría.\nEl objetivo principal de esta página es que los estudiantes se familiaricen con el uso de bases de datos y aprendan a utilizar el software R y Rstudio como herramienta para analizar y responder preguntas de investigación. Como parte fundamental del aprendizaje, los estudiantes desarrollan un proyecto aplicado, el cual es presentado en formato de póster y expuesto frente a la comunidad académica.\nPara acompañar este proceso, el sitio web se organiza en tres secciones principales:\n\nDatos:\n\n\nMaterial de Estudio:\n\n\nProyectos:\nEn conjunto, este sitio busca convertirse en un centro de recursos para la formación en econometría, promoviendo el uso de datos y herramientas de análisis como competencias clave para la futura labor profesional de los estudiantes de Ingeniería Comercial de la UAH."
+    "text": "Descripción del Sitio Web\nEste sitio web es una iniciativa conjunta de los profesores Fernando Crespo, Rocío Valdebenito y Rodrigo Ortiz, docentes de la Facultad de Economía y Negocios de la Universidad Alberto Hurtado (UAH). Está dirigido a los estudiantes de la carrera de Ingeniería Comercial, con mención en Economía y Administración de Empresas, que cursan las asignaturas de Econometría.\nEl objetivo principal de esta página es que los estudiantes se familiaricen con el uso de bases de datos y aprendan a utilizar el software R y Rstudio como herramienta para analizar y responder preguntas de investigación. Como parte fundamental del aprendizaje, los estudiantes desarrollan un proyecto aplicado, el cual es presentado en formato de póster y expuesto frente a la comunidad académica.\nPara acompañar este proceso, el sitio web se organiza en tres secciones principales:\n\nDatos:\n\n\nMaterial de Estudio:\n\n\nProyectos:\nEn conjunto, este sitio busca convertirse en un centro de recursos para la formación en econometría, promoviendo el uso de datos y herramientas de análisis como competencias clave para la futura labor profesional de los estudiantes de Ingeniería Comercial de la UAH."
   },
   {
     "objectID": "index.html#docentes-y-ayudante",
@@ -495,6 +509,41 @@
     "title": "Econometría para la Gestión",
     "section": "",
     "text": "Objetivos:\n\nIntroducir conceptos de programación en R/Quarto,\n\nPracticar estimadores econométricos vistos en el curso,\n\nDesarrollar intuición aplicada a partir de datos reales.\n\nA continuación se presenta un listado completo de los laboratorios, disponibles en tres formatos: HTML y PDF.\n\nCapítulo 1 – Introducción y estadística descriptiva\nHTML PDF\nCapítulo 2 – Correlación y regresión lineal simple\nHTML PDF\nCapítulo 3 – Regresión múltiple\nHTML PDF\nCapítulo 4 – Uso avanzado de la regresión múltiple\nHTML PDF\nCapítulo 5 – Logit y otros análisis\nHTML PDF\nCapítulo 6 – Componentes principales\nHTML PDF\nCapítulo 7 – Análisis factorial (PCA ampliado)\nHTML PDF"
+  },
+  {
+    "objectID": "eco_eco_P.html",
+    "href": "eco_eco_P.html",
+    "title": "Proyectos de Econometría - Mención Economía",
+    "section": "",
+    "text": "Los proyectos presentados a continuación son los destacados por los docentes y ayudantes, organizados por año y semestre del curso, junto con sus respectivos documentos descargables."
+  },
+  {
+    "objectID": "eco_eco_P.html#determinantes-de-la-formalidad-laboral-en-chile-evidencia-desde-la-ene-2024",
+    "href": "eco_eco_P.html#determinantes-de-la-formalidad-laboral-en-chile-evidencia-desde-la-ene-2024",
+    "title": "Proyectos de Econometría - Mención Economía",
+    "section": "- Determinantes de la Formalidad Laboral en Chile: Evidencia desde la ENE 2024",
+    "text": "- Determinantes de la Formalidad Laboral en Chile: Evidencia desde la ENE 2024\nAutores: Jhanus Burgos, Bastian Liberona y Bruno Lefiche\nResumen: El estudio busca responder cómo sexo, educación, contrato, sector laboral y edad influyen en la probabilidad de tener un empleo formal en Chile. Utilizando datos de la ENE 2024 y una regresión múltiple con variables dummy, se analiza la formalidad laboral a nivel individual.\nLos principales resultados indican que tener contrato escrito y pertenecer al sector formal son los factores con mayor impacto positivo en la formalidad. En contraste, jóvenes y adultos mayores presentan menor probabilidad de empleo formal, mientras que la educación superior y postgrado muestran coeficientes negativos debido a la presencia de profesionales independientes. Finalmente, los meses del año no afectan la formalidad laboral.\nDescargar Informe PDF\nDescargar Presentación PDF"
+  },
+  {
+    "objectID": "eco_eco_P.html#determinantes-del-gasto-financiero-en-hogares-chilenos-post-pandemia",
+    "href": "eco_eco_P.html#determinantes-del-gasto-financiero-en-hogares-chilenos-post-pandemia",
+    "title": "Proyectos de Econometría - Mención Economía",
+    "section": "- Determinantes del Gasto Financiero en Hogares Chilenos Post-Pandemia",
+    "text": "- Determinantes del Gasto Financiero en Hogares Chilenos Post-Pandemia\nAutores: Damián Zapata, Lissette Rubio y Vicente Gamboa\nResumen: El estudio busca responder qué factores socioeconómicos explican que los hogares chilenos destinen mayores recursos al gasto financiero per cápita. Utilizando microdatos de la IX Encuesta de Presupuestos Familiares y un modelo de regresión múltiple log–log —con transformaciones per cápita, logaritmos y controles como educación, edad, género y vivienda— se estiman elasticidades y efectos estructurales sobre el gasto financiero.\nLos resultados muestran que el ingreso es un determinante clave pero inelástico (elasticidad ≈ 0.68). El factor más relevante es pagar dividendo hipotecario, que multiplica el gasto financiero del hogar, mientras que la educación sigue una escalera ascendente: mayor capital humano se asocia a mayor gasto y acceso financiero. La edad presenta un patrón de U invertida, con un máximo alrededor de los 41 años. Las zonas geográficas no muestran efectos significativos.\nDescargar Informe PDF\nDescargar Presentación PDF"
+  },
+  {
+    "objectID": "eco_eco_P.html#factores-explicativos-de-la-tenencia-de-vivienda-en-chile-una-aproximación-cuantitativa",
+    "href": "eco_eco_P.html#factores-explicativos-de-la-tenencia-de-vivienda-en-chile-una-aproximación-cuantitativa",
+    "title": "Proyectos de Econometría - Mención Economía",
+    "section": "- Factores Explicativos de la Tenencia de Vivienda en Chile: Una Aproximación Cuantitativa",
+    "text": "- Factores Explicativos de la Tenencia de Vivienda en Chile: Una Aproximación Cuantitativa\nAutores: Jesús Pereira, Abigail Meza y Eddy Rodríguez\nResumen: El estudio busca identificar cómo la formalidad laboral, el ingreso, la educación y la zona de residencia afectan la probabilidad de ser propietario de vivienda. Usando datos CASEN 2022 y un modelo logit aplicado a ~49 mil trabajadores, se evaluaron efectos individuales e interacción ingreso–área.\nLos resultados muestran que tener contrato y mayores ingresos aumentan la probabilidad de propiedad, mientras que educación superior y afiliación AFP se asocian negativamente, principalmente por diferencias de ciclo de vida. La zona urbana y la interacción ingreso×zona no son significativas, indicando que el ingreso opera de forma similar en contextos urbanos y rurales.\nDescargar Informe PDF\nDescargar Presentación PDF"
+  },
+  {
+    "objectID": "eco_eco_P.html#influencia-de-la-edad-y-dificultades-funcionales-en-la-demanda-de-consultas-médicas-en-personas-mayores",
+    "href": "eco_eco_P.html#influencia-de-la-edad-y-dificultades-funcionales-en-la-demanda-de-consultas-médicas-en-personas-mayores",
+    "title": "Proyectos de Econometría - Mención Economía",
+    "section": "- Influencia de la Edad y Dificultades Funcionales en la Demanda de Consultas Médicas en personas mayores",
+    "text": "- Influencia de la Edad y Dificultades Funcionales en la Demanda de Consultas Médicas en personas mayores\nAutores: Paz Córdova Rachell Fuentes Vincent Marmor\nResumen: El estudio analiza cómo la edad y distintas dificultades funcionales influyen en la cantidad de consultas médicas realizadas por adultos mayores, utilizando datos de CASEN 2024 y un modelo lineal OLS aplicado a personas de 60 años o más.\nMetodológicamente, se limpiaron los datos, se construyeron dummies de dificultades funcionales (visual, movilidad, comunicación) y se incluyó un término cuadrático de edad para capturar no linealidades.\nLos resultados muestran que las dificultades funcionales son los principales determinantes del aumento en consultas, especialmente la dificultad de movilidad, seguida por problemas visuales y de comunicación. La dependencia económica también incrementa la demanda médica. La edad tiene un efecto positivo pero decreciente a edades avanzadas. Las mujeres registran ligeramente menos consultas que los hombres.\nDescargar Informe PDF\nDescargar Presentación PDF"
   },
   {
     "objectID": "labs_eco/lab01_introR.html",

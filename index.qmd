@@ -2,7 +2,7 @@
 
 ## Descripción del Sitio Web
 
-Este sitio web es una iniciativa conjunta de los profesores **Fernando Crespo** y **Rocío Valdebenito**, docentes de la **Facultad de Economía y Negocios de la Universidad Alberto Hurtado (UAH)**. Está dirigido a los estudiantes de la carrera de Ingeniería Comercial, con mención en Economía y Administración de Empresas, que cursan las asignaturas de Econometría.
+Este sitio web es una iniciativa conjunta de los profesores **Fernando Crespo, Rocío Valdebenito y Rodrigo Ortiz,** docentes de la **Facultad de Economía y Negocios de la Universidad Alberto Hurtado (UAH)**. Está dirigido a los estudiantes de la carrera de Ingeniería Comercial, con mención en Economía y Administración de Empresas, que cursan las asignaturas de Econometría.
 
 El objetivo principal de esta página es que los estudiantes se familiaricen con el uso de **bases de datos** y aprendan a utilizar el software **R y Rstudio** como herramienta para analizar y responder preguntas de investigación. Como parte fundamental del aprendizaje, los estudiantes desarrollan un **proyecto aplicado**, el cual es presentado en formato de **póster** y expuesto frente a la comunidad académica.
 

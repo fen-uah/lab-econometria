@@ -11,6 +11,8 @@ project:
     - data_secundaria.qmd
     - eco_epg.qmd
     - eco_eco.qmd
+    - eco_eco_P.qmd
+    - eco_epg_P.qmd
     - labs_eco/*.qmd
     - labs_epg/*.qmd
 website:

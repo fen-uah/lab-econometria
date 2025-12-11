@@ -1,0 +1,59 @@
+---
+title: "Proyectos de Econometría - Mención Economía"
+---
+
+Los proyectos presentados a continuación son los destacados por los docentes y ayudantes, organizados por año y semestre del curso, junto con sus respectivos documentos descargables.
+
+# Proyectos 2025
+
+## - **Determinantes de la Formalidad Laboral en Chile: Evidencia desde la ENE 2024**
+
+**Autores:** Jhanus Burgos, Bastian Liberona y Bruno Lefiche
+
+**Resumen**: El estudio busca responder cómo sexo, educación, contrato, sector laboral y edad influyen en la probabilidad de tener un empleo formal en Chile. Utilizando datos de la ENE 2024 y una regresión múltiple con variables dummy, se analiza la formalidad laboral a nivel individual.
+
+Los principales resultados indican que tener contrato escrito y pertenecer al sector formal son los factores con mayor impacto positivo en la formalidad. En contraste, jóvenes y adultos mayores presentan menor probabilidad de empleo formal, mientras que la educación superior y postgrado muestran coeficientes negativos debido a la presencia de profesionales independientes. Finalmente, los meses del año no afectan la formalidad laboral.
+
+[Descargar Informe PDF](pdf_pro_eco/grupo1_informe.pdf){download="true"}
+
+[Descargar Presentación PDF](pdf_pro_eco/grupo1_presentacion.pdf){download="true"}
+
+## - **Determinantes del Gasto Financiero en Hogares Chilenos Post-Pandemia**
+
+**Autores**: Damián Zapata, Lissette Rubio y Vicente Gamboa
+
+**Resumen**: El estudio busca responder qué factores socioeconómicos explican que los hogares chilenos destinen mayores recursos al gasto financiero per cápita. Utilizando microdatos de la IX Encuesta de Presupuestos Familiares y un modelo de regresión múltiple log–log —con transformaciones per cápita, logaritmos y controles como educación, edad, género y vivienda— se estiman elasticidades y efectos estructurales sobre el gasto financiero.
+
+Los resultados muestran que el ingreso es un determinante clave pero inelástico (elasticidad ≈ 0.68). El factor más relevante es pagar dividendo hipotecario, que multiplica el gasto financiero del hogar, mientras que la educación sigue una escalera ascendente: mayor capital humano se asocia a mayor gasto y acceso financiero. La **edad** presenta un patrón de **U invertida**, con un máximo alrededor de los 41 años. Las zonas geográficas no muestran efectos significativos.
+
+[Descargar Informe PDF](pdf_pro_eco/grupo3_informe.pdf){download="true"}
+
+[Descargar Presentación PDF](pdf_pro_eco/grupo3_presentacion.pdf){download="true"}
+
+## - **Factores Explicativos de la Tenencia de Vivienda en Chile: Una Aproximación Cuantitativa**
+
+**Autores**: Jesús Pereira, Abigail Meza y Eddy Rodríguez
+
+**Resumen**: El estudio busca identificar cómo la formalidad laboral, el ingreso, la educación y la zona de residencia afectan la probabilidad de ser propietario de vivienda. Usando datos CASEN 2022 y un modelo logit aplicado a \~49 mil trabajadores, se evaluaron efectos individuales e interacción ingreso–área.
+
+Los resultados muestran que tener contrato y mayores ingresos aumentan la probabilidad de propiedad, mientras que educación superior y afiliación AFP se asocian negativamente, principalmente por diferencias de ciclo de vida. La zona urbana y la interacción ingreso×zona no son significativas, indicando que el ingreso opera de forma similar en contextos urbanos y rurales.
+
+[Descargar Informe PDF](pdf_pro_eco/grupo4_informe.pdf){download="true"}
+
+[Descargar Presentación PDF](pdf_pro_eco/grupo4_presentacion.pdf){download="true"}
+
+## - **Influencia de la Edad y Dificultades Funcionales en la Demanda de Consultas Médicas en personas mayores**
+
+**Autores**: Paz Córdova Rachell Fuentes Vincent Marmor
+
+**Resumen**: El estudio analiza cómo la edad y distintas dificultades funcionales influyen en la cantidad de consultas médicas realizadas por adultos mayores, utilizando datos de CASEN 2024 y un modelo lineal OLS aplicado a personas de 60 años o más.
+
+Metodológicamente, se limpiaron los datos, se construyeron dummies de dificultades funcionales (visual, movilidad, comunicación) y se incluyó un término cuadrático de edad para capturar no linealidades.
+
+Los resultados muestran que las dificultades funcionales son los principales determinantes del aumento en consultas, especialmente la dificultad de movilidad, seguida por problemas visuales y de comunicación. La dependencia económica también incrementa la demanda médica. La edad tiene un efecto positivo pero decreciente a edades avanzadas. Las mujeres registran ligeramente menos consultas que los hombres.
+
+[Descargar Informe PDF](pdf_pro_eco/grupo8_informe.pdf){download="true"}
+
+[Descargar Presentación PDF](pdf_pro_eco/grupo8_presentacion.pdf){download="true"}
+
+# Proyectos 2026

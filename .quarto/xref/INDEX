@@ -113,5 +113,11 @@
   "labs_epg/lab03_epg_nopred.qmd": {
     "lab03_epg_nopred.html": "1342d5dd",
     "lab03_epg_nopred.tex": "d7808fe8"
+  },
+  "eco_eco_P.qmd": {
+    "eco_eco_P.html": "a6b33356"
+  },
+  "eco_epg_P.qmd": {
+    "eco_epg_P.html": "1da6910a"
   }
 }
