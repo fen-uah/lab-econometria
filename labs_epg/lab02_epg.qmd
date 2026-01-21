@@ -5,12 +5,12 @@ lang: es
 format:
   html:
     toc: true
-    number-sections: true
-    smooth-scroll: true
   pdf:
     pdf-engine: xelatex
     toc: true
-    number-sections: true
+    include-in-header:
+      text: |
+        \usepackage[spanish,es-nodecimaldot]{babel}
 editor: 
   markdown: 
     wrap: 72

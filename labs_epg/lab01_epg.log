@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2026.1.21)  21 JAN 2026 19:50
+This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2026.1.21)  21 JAN 2026 20:05
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -565,36 +565,50 @@ LaTeX Encoding Info:    Ignoring declaration for text command \SS (encoding ?) o
 (c:/Users/manue/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/babel/locale/es/babel-spanish.tex)
 Package babel Info: Importing font and identification data for spanish
 (babel)             from babel-es.ini. Reported on input line 4330.
-(c:/Users/manue/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/babel/errbabel.def)
+(c:/Users/manue/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/babel-spanish/spanish.ldf
+Language: spanish.ldf 2021/05/27 v5.0q Spanish support from the babel system
 
-! Package babel Error: Unknown option 'spanish'.
-(babel)                Suggested actions:
-(babel)                * Make sure you haven’t misspelled it
-(babel)                * Check in the babel manual that it's supported
-(babel)                * If supported and it's a language, you may
-(babel)                  need in some distributions a separate
-(babel)                  installation
-(babel)                * If installed, check there isn’t an old
-(babel)                  version of the required files in your system
-(babel)                * If it's an unsupported language, create it with
-(babel)                \babelprovide(see the manual).
+Package babel Warning: No hyphenation patterns were preloaded for
+(babel)                the language 'Spanish' into the format.
+(babel)                Please, configure your TeX system to add them and
+(babel)                rebuild the format. Now I will use the patterns
+(babel)                preloaded for \language=0 instead on input line 51.
 
-See the babel package documentation for explanation.
+Package babel Info: Hyphen rules for 'spanish' set to \l@english
+(babel)             (\language0). Reported on input line 52.
+\es@quottoks=\toks27
+\es@quotdepth=\count329
+Package babel Info: Making " an active character on input line 570.
+Package babel Info: Making . an active character on input line 675.
+Package babel Info: Making < an active character on input line 722.
+Package babel Info: Making > an active character on input line 722.
+))
+LaTeX Encoding Info:    Redeclaring text command \guillemotleft (encoding OT1) on input line 142.
+LaTeX Encoding Info:    Redeclaring text command \guillemotright (encoding OT1) on input line 142.
+
+! LaTeX Error: Option clash for package babel.
+
+See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.4330 \bbl@tempb
-                 
-Valid options are, among others: shorthands=, KeepShorthandsActive,
-activeacute, activegrave, noconfigs, safe=, main=, math=
-headfoot=, strings=, config=, hyphenmap=, or a language name.
+l.159 \KOMAoption
+                 {captions}{tableheading}
+The package babel has already been loaded with options:
+  [bidi=default]
+There has now been an attempt to load it with options
+  [spanish,es-nodecimaldot]
+Adding the global options:
+  bidi=default,spanish,es-nodecimaldot
+to your \documentclass declaration may fix this.
+Try typing  <return>  to proceed.
 
  
 Here is how much of TeX's memory you used:
- 15938 strings out of 470128
- 331581 string characters out of 5474964
+ 16277 strings out of 470128
+ 335339 string characters out of 5474964
  991300 words of memory out of 5000000
- 44440 multiletter control sequences out of 15000+600000
+ 44776 multiletter control sequences out of 15000+600000
  627737 words of font info for 42 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  108i,1n,107p,11231b,341s stack positions out of 10000i,1000n,20000p,200000b,200000s
