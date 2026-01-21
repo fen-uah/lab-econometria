@@ -8,6 +8,8 @@ format:
     number-sections: true
     smooth-scroll: true
     self-contained: true
+resources:
+  - pdf_epg/
 ---
 
 ```{r setup, include=FALSE}
@@ -19,9 +21,10 @@ knitr::opts_chunk$set(
 )
 ```
 
+
 # Material descargable
 
-[Descargar PDF de contenidos teóricos](pdf_epg/Capitulo%20_1_Introduccion_y_Estadistica_Descriptiva.pdf){download="true"}
+[Descargar PDF de contenidos teóricos](pdf_epg/Capitulo_1_Introduccion_y_Estadistica_Descriptiva.pdf){.btn .btn-outline-primary role="button" download="true"}
 
 El PDF **"Capitulo 1 Introduccion_y_Estadistica_Descriptiva"** desarrolla los siguientes temas principales (a modo de índice):
 

@@ -15,7 +15,7 @@ Objetivos:
 -   Practicar **estimadores econométricos** vistos en el curso,\
 -   Desarrollar **intuición aplicada** a partir de datos reales.
 
-A continuación se presenta un listado completo de los laboratorios, disponibles en tres formatos: **HTML** y **PDF**.
+A continuación se presenta un listado completo de los laboratorios, disponibles en formato **HTML** 
 
 1. **Capítulo 1 – Introducción y estadística descriptiva**  
    [HTML](labs_epg/lab01_epg.html){target="_blank"} 

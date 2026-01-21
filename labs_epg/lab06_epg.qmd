@@ -8,6 +8,8 @@ format:
     number-sections: true
     smooth-scroll: true
     self-contained: true
+resources:
+  - pdf_epg/
 ---
 
 ```{r setup, include=FALSE}
@@ -22,7 +24,7 @@ knitr::opts_chunk$set(
 
 # 1. Material descargable
 
-[Descargar PDF de contenidos teóricos](pdf_epg/Capitulo_6_Componentes_Principales.pdf){download="true"}
+[Descargar PDF de contenidos teóricos](pdf_epg/Capitulo_6_Componentes_Principales.pdf){.btn .btn-outline-primary role="button" download="true"}
 
 e acuerdo al PDF teórico, el **Análisis de Componentes Principales (PCA)** es un método estadístico que:
 

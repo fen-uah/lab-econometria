@@ -8,6 +8,8 @@ format:
     number-sections: true
     smooth-scroll: true
     self-contained: true
+resources:
+  - pdf_epg/
 ---
 
 ```{r setup, include=FALSE}
@@ -22,7 +24,7 @@ knitr::opts_chunk$set(
 
 # 1. Material descargable
 
-[Descargar PDF de contenidos teóricos](pdf_epg/Capitulo_3_Regresion_Multiple.pdf){download="true"}
+[Descargar PDF de contenidos teóricos](pdf_epg/Capitulo_3_Regresion_Multiple.pdf){.btn .btn-outline-primary role="button" download="true"}
 
 
 El documento incluye:

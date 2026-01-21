@@ -11,6 +11,8 @@ format:
 editor: 
   markdown: 
     wrap: 72
+resources:
+  - pdf_epg/
 ---
 
 ```{r setup, include=FALSE}
@@ -22,10 +24,9 @@ knitr::opts_chunk$set(
 )
 ```
 
-# 1. Material descargable
+# Material descargable
 
-[Descargar PDF de contenidos
-teóricos](pdf_epg/Capitulo_2_Correlacion_regresion_simple.pdf){download="true"}
+[Descargar PDF de contenidos teóricos](pdf_epg/Capitulo_2_Correlacion_regresion_simple.pdf){.btn .btn-outline-primary role="button" download="true"}
 
 El PDF **"Capitulo_2_Correlacion_regresion_simple"** desarrolla los
 siguientes temas principales (a modo de índice):

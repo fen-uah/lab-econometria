@@ -4145,8 +4145,8 @@ window.Quarto = {
 
 <section id="material-descargable" class="level1" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> 1. Material descargable</h1>
-<p><a href="pdf_epg/Capitulo_5 _Logit_y_otros _analisis.pdf" download="true">Descargar PDF de contenidos teóricos</a></p>
-<p><a href="pdf_epg/Capitulo_5.1_logit_y_probit.pdf" download="true">Descargar PDF de contenidos teóricos</a></p>
+<p><a href="pdf_epg/Capitulo_5 _Logit_y_otros _analisis.pdf" class="btn btn-outline-primary" role="button" download="true">Descargar PDF de contenidos teóricos</a></p>
+<p><a href="pdf_epg/Capitulo_5.1_logit_y_probit.pdf" class="btn btn-outline-primary" role="button" download="true">Descargar PDF de contenidos teóricos</a></p>
 <p>El documento <strong>“Capitulo 5 Logit y otros analisis”</strong> desarrolla, entre otros, los siguientes puntos:</p>
 <ul>
 <li><strong>Complementos a la regresión múltiple lineal</strong>.<br>
@@ -4633,16 +4633,16 @@ Nota
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">CVbinary</span>(frogs.glm0)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
-Fold:  10 7 3 6 8 5 9 2 4 1
+Fold:  8 10 6 9 2 1 5 7 3 4
 Internal estimate of accuracy = 0.778
-Cross-validation estimate of accuracy = 0.764</code></pre>
+Cross-validation estimate of accuracy = 0.783</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">CVbinary</span>(frogs.glm)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
-Fold:  10 7 6 4 8 3 1 5 2 9
+Fold:  4 1 10 3 8 9 6 7 2 5
 Internal estimate of accuracy = 0.778
-Cross-validation estimate of accuracy = 0.783</code></pre>
+Cross-validation estimate of accuracy = 0.774</code></pre>
 </div>
 </div>
 <p>Estas funciones entregan estimaciones de error de clasificación usando validación cruzada, lo que ayuda a medir la capacidad predictiva del modelo.</p>

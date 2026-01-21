@@ -8,6 +8,8 @@ format:
     number-sections: true
     smooth-scroll: true
     self-contained: true
+resources:
+  - pdf_epg/
 ---
 
 ```{r setup, include=FALSE}
@@ -22,9 +24,9 @@ knitr::opts_chunk$set(
 
 # 1. Material descargable
 
-[Descargar PDF de contenidos teóricos](pdf_epg/Capitulo_7_Analisis_Factorial.pdf){download="true"}
+[Descargar PDF de contenidos teóricos](pdf_epg/Capitulo_7_Analisis_Factorial.pdf){.btn .btn-outline-primary role="button" download="true"}
 
-[Descargar PDF de contenidos teóricos](pdf_epg/Capitulo_7.1_Analisis_Factorial.pdf){download="true"}
+[Descargar PDF de contenidos teóricos](pdf_epg/Capitulo_7.1_Analisis_Factorial.pdf){.btn .btn-outline-primary role="button" download="true"}
 
 # Recordatorio teórico: PCA y análisis factorial
 

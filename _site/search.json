@@ -207,7 +207,7 @@
     "href": "labs_epg/lab05_epg.html#validación-cruzada-del-modelo-logit",
     "title": "Capitulo_5 _Logit_y_otros _analisis",
     "section": "3.9 Validación cruzada del modelo logit",
-    "text": "3.9 Validación cruzada del modelo logit\n\nCVbinary(frogs.glm0)\n\n\nFold:  10 7 3 6 8 5 9 2 4 1\nInternal estimate of accuracy = 0.778\nCross-validation estimate of accuracy = 0.764\n\nCVbinary(frogs.glm)\n\n\nFold:  10 7 6 4 8 3 1 5 2 9\nInternal estimate of accuracy = 0.778\nCross-validation estimate of accuracy = 0.783\n\n\nEstas funciones entregan estimaciones de error de clasificación usando validación cruzada, lo que ayuda a medir la capacidad predictiva del modelo."
+    "text": "3.9 Validación cruzada del modelo logit\n\nCVbinary(frogs.glm0)\n\n\nFold:  8 10 6 9 2 1 5 7 3 4\nInternal estimate of accuracy = 0.778\nCross-validation estimate of accuracy = 0.783\n\nCVbinary(frogs.glm)\n\n\nFold:  4 1 10 3 8 9 6 7 2 5\nInternal estimate of accuracy = 0.778\nCross-validation estimate of accuracy = 0.774\n\n\nEstas funciones entregan estimaciones de error de clasificación usando validación cruzada, lo que ayuda a medir la capacidad predictiva del modelo."
   },
   {
     "objectID": "labs_epg/lab05_epg.html#odds-ratios-or-e-intervalos-de-confianza",
@@ -669,14 +669,14 @@
     "href": "eco_epg.html",
     "title": "Econometría para la Gestión",
     "section": "",
-    "text": "Objetivos:\n\nIntroducir conceptos de programación en R/Quarto,\n\nPracticar estimadores econométricos vistos en el curso,\n\nDesarrollar intuición aplicada a partir de datos reales.\n\nA continuación se presenta un listado completo de los laboratorios, disponibles en tres formatos: HTML y PDF.\n\nCapítulo 1 – Introducción y estadística descriptiva\nHTML\nCapítulo 2 – Correlación y regresión lineal simple\nHTML\nCapítulo 3 – Regresión múltiple\nHTML\nCapítulo 4 – Uso avanzado de la regresión múltiple\nHTML\nCapítulo 5 – Logit y otros análisis\nHTML\nCapítulo 6 – Componentes principales\nHTML\nCapítulo 7 – Análisis factorial (PCA ampliado)\nHTML"
+    "text": "Objetivos:\n\nIntroducir conceptos de programación en R/Quarto,\n\nPracticar estimadores econométricos vistos en el curso,\n\nDesarrollar intuición aplicada a partir de datos reales.\n\nA continuación se presenta un listado completo de los laboratorios, disponibles en formato HTML\n\nCapítulo 1 – Introducción y estadística descriptiva\nHTML\nCapítulo 2 – Correlación y regresión lineal simple\nHTML\nCapítulo 3 – Regresión múltiple\nHTML\nCapítulo 4 – Uso avanzado de la regresión múltiple\nHTML\nCapítulo 5 – Logit y otros análisis\nHTML\nCapítulo 6 – Componentes principales\nHTML\nCapítulo 7 – Análisis factorial (PCA ampliado)\nHTML"
   },
   {
     "objectID": "eco_epg.html#laboratorios",
     "href": "eco_epg.html#laboratorios",
     "title": "Econometría para la Gestión",
     "section": "",
-    "text": "Objetivos:\n\nIntroducir conceptos de programación en R/Quarto,\n\nPracticar estimadores econométricos vistos en el curso,\n\nDesarrollar intuición aplicada a partir de datos reales.\n\nA continuación se presenta un listado completo de los laboratorios, disponibles en tres formatos: HTML y PDF.\n\nCapítulo 1 – Introducción y estadística descriptiva\nHTML\nCapítulo 2 – Correlación y regresión lineal simple\nHTML\nCapítulo 3 – Regresión múltiple\nHTML\nCapítulo 4 – Uso avanzado de la regresión múltiple\nHTML\nCapítulo 5 – Logit y otros análisis\nHTML\nCapítulo 6 – Componentes principales\nHTML\nCapítulo 7 – Análisis factorial (PCA ampliado)\nHTML"
+    "text": "Objetivos:\n\nIntroducir conceptos de programación en R/Quarto,\n\nPracticar estimadores econométricos vistos en el curso,\n\nDesarrollar intuición aplicada a partir de datos reales.\n\nA continuación se presenta un listado completo de los laboratorios, disponibles en formato HTML\n\nCapítulo 1 – Introducción y estadística descriptiva\nHTML\nCapítulo 2 – Correlación y regresión lineal simple\nHTML\nCapítulo 3 – Regresión múltiple\nHTML\nCapítulo 4 – Uso avanzado de la regresión múltiple\nHTML\nCapítulo 5 – Logit y otros análisis\nHTML\nCapítulo 6 – Componentes principales\nHTML\nCapítulo 7 – Análisis factorial (PCA ampliado)\nHTML"
   },
   {
     "objectID": "eco_eco_P.html",
