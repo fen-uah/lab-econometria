@@ -188,10 +188,7 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#para-empezar" id="toc-para-empezar" class="nav-link active" data-scroll-target="#para-empezar">Para empezar</a>
-  <ul class="collapse">
-  <li><a href="#cargar-los-datos" id="toc-cargar-los-datos" class="nav-link" data-scroll-target="#cargar-los-datos">Cargar los datos</a></li>
-  </ul></li>
+  <li><a href="#cargar-los-datos" id="toc-cargar-los-datos" class="nav-link active" data-scroll-target="#cargar-los-datos">Cargar los datos</a></li>
   <li><a href="#propiedades-de-las-variables-omitidas-omitted-variable-bias" id="toc-propiedades-de-las-variables-omitidas-omitted-variable-bias" class="nav-link" data-scroll-target="#propiedades-de-las-variables-omitidas-omitted-variable-bias">Propiedades de las variables omitidas (Omitted Variable Bias)</a>
   <ul class="collapse">
   <li><a href="#regresión-de-iq-sobre-educ-para-obtener-widetildedelta_1" id="toc-regresión-de-iq-sobre-educ-para-obtener-widetildedelta_1" class="nav-link" data-scroll-target="#regresión-de-iq-sobre-educ-para-obtener-widetildedelta_1">1) Regresión de <span class="math inline">\(IQ\)</span> sobre <span class="math inline">\(educ\)</span> (para obtener <span class="math inline">\(\widetilde{\delta}_1\)</span>)</a></li>
@@ -231,10 +228,8 @@ window.Quarto = {
 </header>
 
 
-<p>El propósito de este laboratorio es <strong>comprender mejor el sesgo por variable omitida</strong> y la <strong>multicolinealidad</strong>. El laboratorio debe completarse en tu grupo. Para obtener crédito, sube tu script <strong>.R</strong> al lugar correspondiente en Canvas.</p>
-<section id="para-empezar" class="level2">
-<h2 class="anchored" data-anchor-id="para-empezar">Para empezar</h2>
-<p>Abre un nuevo script de R (llámalo <code>ICL5_XYZ.R</code>, donde <code>XYZ</code> son tus iniciales) y agrega el “preámbulo” habitual al inicio:</p>
+<p>El propósito de este laboratorio es <strong>comprender mejor el sesgo por variable omitida</strong> y la <strong>multicolinealidad</strong>. ## Para empezar</p>
+<p>Abre un nuevo script de R y carga los paquetes</p>
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Instalar paquetes solo si faltan (estilo ECO/EPG)</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>pkgs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"tidyverse"</span>, <span class="st">"broom"</span>, <span class="st">"wooldridge"</span>, <span class="st">"car"</span>)</span>
@@ -282,7 +277,6 @@ $ feduc   &lt;int&gt; 8, 14, 14, 12, 11, NA, 8, NA, 5, 11, 14, NA, 12, 10, 12, 8
 $ lwage   &lt;dbl&gt; 6.645091, 6.694562, 6.715384, 6.476973, 6.331502, 7.244227, 6.…</code></pre>
 </div>
 </div>
-</section>
 </section>
 <section id="propiedades-de-las-variables-omitidas-omitted-variable-bias" class="level2">
 <h2 class="anchored" data-anchor-id="propiedades-de-las-variables-omitidas-omitted-variable-bias">Propiedades de las variables omitidas (Omitted Variable Bias)</h2>
