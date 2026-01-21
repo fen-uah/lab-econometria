@@ -1,5 +1,5 @@
 ---
-title: "lab08_test_conjunto"
+title: "Laboratorio 8 – Pruebas conjuntas de hipótesis"
 format:
   html:
     toc: true
@@ -8,5 +8,353 @@ format:
   pdf:
     toc: true
     number-sections: false
+    keep-tex: false
 ---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo      = TRUE,
+  message   = FALSE,
+  warning   = FALSE,
+  results   = "show",
+  fig.keep  = "all",
+  fig.align = "center"
+)
+
+# Función para crear tablas profesionales de regresión
+tabla_regresion <- function(modelo, titulo = "") {
+  coefs <- summary(modelo)$coefficients
+  stats <- data.frame(
+    Estadístico = c("R²", "R² ajustado", "Error estándar residual", "Estadístico F", "N"),
+    Valor = c(
+      sprintf("%.4f", summary(modelo)$r.squared),
+      sprintf("%.4f", summary(modelo)$adj.r.squared),
+      sprintf("%.4f", summary(modelo)$sigma),
+      sprintf("%.2f", summary(modelo)$fstatistic[1]),
+      as.character(length(modelo$residuals))
+    )
+  )
+  
+  # Tabla de coeficientes
+  cat("\n**", titulo, "**\n\n")
+  cat("*Coeficientes estimados:*\n\n")
+  knitr::kable(coefs, digits = 6, 
+               col.names = c("Estimación", "Error estándar", "Estadístico t", "Valor p"),
+               format = "pipe") %>%
+    kable_styling(full_width = FALSE, position = "center", 
+                  latex_options = c("hold_position", "striped")) %>%
+    print()
+  
+  cat("\n*Estadísticas del modelo:*\n\n")
+  knitr::kable(stats, col.names = c("Estadístico", "Valor"), 
+               format = "pipe", align = "lr") %>%
+    kable_styling(full_width = FALSE, position = "center",
+                  latex_options = c("hold_position", "striped")) %>%
+    print()
+}
+```
+
+El propósito de este laboratorio es **practicar la realización de pruebas conjuntas de hipótesis** sobre parámetros de regresión en R. Lo haremos usando pruebas t y pruebas F.
+
+## Para empezar
+
+Abre un nuevo script de R y carga los paqeutes
+
+```{r message=FALSE, warning=FALSE, paged.print=FALSE}
+
+# Instalar paquetes solo si faltan
+pkgs <- c("tidyverse", "broom", "wooldridge", "car", "magrittr", "kableExtra")
+to_install <- pkgs[!pkgs %in% rownames(installed.packages())]
+if (length(to_install) > 0) {
+  install.packages(to_install, repos = "http://cran.us.r-project.org")
+}
+
+library(tidyverse)
+library(broom)
+library(wooldridge)
+library(car)
+library(magrittr)
+library(kableExtra)
+```
+
+### Cargar los datos
+
+Usaremos un conjunto de datos sobre ingresos y habilidad, llamado `htv`. El conjunto de datos contiene una muestra de 1,230 trabajadores.
+
+```{r}
+df <- as_tibble(htv)
+```
+
+Revisa qué contiene el conjunto de datos escribiendo:
+
+```{r}
+glimpse(df)
+```
+
+Las principales variables que nos interesan son: salarios, educación, habilidad, educación de los padres y región de residencia (`ne`, `nc`, `west` y `south`).
+
+### Crear variable factorial de región
+
+Comencemos creando una variable factorial a partir de las cuatro variables dummy regionales. Tomando código del lab 6, tenemos:
+
+```{r}
+df %<>% mutate(region = case_when(ne==1 ~ "Northeast",
+                                  nc==1 ~ "NorthCentral",
+                                  west==1 ~ "West",
+                                  south==1 ~ "South")) %>%
+        mutate(region = factor(region))
+
+# Verificar que funcionó
+table(df$region)
+```
+
+## Regresión y pruebas de hipótesis
+
+Estima el siguiente modelo de regresión:
+
+$$
+educ = \beta_0 + \beta_1 motheduc + \beta_2 fatheduc + \beta_3 abil + \beta_4 abil^2 + \beta_5 region + u
+$$
+
+Nota que $abil$ está en unidades de desviación estándar. Necesitarás usar una función `mutate()` para crear $abil^2$. Llámala `abilsq`. $region$ representa la variable factorial que creaste anteriormente.[^1]
+
+[^1]: Aquí la notación de $\beta_5 region$ no es del todo correcta. Técnicamente debería escribirse $\beta_5 region.NE + \beta_6 region.S + \beta_7 region.W$, donde cada una de las variables $region.X$ es una dummy. La forma en que está escrita arriba, $\beta_5 region$ implica que $\beta_5$ es un vector, no un escalar.
+
+```{r}
+df %<>% mutate(abilsq = abil^2)
+```
+
+```{r}
+est <- lm(educ ~ motheduc + fatheduc + abil + abilsq + region, data = df)
+```
+
+```{r results='asis', echo=FALSE}
+tabla_regresion(est, "Modelo completo: educ ~ motheduc + fatheduc + abil + abil² + region")
+```
+
+### 1. Prueba t: efecto lineal de habilidad
+
+**Pregunta:** Prueba la hipótesis de que $abil$ tiene un efecto lineal sobre $educ$.
+
+Esto significa probar:
+
+$$
+H_0: \beta_4 = 0; \quad H_a: \beta_4 \neq 0
+$$
+
+Si $\beta_4 = 0$, entonces el efecto de habilidad es puramente lineal (sin componente cuadrático).
+
+```{r}
+# Extraer información de abilsq
+info_abilsq <- tidy(est) %>% filter(term == "abilsq")
+t_stat <- info_abilsq$statistic
+p_value <- info_abilsq$p.value
+beta_abilsq <- info_abilsq$estimate
+
+cat("Prueba de efecto lineal de habilidad:\n")
+cat("=====================================\n")
+cat("H₀: β₄ = 0 (efecto puramente lineal)\n")
+cat("Hₐ: β₄ ≠ 0 (efecto cuadrático presente)\n\n")
+cat("β̂₄ (abilsq) =", sprintf("%.6f", beta_abilsq), "\n")
+cat("Error estándar =", sprintf("%.6f", info_abilsq$std.error), "\n")
+cat("Estadístico t =", sprintf("%.4f", t_stat), "\n")
+cat("Valor p =", sprintf("%.6f", p_value), "\n\n")
+
+niveles <- c(0.01, 0.05, 0.10)
+for (nivel in niveles) {
+  significativo <- p_value < nivel
+  cat("Al nivel α =", nivel, ":", 
+      ifelse(significativo, "✓ RECHAZAMOS H₀", "✗ NO RECHAZAMOS H₀"), "\n")
+}
+
+cat("\nConclusión: ")
+if (p_value < 0.05) {
+  cat("Hay evidencia significativa de un efecto cuadrático de la habilidad.\n")
+  cat("La relación entre habilidad y educación NO es lineal.\n")
+} else {
+  cat("No hay evidencia suficiente de un efecto cuadrático.\n")
+  cat("La relación entre habilidad y educación puede considerarse lineal.\n")
+}
+```
+
+### 2. Prueba F: igualdad de efectos parentales
+
+**Pregunta:** Ahora prueba que $motheduc$ y $fatheduc$ tienen efectos iguales sobre $educ$. En otras palabras, prueba:
+
+$$
+H_0: \beta_1 = \beta_2; \quad H_a: \beta_1 \neq \beta_2
+$$
+
+Para esto, necesitarás obtener $se(\beta_1 - \beta_2)$. Afortunadamente, R lo hará por ti con la función `linearHypothesis()` del paquete `car`:
+
+```{r}
+test_padres <- linearHypothesis(est, "motheduc = fatheduc")
+```
+
+```{r results='asis', echo=FALSE}
+cat("\n**Prueba F: Igualdad de efectos de educación parental**\n\n")
+cat("$H_0: \\beta_1 = \\beta_2$ (madre y padre tienen el mismo efecto)\n\n")
+cat("$H_a: \\beta_1 \\neq \\beta_2$ (efectos diferentes)\n\n")
+
+knitr::kable(test_padres, digits = 6, format = "pipe",
+             caption = "Resultado de la prueba F") %>%
+  kable_styling(full_width = FALSE, position = "center",
+                latex_options = c("hold_position", "striped"))
+```
+
+```{r}
+# Extraer información de la prueba
+F_stat_padres <- test_padres$F[2]
+p_value_padres <- test_padres$`Pr(>F)`[2]
+
+cat("\nResultados de la prueba:\n")
+cat("========================\n")
+cat("Estadístico F =", sprintf("%.4f", F_stat_padres), "\n")
+cat("Valor p =", sprintf("%.6f", p_value_padres), "\n\n")
+
+if (p_value_padres < 0.05) {
+  cat("Decisión: RECHAZAMOS H₀ al 5%\n")
+  cat("Conclusión: La educación de la madre y del padre tienen\n")
+  cat("            efectos DIFERENTES sobre la educación del hijo.\n")
+} else {
+  cat("Decisión: NO RECHAZAMOS H₀ al 5%\n")
+  cat("Conclusión: No hay evidencia suficiente para decir que los\n")
+  cat("            efectos de la educación parental sean diferentes.\n")
+}
+
+# Mostrar los coeficientes individuales para comparación
+beta_madre <- coef(est)["motheduc"]
+beta_padre <- coef(est)["fatheduc"]
+cat("\nCoeficientes individuales:\n")
+cat("β̂₁ (motheduc) =", sprintf("%.6f", beta_madre), "\n")
+cat("β̂₂ (fatheduc) =", sprintf("%.6f", beta_padre), "\n")
+cat("Diferencia =", sprintf("%.6f", beta_madre - beta_padre), "\n")
+```
+
+**Nota:** El valor p resultante es de una prueba F, pero se obtendría un resultado idéntico usando una prueba t, ya que esta es una hipótesis simple (ver Wooldridge, pp. 125-126).
+
+### 3. Prueba F: significancia conjunta de las dummies regionales
+
+Los valores p de la regresión anterior podrían indicar que las tres dummies regionales no contribuyen a la educación.
+
+**Pregunta:** Prueba la hipótesis de que no contribuyen; es decir, prueba:
+
+$$
+\begin{aligned}
+H_0: & \text{ todas las dummies regionales} = 0 \\
+H_a: & \text{ cualquier dummy regional} \neq 0
+\end{aligned}
+$$
+
+El código para hacer esto nuevamente proviene de la función `linearHypothesis()`. La sintaxis es encerrar cada hipótesis componente entre comillas y luego rodearlas con `c()`, que es cómo R crea vectores.
+
+```{r}
+test_region1 <- linearHypothesis(est, c("regionNortheast=0", "regionSouth=0", "regionWest=0"))
+```
+
+O, más simplemente:
+
+```{r}
+test_region2 <- linearHypothesis(est, matchCoefs(est, "region"))
+```
+
+```{r results='asis', echo=FALSE}
+cat("\n**Prueba F: Significancia conjunta de variables regionales**\n\n")
+cat("$H_0$: Todas las dummies regionales = 0 (región no importa)\n\n")
+cat("$H_a$: Al menos una dummy regional ≠ 0 (región sí importa)\n\n")
+
+knitr::kable(test_region2, digits = 6, format = "pipe",
+             caption = "Resultado de la prueba F conjunta") %>%
+  kable_styling(full_width = FALSE, position = "center",
+                latex_options = c("hold_position", "striped"))
+```
+
+```{r}
+# Extraer información de la prueba
+F_stat_region <- test_region2$F[2]
+p_value_region <- test_region2$`Pr(>F)`[2]
+
+cat("\nResultados de la prueba:\n")
+cat("========================\n")
+cat("Estadístico F =", sprintf("%.4f", F_stat_region), "\n")
+cat("Grados de libertad = (3,", test_region2$Df[2], ")\n")
+cat("Valor p =", sprintf("%.6f", p_value_region), "\n\n")
+
+if (p_value_region < 0.05) {
+  cat("Decisión: RECHAZAMOS H₀ al 5%\n")
+  cat("Conclusión: La región de residencia SÍ tiene un efecto\n")
+  cat("            significativo sobre la educación.\n")
+} else {
+  cat("Decisión: NO RECHAZAMOS H₀ al 5%\n")
+  cat("Conclusión: La región de residencia NO tiene un efecto\n")
+  cat("            significativo sobre la educación.\n")
+  cat("            Podríamos considerar eliminar estas variables del modelo.\n")
+}
+```
+
+#### Método alternativo: Prueba F "a mano"
+
+Alternativamente, puedes realizar la prueba F de la siguiente manera (no es necesario poner esto en tu script de R; solo te muestro cómo hacerlo "a mano"):
+
+```{r}
+# Modelo restringido (sin dummies regionales)
+est.restrict <- lm(educ ~ motheduc + fatheduc + abil + abilsq, data = df)
+
+# Calcular estadístico F manualmente
+Fstat.numerator   <- (deviance(est.restrict) - deviance(est)) / 3
+Fstat.denominator <- deviance(est) / (nobs(est) - length(coef(est)))
+Fstat <- Fstat.numerator / Fstat.denominator
+p.value <- 1 - pf(Fstat, 3, nobs(est) - length(coef(est)))
+
+cat("\nPrueba F calculada manualmente:\n")
+cat("================================\n")
+cat("RSS (restringido) =", sprintf("%.4f", deviance(est.restrict)), "\n")
+cat("RSS (no restringido) =", sprintf("%.4f", deviance(est)), "\n")
+cat("Estadístico F =", sprintf("%.4f", Fstat), "\n")
+cat("Valor p =", sprintf("%.6f", p.value), "\n")
+cat("\n¿Coincide con linearHypothesis()? ", 
+    ifelse(abs(Fstat - F_stat_region) < 0.01, "✓ SÍ", "✗ NO"), "\n")
+```
+
+Esto da exactamente la misma respuesta que el código de `linearHypothesis()`.
+
+---
+
+## Resumen de las pruebas de hipótesis
+
+```{r results='asis', echo=FALSE}
+resumen_pruebas <- data.frame(
+  Prueba = c(
+    "1. Efecto lineal de habilidad",
+    "2. Igualdad efectos parentales",
+    "3. Significancia conjunta región"
+  ),
+  Hipótesis = c(
+    "H₀: β₄ = 0",
+    "H₀: β₁ = β₂",
+    "H₀: todas dummies región = 0"
+  ),
+  Tipo = c("Prueba t", "Prueba F", "Prueba F"),
+  Estadístico = c(
+    sprintf("t = %.4f", t_stat),
+    sprintf("F = %.4f", F_stat_padres),
+    sprintf("F = %.4f", F_stat_region)
+  ),
+  `Valor p` = c(
+    sprintf("%.6f", p_value),
+    sprintf("%.6f", p_value_padres),
+    sprintf("%.6f", p_value_region)
+  ),
+  `Decisión (α=0.05)` = c(
+    ifelse(p_value < 0.05, "Rechazar H₀", "No rechazar H₀"),
+    ifelse(p_value_padres < 0.05, "Rechazar H₀", "No rechazar H₀"),
+    ifelse(p_value_region < 0.05, "Rechazar H₀", "No rechazar H₀")
+  )
+)
+
+cat("\n**Tabla resumen de todas las pruebas:**\n\n")
+knitr::kable(resumen_pruebas, format = "pipe", align = "llllll",
+             col.names = c("Prueba", "Hipótesis nula", "Tipo", "Estadístico", "Valor p", "Decisión (α=0.05)")) %>%
+  kable_styling(full_width = FALSE, position = "center",
+                latex_options = c("hold_position", "striped"))
+```

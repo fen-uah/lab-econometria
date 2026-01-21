@@ -48,7 +48,8 @@
   },
   "labs_eco/lab02_regresion_simple.qmd": {
     "lab02_regresion_simple.html": "fa824399",
-    "lab02_regresion_simple.tex": "2d56d84a"
+    "lab02_regresion_simple.tex": "2d56d84a",
+    "lab02_regresion_simple.docx": "fa6f1c5d"
   },
   "labs_eco/lab03_regresion_bivariada.qmd": {
     "lab03_regresion_bivariada.html": "240a882a",
@@ -119,5 +120,9 @@
   },
   "eco_epg_P.qmd": {
     "eco_epg_P.html": "1da6910a"
+  },
+  "labs_eco/lab07_test_individua.qmd": {
+    "lab07_test_individua.html": "db72a237",
+    "lab07_test_individua.tex": "eb562f6d"
   }
 }

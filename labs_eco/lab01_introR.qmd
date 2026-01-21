@@ -14,11 +14,11 @@ format:
 knitr::opts_chunk$set(echo = TRUE, results = 'hide', fig.keep = 'none')
 ```
 
-El objetivo de este laboratorio presencial es familiarizarse con R y RStudio. El laboratorio se puede realizar en grupo, pero cada estudiante debe entregar su propio trabajo. Para obtener créditos, suba su script .R al lugar correspondiente en Canvas.
+El objetivo de este laboratorio es familiarizarse con R y RStudio.
 
 ## Primeros pasos
 
-1.  Abre RStudio en tu ordenador portátil
+1.  Abre RStudio en tu ordenador.
 2.  Haz clic en Archivo \> Nuevo archivo \> Script R.
 
 Verás una sección en blanco en la parte superior izquierda de la ventana de RStudio. Aquí es donde escribirás tu primer script R.

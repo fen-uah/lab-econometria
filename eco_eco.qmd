@@ -49,6 +49,3 @@ A continuación se presenta un listado completo de los laboratorios, disponibles
 
 [HTML](labs_eco/lab08_test_conjunto.html){target="_blank"} <a href="labs_eco/lab08_test_conjunto.pdf" download>PDF</a> 
 
-9.  **Heterocedasticidad e inferencia robusta**
-
-[HTML](labs_eco/lab09_heterocedasticidad.html){target="_blank"} <a href="labs_eco/lab09_heterocedasticidad.pdf" download>PDF</a>

@@ -1,0 +1,355 @@
+---
+title: "Laboratorio 7 – Pruebas de hipótesis individuales sobre parámetros"
+format:
+  html:
+    toc: true
+    number-sections: false
+    smooth-scroll: true
+  pdf:
+    toc: true
+    number-sections: false
+    keep-tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo      = TRUE,
+  message   = FALSE,
+  warning   = FALSE,
+  results   = "show",
+  fig.keep  = "all",
+  fig.align = "center"
+)
+
+# Función para crear tablas profesionales de regresión
+tabla_regresion <- function(modelo, titulo = "") {
+  coefs <- summary(modelo)$coefficients
+  stats <- data.frame(
+    Estadístico = c("R²", "R² ajustado", "Error estándar residual", "Estadístico F", "N"),
+    Valor = c(
+      sprintf("%.4f", summary(modelo)$r.squared),
+      sprintf("%.4f", summary(modelo)$adj.r.squared),
+      sprintf("%.4f", summary(modelo)$sigma),
+      sprintf("%.2f", summary(modelo)$fstatistic[1]),
+      as.character(length(modelo$residuals))
+    )
+  )
+  
+  # Tabla de coeficientes
+  cat("\n**", titulo, "**\n\n")
+  cat("*Coeficientes estimados:*\n\n")
+  knitr::kable(coefs, digits = 6, 
+               col.names = c("Estimación", "Error estándar", "Estadístico t", "Valor p"),
+               format = "pipe") %>%
+    kable_styling(full_width = FALSE, position = "center", 
+                  latex_options = c("hold_position", "striped")) %>%
+    print()
+  
+  cat("\n*Estadísticas del modelo:*\n\n")
+  knitr::kable(stats, col.names = c("Estadístico", "Valor"), 
+               format = "pipe", align = "lr") %>%
+    kable_styling(full_width = FALSE, position = "center",
+                  latex_options = c("hold_position", "striped")) %>%
+    print()
+}
+```
+
+El propósito de este laboratorio es **practicar la realización de pruebas de hipótesis** sobre parámetros de regresión en R. 
+
+## Para empezar
+
+Abre un nuevo script de R y carga los paquetes
+
+```{r message=FALSE, warning=FALSE, paged.print=FALSE}
+
+# Instalar paquetes solo si faltan
+pkgs <- c("tidyverse", "broom", "wooldridge", "magrittr", "kableExtra")
+to_install <- pkgs[!pkgs %in% rownames(installed.packages())]
+if (length(to_install) > 0) {
+  install.packages(to_install, repos = "http://cran.us.r-project.org")
+}
+
+library(tidyverse)
+library(broom)
+library(wooldridge)
+library(magrittr)
+library(kableExtra)
+```
+
+### Cargar los datos
+
+Usaremos un nuevo conjunto de datos sobre gastos en Investigación y Desarrollo (I+D), llamado `rdchem`. El conjunto de datos contiene información sobre 32 compañías de la industria química.
+
+```{r}
+df <- as_tibble(rdchem)
+```
+
+Revisa qué contiene el conjunto de datos escribiendo:
+
+```{r}
+glimpse(df)
+```
+
+Estadísticas descriptivas:
+
+```{r results='asis', echo=FALSE}
+# Crear tabla de estadísticas descriptivas
+desc_stats <- df %>%
+  select(rdintens, sales, lsales, profmarg, rd) %>%
+  summarise(across(everything(), 
+    list(
+      Media = ~mean(.x, na.rm = TRUE),
+      `Desv. Est.` = ~sd(.x, na.rm = TRUE),
+      Mínimo = ~min(.x, na.rm = TRUE),
+      Máximo = ~max(.x, na.rm = TRUE)
+    ),
+    .names = "{.col}_{.fn}"
+  )) %>%
+  pivot_longer(everything(), names_to = "var_stat", values_to = "valor") %>%
+  separate(var_stat, into = c("Variable", "Estadístico"), sep = "_", extra = "merge") %>%
+  pivot_wider(names_from = Estadístico, values_from = valor)
+
+knitr::kable(desc_stats, digits = 3, format = "pipe",
+             caption = "Estadísticas descriptivas de variables principales") %>%
+  kable_styling(full_width = FALSE, position = "center",
+                latex_options = c("hold_position", "striped"))
+```
+
+Las principales variables son medidas de I+D, ganancias, ventas y ganancias como porcentaje de ventas (`profmarg`, es decir, margen de ganancia).
+
+## Regresión y pruebas de hipótesis
+
+Estima el siguiente modelo de regresión:
+
+$$
+rdintens = \beta_0 + \beta_1 \log(sales) + \beta_2 profmarg + u
+$$
+
+Nota que la variable $\log(sales)$ ya existe en `df` como `lsales`. $rdintens$ está en unidades de porcentaje, por lo que un número de 2.6 significa que los gastos totales en I+D de la compañía son el 2.6% de sus ventas.
+
+```{r}
+est <- lm(rdintens ~ lsales + profmarg, data = df)
+```
+
+```{r results='asis', echo=FALSE}
+tabla_regresion(est, "Modelo: rdintens ~ log(sales) + profmarg")
+```
+
+### Preguntas a responder:
+
+#### 1. Interpretación del coeficiente de $\log(sales)$
+
+Interpreta el coeficiente de `lsales`. Si $sales$ aumenta en 10%, ¿cuál es el cambio estimado en puntos porcentuales en $rdintens$?
+
+**Respuesta:**
+
+```{r}
+beta_lsales <- coef(est)["lsales"]
+cat("Coeficiente de lsales:", sprintf("%.6f", beta_lsales), "\n\n")
+
+# Cambio cuando sales aumenta 10%
+cambio_10pct <- beta_lsales * log(1.10)
+cat("Si sales aumenta 10%, rdintens cambia en:", sprintf("%.4f", cambio_10pct), 
+    "puntos porcentuales\n")
+```
+
+**Interpretación:** El coeficiente de $\log(sales)$ es $\hat{\beta}_1 =$ `r sprintf("%.6f", beta_lsales)`. Esto significa que un aumento del 1% en las ventas se asocia con una disminución de aproximadamente `r sprintf("%.4f", abs(beta_lsales)/100)` puntos porcentuales en la intensidad de I+D. 
+
+Para un aumento del 10% en ventas:
+$$
+\Delta rdintens = \beta_1 \times \log(1.10) = `r sprintf("%.6f", beta_lsales)` \times 0.0953 \approx `r sprintf("%.4f", cambio_10pct)` \text{ puntos porcentuales}
+$$
+
+#### 2. Significancia económica
+
+¿Es esta una relación **económicamente significativa**?
+
+**Respuesta:** Sí, es económicamente significativa. Un cambio de `r sprintf("%.4f", abs(cambio_10pct))` puntos porcentuales en la intensidad de I+D (como porcentaje de ventas) por un aumento del 10% en ventas representa un efecto sustancial. Por ejemplo, para una empresa con ventas de \$100 millones y una intensidad de I+D inicial del 3%, un aumento del 10% en ventas reduciría la intensidad de I+D a aproximadamente `r sprintf("%.2f", 3 + cambio_10pct)`%, lo que podría representar millones de dólares en cambios en el presupuesto de I+D.
+
+#### 3. Prueba de hipótesis bilateral al 10% de nivel
+
+Usando la salida de `tidy(est)`, prueba la hipótesis de que las ventas afectan la intensidad de I+D al nivel del 10%. En otras palabras, prueba:
+
+$$
+H_0: \beta_1 = 0; \quad H_a: \beta_1 \neq 0
+$$
+
+```{r}
+# Extraer información de la prueba
+info_test <- tidy(est) %>% filter(term == "lsales")
+t_stat <- info_test$statistic
+p_value <- info_test$p.value
+alpha <- 0.10
+
+cat("Prueba de hipótesis bilateral:\n")
+cat("===============================\n")
+cat("H₀: β₁ = 0\n")
+cat("Hₐ: β₁ ≠ 0\n")
+cat("Nivel de significancia: α =", alpha, "\n\n")
+cat("Estadístico t:", sprintf("%.4f", t_stat), "\n")
+cat("Valor p:", sprintf("%.6f", p_value), "\n\n")
+
+if (p_value < alpha) {
+  cat("Decisión: RECHAZAMOS H₀ al nivel del", alpha*100, "%\n")
+  cat("Conclusión: Hay evidencia estadísticamente significativa de que las ventas\n")
+  cat("            afectan la intensidad de I+D.\n")
+} else {
+  cat("Decisión: NO RECHAZAMOS H₀ al nivel del", alpha*100, "%\n")
+  cat("Conclusión: No hay evidencia estadísticamente significativa de que las ventas\n")
+  cat("            afectan la intensidad de I+D.\n")
+}
+```
+
+```{r results='asis', echo=FALSE}
+# Tabla resumen de la prueba
+test_tabla <- data.frame(
+  Hipótesis = c("H₀", "Hₐ", "α", "Estadístico t", "Valor p", "Decisión"),
+  Descripción = c(
+    "β₁ = 0",
+    "β₁ ≠ 0",
+    sprintf("%.2f", alpha),
+    sprintf("%.4f", t_stat),
+    sprintf("%.6f", p_value),
+    ifelse(p_value < alpha, "✓ Rechazar H₀", "✗ No rechazar H₀")
+  )
+)
+
+cat("\n**Resumen de la prueba:**\n\n")
+knitr::kable(test_tabla, format = "pipe", align = "ll",
+             col.names = c("Elemento", "Valor")) %>%
+  kable_styling(full_width = FALSE, position = "center",
+                latex_options = c("hold_position", "striped"))
+```
+
+#### 4. Prueba unilateral
+
+¿Tu respuesta a (3) cambia si en su lugar consideras una alternativa unilateral? (es decir, $H_a: \beta_1 > 0$)
+
+```{r}
+# Para prueba unilateral, dividimos el p-value entre 2
+# Pero solo si el signo del estadístico va en la dirección de Ha
+p_value_unilateral <- ifelse(t_stat > 0, p_value/2, 1 - p_value/2)
+
+cat("Prueba de hipótesis unilateral:\n")
+cat("===============================\n")
+cat("H₀: β₁ = 0\n")
+cat("Hₐ: β₁ > 0\n")
+cat("Nivel de significancia: α =", alpha, "\n\n")
+cat("Estadístico t:", sprintf("%.4f", t_stat), "\n")
+cat("Valor p (unilateral):", sprintf("%.6f", p_value_unilateral), "\n\n")
+
+if (p_value_unilateral < alpha) {
+  cat("Decisión: RECHAZAMOS H₀ al nivel del", alpha*100, "%\n")
+  cat("Conclusión: Hay evidencia estadísticamente significativa de que β₁ > 0.\n")
+} else {
+  cat("Decisión: NO RECHAZAMOS H₀ al nivel del", alpha*100, "%\n")
+  cat("Conclusión: No hay evidencia estadísticamente significativa de que β₁ > 0.\n")
+}
+
+cat("\n¿Cambia la conclusión? ", 
+    ifelse((p_value < alpha) != (p_value_unilateral < alpha), "SÍ", "NO"), "\n")
+```
+
+**Nota importante:** En este caso, $\hat{\beta}_1$ es **negativo**, por lo que una prueba unilateral con $H_a: \beta_1 > 0$ no tiene sentido económico. Si quisiéramos probar que el efecto es negativo, usaríamos $H_a: \beta_1 < 0$.
+
+#### 5. Significancia estadística de $\beta_2$
+
+Ahora considera el parámetro $\beta_2$. ¿Hay un efecto estadísticamente significativo del margen de ganancia sobre la intensidad de I+D?
+
+```{r}
+# Extraer información de profmarg
+info_profmarg <- tidy(est) %>% filter(term == "profmarg")
+t_stat_prof <- info_profmarg$statistic
+p_value_prof <- info_profmarg$p.value
+beta_profmarg <- info_profmarg$estimate
+
+cat("Análisis del coeficiente de profmarg:\n")
+cat("=====================================\n")
+cat("β̂₂ =", sprintf("%.6f", beta_profmarg), "\n")
+cat("Error estándar =", sprintf("%.6f", info_profmarg$std.error), "\n")
+cat("Estadístico t =", sprintf("%.4f", t_stat_prof), "\n")
+cat("Valor p (bilateral) =", sprintf("%.6f", p_value_prof), "\n\n")
+
+# Probar a diferentes niveles de significancia
+niveles <- c(0.01, 0.05, 0.10)
+for (nivel in niveles) {
+  significativo <- p_value_prof < nivel
+  cat("Al nivel α =", nivel, ":", 
+      ifelse(significativo, "✓ SIGNIFICATIVO", "✗ NO SIGNIFICATIVO"), "\n")
+}
+```
+
+```{r results='asis', echo=FALSE}
+# Tabla comparativa de ambos coeficientes
+comp_coefs <- data.frame(
+  Variable = c("lsales", "profmarg"),
+  Coeficiente = c(
+    sprintf("%.6f", beta_lsales),
+    sprintf("%.6f", beta_profmarg)
+  ),
+  `Error estándar` = c(
+    sprintf("%.6f", info_test$std.error),
+    sprintf("%.6f", info_profmarg$std.error)
+  ),
+  `Estadístico t` = c(
+    sprintf("%.4f", t_stat),
+    sprintf("%.4f", t_stat_prof)
+  ),
+  `Valor p` = c(
+    sprintf("%.6f", p_value),
+    sprintf("%.6f", p_value_prof)
+  ),
+  `Sig. al 10%` = c(
+    ifelse(p_value < 0.10, "✓", "✗"),
+    ifelse(p_value_prof < 0.10, "✓", "✗")
+  ),
+  `Sig. al 5%` = c(
+    ifelse(p_value < 0.05, "✓", "✗"),
+    ifelse(p_value_prof < 0.05, "✓", "✗")
+  )
+)
+
+cat("\n**Comparación de significancia estadística:**\n\n")
+knitr::kable(comp_coefs, format = "pipe", align = "lrrrrrr",
+             col.names = c("Variable", "Coeficiente", "Error estándar", 
+                           "Estadístico t", "Valor p", "Sig. 10%", "Sig. 5%")) %>%
+  kable_styling(full_width = FALSE, position = "center",
+                latex_options = c("hold_position", "striped"))
+```
+
+**Interpretación de $\beta_2$:** El coeficiente de `profmarg` es $\hat{\beta}_2 =$ `r sprintf("%.6f", beta_profmarg)`. Esto significa que un aumento de 1 punto porcentual en el margen de ganancia se asocia con un aumento de aproximadamente `r sprintf("%.4f", beta_profmarg)` puntos porcentuales en la intensidad de I+D.
+
+Con un valor p de `r sprintf("%.6f", p_value_prof)`, este coeficiente es estadísticamente significativo a niveles convencionales (1%, 5% y 10%), lo que indica una fuerte relación positiva entre rentabilidad y gastos en I+D.
+
+---
+
+## Resumen general
+
+```{r results='asis', echo=FALSE}
+resumen <- data.frame(
+  Aspecto = c(
+    "Modelo estimado",
+    "R²",
+    "N",
+    "Efecto de log(sales)",
+    "Significancia de β₁",
+    "Efecto de profmarg",
+    "Significancia de β₂"
+  ),
+  Resultado = c(
+    "rdintens ~ log(sales) + profmarg",
+    sprintf("%.4f", summary(est)$r.squared),
+    as.character(nrow(df)),
+    sprintf("%.4f pp por cada 10%% de ↑ en ventas", cambio_10pct),
+    ifelse(p_value < 0.10, "Significativo al 10%", "No significativo al 10%"),
+    sprintf("%.4f pp por cada 1 pp ↑ en margen", beta_profmarg),
+    ifelse(p_value_prof < 0.05, "Altamente significativo", "Significativo")
+  )
+)
+
+knitr::kable(resumen, format = "pipe", align = "ll",
+             col.names = c("Aspecto", "Resultado"),
+             caption = "Resumen de resultados del análisis") %>%
+  kable_styling(full_width = FALSE, position = "center",
+                latex_options = c("hold_position", "striped"))
+```

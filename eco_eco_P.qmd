@@ -4,56 +4,209 @@ title: "Proyectos de Econometría - Mención Economía"
 
 Los proyectos presentados a continuación son los destacados por los docentes y ayudantes, organizados por año y semestre del curso, junto con sus respectivos documentos descargables.
 
+```{=html}
+<style>
+
+:root{
+  --walker-green:#0f7c3a;
+  --walker-muted:#6b7280;
+  --walker-text:#111827;
+  --walker-border:#e5e7eb;
+}
+
+/* Galería superior */
+.walker-gallery{
+  margin: 12px 0 28px 0;
+  padding-bottom: 18px;
+  border-bottom: 4px solid var(--walker-green);
+}
+.walker-gallery-grid{
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 14px;
+}
+.walker-gallery-card{
+  border: 1px solid var(--walker-border);
+  border-radius: 10px;
+  overflow: hidden;
+  background: #fff;
+}
+.walker-gallery-card img{
+  width: 100%;
+  height: auto;
+  display: block;
+}
+@media (max-width: 1100px){
+  .walker-gallery-grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 650px){
+  .walker-gallery-grid{ grid-template-columns: 1fr; }
+}
+
+/* Listado tipo Walker */
+.walker-list{
+  margin-top: 10px;
+  border-top: 4px solid var(--walker-green);
+}
+.walker-item{
+  display: grid;
+  grid-template-columns: 210px 1fr;
+  gap: 34px;
+  padding: 22px 0;
+  border-bottom: 4px solid var(--walker-green);
+}
+.walker-meta{
+  color: var(--walker-muted);
+  font-size: 0.95rem;
+  line-height: 1.35;
+}
+.walker-meta .tag{
+  display: inline-block;
+  margin-top: 6px;
+  padding: 2px 8px;
+  border: 1px solid var(--walker-border);
+  border-radius: 999px;
+  font-size: 0.8rem;
+  color: var(--walker-muted);
+}
+.walker-title{
+  font-size: 2.0rem;
+  font-weight: 750;
+  color: var(--walker-text);
+  margin: 0 0 6px 0;
+}
+.walker-authors{
+  font-weight: 650;
+  margin: 0 0 12px 0;
+  color: var(--walker-text);
+}
+.walker-summary{
+  color: #374151;
+  line-height: 1.7;
+  font-size: 1.05rem;
+  margin: 0 0 12px 0;
+}
+.walker-links a{
+  display: inline-block;
+  margin-right: 18px;
+  margin-top: 6px;
+  font-weight: 650;
+  text-decoration: none;
+}
+.walker-links a:hover{ text-decoration: underline; }
+
+@media (max-width: 900px){
+  .walker-item{ grid-template-columns: 1fr; gap: 12px; }
+  .walker-title{ font-size: 1.6rem; }
+}
+</style>
+```
+
+## Presentaciones destacadas 2025
+
+```{=html}
+<div class="walker-gallery">
+  <div class="walker-gallery-grid">
+    <div class="walker-gallery-card"><img src="pdf_pro_eco/presentacion1.jpg" alt="Presentación 1"></div>
+    <div class="walker-gallery-card"><img src="pdf_pro_eco/presentacion3.jpg" alt="Presentación 2"></div>
+    <div class="walker-gallery-card"><img src="pdf_pro_eco/presentacion4.jpg" alt="Presentación 3"></div>
+  </div>
+</div>
+```
+
 # Proyectos 2025
 
-## - **Determinantes de la Formalidad Laboral en Chile: Evidencia desde la ENE 2024**
+```{=html}
+<div class="walker-list">
+```
 
-**Autores:** Jhanus Burgos, Bastian Liberona y Bruno Lefiche
+<div class="walker-item" markdown="1">
+<div class="walker-meta">
+Diciembre 2025  
+<span class="tag">Econometría</span>
+</div>
 
-**Resumen**: El estudio busca responder cómo sexo, educación, contrato, sector laboral y edad influyen en la probabilidad de tener un empleo formal en Chile. Utilizando datos de la ENE 2024 y una regresión múltiple con variables dummy, se analiza la formalidad laboral a nivel individual.
+<div>
+<div class="walker-title">Determinantes de la Formalidad Laboral en Chile: Evidencia desde la ENE 2024</div>
+<div class="walker-authors">Jhanus Burgos, Bastian Liberona y Bruno Lefiche</div>
 
-Los principales resultados indican que tener contrato escrito y pertenecer al sector formal son los factores con mayor impacto positivo en la formalidad. En contraste, jóvenes y adultos mayores presentan menor probabilidad de empleo formal, mientras que la educación superior y postgrado muestran coeficientes negativos debido a la presencia de profesionales independientes. Finalmente, los meses del año no afectan la formalidad laboral.
+<div class="walker-summary">
+**Resumen**: El estudio examina los determinantes de la formalidad laboral en Chile usando datos ENE 2024 y una regresión con variables dummy. El contrato escrito y el sector formal aumentan la formalidad, mientras jóvenes y adultos mayores presentan menor probabilidad. La educación superior muestra efectos negativos por trabajo independiente.
+</div>
 
-[Descargar Informe PDF](pdf_pro_eco/grupo1_informe.pdf){download="true"}
+<div class="walker-links">
+[📄 Descargar Informe PDF](pdf_pro_eco/grupo1_informe.pdf){download="true"}
+[📊 Descargar Presentación PDF](pdf_pro_eco/grupo1_presentacion.pdf){download="true"}
+</div>
+</div>
+</div>
 
-[Descargar Presentación PDF](pdf_pro_eco/grupo1_presentacion.pdf){download="true"}
+<div class="walker-item" markdown="1">
+<div class="walker-meta">
+Diciembre 2025  
+<span class="tag">Econometría</span>
+</div>
 
-## - **Determinantes del Gasto Financiero en Hogares Chilenos Post-Pandemia**
+<div>
+<div class="walker-title">Determinantes del Gasto Financiero en Hogares Chilenos Post-Pandemia</div>
+<div class="walker-authors">Damián Zapata, Lissette Rubio y Vicente Gamboa</div>
 
-**Autores**: Damián Zapata, Lissette Rubio y Vicente Gamboa
+<div class="walker-summary">
+**Resumen**: El estudio analiza qué factores explican el mayor gasto financiero per cápita en hogares chilenos usando la IX EPF y un modelo log–log. El ingreso es inelástico, pagar dividendo hipotecario es el factor más influyente, la educación aumenta el gasto y la edad sigue una U invertida; la zona no es significativa.
+</div>
 
-**Resumen**: El estudio busca responder qué factores socioeconómicos explican que los hogares chilenos destinen mayores recursos al gasto financiero per cápita. Utilizando microdatos de la IX Encuesta de Presupuestos Familiares y un modelo de regresión múltiple log–log —con transformaciones per cápita, logaritmos y controles como educación, edad, género y vivienda— se estiman elasticidades y efectos estructurales sobre el gasto financiero.
+<div class="walker-links">
+[📄 Descargar Informe PDF](pdf_pro_eco/grupo3_informe.pdf){download="true"}
+[📊 Descargar Presentación PDF](pdf_pro_eco/grupo3_presentacion.pdf){download="true"}
+</div>
+</div>
+</div>
 
-Los resultados muestran que el ingreso es un determinante clave pero inelástico (elasticidad ≈ 0.68). El factor más relevante es pagar dividendo hipotecario, que multiplica el gasto financiero del hogar, mientras que la educación sigue una escalera ascendente: mayor capital humano se asocia a mayor gasto y acceso financiero. La **edad** presenta un patrón de **U invertida**, con un máximo alrededor de los 41 años. Las zonas geográficas no muestran efectos significativos.
+<div class="walker-item" markdown="1">
+<div class="walker-meta">
+Diciembre 2025  
+<span class="tag">Econometría</span>
+</div>
 
-[Descargar Informe PDF](pdf_pro_eco/grupo3_informe.pdf){download="true"}
+<div>
+<div class="walker-title">Factores Explicativos de la Tenencia de Vivienda en Chile: Una Aproximación Cuantitativa</div>
+<div class="walker-authors">Jesús Pereira, Abigail Meza y Eddy Rodríguez</div>
 
-[Descargar Presentación PDF](pdf_pro_eco/grupo3_presentacion.pdf){download="true"}
+<div class="walker-summary">
+**Resumen**: El estudio analiza cómo formalidad laboral, ingreso, educación y zona influyen en la probabilidad de ser propietario de vivienda en Chile, usando CASEN 2022 y un modelo logit. La formalidad y el ingreso aumentan la propiedad, mientras educación superior y AFP la reducen por ciclo de vida; la zona no es significativa.
+</div>
 
-## - **Factores Explicativos de la Tenencia de Vivienda en Chile: Una Aproximación Cuantitativa**
+<div class="walker-links">
+[📄 Descargar Informe PDF](pdf_pro_eco/grupo4_informe.pdf){download="true"}
+[📊 Descargar Presentación PDF](pdf_pro_eco/grupo4_presentacion.pdf){download="true"}
+</div>
+</div>
+</div>
 
-**Autores**: Jesús Pereira, Abigail Meza y Eddy Rodríguez
+<div class="walker-item" markdown="1">
+<div class="walker-meta">
+Diciembre 2025  
+<span class="tag">Econometría</span>
+</div>
 
-**Resumen**: El estudio busca identificar cómo la formalidad laboral, el ingreso, la educación y la zona de residencia afectan la probabilidad de ser propietario de vivienda. Usando datos CASEN 2022 y un modelo logit aplicado a \~49 mil trabajadores, se evaluaron efectos individuales e interacción ingreso–área.
+<div>
+<div class="walker-title">Influencia de la Edad y Dificultades Funcionales en la Demanda de Consultas Médicas en personas mayores</div>
+<div class="walker-authors">Paz Córdova, Rachell Fuentes, Vincent Marmor</div>
 
-Los resultados muestran que tener contrato y mayores ingresos aumentan la probabilidad de propiedad, mientras que educación superior y afiliación AFP se asocian negativamente, principalmente por diferencias de ciclo de vida. La zona urbana y la interacción ingreso×zona no son significativas, indicando que el ingreso opera de forma similar en contextos urbanos y rurales.
+<div class="walker-summary">
+**Resumen**: El estudio examina cómo la edad y las dificultades funcionales afectan el número de consultas médicas en adultos mayores, usando CASEN 2024 y un modelo OLS. Las limitaciones funcionales —especialmente de movilidad— son el principal determinante. La edad tiene efecto positivo decreciente; la dependencia económica aumenta las consultas y las mujeres consultan levemente menos.
+</div>
 
-[Descargar Informe PDF](pdf_pro_eco/grupo4_informe.pdf){download="true"}
+<div class="walker-links">
+[📄 Descargar Informe PDF](pdf_pro_eco/grupo8_informe.pdf){download="true"}
+[📊 Descargar Presentación PDF](pdf_pro_eco/grupo8_presentacion.pdf){download="true"}
+</div>
+</div>
+</div>
 
-[Descargar Presentación PDF](pdf_pro_eco/grupo4_presentacion.pdf){download="true"}
-
-## - **Influencia de la Edad y Dificultades Funcionales en la Demanda de Consultas Médicas en personas mayores**
-
-**Autores**: Paz Córdova Rachell Fuentes Vincent Marmor
-
-**Resumen**: El estudio analiza cómo la edad y distintas dificultades funcionales influyen en la cantidad de consultas médicas realizadas por adultos mayores, utilizando datos de CASEN 2024 y un modelo lineal OLS aplicado a personas de 60 años o más.
-
-Metodológicamente, se limpiaron los datos, se construyeron dummies de dificultades funcionales (visual, movilidad, comunicación) y se incluyó un término cuadrático de edad para capturar no linealidades.
-
-Los resultados muestran que las dificultades funcionales son los principales determinantes del aumento en consultas, especialmente la dificultad de movilidad, seguida por problemas visuales y de comunicación. La dependencia económica también incrementa la demanda médica. La edad tiene un efecto positivo pero decreciente a edades avanzadas. Las mujeres registran ligeramente menos consultas que los hombres.
-
-[Descargar Informe PDF](pdf_pro_eco/grupo8_informe.pdf){download="true"}
-
-[Descargar Presentación PDF](pdf_pro_eco/grupo8_presentacion.pdf){download="true"}
+```{=html}
+</div>
+```
 
 # Proyectos 2026

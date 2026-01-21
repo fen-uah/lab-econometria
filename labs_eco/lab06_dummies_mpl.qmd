@@ -1,5 +1,5 @@
 ---
-title: "lab06_dummies_mpl"
+title: "Laboratorio 6 – Variables dummy y factores en R"
 format:
   html:
     toc: true
@@ -8,5 +8,219 @@ format:
   pdf:
     toc: true
     number-sections: false
+    # Receta ECO/EPG: PDF estable (evita errores tblr/\num)
+    header-includes:
+      - \usepackage{tabularray}
+      - \usepackage{siunitx}
+      - \sisetup{detect-all}
 ---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo      = TRUE,
+  message   = FALSE,
+  warning   = FALSE,
+  results   = "show",  # mostrar resultados
+  fig.keep  = "all",   # mostrar figuras
+  fig.align = "center"
+)
+```
+
+El propósito de este laboratorio en clase es practicar el uso de **variables dummy** (indicadoras) en R.
+
+## Primeros pasos
+
+
+Abre un nuevo script de R y carga los paquetes
+
+```{r message=FALSE, warning=FALSE, paged.print=FALSE}
+# Agrega los nombres de los integrantes del grupo AQUÍ (si corresponde)
+
+# Instalar paquetes solo si faltan (estilo ECO/EPG)
+pkgs <- c("tidyverse", "broom", "wooldridge", "modelsummary", "kableExtra", "magrittr", "forcats")
+to_install <- pkgs[!pkgs %in% rownames(installed.packages())]
+if (length(to_install) > 0) {
+  install.packages(to_install, repos = "http://cran.us.r-project.org")
+}
+
+library(tidyverse)
+library(broom)
+library(wooldridge)
+library(modelsummary)
+library(kableExtra)
+library(magrittr)   # para %<>%
+library(forcats)    # para fct_recode()
+
+# Receta ECO/EPG: forzar tablas estables (LaTeX clásico)
+options(modelsummary_factory_default = "kableExtra")
+```
+
+El paquete `magrittr` agrega funciones/operadores útiles para escribir código más expresivo (por ejemplo, `%<>%`, que “reescribe” un objeto después de pasarlo por un pipeline).
+
+## Cargar los datos
+
+Usaremos un conjunto de datos sobre **relaciones extramaritales**, llamado `affairs`:
+
+```{r}
+df <- as_tibble(affairs)
+```
+
+Revisa estadísticas descriptivas:
+
+```{r}
+datasummary_skim(df, histogram = FALSE)
+```
+
+Notarás que hay varias variables que solo toman valores 0/1: `male`, `kids`, `affair`, `hapavg`, `vryrel`, etc. También hay variables con algunos valores discretos: `relig`, `occup` y `ratemarr`.
+
+## Crear variables tipo factor
+
+Convirtamos la variable numérica 0/1 `male` en un factor con niveles `"yes"` y `"no"`:
+
+```{r}
+df %<>% mutate(
+  male = factor(male),
+  male = fct_recode(male, yes = "1", no = "0")
+)
+```
+
+El uso `df %<>% mutate(...)` utiliza el operador `%<>%`, que es un atajo para:
+
+`df <- df %>% mutate(...)`
+
+En otras palabras, `%<>%` aplica el pipeline y luego sobrescribe `df` con el resultado, ahorrando algo de sintaxis.
+
+La primera parte de `mutate()` convierte 0/1 en categorías `"0"` y `"1"`. La segunda parte les asigna etiquetas más descriptivas (`"yes"` y `"no"`).
+
+Repitamos esto para otras variables: `ratemarr`, `relig`, `kids` y `affair`:
+
+```{r}
+df %<>% 
+  mutate(
+    ratemarr = factor(ratemarr),
+    ratemarr = fct_recode(
+      ratemarr,
+      very_happy    = "5",
+      happy         = "4",
+      average       = "3",
+      unhappy       = "2",
+      very_unhappy  = "1"
+    )
+  ) %>%
+  mutate(
+    relig = factor(relig),
+    relig = fct_recode(
+      relig,
+      very_relig        = "5",
+      relig             = "4",
+      average           = "3",
+      not_relig         = "2",
+      not_at_all_relig  = "1"
+    )
+  ) %>%
+  mutate(
+    kids = factor(kids),
+    kids = fct_recode(kids, yes = "1", no = "0")
+  ) %>%
+  mutate(
+    affair = factor(affair),
+    affair = fct_recode(affair, yes = "1", no = "0")
+  )
+```
+
+Vuelve a ejecutar:
+
+```{r}
+datasummary_skim(df, histogram = FALSE)
+```
+
+Verás que las variables tipo factor pueden “desaparecer” del output por defecto de `datasummary_skim()`. Para que aparezcan como categóricas, usa el tipo `categorical`.
+
+## Estadísticas descriptivas de factores
+
+Puedes ver frecuencias con `datasummary_skim()` o con `table()`:
+
+```{r}
+datasummary_skim(df, type = "categorical", histogram = FALSE)
+
+table(df$relig)
+table(df$ratemarr, df$kids)
+```
+
+También puedes usar `prop.table()` para obtener proporciones por fila (`margin=1`) o por columna (`margin=2`):
+
+```{r}
+table(df$ratemarr) %>% prop.table()
+table(df$ratemarr, df$kids) %>% prop.table(margin = 1)
+table(df$ratemarr, df$kids) %>% prop.table(margin = 2)
+```
+
+También puedes graficar un histograma (barras) para una variable categórica:
+
+```{r}
+ggplot(df, aes(x = ratemarr)) + geom_bar()
+```
+
+Esto ayuda a visualizar qué fracción de los datos cae en cada categoría.
+
+## Regresión múltiple con variables factor
+
+Corramos una regresión con `naffairs` como variable dependiente y `male`, `yrsmarr`, `kids` y `ratemarr` como covariables:
+
+```{r}
+est1 <- lm(naffairs ~ male + yrsmarr + kids + ratemarr, data = df)
+```
+
+Mostramos la tabla del modelo (estable para PDF):
+
+```{r results='asis'}
+modelsummary(est1, output = "kableExtra") |>
+  kable_styling(full_width = FALSE, position = "center", latex_options = "hold_position")
+```
+
+Interpreta el coeficiente asociado a `ratemarrvery_happy`.
+
+## Modelo de Probabilidad Lineal (LPM)
+
+Corramos el mismo modelo, pero ahora usando `affair` como variable dependiente. ¿Qué pasa si ejecutas el siguiente código?
+
+```{r}
+est2_try <- lm(affair ~ male + yrsmarr + kids + ratemarr, data = df)
+tidy(est2_try)
+```
+
+R no “quiere” estimar este LPM porque `affair` es un factor (categórico) y el `lm()` espera una variable numérica continua en el lado izquierdo. Para correr el LPM, convierte `affair` a numérica usando `as.numeric(affair)` como variable dependiente. (Ojo: `as.numeric()` sobre factor devuelve 1/2 según el nivel; aquí lo usamos para replicar el ejercicio. Si quieres 0/1 exacto, lo hacemos con una transformación explícita.)
+
+```{r}
+est2 <- lm(as.numeric(affair) ~ male + yrsmarr + kids + ratemarr, data = df)
+```
+
+Tabla del LPM:
+
+```{r results='asis'}
+modelsummary(est2, output = "kableExtra") |>
+  kable_styling(full_width = FALSE, position = "center", latex_options = "hold_position")
+```
+
+Interpreta los coeficientes de `ratemarraverage` y `kidsyes`.
+
+## Términos de interacción
+
+Finalmente, corramos un modelo más flexible donde permitimos que el efecto de `kids` sea diferente para hombres y mujeres. En `lm()` esto se escribe así:
+
+```{r}
+est3 <- lm(as.numeric(affair) ~ male * kids + yrsmarr + ratemarr, data = df)
+tidy(est3)
+```
+
+Mostramos la tabla del modelo con interacción:
+
+```{r results='asis'}
+modelsummary(est3, output = "kableExtra") |>
+  kable_styling(full_width = FALSE, position = "center", latex_options = "hold_position")
+```
+
+El coeficiente del término de interacción se etiqueta `maleyes:kidsyes`.  
+¿Tienen los padres una tasa diferencial de relaciones extramaritales comparado con las madres, según este modelo?
+
 

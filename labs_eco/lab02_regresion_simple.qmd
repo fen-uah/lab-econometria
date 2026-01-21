@@ -1,5 +1,5 @@
 ---
-title: "Laboratorio 2 – Regresión lineal simple"
+title: "Laboratorio 2 – Regresión Lineal Simple"
 format:
   html:
     toc: true
@@ -8,4 +8,156 @@ format:
   pdf:
     toc: true
     number-sections: false
+    # --- Arreglo robusto para PDF ---
+    # Si alguna tabla termina generando 'tblr' o usa \num{...}, estos paquetes lo resuelven.
+    header-includes:
+      - \usepackage{tabularray}
+      - \usepackage{siunitx}
+      - \sisetup{detect-all}
 ---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo      = TRUE,
+  message   = FALSE,
+  warning   = FALSE,
+  results   = "show",
+  fig.keep  = "all",
+  fig.align = "center"
+)
+```
+
+El propósito de este laboratorio es practicar el uso de **R** para realizar **pruebas de hipótesis** y ejecutar una **regresión MCO (OLS)** básica.
+
+## Primeros pasos
+
+Abre un nuevo script de R y carga los paquetes
+```{r message=FALSE, warning=FALSE, paged.print=FALSE}
+# Instalar paquetes solo si faltan (igual que el estilo de tus labs)
+pkgs <- c("tidyverse", "modelsummary", "wooldridge", "broom", "kableExtra")
+to_install <- pkgs[!pkgs %in% rownames(installed.packages())]
+if (length(to_install) > 0) {
+  install.packages(to_install, repos = "http://cran.us.r-project.org")
+}
+
+library(tidyverse)
+library(modelsummary)
+library(broom)
+library(wooldridge)
+library(kableExtra)
+
+# --- CLAVE: evitar que modelsummary use backend "tinytable" (que puede generar tblr + \num) ---
+# Con esto, tus tablas en PDF salen en LaTeX clásico vía kableExtra.
+options(modelsummary_factory_default = "kableExtra")
+```
+
+Carga el conjunto de datos `audit` del paquete `wooldridge`:
+
+```{r}
+df <- as_tibble(audit)
+```
+
+## Prueba unilateral
+
+El conjunto de datos `audit` contiene tres variables: `w`, `b` y `y`.
+
+- `b` indica si el currículum de la persona **negra** de un par fue seleccionado para una oferta de trabajo.
+- `w` indica lo mismo, pero para la persona **blanca** del par.
+- `y` corresponde a la diferencia entre ambas variables, es decir: `y = b - w`.
+
+Queremos probar la siguiente hipótesis:
+
+$$
+H_0: \mu = 0 \quad \text{vs} \quad H_a: \mu < 0
+$$
+
+donde $\mu = \theta_{B}-\theta_{W}$, es decir, la diferencia en las tasas de oferta laboral entre personas negras y blancas.
+
+### La función `t.test()` en R
+
+Para realizar una prueba t en R, basta con entregar la información apropiada a la función `t.test()`.
+
+Ahora realizamos la prueba de hipótesis descrita anteriormente:
+
+```{r}
+t.test(df$y, alternative = "less")
+```
+
+R calcula automáticamente el estadístico t usando la fórmula:
+
+$$
+\frac{\overline{y} - \mu}{SE_{\bar{y}}}
+$$
+
+### Interpretación del resultado de `t.test()`
+
+Al ejecutar el script, deberías obtener una salida similar a la siguiente:
+
+```
+> t.test(df$y, alternative="less")
+
+	One Sample t-test
+
+data:  df$y
+t = -4.2768, df = 240, p-value = 1.369e-05
+alternative hypothesis: true mean is less than 0
+95 percent confidence interval:
+        -Inf -0.08151529
+sample estimates:
+ mean of x 
+-0.1327801
+```
+
+R reporta el valor del estadístico t, los grados de libertad y el p-value asociado. En este caso, el p-value es aproximadamente 0.00001369, mucho menor que 0.05 (nuestro nivel de significancia). Por lo tanto, rechazamos $H_0$.
+
+## Prueba bilateral
+
+Ahora supongamos que queremos probar si las tasas de oferta laboral para personas negras son **distintas** de las de personas blancas.
+
+Queremos probar:
+
+$$
+H_0: \theta_b = \theta_w \quad \text{vs} \quad H_a: \theta_b \neq \theta_w
+$$
+
+El código para realizar esta prueba es:
+
+```{r}
+t.test(df$b, df$w, alternative = "two.sided", paired = TRUE)
+```
+
+## Tu primera regresión (de este curso)
+
+```{r}
+df <- as_tibble(countymurders)
+```
+
+```{r}
+glimpse(df)
+```
+
+### Regresar tasa de asesinatos sobre tasa de ejecuciones
+
+```{r}
+est <- lm(murders ~ execs, data = df)
+```
+
+```{r results='show'}
+tidy(est)
+```
+
+```{r results='show'}
+glance(est)
+```
+
+### Tabla final del modelo (PDF estable)
+
+```{r results='asis'}
+modelsummary(est, output = "kableExtra") |>
+  kable_styling(
+    full_width = FALSE,
+    position = "center",
+    latex_options = c("hold_position")
+  )
+```
+

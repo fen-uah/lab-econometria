@@ -1,5 +1,5 @@
 ---
-title: "lab07_test_individual"
+title: "Laboratorio 7 – Pruebas de hipótesis sobre parámetros de regresión"
 format:
   html:
     toc: true
@@ -8,5 +8,119 @@ format:
   pdf:
     toc: true
     number-sections: false
+    # Receta ECO/EPG: PDF estable (evita errores tblr/\num)
+    header-includes:
+      - \usepackage{tabularray}
+      - \usepackage{siunitx}
+      - \sisetup{detect-all}
 ---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo      = TRUE,
+  message   = FALSE,
+  warning   = FALSE,
+  results   = "show",  # mostrar resultados
+  fig.keep  = "all",   # mostrar figuras
+  fig.align = "center"
+)
+```
+
+El propósito de este laboratorio en clase es practicar la realización de **pruebas de hipótesis** sobre parámetros de regresión en R.
+
+## Primeros pasos
+
+Abre un nuevo script y carga los paquetes
+
+```{r message=FALSE, warning=FALSE, paged.print=FALSE}
+# Agrega los nombres de los integrantes del grupo AQUÍ (si corresponde)
+
+# Instalar paquetes solo si faltan (estilo ECO/EPG)
+pkgs <- c("tidyverse", "broom", "wooldridge", "magrittr", "modelsummary", "kableExtra")
+to_install <- pkgs[!pkgs %in% rownames(installed.packages())]
+if (length(to_install) > 0) {
+  install.packages(to_install, repos = "http://cran.us.r-project.org")
+}
+
+library(tidyverse)
+library(broom)
+library(wooldridge)
+library(magrittr)
+library(modelsummary)
+library(kableExtra)
+
+# Receta ECO/EPG: forzar tablas estables (LaTeX clásico)
+options(modelsummary_factory_default = "kableExtra")
+```
+
+## Cargar los datos
+
+Usaremos un conjunto de datos sobre gasto en Investigación y Desarrollo (I+D), llamado `rdchem`. Contiene información de 32 empresas de la industria química.
+
+```{r}
+df <- as_tibble(rdchem)
+```
+
+Revisa qué contiene el conjunto de datos:
+
+```{r}
+datasummary_df(df)
+datasummary_skim(df, histogram = FALSE)
+```
+
+Las variables principales son medidas de I+D, utilidades (profits), ventas (sales) y utilidades como porcentaje de ventas (`profmarg`, es decir, margen de utilidades).
+
+## Regresión y pruebas de hipótesis
+
+Estimaremos el siguiente modelo:
+
+$$
+rdintens = \beta_0 + \beta_1 \log(sales) + \beta_2\,profmarg + u
+$$
+
+Observa que la variable $\log(sales)$ ya existe en `df` como `lsales`.  
+Además, `rdintens` está en **unidades porcentuales**: por ejemplo, un valor de 2.6 significa que el gasto total en I+D de la empresa equivale al **2.6%** de sus ventas.
+
+### Estimación del modelo
+
+```{r}
+est <- lm(rdintens ~ lsales + profmarg, data = df)
+tidy(est)
+```
+
+Mostramos la tabla del modelo (estable para PDF):
+
+```{r results='asis'}
+modelsummary(est, output = "kableExtra") |>
+  kable_styling(full_width = FALSE, position = "center", latex_options = "hold_position")
+```
+
+## Preguntas de análisis (responde en tu script)
+
+Responde las siguientes preguntas (puedes escribir tus respuestas como comentarios `#` en tu archivo `.R`):
+
+1. **Interpreta el coeficiente de `lsales`.** Si $sales$ aumenta en 10%, ¿cuál es el cambio estimado (en puntos porcentuales) en `rdintens`?
+2. ¿Esta relación es **económicamente significativa** (además de estadísticamente significativa)?
+3. Usando la salida de `tidy(est)`, prueba al 10% la hipótesis de que las ventas afectan la intensidad de I+D. Es decir, prueba:
+
+$$
+H_0: \beta_1 = 0 \quad;\quad H_a: \beta_1 \neq 0
+$$
+
+4. ¿Cambia tu respuesta de (3) si en vez de una alternativa bilateral consideras una alternativa unilateral? (es decir, $H_a: \beta_1 > 0$)
+5. Considera ahora el parámetro $\beta_2$. ¿Existe un efecto estadísticamente significativo del margen de utilidades (`profmarg`) sobre la intensidad de I+D (`rdintens`)?
+
+### Ayuda: cómo hacer la prueba unilateral con el p-value de tidy()
+
+`tidy(est)` entrega un p-value bilateral para cada coeficiente. Si el estadístico t es positivo y quieres una prueba unilateral $H_a: \beta_1 > 0$, el p-value unilateral es aproximadamente la mitad del bilateral (siempre que el signo vaya en la dirección de la alternativa).
+
+Puedes calcularlo así:
+
+```{r}
+t_lsales <- tidy(est) %>% filter(term == "lsales") %>% pull(statistic)
+p_two    <- tidy(est) %>% filter(term == "lsales") %>% pull(p.value)
+
+p_one_greater <- ifelse(t_lsales > 0, p_two / 2, 1 - p_two / 2)
+c(t_stat = t_lsales, p_two_sided = p_two, p_one_sided_greater = p_one_greater)
+```
 

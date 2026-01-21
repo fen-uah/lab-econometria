@@ -1,5 +1,5 @@
 ---
-title: "lab05_ovb_multicolinealidad"
+title: "Laboratorio 5 – Sesgo por variable omitida y multicolinealidad"
 format:
   html:
     toc: true
@@ -8,5 +8,346 @@ format:
   pdf:
     toc: true
     number-sections: false
+    keep-tex: false
 ---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo      = TRUE,
+  message   = FALSE,
+  warning   = FALSE,
+  results   = "show",
+  fig.keep  = "all",
+  fig.align = "center"
+)
+
+# Función para crear tablas profesionales de regresión
+tabla_regresion <- function(modelo, titulo = "") {
+  coefs <- summary(modelo)$coefficients
+  stats <- data.frame(
+    Estadístico = c("R²", "R² ajustado", "Error estándar residual", "Estadístico F", "N"),
+    Valor = c(
+      sprintf("%.4f", summary(modelo)$r.squared),
+      sprintf("%.4f", summary(modelo)$adj.r.squared),
+      sprintf("%.4f", summary(modelo)$sigma),
+      sprintf("%.2f", summary(modelo)$fstatistic[1]),
+      as.character(length(modelo$residuals))
+    )
+  )
+  
+  # Tabla de coeficientes
+  cat("\n**", titulo, "**\n\n")
+  cat("*Coeficientes estimados:*\n\n")
+  knitr::kable(coefs, digits = 6, 
+               col.names = c("Estimación", "Error estándar", "Estadístico t", "Valor p"),
+               format = "markdown")
+  cat("\n*Estadísticas del modelo:*\n\n")
+  knitr::kable(stats, col.names = c("Estadístico", "Valor"), 
+               format = "markdown", align = "lr")
+}
+```
+
+El propósito de este laboratorio es **comprender mejor el sesgo por variable omitida** y la **multicolinealidad**. 
+## Para empezar
+
+Abre un nuevo script de R y carga los paquetes
+
+```{r message=FALSE, warning=FALSE, paged.print=FALSE}
+# Instalar paquetes solo si faltan (estilo ECO/EPG)
+pkgs <- c("tidyverse", "broom", "wooldridge", "car")
+to_install <- pkgs[!pkgs %in% rownames(installed.packages())]
+if (length(to_install) > 0) {
+  install.packages(to_install, repos = "http://cran.us.r-project.org")
+}
+
+library(tidyverse)
+library(broom)
+library(wooldridge)
+library(car)        # para vif()
+```
+
+> Nota: en el enunciado original se pedía instalar `car` "en la consola". Aquí lo dejamos **compatible y automático**, instalándolo solo si falta.
+
+### Cargar los datos
+
+Usaremos un nuevo set de datos sobre salarios, llamado `wage2`.
+
+```{r}
+df <- as_tibble(wage2)
+```
+
+Revisa qué contiene el set de datos con:
+
+```{r}
+glimpse(df)
+```
+
+## Propiedades de las variables omitidas (Omitted Variable Bias)
+
+Considera el siguiente modelo de regresión:
+
+$$
+\log(wage) = \beta_0 + \beta_1 educ + \beta_2 IQ + u
+$$
+
+donde `wage` es la **tasa salarial por hora** (en centavos, no en dólares).
+
+Queremos verificar la propiedad mostrada en Wooldridge:
+
+$$
+\widetilde{\beta}_1 = \hat{\beta}_1 + \hat{\beta}_2 \widetilde{\delta}_1
+$$
+
+donde:
+
+- $\widetilde{\beta}_1$ proviene de la regresión de $\log(wage)$ sobre `educ` (modelo "corto").
+- $\widetilde{\delta}_1$ proviene de la regresión de `IQ` sobre `educ`.
+- $\hat{\beta}_1$ y $\hat{\beta}_2$ provienen del modelo "completo" (con `educ` e `IQ`).
+
+### 1) Regresión de $IQ$ sobre $educ$ (para obtener $\widetilde{\delta}_1$)
+
+```{r}
+est1 <- lm(IQ ~ educ, data = df)
+```
+
+```{r results='asis', echo=FALSE}
+tabla_regresion(est1, "Modelo 1: IQ ~ educ")
+```
+
+### 2) Regresión de $\log(wage)$ sobre $educ$ (para obtener $\widetilde{\beta}_1$)
+
+Primero crea la variable $\log(wage)$ (si no recuerdas `mutate()`, revisa los labs anteriores):
+
+```{r}
+df <- df %>% mutate(logwage = log(wage))
+```
+
+Ahora estima el modelo "corto":
+
+```{r}
+est2 <- lm(logwage ~ educ, data = df)
+```
+
+```{r results='asis', echo=FALSE}
+tabla_regresion(est2, "Modelo 2: log(wage) ~ educ")
+```
+
+### 3) Regresión completa de $\log(wage)$ sobre $educ$ y $IQ$ (para obtener $\hat{\beta}_1$ y $\hat{\beta}_2$)
+
+```{r}
+est3 <- lm(logwage ~ educ + IQ, data = df)
+```
+
+```{r results='asis', echo=FALSE}
+tabla_regresion(est3, "Modelo 3: log(wage) ~ educ + IQ")
+```
+
+Verifica que se cumple la identidad:
+
+$$
+\widetilde{\beta}_1 = \hat{\beta}_1 + \hat{\beta}_2 \widetilde{\delta}_1
+$$
+
+```{r}
+# Extraer coeficientes
+beta1_tilde <- coef(est2)["educ"]
+beta1_hat <- coef(est3)["educ"]
+beta2_hat <- coef(est3)["IQ"]
+delta1_tilde <- coef(est1)["educ"]
+
+# Mostrar los valores
+cat("Coeficientes extraídos:\n")
+cat("---------------------------------------\n")
+cat(sprintf("β̃₁ (modelo corto):     %.6f\n", beta1_tilde))
+cat(sprintf("β̂₁ (modelo completo):  %.6f\n", beta1_hat))
+cat(sprintf("β̂₂ (modelo completo):  %.6f\n", beta2_hat))
+cat(sprintf("δ̃₁ (IQ sobre educ):    %.6f\n", delta1_tilde))
+cat("\n")
+
+# Verificar la identidad
+lado_izq <- beta1_tilde
+lado_der <- beta1_hat + beta2_hat * delta1_tilde
+
+cat("Verificación de la identidad:\n")
+cat("---------------------------------------\n")
+cat(sprintf("Lado izquierdo (β̃₁):           %.6f\n", lado_izq))
+cat(sprintf("Lado derecho (β̂₁ + β̂₂·δ̃₁):    %.6f\n", lado_der))
+cat(sprintf("Diferencia:                     %.10f\n", abs(lado_izq - lado_der)))
+cat(sprintf("¿Son iguales? %s\n", ifelse(abs(lado_izq - lado_der) < 1e-10, "SÍ", "NO")))
+```
+
+**Pregunta:** ¿$\widetilde{\beta}_1$ es mayor o menor que $\hat{\beta}_1$? ¿Qué significa esto en términos de **sesgo por variable omitida**?
+
+---
+
+**Tabla comparativa de los tres modelos:**
+
+```{r results='asis', echo=FALSE}
+# Crear tabla comparativa
+comparacion <- data.frame(
+  Modelo = c("Modelo 1", "Modelo 2", "Modelo 3"),
+  Especificación = c("IQ ~ educ", "log(wage) ~ educ", "log(wage) ~ educ + IQ"),
+  `R²` = c(
+    sprintf("%.4f", summary(est1)$r.squared),
+    sprintf("%.4f", summary(est2)$r.squared),
+    sprintf("%.4f", summary(est3)$r.squared)
+  ),
+  `Coef. educ` = c(
+    sprintf("%.6f", coef(est1)["educ"]),
+    sprintf("%.6f", coef(est2)["educ"]),
+    sprintf("%.6f", coef(est3)["educ"])
+  ),
+  `Coef. IQ` = c(
+    "—",
+    "—",
+    sprintf("%.6f", coef(est3)["IQ"])
+  ),
+  N = c(
+    length(est1$residuals),
+    length(est2$residuals),
+    length(est3$residuals)
+  )
+)
+
+knitr::kable(comparacion, format = "markdown", align = "llrrrr",
+             col.names = c("Modelo", "Especificación", "R²", "Coef. educ", "Coef. IQ", "N"))
+```
+
+---
+
+## Multicolinealidad
+
+Ahora veamos cómo calcular diagnósticos de multicolinealidad. Recuerda de Wooldridge que la multicolinealidad puede interpretarse mejor como "un problema de tamaño muestral pequeño".
+
+Usaremos el set de datos `meapsingle` del paquete `wooldridge`. Nos interesa la variable `pctsgle`, que entrega el porcentaje de familias monoparentales que residen en el mismo ZIP code que la escuela. La variable resultado es `math4`, que corresponde al porcentaje de estudiantes que aprobaron el test estatal de matemáticas de 4° grado.
+
+### 1) Cargar el set de datos y estimar $math4$ sobre $pctsgle$
+
+```{r}
+df <- as_tibble(meapsingle)
+est_a <- lm(math4 ~ pctsgle, data = df)
+```
+
+```{r results='asis', echo=FALSE}
+tabla_regresion(est_a, "Modelo A: math4 ~ pctsgle")
+```
+
+**Pregunta:** Interpreta el coeficiente de pendiente de esta regresión. ¿El efecto parece grande?
+
+### 2) Correlación entre $lmedinc$ y $free$
+
+Ahora considera el mismo modelo, pero agregando $lmedinc$ y $free$ como regresores adicionales.
+
+- $lmedinc$ es el log del ingreso mediano del hogar del ZIP code.
+- $free$ es el porcentaje de estudiantes que califican para almuerzo gratis o con descuento.
+
+¿Crees que podría haber una correlación fuerte entre $lmedinc$ y $free$? Calcula la correlación:
+
+```{r}
+correlacion <- cor(df$lmedinc, df$free)
+cat(sprintf("Correlación entre lmedinc y free: %.4f\n", correlacion))
+```
+
+**Preguntas:**
+
+- ¿El signo de la correlación es el esperado?
+- ¿Está lo suficientemente cerca de 1 en valor absoluto como para violar la suposición de "no colinealidad perfecta"?
+
+### 3) Modelo con $pctsgle$, $lmedinc$ y $free$
+
+```{r}
+est_b <- lm(math4 ~ pctsgle + lmedinc + free, data = df)
+```
+
+```{r results='asis', echo=FALSE}
+tabla_regresion(est_b, "Modelo B: math4 ~ pctsgle + lmedinc + free")
+```
+
+**Comparación de coeficiente de pctsgle:**
+
+```{r results='asis', echo=FALSE}
+comp_pctsgle <- data.frame(
+  Modelo = c("Modelo A (simple)", "Modelo B (múltiple)"),
+  `Coef. pctsgle` = c(
+    sprintf("%.6f", coef(est_a)["pctsgle"]),
+    sprintf("%.6f", coef(est_b)["pctsgle"])
+  ),
+  `Error estándar` = c(
+    sprintf("%.6f", summary(est_a)$coefficients["pctsgle", "Std. Error"]),
+    sprintf("%.6f", summary(est_b)$coefficients["pctsgle", "Std. Error"])
+  ),
+  `Estadístico t` = c(
+    sprintf("%.3f", summary(est_a)$coefficients["pctsgle", "t value"]),
+    sprintf("%.3f", summary(est_b)$coefficients["pctsgle", "t value"])
+  ),
+  `R²` = c(
+    sprintf("%.4f", summary(est_a)$r.squared),
+    sprintf("%.4f", summary(est_b)$r.squared)
+  )
+)
+
+knitr::kable(comp_pctsgle, format = "markdown", align = "lrrrr",
+             col.names = c("Modelo", "Coef. pctsgle", "Error estándar", "Estadístico t", "R²"))
+```
+
+**Pregunta:** Comenta el valor del coeficiente de $pctsgle$ comparado con la primera regresión. ¿Qué puedes decir de $lmedinc$ y $free$ como variables de confusión (confounders)?
+
+### 4) Cálculo de VIF (Variance Inflation Factors)
+
+Un diagnóstico común para multicolinealidad es el **VIF**. Podemos usar la función `vif()` del paquete `car` para esto. Calcula los VIF del modelo anterior:
+
+```{r}
+vif_values <- vif(est_b)
+```
+
+```{r results='asis', echo=FALSE}
+# Crear tabla de VIF con interpretación
+vif_tabla <- data.frame(
+  Variable = names(vif_values),
+  VIF = sprintf("%.3f", vif_values),
+  `R²` = sprintf("%.4f", 1 - 1/vif_values),
+  Interpretación = ifelse(
+    vif_values > 10, 
+    "⚠️ Multicolinealidad alta",
+    ifelse(vif_values > 5, "⚡ Multicolinealidad moderada", "✓ Multicolinealidad baja")
+  )
+)
+
+cat("\n**Factores de Inflación de Varianza (VIF):**\n\n")
+knitr::kable(vif_tabla, format = "markdown", align = "lrrr",
+             col.names = c("Variable", "VIF", "R² implícito", "Interpretación"))
+```
+
+VIFs de 10 o más suelen considerarse problemáticos, porque:
+
+$$
+VIF_j = \frac{1}{1 - R_j^2}
+$$
+
+lo que implica $R_j^2 > 0.9$. Ver p. 86 de Wooldridge.
+
+**Interpretación:** Si $VIF_j = 10$, entonces:
+
+$$
+R_j^2 = 1 - \frac{1}{10} = 0.9
+$$
+
+Esto significa que el 90% de la variación en $x_j$ puede ser explicada linealmente por las demás variables explicativas, indicando una colinealidad alta.
+
+### 5) ¿Es la multicolinealidad un problema?
+
+La multicolinealidad suele ser un problema principalmente en sets de datos con **muestra pequeña**. A medida que el tamaño muestral aumenta, $R_j^2$ podría disminuir. Además, la variación total en $x_j$ (i.e., $SST_j$) aumenta con el tamaño muestral. Por esto, la multicolinealidad generalmente no es un problema que preocupe demasiado en muestras grandes.
+
+La fórmula de la varianza del estimador MCO es:
+
+$$
+\text{Var}(\hat{\beta}_j) = \frac{\sigma^2}{SST_j \cdot (1 - R_j^2)} = \frac{\sigma^2}{SST_j} \cdot VIF_j
+$$
+
+donde:
+
+- $\sigma^2$ es la varianza del error
+- $SST_j = \sum_{i=1}^n (x_{ij} - \bar{x}_j)^2$ es la suma de cuadrados total de $x_j$
+- $R_j^2$ es el $R^2$ de la regresión auxiliar de $x_j$ sobre todas las demás variables explicativas
+
+Observa que incluso con un $VIF_j$ alto, si $SST_j$ es suficientemente grande (muestra grande), la varianza del estimador puede seguir siendo razonablemente pequeña.

@@ -1,5 +1,5 @@
 ---
-title: "lab03_regresion_bivariada"
+title: "Laboratorio 3 – Regresión lineal, transformaciones no lineales e interpretación"
 format:
   html:
     toc: true
@@ -8,5 +8,161 @@ format:
   pdf:
     toc: true
     number-sections: false
+    # Receta ECO/EPG: PDF estable (evita errores tblr/\num)
+    header-includes:
+      - \usepackage{tabularray}
+      - \usepackage{siunitx}
+      - \sisetup{detect-all}
 ---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo      = TRUE,
+  message   = FALSE,
+  warning   = FALSE,
+  results   = "show",
+  fig.keep  = "all",
+  fig.align = "center"
+)
+```
+
+El propósito de este laboratorio es practicar: estimar **regresiones**, calcular **fórmulas** de MCO “a mano”, **visualizar** la *Función de Regresión Muestral* (Sample Regression Function), usar **transformaciones no lineales** e **interpretar coeficientes**.
+
+## Primeros pasos
+
+Abre un nuevo script de R y carga los paquetes
+
+```{r message=FALSE, warning=FALSE, paged.print=FALSE}
+# Instalar paquetes solo si faltan (estilo ECO/EPG)
+pkgs <- c("tidyverse", "modelsummary", "broom", "wooldridge", "kableExtra")
+to_install <- pkgs[!pkgs %in% rownames(installed.packages())]
+if (length(to_install) > 0) {
+  install.packages(to_install, repos = "http://cran.us.r-project.org")
+}
+
+library(tidyverse)
+library(modelsummary)
+library(broom)
+library(wooldridge)
+library(kableExtra)
+
+# Receta ECO/EPG: forzar tablas estables (LaTeX clásico)
+options(modelsummary_factory_default = "kableExtra")
+```
+
+Para este laboratorio usaremos datos sobre **gasto escolar** y **tasas de aprobación** de matemáticas en Michigan. Esto está en el conjunto `meap93` del paquete `wooldridge`. Cada observación corresponde a un **distrito escolar** de Michigan.
+
+```{r}
+df <- as_tibble(meap93)
+```
+
+## Relación entre gasto y tasa de aprobación en matemáticas
+
+Estima el siguiente modelo de regresión:
+
+$$
+math10 = \beta_0 + \beta_1\,expend + u
+$$
+
+El código para hacerlo es:
+
+```{r}
+est <- lm(math10 ~ expend, data = df)
+tidy(est)
+glance(est)
+```
+
+Deberías obtener un coeficiente cercano a `0.00246` para `expend`. **Interpreta** este coeficiente. (Puedes escribir la interpretación como un comentario en tu script .R). ¿Te parece un número pequeño, considerando las unidades en que están `math10` y `expend`?
+
+## Coeficientes de regresión “a mano”
+
+Verifica que los coeficientes estimados en `est` coinciden con las fórmulas del libro:
+
+$$
+\hat{\beta}_0 = \overline{math10} - \hat{\beta}_1\,\overline{expend}, \qquad
+\hat{\beta}_1 = \frac{\widehat{cov}(math10,expend)}{\widehat{var}(expend)}
+$$
+
+Puedes hacerlo escribiendo:
+
+```{r}
+beta1 <- cov(df$math10, df$expend) / var(df$expend)
+beta0 <- mean(df$math10) - beta1 * mean(df$expend)
+beta0
+beta1
+```
+
+## Visualización de los estimadores
+
+A menudo es útil visualizar el modelo estimado. Wooldridge lo llama la **Función de Regresión Muestral** (*Sample Regression Function*). Podemos hacerlo con:
+
+```{r}
+ggplot(df, aes(expend, math10)) +
+  geom_point() +
+  geom_smooth(method = "lm")
+```
+
+## Transformaciones no lineales
+
+Considera una versión modificada del modelo donde usamos el **logaritmo** del gasto en vez del gasto en niveles. ¿Por qué querríamos usar log(gasto)?
+
+Una razón típica es que pensamos que **cada dólar adicional no tiene el mismo efecto** sobre la tasa de aprobación: los retornos marginales podrían ser **decrecientes** (ver también: *Ley de rendimientos marginales decrecientes*).
+
+Crea la variable logarítmica usando `mutate()`:
+
+```{r}
+df <- df %>% mutate(logexpend = log(expend))
+```
+
+Ahora estima el modelo nuevamente y vuelve a visualizar (mostrando ambas formas funcionales juntas):
+
+```{r}
+est <- lm(math10 ~ logexpend, data = df)
+tidy(est)
+glance(est)
+
+# Tabla del modelo (estable para PDF)
+modelsummary(est, output = "kableExtra") |>
+  kable_styling(full_width = FALSE, position = "center", latex_options = "hold_position")
+
+# Visualización: forma logarítmica vs lineal (ambas sobre el mismo gráfico)
+ggplot(df, aes(expend, math10)) +
+  geom_point() +
+  stat_smooth(method = "lm", se = FALSE, formula = y ~ log(x), col = "red") +
+  stat_smooth(method = "lm", se = FALSE, col = "blue")
+```
+
+¿Cuál es la interpretación de $\beta_1$ en este nuevo modelo? (Agrégala como comentario en tu script).
+
+## Errores estándar y salida de regresión
+
+Finalmente, mira el **error estándar**, el **estadístico t** y los **p-values** asociados a los parámetros $\beta_0$ y $\beta_1$. El `p.value` reportado en `tidy(est)` prueba la hipótesis:
+
+$$
+H_0: \beta_1 = 0 \quad \text{vs} \quad H_a: \beta_1 \neq 0
+$$
+
+¿Un mayor gasto escolar incrementa significativamente la tasa de aprobación en matemáticas?
+
+## Cálculo de errores estándar “a mano” (opcional)
+
+Si te queda tiempo, intenta calcular los errores estándar “a mano” según las fórmulas del texto. Para ello necesitamos calcular: `sig` (la desviación estándar de $u$), `n` (tamaño muestral), `SSTx` ($(n-1)$ veces la varianza de `logexpend`), y la suma de cuadrados de `logexpend`:
+
+```{r}
+n <- dim(df)[1]
+sig <- sqrt(sum(est$residuals^2) / (n - 2))  # alternativa: glance(est)$sigma
+SSTx <- (n - 1) * var(df$logexpend)
+sumx2 <- sum(df$logexpend^2)
+```
+
+El error estándar del intercepto se calcula con:
+
+```{r}
+sqrt((sig^2 * (1/n) * sumx2) / SSTx)
+```
+
+Y el error estándar de la pendiente (para `logexpend`) es:
+
+```{r}
+sqrt(sig^2 / SSTx)
+```

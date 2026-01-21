@@ -1,5 +1,5 @@
 ---
-title: "lab04_regresion_multiple"
+title: "Laboratorio 4 – Regresión múltiple, no linealidades y teorema de Frisch–Waugh"
 format:
   html:
     toc: true
@@ -8,5 +8,179 @@ format:
   pdf:
     toc: true
     number-sections: false
+    # Receta ECO/EPG: PDF estable (evita errores tblr/\num)
+    header-includes:
+      - \usepackage{tabularray}
+      - \usepackage{siunitx}
+      - \sisetup{detect-all}
 ---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo      = TRUE,
+  message   = FALSE,
+  warning   = FALSE,
+  results   = "show",   # <-- MOSTRAR resultados en consola
+  fig.keep  = "all",    # <-- MANTENER y mostrar figuras
+  fig.align = "center"
+)
+```
+
+El propósito de este laboratorio es seguir practicando tus habilidades de **regresión**. 
+
+## Primeros pasos
+
+Abre un nuevo script de R y carga los paquetes
+
+
+```{r message=FALSE, warning=FALSE, paged.print=FALSE}
+
+# Instalar paquetes solo si faltan (estilo ECO/EPG)
+pkgs <- c("tidyverse", "broom", "wooldridge", "modelsummary", "kableExtra")
+to_install <- pkgs[!pkgs %in% rownames(installed.packages())]
+if (length(to_install) > 0) {
+  install.packages(to_install, repos = "http://cran.us.r-project.org")
+}
+
+library(tidyverse)
+library(broom)
+library(wooldridge)
+library(modelsummary)
+library(kableExtra)
+
+# Receta ECO/EPG: forzar tablas estables (LaTeX clásico)
+options(modelsummary_factory_default = "kableExtra")
+```
+
+Para este laboratorio usaremos datos de **precios de viviendas**, contenidos en el conjunto `hprice1` del paquete `wooldridge`. Cada observación es una vivienda.
+
+```{r}
+df <- as_tibble(hprice1)
+```
+
+Revisa qué variables hay en `df` usando:
+
+```{r}
+glimpse(df)
+```
+
+O, si quieres estadísticas descriptivas rápidas:
+
+```{r}
+datasummary_skim(df, histogram = FALSE)
+```
+
+## Regresión múltiple
+
+Estimemos el siguiente modelo:
+
+$$
+price = \beta_0 + \beta_1\,sqrft + \beta_2\,bdrms + u
+$$
+
+donde $price$ es el precio de la vivienda en **miles de dólares**.
+
+```{r}
+est1 <- lm(price ~ sqrft + bdrms, data = df)
+```
+
+Mostramos la salida del modelo en una tabla (estable en PDF):
+
+```{r results='asis'}
+modelsummary(est1, output = "kableExtra") |>
+  kable_styling(full_width = FALSE, position = "center", latex_options = "hold_position")
+```
+
+Deberías obtener un coeficiente cercano a `0.128` en `sqrft` y `15.2` en `bdrms`. Interpreta estos coeficientes (puedes escribir la interpretación como comentario en tu script). ¿Te parecen razonables?
+
+También deberías obtener $R^2 \approx 0.632$. A partir de ese número, ¿crees que es un buen modelo para explicar precios de vivienda?
+
+Verifica que el promedio de los residuos es (aproximadamente) cero:
+
+```{r}
+mean(est1$residuals)
+```
+
+## Agregando no linealidades
+
+El modelo anterior estimó un intercepto cercano a `-19.3`, lo que implicaría que una casa sin dormitorios y sin superficie tendría un precio esperado de **-$19,300**.
+
+Para asegurar que el modelo siempre prediga un precio positivo, usemos $log(price)$ como variable dependiente. Además, agreguemos términos cuadráticos para `sqrft` y `bdrms`, permitiendo **rendimientos marginales decrecientes**.
+
+Primero, usemos `mutate()` para crear las nuevas variables:
+
+```{r}
+df <- df %>%
+  mutate(
+    logprice = log(price),
+    sqrftSq  = sqrft^2,
+    bdrmSq   = bdrms^2
+  )
+```
+
+Ahora estimamos el nuevo modelo:
+
+```{r}
+est2 <- lm(logprice ~ sqrft + sqrftSq + bdrms + bdrmSq, data = df)
+```
+
+Tabla del modelo (estable para PDF):
+
+```{r results='asis'}
+modelsummary(est2, output = "kableExtra") |>
+  kable_styling(full_width = FALSE, position = "center", latex_options = "hold_position")
+```
+
+Si quieres ver más decimales:
+
+```{r results='asis'}
+modelsummary(est2, output = "kableExtra", fmt = 10) |>
+  kable_styling(full_width = FALSE, position = "center", latex_options = "hold_position")
+```
+
+Los coeficientes nuevos tienen magnitudes mucho más pequeñas. Explica por qué podría ocurrir eso.
+
+El nuevo $R^2 \approx 0.595$, menor que el $0.632$ del modelo anterior. ¿Eso significa necesariamente que este modelo es peor? ¿Por qué?
+
+## Teorema de Frisch–Waugh: obtener efectos parciales
+
+Probemos el teorema de **Frisch–Waugh**, que afirma:
+
+$$
+\hat{\beta}_{1} = \frac{\sum_{i=1}^{N} \hat{r}_{i1}\,y_{i}}{\sum_{i=1}^{N} \hat{r}_{i1}^2}
+$$
+
+donde $\hat{r}_{i1}$ es el residuo de una regresión de $x_1$ sobre $x_2,\ldots,x_k$.
+
+Apliquémoslo al modelo recién estimado. Primero, regresamos `sqrft` sobre el resto de los $X$ y guardamos los residuos en `df`:
+
+```{r}
+aux <- lm(sqrft ~ sqrftSq + bdrms + bdrmSq, data = df)
+df <- df %>% mutate(sqrft.resid = aux$residuals)
+```
+
+Ahora, si estimamos una regresión simple de `logprice` sobre `sqrft.resid`, deberíamos obtener el mismo coeficiente que el de `sqrft` en la regresión original (aprox. `3.74e-4`).
+
+```{r}
+fw_est <- lm(logprice ~ sqrft.resid, data = df)
+```
+
+Salida en tabla (estable para PDF):
+
+```{r results='asis'}
+modelsummary(fw_est, output = "kableExtra") |>
+  kable_styling(full_width = FALSE, position = "center", latex_options = "hold_position")
+```
+
+## Frisch–Waugh “a mano”
+
+También podemos calcular la fórmula de Frisch–Waugh directamente:
+
+```{r}
+beta1 <- sum(df$sqrft.resid * df$logprice) / sum(df$sqrft.resid^2)
+print(beta1)
+```
+
+Debería coincidir (aproximadamente) con el coeficiente estimado para `sqrft` en el modelo con todas las covariables.
+
 
