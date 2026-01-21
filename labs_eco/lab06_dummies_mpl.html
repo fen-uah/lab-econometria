@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>lab06_dummies_mpl</title>
+<title>Laboratorio 6 – Variables dummy y factores en R</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +19,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -69,6 +104,10 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
+<script src="../site_libs/kePrint-0.0.1/kePrint.js"></script>
+
+<link href="../site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+
 
 
 <link rel="stylesheet" href="../styles.css">
@@ -120,14 +159,26 @@ ul.task-list li input[type="checkbox"] {
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
-    <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="lab06_dummies_mpl.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></div>
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#primeros-pasos" id="toc-primeros-pasos" class="nav-link active" data-scroll-target="#primeros-pasos">Primeros pasos</a></li>
+  <li><a href="#cargar-los-datos" id="toc-cargar-los-datos" class="nav-link" data-scroll-target="#cargar-los-datos">Cargar los datos</a></li>
+  <li><a href="#crear-variables-tipo-factor" id="toc-crear-variables-tipo-factor" class="nav-link" data-scroll-target="#crear-variables-tipo-factor">Crear variables tipo factor</a></li>
+  <li><a href="#estadísticas-descriptivas-de-factores" id="toc-estadísticas-descriptivas-de-factores" class="nav-link" data-scroll-target="#estadísticas-descriptivas-de-factores">Estadísticas descriptivas de factores</a></li>
+  <li><a href="#regresión-múltiple-con-variables-factor" id="toc-regresión-múltiple-con-variables-factor" class="nav-link" data-scroll-target="#regresión-múltiple-con-variables-factor">Regresión múltiple con variables factor</a></li>
+  <li><a href="#modelo-de-probabilidad-lineal-lpm" id="toc-modelo-de-probabilidad-lineal-lpm" class="nav-link" data-scroll-target="#modelo-de-probabilidad-lineal-lpm">Modelo de Probabilidad Lineal (LPM)</a></li>
+  <li><a href="#términos-de-interacción" id="toc-términos-de-interacción" class="nav-link" data-scroll-target="#términos-de-interacción">Términos de interacción</a></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="lab06_dummies_mpl.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">lab06_dummies_mpl</h1>
+<h1 class="title">Laboratorio 6 – Variables dummy y factores en R</h1>
 </div>
 
 
@@ -144,8 +195,1041 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<p>El propósito de este laboratorio en clase es practicar el uso de <strong>variables dummy</strong> (indicadoras) en R.</p>
+<section id="primeros-pasos" class="level2">
+<h2 class="anchored" data-anchor-id="primeros-pasos">Primeros pasos</h2>
+<p>Abre un nuevo script de R y carga los paquetes</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Agrega los nombres de los integrantes del grupo AQUÍ (si corresponde)</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Instalar paquetes solo si faltan (estilo ECO/EPG)</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>pkgs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"tidyverse"</span>, <span class="st">"broom"</span>, <span class="st">"wooldridge"</span>, <span class="st">"modelsummary"</span>, <span class="st">"kableExtra"</span>, <span class="st">"magrittr"</span>, <span class="st">"forcats"</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>to_install <span class="ot">&lt;-</span> pkgs[<span class="sc">!</span>pkgs <span class="sc">%in%</span> <span class="fu">rownames</span>(<span class="fu">installed.packages</span>())]</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">length</span>(to_install) <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">install.packages</span>(to_install, <span class="at">repos =</span> <span class="st">"http://cran.us.r-project.org"</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(wooldridge)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(modelsummary)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(magrittr)   <span class="co"># para %&lt;&gt;%</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forcats)    <span class="co"># para fct_recode()</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Receta ECO/EPG: forzar tablas estables (LaTeX clásico)</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">modelsummary_factory_default =</span> <span class="st">"kableExtra"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>El paquete <code>magrittr</code> agrega funciones/operadores útiles para escribir código más expresivo (por ejemplo, <code>%&lt;&gt;%</code>, que “reescribe” un objeto después de pasarlo por un pipeline).</p>
+</section>
+<section id="cargar-los-datos" class="level2">
+<h2 class="anchored" data-anchor-id="cargar-los-datos">Cargar los datos</h2>
+<p>Usaremos un conjunto de datos sobre <strong>relaciones extramaritales</strong>, llamado <code>affairs</code>:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(affairs)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Revisa estadísticas descriptivas:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">datasummary_skim</span>(df, <span class="at">histogram =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="table caption-top table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th"></th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Unique</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Missing Pct.</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Mean</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">SD</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Min</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Median</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Max</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">id</td>
+<td style="text-align: left;">601</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">1059.7</td>
+<td style="text-align: left;">914.9</td>
+<td style="text-align: left;">4.0</td>
+<td style="text-align: left;">1009.0</td>
+<td style="text-align: left;">9029.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">0.5</td>
+<td style="text-align: left;">0.5</td>
+<td style="text-align: left;">0.0</td>
+<td style="text-align: left;">0.0</td>
+<td style="text-align: left;">1.0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">age</td>
+<td style="text-align: left;">9</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">32.5</td>
+<td style="text-align: left;">9.3</td>
+<td style="text-align: left;">17.5</td>
+<td style="text-align: left;">32.0</td>
+<td style="text-align: left;">57.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">yrsmarr</td>
+<td style="text-align: left;">8</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">8.2</td>
+<td style="text-align: left;">5.6</td>
+<td style="text-align: left;">0.1</td>
+<td style="text-align: left;">7.0</td>
+<td style="text-align: left;">15.0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">kids</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">0.7</td>
+<td style="text-align: left;">0.5</td>
+<td style="text-align: left;">0.0</td>
+<td style="text-align: left;">1.0</td>
+<td style="text-align: left;">1.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">relig</td>
+<td style="text-align: left;">5</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">3.1</td>
+<td style="text-align: left;">1.2</td>
+<td style="text-align: left;">1.0</td>
+<td style="text-align: left;">3.0</td>
+<td style="text-align: left;">5.0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">educ</td>
+<td style="text-align: left;">7</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">16.2</td>
+<td style="text-align: left;">2.4</td>
+<td style="text-align: left;">9.0</td>
+<td style="text-align: left;">16.0</td>
+<td style="text-align: left;">20.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">occup</td>
+<td style="text-align: left;">7</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">4.2</td>
+<td style="text-align: left;">1.8</td>
+<td style="text-align: left;">1.0</td>
+<td style="text-align: left;">5.0</td>
+<td style="text-align: left;">7.0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ratemarr</td>
+<td style="text-align: left;">5</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">3.9</td>
+<td style="text-align: left;">1.1</td>
+<td style="text-align: left;">1.0</td>
+<td style="text-align: left;">4.0</td>
+<td style="text-align: left;">5.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">naffairs</td>
+<td style="text-align: left;">6</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">1.5</td>
+<td style="text-align: left;">3.3</td>
+<td style="text-align: left;">0.0</td>
+<td style="text-align: left;">0.0</td>
+<td style="text-align: left;">12.0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">affair</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">0.2</td>
+<td style="text-align: left;">0.4</td>
+<td style="text-align: left;">0.0</td>
+<td style="text-align: left;">0.0</td>
+<td style="text-align: left;">1.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">vryhap</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">0.4</td>
+<td style="text-align: left;">0.5</td>
+<td style="text-align: left;">0.0</td>
+<td style="text-align: left;">0.0</td>
+<td style="text-align: left;">1.0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">hapavg</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">0.3</td>
+<td style="text-align: left;">0.5</td>
+<td style="text-align: left;">0.0</td>
+<td style="text-align: left;">0.0</td>
+<td style="text-align: left;">1.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">avgmarr</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">0.2</td>
+<td style="text-align: left;">0.4</td>
+<td style="text-align: left;">0.0</td>
+<td style="text-align: left;">0.0</td>
+<td style="text-align: left;">1.0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">unhap</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">0.1</td>
+<td style="text-align: left;">0.3</td>
+<td style="text-align: left;">0.0</td>
+<td style="text-align: left;">0.0</td>
+<td style="text-align: left;">1.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">vryrel</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">0.1</td>
+<td style="text-align: left;">0.3</td>
+<td style="text-align: left;">0.0</td>
+<td style="text-align: left;">0.0</td>
+<td style="text-align: left;">1.0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">smerel</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">0.3</td>
+<td style="text-align: left;">0.5</td>
+<td style="text-align: left;">0.0</td>
+<td style="text-align: left;">0.0</td>
+<td style="text-align: left;">1.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">slghtrel</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">0.2</td>
+<td style="text-align: left;">0.4</td>
+<td style="text-align: left;">0.0</td>
+<td style="text-align: left;">0.0</td>
+<td style="text-align: left;">1.0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">notrel</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">0.3</td>
+<td style="text-align: left;">0.4</td>
+<td style="text-align: left;">0.0</td>
+<td style="text-align: left;">0.0</td>
+<td style="text-align: left;">1.0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Notarás que hay varias variables que solo toman valores 0/1: <code>male</code>, <code>kids</code>, <code>affair</code>, <code>hapavg</code>, <code>vryrel</code>, etc. También hay variables con algunos valores discretos: <code>relig</code>, <code>occup</code> y <code>ratemarr</code>.</p>
+</section>
+<section id="crear-variables-tipo-factor" class="level2">
+<h2 class="anchored" data-anchor-id="crear-variables-tipo-factor">Crear variables tipo factor</h2>
+<p>Convirtamos la variable numérica 0/1 <code>male</code> en un factor con niveles <code>"yes"</code> y <code>"no"</code>:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&lt;&gt;%</span> <span class="fu">mutate</span>(</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">male =</span> <span class="fu">factor</span>(male),</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">male =</span> <span class="fu">fct_recode</span>(male, <span class="at">yes =</span> <span class="st">"1"</span>, <span class="at">no =</span> <span class="st">"0"</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>El uso <code>df %&lt;&gt;% mutate(...)</code> utiliza el operador <code>%&lt;&gt;%</code>, que es un atajo para:</p>
+<p><code>df &lt;- df %&gt;% mutate(...)</code></p>
+<p>En otras palabras, <code>%&lt;&gt;%</code> aplica el pipeline y luego sobrescribe <code>df</code> con el resultado, ahorrando algo de sintaxis.</p>
+<p>La primera parte de <code>mutate()</code> convierte 0/1 en categorías <code>"0"</code> y <code>"1"</code>. La segunda parte les asigna etiquetas más descriptivas (<code>"yes"</code> y <code>"no"</code>).</p>
+<p>Repitamos esto para otras variables: <code>ratemarr</code>, <code>relig</code>, <code>kids</code> y <code>affair</code>:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&lt;&gt;%</span> </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">ratemarr =</span> <span class="fu">factor</span>(ratemarr),</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">ratemarr =</span> <span class="fu">fct_recode</span>(</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>      ratemarr,</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">very_happy    =</span> <span class="st">"5"</span>,</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">happy         =</span> <span class="st">"4"</span>,</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">average       =</span> <span class="st">"3"</span>,</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">unhappy       =</span> <span class="st">"2"</span>,</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">very_unhappy  =</span> <span class="st">"1"</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">relig =</span> <span class="fu">factor</span>(relig),</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">relig =</span> <span class="fu">fct_recode</span>(</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>      relig,</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>      <span class="at">very_relig        =</span> <span class="st">"5"</span>,</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>      <span class="at">relig             =</span> <span class="st">"4"</span>,</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>      <span class="at">average           =</span> <span class="st">"3"</span>,</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>      <span class="at">not_relig         =</span> <span class="st">"2"</span>,</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>      <span class="at">not_at_all_relig  =</span> <span class="st">"1"</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">kids =</span> <span class="fu">factor</span>(kids),</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">kids =</span> <span class="fu">fct_recode</span>(kids, <span class="at">yes =</span> <span class="st">"1"</span>, <span class="at">no =</span> <span class="st">"0"</span>)</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">affair =</span> <span class="fu">factor</span>(affair),</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">affair =</span> <span class="fu">fct_recode</span>(affair, <span class="at">yes =</span> <span class="st">"1"</span>, <span class="at">no =</span> <span class="st">"0"</span>)</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Vuelve a ejecutar:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">datasummary_skim</span>(df, <span class="at">histogram =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="table caption-top table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th"></th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Unique</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Missing Pct.</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Mean</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">SD</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Min</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Median</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Max</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">id</td>
+<td style="text-align: left;">601</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">1059.7</td>
+<td style="text-align: left;">914.9</td>
+<td style="text-align: left;">4.0</td>
+<td style="text-align: left;">1009.0</td>
+<td style="text-align: left;">9029.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">age</td>
+<td style="text-align: left;">9</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">32.5</td>
+<td style="text-align: left;">9.3</td>
+<td style="text-align: left;">17.5</td>
+<td style="text-align: left;">32.0</td>
+<td style="text-align: left;">57.0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">yrsmarr</td>
+<td style="text-align: left;">8</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">8.2</td>
+<td style="text-align: left;">5.6</td>
+<td style="text-align: left;">0.1</td>
+<td style="text-align: left;">7.0</td>
+<td style="text-align: left;">15.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">educ</td>
+<td style="text-align: left;">7</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">16.2</td>
+<td style="text-align: left;">2.4</td>
+<td style="text-align: left;">9.0</td>
+<td style="text-align: left;">16.0</td>
+<td style="text-align: left;">20.0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">occup</td>
+<td style="text-align: left;">7</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">4.2</td>
+<td style="text-align: left;">1.8</td>
+<td style="text-align: left;">1.0</td>
+<td style="text-align: left;">5.0</td>
+<td style="text-align: left;">7.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">naffairs</td>
+<td style="text-align: left;">6</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">1.5</td>
+<td style="text-align: left;">3.3</td>
+<td style="text-align: left;">0.0</td>
+<td style="text-align: left;">0.0</td>
+<td style="text-align: left;">12.0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">vryhap</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">0.4</td>
+<td style="text-align: left;">0.5</td>
+<td style="text-align: left;">0.0</td>
+<td style="text-align: left;">0.0</td>
+<td style="text-align: left;">1.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">hapavg</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">0.3</td>
+<td style="text-align: left;">0.5</td>
+<td style="text-align: left;">0.0</td>
+<td style="text-align: left;">0.0</td>
+<td style="text-align: left;">1.0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">avgmarr</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">0.2</td>
+<td style="text-align: left;">0.4</td>
+<td style="text-align: left;">0.0</td>
+<td style="text-align: left;">0.0</td>
+<td style="text-align: left;">1.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">unhap</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">0.1</td>
+<td style="text-align: left;">0.3</td>
+<td style="text-align: left;">0.0</td>
+<td style="text-align: left;">0.0</td>
+<td style="text-align: left;">1.0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">vryrel</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">0.1</td>
+<td style="text-align: left;">0.3</td>
+<td style="text-align: left;">0.0</td>
+<td style="text-align: left;">0.0</td>
+<td style="text-align: left;">1.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">smerel</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">0.3</td>
+<td style="text-align: left;">0.5</td>
+<td style="text-align: left;">0.0</td>
+<td style="text-align: left;">0.0</td>
+<td style="text-align: left;">1.0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">slghtrel</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">0.2</td>
+<td style="text-align: left;">0.4</td>
+<td style="text-align: left;">0.0</td>
+<td style="text-align: left;">0.0</td>
+<td style="text-align: left;">1.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">notrel</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">0.3</td>
+<td style="text-align: left;">0.4</td>
+<td style="text-align: left;">0.0</td>
+<td style="text-align: left;">0.0</td>
+<td style="text-align: left;">1.0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Verás que las variables tipo factor pueden “desaparecer” del output por defecto de <code>datasummary_skim()</code>. Para que aparezcan como categóricas, usa el tipo <code>categorical</code>.</p>
+</section>
+<section id="estadísticas-descriptivas-de-factores" class="level2">
+<h2 class="anchored" data-anchor-id="estadísticas-descriptivas-de-factores">Estadísticas descriptivas de factores</h2>
+<p>Puedes ver frecuencias con <code>datasummary_skim()</code> o con <code>table()</code>:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">datasummary_skim</span>(df, <span class="at">type =</span> <span class="st">"categorical"</span>, <span class="at">histogram =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="table caption-top table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th"></th>
+<th style="text-align: left;" data-quarto-table-cell-role="th"></th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">N</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">%</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">male</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: right;">315</td>
+<td style="text-align: right;">52.4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">yes</td>
+<td style="text-align: right;">286</td>
+<td style="text-align: right;">47.6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">kids</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: right;">171</td>
+<td style="text-align: right;">28.5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">yes</td>
+<td style="text-align: right;">430</td>
+<td style="text-align: right;">71.5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">relig</td>
+<td style="text-align: left;">not_at_all_relig</td>
+<td style="text-align: right;">48</td>
+<td style="text-align: right;">8.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">not_relig</td>
+<td style="text-align: right;">164</td>
+<td style="text-align: right;">27.3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">average</td>
+<td style="text-align: right;">129</td>
+<td style="text-align: right;">21.5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">relig</td>
+<td style="text-align: right;">190</td>
+<td style="text-align: right;">31.6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">very_relig</td>
+<td style="text-align: right;">70</td>
+<td style="text-align: right;">11.6</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ratemarr</td>
+<td style="text-align: left;">very_unhappy</td>
+<td style="text-align: right;">16</td>
+<td style="text-align: right;">2.7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">unhappy</td>
+<td style="text-align: right;">66</td>
+<td style="text-align: right;">11.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">average</td>
+<td style="text-align: right;">93</td>
+<td style="text-align: right;">15.5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">happy</td>
+<td style="text-align: right;">194</td>
+<td style="text-align: right;">32.3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">very_happy</td>
+<td style="text-align: right;">232</td>
+<td style="text-align: right;">38.6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">affair</td>
+<td style="text-align: left;">no</td>
+<td style="text-align: right;">451</td>
+<td style="text-align: right;">75.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;">yes</td>
+<td style="text-align: right;">150</td>
+<td style="text-align: right;">25.0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(df<span class="sc">$</span>relig)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+not_at_all_relig        not_relig          average            relig 
+              48              164              129              190 
+      very_relig 
+              70 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(df<span class="sc">$</span>ratemarr, df<span class="sc">$</span>kids)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>              
+                no yes
+  very_unhappy   3  13
+  unhappy        8  58
+  average       24  69
+  happy         40 154
+  very_happy    96 136</code></pre>
+</div>
+</div>
+<p>También puedes usar <code>prop.table()</code> para obtener proporciones por fila (<code>margin=1</code>) o por columna (<code>margin=2</code>):</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(df<span class="sc">$</span>ratemarr) <span class="sc">%&gt;%</span> <span class="fu">prop.table</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+very_unhappy      unhappy      average        happy   very_happy 
+   0.0266223    0.1098170    0.1547421    0.3227953    0.3860233 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(df<span class="sc">$</span>ratemarr, df<span class="sc">$</span>kids) <span class="sc">%&gt;%</span> <span class="fu">prop.table</span>(<span class="at">margin =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>              
+                      no       yes
+  very_unhappy 0.1875000 0.8125000
+  unhappy      0.1212121 0.8787879
+  average      0.2580645 0.7419355
+  happy        0.2061856 0.7938144
+  very_happy   0.4137931 0.5862069</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(df<span class="sc">$</span>ratemarr, df<span class="sc">$</span>kids) <span class="sc">%&gt;%</span> <span class="fu">prop.table</span>(<span class="at">margin =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>              
+                       no        yes
+  very_unhappy 0.01754386 0.03023256
+  unhappy      0.04678363 0.13488372
+  average      0.14035088 0.16046512
+  happy        0.23391813 0.35813953
+  very_happy   0.56140351 0.31627907</code></pre>
+</div>
+</div>
+<p>También puedes graficar un histograma (barras) para una variable categórica:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> ratemarr)) <span class="sc">+</span> <span class="fu">geom_bar</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="lab06_dummies_mpl_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Esto ayuda a visualizar qué fracción de los datos cae en cada categoría.</p>
+</section>
+<section id="regresión-múltiple-con-variables-factor" class="level2">
+<h2 class="anchored" data-anchor-id="regresión-múltiple-con-variables-factor">Regresión múltiple con variables factor</h2>
+<p>Corramos una regresión con <code>naffairs</code> como variable dependiente y <code>male</code>, <code>yrsmarr</code>, <code>kids</code> y <code>ratemarr</code> como covariables:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>est1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(naffairs <span class="sc">~</span> male <span class="sc">+</span> yrsmarr <span class="sc">+</span> kids <span class="sc">+</span> ratemarr, <span class="at">data =</span> df)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Mostramos la tabla del modelo (estable para PDF):</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">modelsummary</span>(est1, <span class="at">output =</span> <span class="st">"kableExtra"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(<span class="at">full_width =</span> <span class="cn">FALSE</span>, <span class="at">position =</span> <span class="st">"center"</span>, <span class="at">latex_options =</span> <span class="st">"hold_position"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<table class="table caption-top table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th"></th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">&amp;nbsp;(1)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: center;">2.934</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(0.845)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">maleyes</td>
+<td style="text-align: center;">0.083</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(0.257)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">yrsmarr</td>
+<td style="text-align: center;">0.086</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(0.028)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">kidsyes</td>
+<td style="text-align: center;">-0.212</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(0.349)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ratemarrunhappy</td>
+<td style="text-align: center;">0.277</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(0.877)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ratemarraverage</td>
+<td style="text-align: center;">-2.136</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(0.854)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ratemarrhappy</td>
+<td style="text-align: center;">-2.275</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(0.821)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ratemarrvery_happy</td>
+<td style="text-align: center;">-2.683</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; box-shadow: 0px 1.5px;"></td>
+<td style="text-align: center; box-shadow: 0px 1.5px;">(0.822)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Num.Obs.</td>
+<td style="text-align: center;">601</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">R2</td>
+<td style="text-align: center;">0.112</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">R2 Adj.</td>
+<td style="text-align: center;">0.102</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">AIC</td>
+<td style="text-align: center;">3085.7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">BIC</td>
+<td style="text-align: center;">3125.3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Log.Lik.</td>
+<td style="text-align: center;">-1533.873</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">F</td>
+<td style="text-align: center;">10.696</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">RMSE</td>
+<td style="text-align: center;">3.11</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Interpreta el coeficiente asociado a <code>ratemarrvery_happy</code>.</p>
+</section>
+<section id="modelo-de-probabilidad-lineal-lpm" class="level2">
+<h2 class="anchored" data-anchor-id="modelo-de-probabilidad-lineal-lpm">Modelo de Probabilidad Lineal (LPM)</h2>
+<p>Corramos el mismo modelo, pero ahora usando <code>affair</code> como variable dependiente. ¿Qué pasa si ejecutas el siguiente código?</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>est2_try <span class="ot">&lt;-</span> <span class="fu">lm</span>(affair <span class="sc">~</span> male <span class="sc">+</span> yrsmarr <span class="sc">+</span> kids <span class="sc">+</span> ratemarr, <span class="at">data =</span> df)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(est2_try)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 8 × 5
+  term               estimate std.error statistic p.value
+  &lt;chr&gt;                 &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+1 (Intercept)         1.39           NA        NA      NA
+2 maleyes             0.0393         NA        NA      NA
+3 yrsmarr             0.00415        NA        NA      NA
+4 kidsyes             0.0513         NA        NA      NA
+5 ratemarrunhappy     0.00138        NA        NA      NA
+6 ratemarraverage    -0.197          NA        NA      NA
+7 ratemarrhappy      -0.245          NA        NA      NA
+8 ratemarrvery_happy -0.321          NA        NA      NA</code></pre>
+</div>
+</div>
+<p>R no “quiere” estimar este LPM porque <code>affair</code> es un factor (categórico) y el <code>lm()</code> espera una variable numérica continua en el lado izquierdo. Para correr el LPM, convierte <code>affair</code> a numérica usando <code>as.numeric(affair)</code> como variable dependiente. (Ojo: <code>as.numeric()</code> sobre factor devuelve 1/2 según el nivel; aquí lo usamos para replicar el ejercicio. Si quieres 0/1 exacto, lo hacemos con una transformación explícita.)</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>est2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">as.numeric</span>(affair) <span class="sc">~</span> male <span class="sc">+</span> yrsmarr <span class="sc">+</span> kids <span class="sc">+</span> ratemarr, <span class="at">data =</span> df)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Tabla del LPM:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">modelsummary</span>(est2, <span class="at">output =</span> <span class="st">"kableExtra"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(<span class="at">full_width =</span> <span class="cn">FALSE</span>, <span class="at">position =</span> <span class="st">"center"</span>, <span class="at">latex_options =</span> <span class="st">"hold_position"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<table class="table caption-top table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th"></th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">&amp;nbsp;(1)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: center;">1.394</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(0.113)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">maleyes</td>
+<td style="text-align: center;">0.039</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(0.034)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">yrsmarr</td>
+<td style="text-align: center;">0.004</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(0.004)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">kidsyes</td>
+<td style="text-align: center;">0.051</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(0.047)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ratemarrunhappy</td>
+<td style="text-align: center;">0.001</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(0.117)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ratemarraverage</td>
+<td style="text-align: center;">-0.197</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(0.114)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ratemarrhappy</td>
+<td style="text-align: center;">-0.245</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(0.110)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ratemarrvery_happy</td>
+<td style="text-align: center;">-0.321</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; box-shadow: 0px 1.5px;"></td>
+<td style="text-align: center; box-shadow: 0px 1.5px;">(0.110)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Num.Obs.</td>
+<td style="text-align: center;">601</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">R2</td>
+<td style="text-align: center;">0.080</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">R2 Adj.</td>
+<td style="text-align: center;">0.069</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">AIC</td>
+<td style="text-align: center;">667.0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">BIC</td>
+<td style="text-align: center;">706.5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Log.Lik.</td>
+<td style="text-align: center;">-324.477</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">F</td>
+<td style="text-align: center;">7.331</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">RMSE</td>
+<td style="text-align: center;">0.42</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Interpreta los coeficientes de <code>ratemarraverage</code> y <code>kidsyes</code>.</p>
+</section>
+<section id="términos-de-interacción" class="level2">
+<h2 class="anchored" data-anchor-id="términos-de-interacción">Términos de interacción</h2>
+<p>Finalmente, corramos un modelo más flexible donde permitimos que el efecto de <code>kids</code> sea diferente para hombres y mujeres. En <code>lm()</code> esto se escribe así:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>est3 <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">as.numeric</span>(affair) <span class="sc">~</span> male <span class="sc">*</span> kids <span class="sc">+</span> yrsmarr <span class="sc">+</span> ratemarr, <span class="at">data =</span> df)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(est3)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 9 × 5
+  term                estimate std.error statistic  p.value
+  &lt;chr&gt;                  &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+1 (Intercept)         1.39       0.116    12.0     7.09e-30
+2 maleyes             0.0549     0.0652    0.842   4.00e- 1
+3 kidsyes             0.0616     0.0594    1.04    3.00e- 1
+4 yrsmarr             0.00407    0.00382   1.06    2.88e- 1
+5 ratemarrunhappy     0.000797   0.117     0.00680 9.95e- 1
+6 ratemarraverage    -0.197      0.114    -1.73    8.45e- 2
+7 ratemarrhappy      -0.244      0.110    -2.22    2.66e- 2
+8 ratemarrvery_happy -0.321      0.110    -2.91    3.71e- 3
+9 maleyes:kidsyes    -0.0216     0.0770   -0.281   7.79e- 1</code></pre>
+</div>
+</div>
+<p>Mostramos la tabla del modelo con interacción:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">modelsummary</span>(est3, <span class="at">output =</span> <span class="st">"kableExtra"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(<span class="at">full_width =</span> <span class="cn">FALSE</span>, <span class="at">position =</span> <span class="st">"center"</span>, <span class="at">latex_options =</span> <span class="st">"hold_position"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<table class="table caption-top table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th"></th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">&amp;nbsp;(1)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: center;">1.387</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(0.116)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">maleyes</td>
+<td style="text-align: center;">0.055</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(0.065)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">kidsyes</td>
+<td style="text-align: center;">0.062</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(0.059)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">yrsmarr</td>
+<td style="text-align: center;">0.004</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(0.004)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ratemarrunhappy</td>
+<td style="text-align: center;">0.001</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(0.117)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ratemarraverage</td>
+<td style="text-align: center;">-0.197</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(0.114)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ratemarrhappy</td>
+<td style="text-align: center;">-0.244</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(0.110)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ratemarrvery_happy</td>
+<td style="text-align: center;">-0.321</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(0.110)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">maleyes × kidsyes</td>
+<td style="text-align: center;">-0.022</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; box-shadow: 0px 1.5px;"></td>
+<td style="text-align: center; box-shadow: 0px 1.5px;">(0.077)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Num.Obs.</td>
+<td style="text-align: center;">601</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">R2</td>
+<td style="text-align: center;">0.080</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">R2 Adj.</td>
+<td style="text-align: center;">0.067</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">AIC</td>
+<td style="text-align: center;">668.9</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">BIC</td>
+<td style="text-align: center;">712.9</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Log.Lik.</td>
+<td style="text-align: center;">-324.437</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">F</td>
+<td style="text-align: center;">6.415</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">RMSE</td>
+<td style="text-align: center;">0.42</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>El coeficiente del término de interacción se etiqueta <code>maleyes:kidsyes</code>.<br>
+¿Tienen los padres una tasa diferencial de relaciones extramaritales comparado con las madres, según este modelo?</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

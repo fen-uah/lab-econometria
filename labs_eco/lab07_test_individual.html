@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>lab07_test_individual</title>
+<title>Laboratorio 7 – Pruebas de hipótesis sobre parámetros de regresión</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +19,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -69,7 +104,40 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
+<script src="../site_libs/kePrint-0.0.1/kePrint.js"></script>
 
+<link href="../site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../styles.css">
 </head>
@@ -120,14 +188,29 @@ ul.task-list li input[type="checkbox"] {
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
-    <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="lab07_test_individual.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></div>
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#primeros-pasos" id="toc-primeros-pasos" class="nav-link active" data-scroll-target="#primeros-pasos">Primeros pasos</a></li>
+  <li><a href="#cargar-los-datos" id="toc-cargar-los-datos" class="nav-link" data-scroll-target="#cargar-los-datos">Cargar los datos</a></li>
+  <li><a href="#regresión-y-pruebas-de-hipótesis" id="toc-regresión-y-pruebas-de-hipótesis" class="nav-link" data-scroll-target="#regresión-y-pruebas-de-hipótesis">Regresión y pruebas de hipótesis</a>
+  <ul class="collapse">
+  <li><a href="#estimación-del-modelo" id="toc-estimación-del-modelo" class="nav-link" data-scroll-target="#estimación-del-modelo">Estimación del modelo</a></li>
+  </ul></li>
+  <li><a href="#preguntas-de-análisis-responde-en-tu-script" id="toc-preguntas-de-análisis-responde-en-tu-script" class="nav-link" data-scroll-target="#preguntas-de-análisis-responde-en-tu-script">Preguntas de análisis (responde en tu script)</a>
+  <ul class="collapse">
+  <li><a href="#ayuda-cómo-hacer-la-prueba-unilateral-con-el-p-value-de-tidy" id="toc-ayuda-cómo-hacer-la-prueba-unilateral-con-el-p-value-de-tidy" class="nav-link" data-scroll-target="#ayuda-cómo-hacer-la-prueba-unilateral-con-el-p-value-de-tidy">Ayuda: cómo hacer la prueba unilateral con el p-value de tidy()</a></li>
+  </ul></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="lab07_test_individual.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">lab07_test_individual</h1>
+<h1 class="title">Laboratorio 7 – Pruebas de hipótesis sobre parámetros de regresión</h1>
 </div>
 
 
@@ -144,8 +227,609 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<p>El propósito de este laboratorio en clase es practicar la realización de <strong>pruebas de hipótesis</strong> sobre parámetros de regresión en R.</p>
+<section id="primeros-pasos" class="level2">
+<h2 class="anchored" data-anchor-id="primeros-pasos">Primeros pasos</h2>
+<p>Abre un nuevo script y carga los paquetes</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Agrega los nombres de los integrantes del grupo AQUÍ (si corresponde)</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Instalar paquetes solo si faltan (estilo ECO/EPG)</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>pkgs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"tidyverse"</span>, <span class="st">"broom"</span>, <span class="st">"wooldridge"</span>, <span class="st">"magrittr"</span>, <span class="st">"modelsummary"</span>, <span class="st">"kableExtra"</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>to_install <span class="ot">&lt;-</span> pkgs[<span class="sc">!</span>pkgs <span class="sc">%in%</span> <span class="fu">rownames</span>(<span class="fu">installed.packages</span>())]</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">length</span>(to_install) <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">install.packages</span>(to_install, <span class="at">repos =</span> <span class="st">"http://cran.us.r-project.org"</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(wooldridge)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(magrittr)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(modelsummary)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Receta ECO/EPG: forzar tablas estables (LaTeX clásico)</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">modelsummary_factory_default =</span> <span class="st">"kableExtra"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="cargar-los-datos" class="level2">
+<h2 class="anchored" data-anchor-id="cargar-los-datos">Cargar los datos</h2>
+<p>Usaremos un conjunto de datos sobre gasto en Investigación y Desarrollo (I+D), llamado <code>rdchem</code>. Contiene información de 32 empresas de la industria química.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(rdchem)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Revisa qué contiene el conjunto de datos:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">datasummary_df</span>(df)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="table caption-top table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">rd</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">sales</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">profits</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">rdintens</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">profmarg</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">salessq</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">lsales</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">lrd</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">430.60</td>
+<td style="text-align: left;">4570.20</td>
+<td style="text-align: left;">186.90</td>
+<td style="text-align: left;">9.42</td>
+<td style="text-align: left;">4.09</td>
+<td style="text-align: left;">2.088673e+07</td>
+<td style="text-align: left;">8.43</td>
+<td style="text-align: left;">6.07</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">59.00</td>
+<td style="text-align: left;">2830.00</td>
+<td style="text-align: left;">467.00</td>
+<td style="text-align: left;">2.08</td>
+<td style="text-align: left;">16.50</td>
+<td style="text-align: left;">8.008900e+06</td>
+<td style="text-align: left;">7.95</td>
+<td style="text-align: left;">4.08</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">23.50</td>
+<td style="text-align: left;">596.80</td>
+<td style="text-align: left;">107.40</td>
+<td style="text-align: left;">3.94</td>
+<td style="text-align: left;">18.00</td>
+<td style="text-align: left;">3.561702e+05</td>
+<td style="text-align: left;">6.39</td>
+<td style="text-align: left;">3.16</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">3.50</td>
+<td style="text-align: left;">133.60</td>
+<td style="text-align: left;">-4.30</td>
+<td style="text-align: left;">2.62</td>
+<td style="text-align: left;">-3.22</td>
+<td style="text-align: left;">1.784896e+04</td>
+<td style="text-align: left;">4.89</td>
+<td style="text-align: left;">1.25</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">1.70</td>
+<td style="text-align: left;">42.00</td>
+<td style="text-align: left;">8.00</td>
+<td style="text-align: left;">4.05</td>
+<td style="text-align: left;">19.05</td>
+<td style="text-align: left;">1.764000e+03</td>
+<td style="text-align: left;">3.74</td>
+<td style="text-align: left;">0.53</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">8.40</td>
+<td style="text-align: left;">390.00</td>
+<td style="text-align: left;">47.30</td>
+<td style="text-align: left;">2.15</td>
+<td style="text-align: left;">12.13</td>
+<td style="text-align: left;">1.521000e+05</td>
+<td style="text-align: left;">5.97</td>
+<td style="text-align: left;">2.13</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2.50</td>
+<td style="text-align: left;">93.90</td>
+<td style="text-align: left;">0.90</td>
+<td style="text-align: left;">2.66</td>
+<td style="text-align: left;">0.96</td>
+<td style="text-align: left;">8.817210e+03</td>
+<td style="text-align: left;">4.54</td>
+<td style="text-align: left;">0.92</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">39.90</td>
+<td style="text-align: left;">907.90</td>
+<td style="text-align: left;">77.40</td>
+<td style="text-align: left;">4.39</td>
+<td style="text-align: left;">8.53</td>
+<td style="text-align: left;">8.242824e+05</td>
+<td style="text-align: left;">6.81</td>
+<td style="text-align: left;">3.69</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">1136.00</td>
+<td style="text-align: left;">19773.00</td>
+<td style="text-align: left;">2563.00</td>
+<td style="text-align: left;">5.75</td>
+<td style="text-align: left;">12.96</td>
+<td style="text-align: left;">3.909715e+08</td>
+<td style="text-align: left;">9.89</td>
+<td style="text-align: left;">7.04</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1428.00</td>
+<td style="text-align: left;">39709.00</td>
+<td style="text-align: left;">4154.00</td>
+<td style="text-align: left;">3.60</td>
+<td style="text-align: left;">10.46</td>
+<td style="text-align: left;">1.576805e+09</td>
+<td style="text-align: left;">10.59</td>
+<td style="text-align: left;">7.26</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">45.30</td>
+<td style="text-align: left;">2936.50</td>
+<td style="text-align: left;">93.70</td>
+<td style="text-align: left;">1.54</td>
+<td style="text-align: left;">3.19</td>
+<td style="text-align: left;">8.623032e+06</td>
+<td style="text-align: left;">7.98</td>
+<td style="text-align: left;">3.81</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">65.20</td>
+<td style="text-align: left;">2513.80</td>
+<td style="text-align: left;">355.40</td>
+<td style="text-align: left;">2.59</td>
+<td style="text-align: left;">14.14</td>
+<td style="text-align: left;">6.319191e+06</td>
+<td style="text-align: left;">7.83</td>
+<td style="text-align: left;">4.18</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">20.30</td>
+<td style="text-align: left;">1124.80</td>
+<td style="text-align: left;">45.30</td>
+<td style="text-align: left;">1.80</td>
+<td style="text-align: left;">4.03</td>
+<td style="text-align: left;">1.265175e+06</td>
+<td style="text-align: left;">7.03</td>
+<td style="text-align: left;">3.01</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">15.60</td>
+<td style="text-align: left;">921.60</td>
+<td style="text-align: left;">4.10</td>
+<td style="text-align: left;">1.69</td>
+<td style="text-align: left;">0.44</td>
+<td style="text-align: left;">8.493465e+05</td>
+<td style="text-align: left;">6.83</td>
+<td style="text-align: left;">2.75</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">74.00</td>
+<td style="text-align: left;">2432.60</td>
+<td style="text-align: left;">132.40</td>
+<td style="text-align: left;">3.04</td>
+<td style="text-align: left;">5.44</td>
+<td style="text-align: left;">5.917543e+06</td>
+<td style="text-align: left;">7.80</td>
+<td style="text-align: left;">4.30</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">147.50</td>
+<td style="text-align: left;">6754.00</td>
+<td style="text-align: left;">329.00</td>
+<td style="text-align: left;">2.18</td>
+<td style="text-align: left;">4.87</td>
+<td style="text-align: left;">4.561652e+07</td>
+<td style="text-align: left;">8.82</td>
+<td style="text-align: left;">4.99</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">29.20</td>
+<td style="text-align: left;">1066.30</td>
+<td style="text-align: left;">289.90</td>
+<td style="text-align: left;">2.74</td>
+<td style="text-align: left;">27.19</td>
+<td style="text-align: left;">1.136996e+06</td>
+<td style="text-align: left;">6.97</td>
+<td style="text-align: left;">3.37</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">92.20</td>
+<td style="text-align: left;">3199.90</td>
+<td style="text-align: left;">163.20</td>
+<td style="text-align: left;">2.88</td>
+<td style="text-align: left;">5.10</td>
+<td style="text-align: left;">1.023936e+07</td>
+<td style="text-align: left;">8.07</td>
+<td style="text-align: left;">4.52</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3.70</td>
+<td style="text-align: left;">150.00</td>
+<td style="text-align: left;">32.60</td>
+<td style="text-align: left;">2.47</td>
+<td style="text-align: left;">21.73</td>
+<td style="text-align: left;">2.250000e+04</td>
+<td style="text-align: left;">5.01</td>
+<td style="text-align: left;">1.31</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">19.40</td>
+<td style="text-align: left;">509.70</td>
+<td style="text-align: left;">83.80</td>
+<td style="text-align: left;">3.81</td>
+<td style="text-align: left;">16.44</td>
+<td style="text-align: left;">2.597941e+05</td>
+<td style="text-align: left;">6.23</td>
+<td style="text-align: left;">2.97</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">74.40</td>
+<td style="text-align: left;">1452.70</td>
+<td style="text-align: left;">271.20</td>
+<td style="text-align: left;">5.12</td>
+<td style="text-align: left;">18.67</td>
+<td style="text-align: left;">2.110337e+06</td>
+<td style="text-align: left;">7.28</td>
+<td style="text-align: left;">4.31</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">612.00</td>
+<td style="text-align: left;">8995.00</td>
+<td style="text-align: left;">809.00</td>
+<td style="text-align: left;">6.80</td>
+<td style="text-align: left;">8.99</td>
+<td style="text-align: left;">8.091002e+07</td>
+<td style="text-align: left;">9.10</td>
+<td style="text-align: left;">6.42</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">45.30</td>
+<td style="text-align: left;">1212.30</td>
+<td style="text-align: left;">215.00</td>
+<td style="text-align: left;">3.74</td>
+<td style="text-align: left;">17.73</td>
+<td style="text-align: left;">1.469671e+06</td>
+<td style="text-align: left;">7.10</td>
+<td style="text-align: left;">3.81</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">11.00</td>
+<td style="text-align: left;">906.60</td>
+<td style="text-align: left;">154.80</td>
+<td style="text-align: left;">1.21</td>
+<td style="text-align: left;">17.07</td>
+<td style="text-align: left;">8.219235e+05</td>
+<td style="text-align: left;">6.81</td>
+<td style="text-align: left;">2.40</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">66.00</td>
+<td style="text-align: left;">2592.00</td>
+<td style="text-align: left;">116.00</td>
+<td style="text-align: left;">2.55</td>
+<td style="text-align: left;">4.48</td>
+<td style="text-align: left;">6.718464e+06</td>
+<td style="text-align: left;">7.86</td>
+<td style="text-align: left;">4.19</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">10.40</td>
+<td style="text-align: left;">201.50</td>
+<td style="text-align: left;">23.00</td>
+<td style="text-align: left;">5.16</td>
+<td style="text-align: left;">11.41</td>
+<td style="text-align: left;">4.060225e+04</td>
+<td style="text-align: left;">5.31</td>
+<td style="text-align: left;">2.34</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">48.90</td>
+<td style="text-align: left;">2617.80</td>
+<td style="text-align: left;">60.50</td>
+<td style="text-align: left;">1.87</td>
+<td style="text-align: left;">2.31</td>
+<td style="text-align: left;">6.852877e+06</td>
+<td style="text-align: left;">7.87</td>
+<td style="text-align: left;">3.89</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">6.10</td>
+<td style="text-align: left;">502.20</td>
+<td style="text-align: left;">18.40</td>
+<td style="text-align: left;">1.21</td>
+<td style="text-align: left;">3.66</td>
+<td style="text-align: left;">2.522049e+05</td>
+<td style="text-align: left;">6.22</td>
+<td style="text-align: left;">1.81</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">178.20</td>
+<td style="text-align: left;">2824.00</td>
+<td style="text-align: left;">313.00</td>
+<td style="text-align: left;">6.31</td>
+<td style="text-align: left;">11.08</td>
+<td style="text-align: left;">7.974976e+06</td>
+<td style="text-align: left;">7.95</td>
+<td style="text-align: left;">5.18</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">3.00</td>
+<td style="text-align: left;">292.20</td>
+<td style="text-align: left;">6.40</td>
+<td style="text-align: left;">1.03</td>
+<td style="text-align: left;">2.19</td>
+<td style="text-align: left;">8.538084e+04</td>
+<td style="text-align: left;">5.68</td>
+<td style="text-align: left;">1.10</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">191.00</td>
+<td style="text-align: left;">7621.00</td>
+<td style="text-align: left;">626.00</td>
+<td style="text-align: left;">2.51</td>
+<td style="text-align: left;">8.21</td>
+<td style="text-align: left;">5.807964e+07</td>
+<td style="text-align: left;">8.94</td>
+<td style="text-align: left;">5.25</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">26.00</td>
+<td style="text-align: left;">1631.50</td>
+<td style="text-align: left;">105.80</td>
+<td style="text-align: left;">1.59</td>
+<td style="text-align: left;">6.48</td>
+<td style="text-align: left;">2.661792e+06</td>
+<td style="text-align: left;">7.40</td>
+<td style="text-align: left;">3.26</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">datasummary_skim</span>(df, <span class="at">histogram =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="table caption-top table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th"></th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Unique</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Missing Pct.</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Mean</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">SD</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Min</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Median</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Max</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">rd</td>
+<td style="text-align: left;">31</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">153.7</td>
+<td style="text-align: left;">324.6</td>
+<td style="text-align: left;">1.7</td>
+<td style="text-align: left;">42.6</td>
+<td style="text-align: left;">1428.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">sales</td>
+<td style="text-align: left;">32</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">3797.0</td>
+<td style="text-align: left;">7588.0</td>
+<td style="text-align: left;">42.0</td>
+<td style="text-align: left;">1332.5</td>
+<td style="text-align: left;">39709.0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">profits</td>
+<td style="text-align: left;">32</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">370.5</td>
+<td style="text-align: left;">830.9</td>
+<td style="text-align: left;">-4.3</td>
+<td style="text-align: left;">111.7</td>
+<td style="text-align: left;">4154.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">rdintens</td>
+<td style="text-align: left;">32</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">3.3</td>
+<td style="text-align: left;">1.9</td>
+<td style="text-align: left;">1.0</td>
+<td style="text-align: left;">2.6</td>
+<td style="text-align: left;">9.4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">profmarg</td>
+<td style="text-align: left;">32</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">9.8</td>
+<td style="text-align: left;">7.2</td>
+<td style="text-align: left;">-3.2</td>
+<td style="text-align: left;">8.8</td>
+<td style="text-align: left;">27.2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">salessq</td>
+<td style="text-align: left;">32</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">70195631.7</td>
+<td style="text-align: left;">283664044.9</td>
+<td style="text-align: left;">1764.0</td>
+<td style="text-align: left;">1790004.3</td>
+<td style="text-align: left;">1576804736.0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">lsales</td>
+<td style="text-align: left;">32</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">7.2</td>
+<td style="text-align: left;">1.5</td>
+<td style="text-align: left;">3.7</td>
+<td style="text-align: left;">7.2</td>
+<td style="text-align: left;">10.6</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">lrd</td>
+<td style="text-align: left;">31</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">3.6</td>
+<td style="text-align: left;">1.7</td>
+<td style="text-align: left;">0.5</td>
+<td style="text-align: left;">3.7</td>
+<td style="text-align: left;">7.3</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Las variables principales son medidas de I+D, utilidades (profits), ventas (sales) y utilidades como porcentaje de ventas (<code>profmarg</code>, es decir, margen de utilidades).</p>
+</section>
+<section id="regresión-y-pruebas-de-hipótesis" class="level2">
+<h2 class="anchored" data-anchor-id="regresión-y-pruebas-de-hipótesis">Regresión y pruebas de hipótesis</h2>
+<p>Estimaremos el siguiente modelo:</p>
+<p><span class="math display">\[
+rdintens = \beta_0 + \beta_1 \log(sales) + \beta_2\,profmarg + u
+\]</span></p>
+<p>Observa que la variable <span class="math inline">\(\log(sales)\)</span> ya existe en <code>df</code> como <code>lsales</code>.<br>
+Además, <code>rdintens</code> está en <strong>unidades porcentuales</strong>: por ejemplo, un valor de 2.6 significa que el gasto total en I+D de la empresa equivale al <strong>2.6%</strong> de sus ventas.</p>
+<section id="estimación-del-modelo" class="level3">
+<h3 class="anchored" data-anchor-id="estimación-del-modelo">Estimación del modelo</h3>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>est <span class="ot">&lt;-</span> <span class="fu">lm</span>(rdintens <span class="sc">~</span> lsales <span class="sc">+</span> profmarg, <span class="at">data =</span> df)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(est)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 5
+  term        estimate std.error statistic p.value
+  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+1 (Intercept)   0.472     1.68       0.282   0.780
+2 lsales        0.321     0.216      1.49    0.147
+3 profmarg      0.0500    0.0458     1.09    0.283</code></pre>
+</div>
+</div>
+<p>Mostramos la tabla del modelo (estable para PDF):</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">modelsummary</span>(est, <span class="at">output =</span> <span class="st">"kableExtra"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(<span class="at">full_width =</span> <span class="cn">FALSE</span>, <span class="at">position =</span> <span class="st">"center"</span>, <span class="at">latex_options =</span> <span class="st">"hold_position"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<table class="table caption-top table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th"></th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">&amp;nbsp;(1)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: center;">0.472</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(1.676)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">lsales</td>
+<td style="text-align: center;">0.321</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(0.216)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">profmarg</td>
+<td style="text-align: center;">0.050</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; box-shadow: 0px 1.5px;"></td>
+<td style="text-align: center; box-shadow: 0px 1.5px;">(0.046)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Num.Obs.</td>
+<td style="text-align: center;">32</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">R2</td>
+<td style="text-align: center;">0.098</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">R2 Adj.</td>
+<td style="text-align: center;">0.036</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">AIC</td>
+<td style="text-align: center;">134.7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">BIC</td>
+<td style="text-align: center;">140.5</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Log.Lik.</td>
+<td style="text-align: center;">-63.333</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">F</td>
+<td style="text-align: center;">1.584</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">RMSE</td>
+<td style="text-align: center;">1.75</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+<section id="preguntas-de-análisis-responde-en-tu-script" class="level2">
+<h2 class="anchored" data-anchor-id="preguntas-de-análisis-responde-en-tu-script">Preguntas de análisis (responde en tu script)</h2>
+<p>Responde las siguientes preguntas (puedes escribir tus respuestas como comentarios <code>#</code> en tu archivo <code>.R</code>):</p>
+<ol type="1">
+<li><strong>Interpreta el coeficiente de <code>lsales</code>.</strong> Si <span class="math inline">\(sales\)</span> aumenta en 10%, ¿cuál es el cambio estimado (en puntos porcentuales) en <code>rdintens</code>?</li>
+<li>¿Esta relación es <strong>económicamente significativa</strong> (además de estadísticamente significativa)?</li>
+<li>Usando la salida de <code>tidy(est)</code>, prueba al 10% la hipótesis de que las ventas afectan la intensidad de I+D. Es decir, prueba:</li>
+</ol>
+<p><span class="math display">\[
+H_0: \beta_1 = 0 \quad;\quad H_a: \beta_1 \neq 0
+\]</span></p>
+<ol start="4" type="1">
+<li>¿Cambia tu respuesta de (3) si en vez de una alternativa bilateral consideras una alternativa unilateral? (es decir, <span class="math inline">\(H_a: \beta_1 &gt; 0\)</span>)</li>
+<li>Considera ahora el parámetro <span class="math inline">\(\beta_2\)</span>. ¿Existe un efecto estadísticamente significativo del margen de utilidades (<code>profmarg</code>) sobre la intensidad de I+D (<code>rdintens</code>)?</li>
+</ol>
+<section id="ayuda-cómo-hacer-la-prueba-unilateral-con-el-p-value-de-tidy" class="level3">
+<h3 class="anchored" data-anchor-id="ayuda-cómo-hacer-la-prueba-unilateral-con-el-p-value-de-tidy">Ayuda: cómo hacer la prueba unilateral con el p-value de tidy()</h3>
+<p><code>tidy(est)</code> entrega un p-value bilateral para cada coeficiente. Si el estadístico t es positivo y quieres una prueba unilateral <span class="math inline">\(H_a: \beta_1 &gt; 0\)</span>, el p-value unilateral es aproximadamente la mitad del bilateral (siempre que el signo vaya en la dirección de la alternativa).</p>
+<p>Puedes calcularlo así:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>t_lsales <span class="ot">&lt;-</span> <span class="fu">tidy</span>(est) <span class="sc">%&gt;%</span> <span class="fu">filter</span>(term <span class="sc">==</span> <span class="st">"lsales"</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(statistic)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>p_two    <span class="ot">&lt;-</span> <span class="fu">tidy</span>(est) <span class="sc">%&gt;%</span> <span class="fu">filter</span>(term <span class="sc">==</span> <span class="st">"lsales"</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(p.value)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>p_one_greater <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(t_lsales <span class="sc">&gt;</span> <span class="dv">0</span>, p_two <span class="sc">/</span> <span class="dv">2</span>, <span class="dv">1</span> <span class="sc">-</span> p_two <span class="sc">/</span> <span class="dv">2</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">t_stat =</span> t_lsales, <span class="at">p_two_sided =</span> p_two, <span class="at">p_one_sided_greater =</span> p_one_greater)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             t_stat         p_two_sided p_one_sided_greater 
+         1.49069937          0.14683824          0.07341912 </code></pre>
+</div>
+</div>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

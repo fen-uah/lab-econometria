@@ -124,13 +124,8 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#proyectos-2025" id="toc-proyectos-2025" class="nav-link active" data-scroll-target="#proyectos-2025">Proyectos 2025</a>
-  <ul class="collapse">
-  <li><a href="#determinantes-de-la-formalidad-laboral-en-chile-evidencia-desde-la-ene-2024" id="toc-determinantes-de-la-formalidad-laboral-en-chile-evidencia-desde-la-ene-2024" class="nav-link" data-scroll-target="#determinantes-de-la-formalidad-laboral-en-chile-evidencia-desde-la-ene-2024">- <strong>Determinantes de la Formalidad Laboral en Chile: Evidencia desde la ENE 2024</strong></a></li>
-  <li><a href="#determinantes-del-gasto-financiero-en-hogares-chilenos-post-pandemia" id="toc-determinantes-del-gasto-financiero-en-hogares-chilenos-post-pandemia" class="nav-link" data-scroll-target="#determinantes-del-gasto-financiero-en-hogares-chilenos-post-pandemia">- <strong>Determinantes del Gasto Financiero en Hogares Chilenos Post-Pandemia</strong></a></li>
-  <li><a href="#factores-explicativos-de-la-tenencia-de-vivienda-en-chile-una-aproximación-cuantitativa" id="toc-factores-explicativos-de-la-tenencia-de-vivienda-en-chile-una-aproximación-cuantitativa" class="nav-link" data-scroll-target="#factores-explicativos-de-la-tenencia-de-vivienda-en-chile-una-aproximación-cuantitativa">- <strong>Factores Explicativos de la Tenencia de Vivienda en Chile: Una Aproximación Cuantitativa</strong></a></li>
-  <li><a href="#influencia-de-la-edad-y-dificultades-funcionales-en-la-demanda-de-consultas-médicas-en-personas-mayores" id="toc-influencia-de-la-edad-y-dificultades-funcionales-en-la-demanda-de-consultas-médicas-en-personas-mayores" class="nav-link" data-scroll-target="#influencia-de-la-edad-y-dificultades-funcionales-en-la-demanda-de-consultas-médicas-en-personas-mayores">- <strong>Influencia de la Edad y Dificultades Funcionales en la Demanda de Consultas Médicas en personas mayores</strong></a></li>
-  </ul></li>
+  <li><a href="#presentaciones-destacadas-2025" id="toc-presentaciones-destacadas-2025" class="nav-link active" data-scroll-target="#presentaciones-destacadas-2025">Presentaciones destacadas 2025</a></li>
+  <li><a href="#proyectos-2025" id="toc-proyectos-2025" class="nav-link" data-scroll-target="#proyectos-2025">Proyectos 2025</a></li>
   <li><a href="#proyectos-2026" id="toc-proyectos-2026" class="nav-link" data-scroll-target="#proyectos-2026">Proyectos 2026</a></li>
   </ul>
 </nav>
@@ -158,41 +153,196 @@ ul.task-list li input[type="checkbox"] {
 
 
 <p>Los proyectos presentados a continuación son los destacados por los docentes y ayudantes, organizados por año y semestre del curso, junto con sus respectivos documentos descargables.</p>
+<style>
+
+:root{
+  --walker-green:#0f7c3a;
+  --walker-muted:#6b7280;
+  --walker-text:#111827;
+  --walker-border:#e5e7eb;
+}
+
+/* Galería superior */
+.walker-gallery{
+  margin: 12px 0 28px 0;
+  padding-bottom: 18px;
+  border-bottom: 4px solid var(--walker-green);
+}
+.walker-gallery-grid{
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 14px;
+}
+.walker-gallery-card{
+  border: 1px solid var(--walker-border);
+  border-radius: 10px;
+  overflow: hidden;
+  background: #fff;
+}
+.walker-gallery-card img{
+  width: 100%;
+  height: auto;
+  display: block;
+}
+@media (max-width: 1100px){
+  .walker-gallery-grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 650px){
+  .walker-gallery-grid{ grid-template-columns: 1fr; }
+}
+
+/* Listado tipo Walker */
+.walker-list{
+  margin-top: 10px;
+  border-top: 4px solid var(--walker-green);
+}
+.walker-item{
+  display: grid;
+  grid-template-columns: 210px 1fr;
+  gap: 34px;
+  padding: 22px 0;
+  border-bottom: 4px solid var(--walker-green);
+}
+.walker-meta{
+  color: var(--walker-muted);
+  font-size: 0.95rem;
+  line-height: 1.35;
+}
+.walker-meta .tag{
+  display: inline-block;
+  margin-top: 6px;
+  padding: 2px 8px;
+  border: 1px solid var(--walker-border);
+  border-radius: 999px;
+  font-size: 0.8rem;
+  color: var(--walker-muted);
+}
+.walker-title{
+  font-size: 2.0rem;
+  font-weight: 750;
+  color: var(--walker-text);
+  margin: 0 0 6px 0;
+}
+.walker-authors{
+  font-weight: 650;
+  margin: 0 0 12px 0;
+  color: var(--walker-text);
+}
+.walker-summary{
+  color: #374151;
+  line-height: 1.7;
+  font-size: 1.05rem;
+  margin: 0 0 12px 0;
+}
+.walker-links a{
+  display: inline-block;
+  margin-right: 18px;
+  margin-top: 6px;
+  font-weight: 650;
+  text-decoration: none;
+}
+.walker-links a:hover{ text-decoration: underline; }
+
+@media (max-width: 900px){
+  .walker-item{ grid-template-columns: 1fr; gap: 12px; }
+  .walker-title{ font-size: 1.6rem; }
+}
+</style>
+<section id="presentaciones-destacadas-2025" class="level2">
+<h2 class="anchored" data-anchor-id="presentaciones-destacadas-2025">Presentaciones destacadas 2025</h2>
+<div class="walker-gallery">
+  <div class="walker-gallery-grid">
+    <div class="walker-gallery-card"><img src="pdf_pro_eco/presentacion1.jpg" alt="Presentación 1"></div>
+    <div class="walker-gallery-card"><img src="pdf_pro_eco/presentacion3.jpg" alt="Presentación 2"></div>
+    <div class="walker-gallery-card"><img src="pdf_pro_eco/presentacion4.jpg" alt="Presentación 3"></div>
+  </div>
+</div>
+</section>
 <section id="proyectos-2025" class="level1">
 <h1>Proyectos 2025</h1>
-<section id="determinantes-de-la-formalidad-laboral-en-chile-evidencia-desde-la-ene-2024" class="level2">
-<h2 class="anchored" data-anchor-id="determinantes-de-la-formalidad-laboral-en-chile-evidencia-desde-la-ene-2024">- <strong>Determinantes de la Formalidad Laboral en Chile: Evidencia desde la ENE 2024</strong></h2>
-<p><strong>Autores:</strong> Jhanus Burgos, Bastian Liberona y Bruno Lefiche</p>
-<p><strong>Resumen</strong>: El estudio busca responder cómo sexo, educación, contrato, sector laboral y edad influyen en la probabilidad de tener un empleo formal en Chile. Utilizando datos de la ENE 2024 y una regresión múltiple con variables dummy, se analiza la formalidad laboral a nivel individual.</p>
-<p>Los principales resultados indican que tener contrato escrito y pertenecer al sector formal son los factores con mayor impacto positivo en la formalidad. En contraste, jóvenes y adultos mayores presentan menor probabilidad de empleo formal, mientras que la educación superior y postgrado muestran coeficientes negativos debido a la presencia de profesionales independientes. Finalmente, los meses del año no afectan la formalidad laboral.</p>
-<p><a href="pdf_pro_eco/grupo1_informe.pdf" download="true">Descargar Informe PDF</a></p>
-<p><a href="pdf_pro_eco/grupo1_presentacion.pdf" download="true">Descargar Presentación PDF</a></p>
-</section>
-<section id="determinantes-del-gasto-financiero-en-hogares-chilenos-post-pandemia" class="level2">
-<h2 class="anchored" data-anchor-id="determinantes-del-gasto-financiero-en-hogares-chilenos-post-pandemia">- <strong>Determinantes del Gasto Financiero en Hogares Chilenos Post-Pandemia</strong></h2>
-<p><strong>Autores</strong>: Damián Zapata, Lissette Rubio y Vicente Gamboa</p>
-<p><strong>Resumen</strong>: El estudio busca responder qué factores socioeconómicos explican que los hogares chilenos destinen mayores recursos al gasto financiero per cápita. Utilizando microdatos de la IX Encuesta de Presupuestos Familiares y un modelo de regresión múltiple log–log —con transformaciones per cápita, logaritmos y controles como educación, edad, género y vivienda— se estiman elasticidades y efectos estructurales sobre el gasto financiero.</p>
-<p>Los resultados muestran que el ingreso es un determinante clave pero inelástico (elasticidad ≈ 0.68). El factor más relevante es pagar dividendo hipotecario, que multiplica el gasto financiero del hogar, mientras que la educación sigue una escalera ascendente: mayor capital humano se asocia a mayor gasto y acceso financiero. La <strong>edad</strong> presenta un patrón de <strong>U invertida</strong>, con un máximo alrededor de los 41 años. Las zonas geográficas no muestran efectos significativos.</p>
-<p><a href="pdf_pro_eco/grupo3_informe.pdf" download="true">Descargar Informe PDF</a></p>
-<p><a href="pdf_pro_eco/grupo3_presentacion.pdf" download="true">Descargar Presentación PDF</a></p>
-</section>
-<section id="factores-explicativos-de-la-tenencia-de-vivienda-en-chile-una-aproximación-cuantitativa" class="level2">
-<h2 class="anchored" data-anchor-id="factores-explicativos-de-la-tenencia-de-vivienda-en-chile-una-aproximación-cuantitativa">- <strong>Factores Explicativos de la Tenencia de Vivienda en Chile: Una Aproximación Cuantitativa</strong></h2>
-<p><strong>Autores</strong>: Jesús Pereira, Abigail Meza y Eddy Rodríguez</p>
-<p><strong>Resumen</strong>: El estudio busca identificar cómo la formalidad laboral, el ingreso, la educación y la zona de residencia afectan la probabilidad de ser propietario de vivienda. Usando datos CASEN 2022 y un modelo logit aplicado a ~49 mil trabajadores, se evaluaron efectos individuales e interacción ingreso–área.</p>
-<p>Los resultados muestran que tener contrato y mayores ingresos aumentan la probabilidad de propiedad, mientras que educación superior y afiliación AFP se asocian negativamente, principalmente por diferencias de ciclo de vida. La zona urbana y la interacción ingreso×zona no son significativas, indicando que el ingreso opera de forma similar en contextos urbanos y rurales.</p>
-<p><a href="pdf_pro_eco/grupo4_informe.pdf" download="true">Descargar Informe PDF</a></p>
-<p><a href="pdf_pro_eco/grupo4_presentacion.pdf" download="true">Descargar Presentación PDF</a></p>
-</section>
-<section id="influencia-de-la-edad-y-dificultades-funcionales-en-la-demanda-de-consultas-médicas-en-personas-mayores" class="level2">
-<h2 class="anchored" data-anchor-id="influencia-de-la-edad-y-dificultades-funcionales-en-la-demanda-de-consultas-médicas-en-personas-mayores">- <strong>Influencia de la Edad y Dificultades Funcionales en la Demanda de Consultas Médicas en personas mayores</strong></h2>
-<p><strong>Autores</strong>: Paz Córdova Rachell Fuentes Vincent Marmor</p>
-<p><strong>Resumen</strong>: El estudio analiza cómo la edad y distintas dificultades funcionales influyen en la cantidad de consultas médicas realizadas por adultos mayores, utilizando datos de CASEN 2024 y un modelo lineal OLS aplicado a personas de 60 años o más.</p>
-<p>Metodológicamente, se limpiaron los datos, se construyeron dummies de dificultades funcionales (visual, movilidad, comunicación) y se incluyó un término cuadrático de edad para capturar no linealidades.</p>
-<p>Los resultados muestran que las dificultades funcionales son los principales determinantes del aumento en consultas, especialmente la dificultad de movilidad, seguida por problemas visuales y de comunicación. La dependencia económica también incrementa la demanda médica. La edad tiene un efecto positivo pero decreciente a edades avanzadas. Las mujeres registran ligeramente menos consultas que los hombres.</p>
-<p><a href="pdf_pro_eco/grupo8_informe.pdf" download="true">Descargar Informe PDF</a></p>
-<p><a href="pdf_pro_eco/grupo8_presentacion.pdf" download="true">Descargar Presentación PDF</a></p>
-</section>
+<div class="walker-list">
+<div class="walker-item" data-markdown="1">
+<div class="walker-meta">
+<p>Diciembre 2025<br>
+<span class="tag">Econometría</span></p>
+</div>
+<div>
+<div class="walker-title">
+Determinantes de la Formalidad Laboral en Chile: Evidencia desde la ENE 2024
+</div>
+<div class="walker-authors">
+Jhanus Burgos, Bastian Liberona y Bruno Lefiche
+</div>
+<div class="walker-summary">
+<p><strong>Resumen</strong>: El estudio examina los determinantes de la formalidad laboral en Chile usando datos ENE 2024 y una regresión con variables dummy. El contrato escrito y el sector formal aumentan la formalidad, mientras jóvenes y adultos mayores presentan menor probabilidad. La educación superior muestra efectos negativos por trabajo independiente.</p>
+</div>
+<div class="walker-links">
+<p><a href="pdf_pro_eco/grupo1_informe.pdf" download="true">📄 Descargar Informe PDF</a> <a href="pdf_pro_eco/grupo1_presentacion.pdf" download="true">📊 Descargar Presentación PDF</a></p>
+</div>
+</div>
+</div>
+<div class="walker-item" data-markdown="1">
+<div class="walker-meta">
+<p>Diciembre 2025<br>
+<span class="tag">Econometría</span></p>
+</div>
+<div>
+<div class="walker-title">
+Determinantes del Gasto Financiero en Hogares Chilenos Post-Pandemia
+</div>
+<div class="walker-authors">
+Damián Zapata, Lissette Rubio y Vicente Gamboa
+</div>
+<div class="walker-summary">
+<p><strong>Resumen</strong>: El estudio analiza qué factores explican el mayor gasto financiero per cápita en hogares chilenos usando la IX EPF y un modelo log–log. El ingreso es inelástico, pagar dividendo hipotecario es el factor más influyente, la educación aumenta el gasto y la edad sigue una U invertida; la zona no es significativa.</p>
+</div>
+<div class="walker-links">
+<p><a href="pdf_pro_eco/grupo3_informe.pdf" download="true">📄 Descargar Informe PDF</a> <a href="pdf_pro_eco/grupo3_presentacion.pdf" download="true">📊 Descargar Presentación PDF</a></p>
+</div>
+</div>
+</div>
+<div class="walker-item" data-markdown="1">
+<div class="walker-meta">
+<p>Diciembre 2025<br>
+<span class="tag">Econometría</span></p>
+</div>
+<div>
+<div class="walker-title">
+Factores Explicativos de la Tenencia de Vivienda en Chile: Una Aproximación Cuantitativa
+</div>
+<div class="walker-authors">
+Jesús Pereira, Abigail Meza y Eddy Rodríguez
+</div>
+<div class="walker-summary">
+<p><strong>Resumen</strong>: El estudio analiza cómo formalidad laboral, ingreso, educación y zona influyen en la probabilidad de ser propietario de vivienda en Chile, usando CASEN 2022 y un modelo logit. La formalidad y el ingreso aumentan la propiedad, mientras educación superior y AFP la reducen por ciclo de vida; la zona no es significativa.</p>
+</div>
+<div class="walker-links">
+<p><a href="pdf_pro_eco/grupo4_informe.pdf" download="true">📄 Descargar Informe PDF</a> <a href="pdf_pro_eco/grupo4_presentacion.pdf" download="true">📊 Descargar Presentación PDF</a></p>
+</div>
+</div>
+</div>
+<div class="walker-item" data-markdown="1">
+<div class="walker-meta">
+<p>Diciembre 2025<br>
+<span class="tag">Econometría</span></p>
+</div>
+<div>
+<div class="walker-title">
+Influencia de la Edad y Dificultades Funcionales en la Demanda de Consultas Médicas en personas mayores
+</div>
+<div class="walker-authors">
+Paz Córdova, Rachell Fuentes, Vincent Marmor
+</div>
+<div class="walker-summary">
+<p><strong>Resumen</strong>: El estudio examina cómo la edad y las dificultades funcionales afectan el número de consultas médicas en adultos mayores, usando CASEN 2024 y un modelo OLS. Las limitaciones funcionales —especialmente de movilidad— son el principal determinante. La edad tiene efecto positivo decreciente; la dependencia económica aumenta las consultas y las mujeres consultan levemente menos.</p>
+</div>
+<div class="walker-links">
+<p><a href="pdf_pro_eco/grupo8_informe.pdf" download="true">📄 Descargar Informe PDF</a> <a href="pdf_pro_eco/grupo8_presentacion.pdf" download="true">📊 Descargar Presentación PDF</a></p>
+</div>
+</div>
+</div>
+</div>
 </section>
 <section id="proyectos-2026" class="level1">
 <h1>Proyectos 2026</h1>

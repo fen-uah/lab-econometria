@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>lab04_regresion_multiple</title>
+<title>Laboratorio 4 – Regresión múltiple, no linealidades y teorema de Frisch–Waugh</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +19,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -69,7 +104,40 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
+<script src="../site_libs/kePrint-0.0.1/kePrint.js"></script>
 
+<link href="../site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../styles.css">
 </head>
@@ -120,14 +188,24 @@ ul.task-list li input[type="checkbox"] {
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
-    <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="lab04_regresion_multiple.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></div>
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#primeros-pasos" id="toc-primeros-pasos" class="nav-link active" data-scroll-target="#primeros-pasos">Primeros pasos</a></li>
+  <li><a href="#regresión-múltiple" id="toc-regresión-múltiple" class="nav-link" data-scroll-target="#regresión-múltiple">Regresión múltiple</a></li>
+  <li><a href="#agregando-no-linealidades" id="toc-agregando-no-linealidades" class="nav-link" data-scroll-target="#agregando-no-linealidades">Agregando no linealidades</a></li>
+  <li><a href="#teorema-de-frischwaugh-obtener-efectos-parciales" id="toc-teorema-de-frischwaugh-obtener-efectos-parciales" class="nav-link" data-scroll-target="#teorema-de-frischwaugh-obtener-efectos-parciales">Teorema de Frisch–Waugh: obtener efectos parciales</a></li>
+  <li><a href="#frischwaugh-a-mano" id="toc-frischwaugh-a-mano" class="nav-link" data-scroll-target="#frischwaugh-a-mano">Frisch–Waugh “a mano”</a></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="lab04_regresion_multiple.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">lab04_regresion_multiple</h1>
+<h1 class="title">Laboratorio 4 – Regresión múltiple, no linealidades y teorema de Frisch–Waugh</h1>
 </div>
 
 
@@ -144,8 +222,551 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<p>El propósito de este laboratorio es seguir practicando tus habilidades de <strong>regresión</strong>.</p>
+<section id="primeros-pasos" class="level2">
+<h2 class="anchored" data-anchor-id="primeros-pasos">Primeros pasos</h2>
+<p>Abre un nuevo script de R y carga los paquetes</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Instalar paquetes solo si faltan (estilo ECO/EPG)</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>pkgs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"tidyverse"</span>, <span class="st">"broom"</span>, <span class="st">"wooldridge"</span>, <span class="st">"modelsummary"</span>, <span class="st">"kableExtra"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>to_install <span class="ot">&lt;-</span> pkgs[<span class="sc">!</span>pkgs <span class="sc">%in%</span> <span class="fu">rownames</span>(<span class="fu">installed.packages</span>())]</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">length</span>(to_install) <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">install.packages</span>(to_install, <span class="at">repos =</span> <span class="st">"http://cran.us.r-project.org"</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(wooldridge)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(modelsummary)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Receta ECO/EPG: forzar tablas estables (LaTeX clásico)</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">modelsummary_factory_default =</span> <span class="st">"kableExtra"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Para este laboratorio usaremos datos de <strong>precios de viviendas</strong>, contenidos en el conjunto <code>hprice1</code> del paquete <code>wooldridge</code>. Cada observación es una vivienda.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(hprice1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Revisa qué variables hay en <code>df</code> usando:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(df)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 88
+Columns: 10
+$ price    &lt;dbl&gt; 300.000, 370.000, 191.000, 195.000, 373.000, 466.275, 332.500…
+$ assess   &lt;dbl&gt; 349.1, 351.5, 217.7, 231.8, 319.1, 414.5, 367.8, 300.2, 236.1…
+$ bdrms    &lt;int&gt; 4, 3, 3, 3, 4, 5, 3, 3, 3, 3, 4, 5, 3, 3, 3, 4, 4, 3, 3, 4, 3…
+$ lotsize  &lt;dbl&gt; 6126, 9903, 5200, 4600, 6095, 8566, 9000, 6210, 6000, 2892, 6…
+$ sqrft    &lt;int&gt; 2438, 2076, 1374, 1448, 2514, 2754, 2067, 1731, 1767, 1890, 2…
+$ colonial &lt;int&gt; 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1…
+$ lprice   &lt;dbl&gt; 5.703783, 5.913503, 5.252274, 5.273000, 5.921578, 6.144775, 5…
+$ lassess  &lt;dbl&gt; 5.855359, 5.862210, 5.383118, 5.445875, 5.765504, 6.027073, 5…
+$ llotsize &lt;dbl&gt; 8.720297, 9.200593, 8.556414, 8.433811, 8.715224, 9.055556, 9…
+$ lsqrft   &lt;dbl&gt; 7.798934, 7.638198, 7.225482, 7.277938, 7.829630, 7.920810, 7…</code></pre>
+</div>
+</div>
+<p>O, si quieres estadísticas descriptivas rápidas:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">datasummary_skim</span>(df, <span class="at">histogram =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="table caption-top table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th"></th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Unique</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Missing Pct.</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Mean</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">SD</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Min</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Median</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Max</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">price</td>
+<td style="text-align: left;">71</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">293.5</td>
+<td style="text-align: left;">102.7</td>
+<td style="text-align: left;">111.0</td>
+<td style="text-align: left;">265.5</td>
+<td style="text-align: left;">725.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">assess</td>
+<td style="text-align: left;">88</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">315.7</td>
+<td style="text-align: left;">95.3</td>
+<td style="text-align: left;">198.7</td>
+<td style="text-align: left;">290.2</td>
+<td style="text-align: left;">708.6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">bdrms</td>
+<td style="text-align: left;">6</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">3.6</td>
+<td style="text-align: left;">0.8</td>
+<td style="text-align: left;">2.0</td>
+<td style="text-align: left;">3.0</td>
+<td style="text-align: left;">7.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">lotsize</td>
+<td style="text-align: left;">84</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">9019.9</td>
+<td style="text-align: left;">10174.2</td>
+<td style="text-align: left;">1000.0</td>
+<td style="text-align: left;">6430.0</td>
+<td style="text-align: left;">92681.0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">sqrft</td>
+<td style="text-align: left;">85</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">2013.7</td>
+<td style="text-align: left;">577.2</td>
+<td style="text-align: left;">1171.0</td>
+<td style="text-align: left;">1845.0</td>
+<td style="text-align: left;">3880.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">colonial</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">0.7</td>
+<td style="text-align: left;">0.5</td>
+<td style="text-align: left;">0.0</td>
+<td style="text-align: left;">1.0</td>
+<td style="text-align: left;">1.0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">lprice</td>
+<td style="text-align: left;">71</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">5.6</td>
+<td style="text-align: left;">0.3</td>
+<td style="text-align: left;">4.7</td>
+<td style="text-align: left;">5.6</td>
+<td style="text-align: left;">6.6</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">lassess</td>
+<td style="text-align: left;">88</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">5.7</td>
+<td style="text-align: left;">0.3</td>
+<td style="text-align: left;">5.3</td>
+<td style="text-align: left;">5.7</td>
+<td style="text-align: left;">6.6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">llotsize</td>
+<td style="text-align: left;">84</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">8.9</td>
+<td style="text-align: left;">0.5</td>
+<td style="text-align: left;">6.9</td>
+<td style="text-align: left;">8.8</td>
+<td style="text-align: left;">11.4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">lsqrft</td>
+<td style="text-align: left;">85</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">7.6</td>
+<td style="text-align: left;">0.3</td>
+<td style="text-align: left;">7.1</td>
+<td style="text-align: left;">7.5</td>
+<td style="text-align: left;">8.3</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="regresión-múltiple" class="level2">
+<h2 class="anchored" data-anchor-id="regresión-múltiple">Regresión múltiple</h2>
+<p>Estimemos el siguiente modelo:</p>
+<p><span class="math display">\[
+price = \beta_0 + \beta_1\,sqrft + \beta_2\,bdrms + u
+\]</span></p>
+<p>donde <span class="math inline">\(price\)</span> es el precio de la vivienda en <strong>miles de dólares</strong>.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>est1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(price <span class="sc">~</span> sqrft <span class="sc">+</span> bdrms, <span class="at">data =</span> df)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Mostramos la salida del modelo en una tabla (estable en PDF):</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">modelsummary</span>(est1, <span class="at">output =</span> <span class="st">"kableExtra"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(<span class="at">full_width =</span> <span class="cn">FALSE</span>, <span class="at">position =</span> <span class="st">"center"</span>, <span class="at">latex_options =</span> <span class="st">"hold_position"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<table class="table caption-top table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th"></th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">&amp;nbsp;(1)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: center;">-19.315</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(31.047)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">sqrft</td>
+<td style="text-align: center;">0.128</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(0.014)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">bdrms</td>
+<td style="text-align: center;">15.198</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; box-shadow: 0px 1.5px;"></td>
+<td style="text-align: center; box-shadow: 0px 1.5px;">(9.484)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Num.Obs.</td>
+<td style="text-align: center;">88</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">R2</td>
+<td style="text-align: center;">0.632</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">R2 Adj.</td>
+<td style="text-align: center;">0.623</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">AIC</td>
+<td style="text-align: center;">984.0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">BIC</td>
+<td style="text-align: center;">993.9</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Log.Lik.</td>
+<td style="text-align: center;">-487.999</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">F</td>
+<td style="text-align: center;">72.964</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">RMSE</td>
+<td style="text-align: center;">61.96</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Deberías obtener un coeficiente cercano a <code>0.128</code> en <code>sqrft</code> y <code>15.2</code> en <code>bdrms</code>. Interpreta estos coeficientes (puedes escribir la interpretación como comentario en tu script). ¿Te parecen razonables?</p>
+<p>También deberías obtener <span class="math inline">\(R^2 \approx 0.632\)</span>. A partir de ese número, ¿crees que es un buen modelo para explicar precios de vivienda?</p>
+<p>Verifica que el promedio de los residuos es (aproximadamente) cero:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(est1<span class="sc">$</span>residuals)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -2.863674e-16</code></pre>
+</div>
+</div>
+</section>
+<section id="agregando-no-linealidades" class="level2">
+<h2 class="anchored" data-anchor-id="agregando-no-linealidades">Agregando no linealidades</h2>
+<p>El modelo anterior estimó un intercepto cercano a <code>-19.3</code>, lo que implicaría que una casa sin dormitorios y sin superficie tendría un precio esperado de <strong>-$19,300</strong>.</p>
+<p>Para asegurar que el modelo siempre prediga un precio positivo, usemos <span class="math inline">\(log(price)\)</span> como variable dependiente. Además, agreguemos términos cuadráticos para <code>sqrft</code> y <code>bdrms</code>, permitiendo <strong>rendimientos marginales decrecientes</strong>.</p>
+<p>Primero, usemos <code>mutate()</code> para crear las nuevas variables:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">logprice =</span> <span class="fu">log</span>(price),</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">sqrftSq  =</span> sqrft<span class="sc">^</span><span class="dv">2</span>,</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">bdrmSq   =</span> bdrms<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Ahora estimamos el nuevo modelo:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>est2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(logprice <span class="sc">~</span> sqrft <span class="sc">+</span> sqrftSq <span class="sc">+</span> bdrms <span class="sc">+</span> bdrmSq, <span class="at">data =</span> df)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Tabla del modelo (estable para PDF):</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">modelsummary</span>(est2, <span class="at">output =</span> <span class="st">"kableExtra"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(<span class="at">full_width =</span> <span class="cn">FALSE</span>, <span class="at">position =</span> <span class="st">"center"</span>, <span class="at">latex_options =</span> <span class="st">"hold_position"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<table class="table caption-top table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th"></th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">&amp;nbsp;(1)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: center;">5.074</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(0.325)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">sqrft</td>
+<td style="text-align: center;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(0.000)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">sqrftSq</td>
+<td style="text-align: center;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(0.000)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">bdrms</td>
+<td style="text-align: center;">-0.130</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(0.145)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">bdrmSq</td>
+<td style="text-align: center;">0.020</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; box-shadow: 0px 1.5px;"></td>
+<td style="text-align: center; box-shadow: 0px 1.5px;">(0.018)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Num.Obs.</td>
+<td style="text-align: center;">88</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">R2</td>
+<td style="text-align: center;">0.595</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">R2 Adj.</td>
+<td style="text-align: center;">0.576</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">AIC</td>
+<td style="text-align: center;">-28.7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">BIC</td>
+<td style="text-align: center;">-13.8</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Log.Lik.</td>
+<td style="text-align: center;">20.347</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">F</td>
+<td style="text-align: center;">30.523</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">RMSE</td>
+<td style="text-align: center;">0.19</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Si quieres ver más decimales:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">modelsummary</span>(est2, <span class="at">output =</span> <span class="st">"kableExtra"</span>, <span class="at">fmt =</span> <span class="dv">10</span>) <span class="sc">|&gt;</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(<span class="at">full_width =</span> <span class="cn">FALSE</span>, <span class="at">position =</span> <span class="st">"center"</span>, <span class="at">latex_options =</span> <span class="st">"hold_position"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<table class="table caption-top table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th"></th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">&amp;nbsp;(1)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: center;">5.0738699820</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(0.3254095441)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">sqrft</td>
+<td style="text-align: center;">0.0003741526</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(0.0002474413)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">sqrftSq</td>
+<td style="text-align: center;">0.0000000007</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(0.0000000508)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">bdrms</td>
+<td style="text-align: center;">-0.1301825035</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(0.1449829999)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">bdrmSq</td>
+<td style="text-align: center;">0.0198993434</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; box-shadow: 0px 1.5px;"></td>
+<td style="text-align: center; box-shadow: 0px 1.5px;">(0.0178009572)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Num.Obs.</td>
+<td style="text-align: center;">88</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">R2</td>
+<td style="text-align: center;">0.595</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">R2 Adj.</td>
+<td style="text-align: center;">0.576</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">AIC</td>
+<td style="text-align: center;">-28.7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">BIC</td>
+<td style="text-align: center;">-13.8</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Log.Lik.</td>
+<td style="text-align: center;">20.347</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">F</td>
+<td style="text-align: center;">30.523</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">RMSE</td>
+<td style="text-align: center;">0.19</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Los coeficientes nuevos tienen magnitudes mucho más pequeñas. Explica por qué podría ocurrir eso.</p>
+<p>El nuevo <span class="math inline">\(R^2 \approx 0.595\)</span>, menor que el <span class="math inline">\(0.632\)</span> del modelo anterior. ¿Eso significa necesariamente que este modelo es peor? ¿Por qué?</p>
+</section>
+<section id="teorema-de-frischwaugh-obtener-efectos-parciales" class="level2">
+<h2 class="anchored" data-anchor-id="teorema-de-frischwaugh-obtener-efectos-parciales">Teorema de Frisch–Waugh: obtener efectos parciales</h2>
+<p>Probemos el teorema de <strong>Frisch–Waugh</strong>, que afirma:</p>
+<p><span class="math display">\[
+\hat{\beta}_{1} = \frac{\sum_{i=1}^{N} \hat{r}_{i1}\,y_{i}}{\sum_{i=1}^{N} \hat{r}_{i1}^2}
+\]</span></p>
+<p>donde <span class="math inline">\(\hat{r}_{i1}\)</span> es el residuo de una regresión de <span class="math inline">\(x_1\)</span> sobre <span class="math inline">\(x_2,\ldots,x_k\)</span>.</p>
+<p>Apliquémoslo al modelo recién estimado. Primero, regresamos <code>sqrft</code> sobre el resto de los <span class="math inline">\(X\)</span> y guardamos los residuos en <code>df</code>:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>aux <span class="ot">&lt;-</span> <span class="fu">lm</span>(sqrft <span class="sc">~</span> sqrftSq <span class="sc">+</span> bdrms <span class="sc">+</span> bdrmSq, <span class="at">data =</span> df)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">sqrft.resid =</span> aux<span class="sc">$</span>residuals)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Ahora, si estimamos una regresión simple de <code>logprice</code> sobre <code>sqrft.resid</code>, deberíamos obtener el mismo coeficiente que el de <code>sqrft</code> en la regresión original (aprox. <code>3.74e-4</code>).</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>fw_est <span class="ot">&lt;-</span> <span class="fu">lm</span>(logprice <span class="sc">~</span> sqrft.resid, <span class="at">data =</span> df)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Salida en tabla (estable para PDF):</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">modelsummary</span>(fw_est, <span class="at">output =</span> <span class="st">"kableExtra"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(<span class="at">full_width =</span> <span class="cn">FALSE</span>, <span class="at">position =</span> <span class="st">"center"</span>, <span class="at">latex_options =</span> <span class="st">"hold_position"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<table class="table caption-top table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th"></th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">&amp;nbsp;(1)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: center;">5.633</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;">(0.032)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">sqrft.resid</td>
+<td style="text-align: center;">0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; box-shadow: 0px 1.5px;"></td>
+<td style="text-align: center; box-shadow: 0px 1.5px;">(0.000)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Num.Obs.</td>
+<td style="text-align: center;">88</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">R2</td>
+<td style="text-align: center;">0.011</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">R2 Adj.</td>
+<td style="text-align: center;">-0.000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">AIC</td>
+<td style="text-align: center;">43.9</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">BIC</td>
+<td style="text-align: center;">51.4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Log.Lik.</td>
+<td style="text-align: center;">-18.963</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">F</td>
+<td style="text-align: center;">0.970</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">RMSE</td>
+<td style="text-align: center;">0.30</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="frischwaugh-a-mano" class="level2">
+<h2 class="anchored" data-anchor-id="frischwaugh-a-mano">Frisch–Waugh “a mano”</h2>
+<p>También podemos calcular la fórmula de Frisch–Waugh directamente:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>beta1 <span class="ot">&lt;-</span> <span class="fu">sum</span>(df<span class="sc">$</span>sqrft.resid <span class="sc">*</span> df<span class="sc">$</span>logprice) <span class="sc">/</span> <span class="fu">sum</span>(df<span class="sc">$</span>sqrft.resid<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(beta1)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.0003741526</code></pre>
+</div>
+</div>
+<p>Debería coincidir (aproximadamente) con el coeficiente estimado para <code>sqrft</code> en el modelo con todas las covariables.</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

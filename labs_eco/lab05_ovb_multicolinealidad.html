@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>lab05_ovb_multicolinealidad</title>
+<title>Laboratorio 5 – Sesgo por variable omitida y multicolinealidad</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +19,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -70,6 +105,35 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../styles.css">
 </head>
@@ -120,14 +184,34 @@ ul.task-list li input[type="checkbox"] {
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
-    <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="lab05_ovb_multicolinealidad.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></div>
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#cargar-los-datos" id="toc-cargar-los-datos" class="nav-link active" data-scroll-target="#cargar-los-datos">Cargar los datos</a></li>
+  <li><a href="#propiedades-de-las-variables-omitidas-omitted-variable-bias" id="toc-propiedades-de-las-variables-omitidas-omitted-variable-bias" class="nav-link" data-scroll-target="#propiedades-de-las-variables-omitidas-omitted-variable-bias">Propiedades de las variables omitidas (Omitted Variable Bias)</a>
+  <ul class="collapse">
+  <li><a href="#regresión-de-iq-sobre-educ-para-obtener-widetildedelta_1" id="toc-regresión-de-iq-sobre-educ-para-obtener-widetildedelta_1" class="nav-link" data-scroll-target="#regresión-de-iq-sobre-educ-para-obtener-widetildedelta_1">1) Regresión de <span class="math inline">\(IQ\)</span> sobre <span class="math inline">\(educ\)</span> (para obtener <span class="math inline">\(\widetilde{\delta}_1\)</span>)</a></li>
+  <li><a href="#regresión-de-logwage-sobre-educ-para-obtener-widetildebeta_1" id="toc-regresión-de-logwage-sobre-educ-para-obtener-widetildebeta_1" class="nav-link" data-scroll-target="#regresión-de-logwage-sobre-educ-para-obtener-widetildebeta_1">2) Regresión de <span class="math inline">\(\log(wage)\)</span> sobre <span class="math inline">\(educ\)</span> (para obtener <span class="math inline">\(\widetilde{\beta}_1\)</span>)</a></li>
+  <li><a href="#regresión-completa-de-logwage-sobre-educ-y-iq-para-obtener-hatbeta_1-y-hatbeta_2" id="toc-regresión-completa-de-logwage-sobre-educ-y-iq-para-obtener-hatbeta_1-y-hatbeta_2" class="nav-link" data-scroll-target="#regresión-completa-de-logwage-sobre-educ-y-iq-para-obtener-hatbeta_1-y-hatbeta_2">3) Regresión completa de <span class="math inline">\(\log(wage)\)</span> sobre <span class="math inline">\(educ\)</span> y <span class="math inline">\(IQ\)</span> (para obtener <span class="math inline">\(\hat{\beta}_1\)</span> y <span class="math inline">\(\hat{\beta}_2\)</span>)</a></li>
+  </ul></li>
+  <li><a href="#multicolinealidad" id="toc-multicolinealidad" class="nav-link" data-scroll-target="#multicolinealidad">Multicolinealidad</a>
+  <ul class="collapse">
+  <li><a href="#cargar-el-set-de-datos-y-estimar-math4-sobre-pctsgle" id="toc-cargar-el-set-de-datos-y-estimar-math4-sobre-pctsgle" class="nav-link" data-scroll-target="#cargar-el-set-de-datos-y-estimar-math4-sobre-pctsgle">1) Cargar el set de datos y estimar <span class="math inline">\(math4\)</span> sobre <span class="math inline">\(pctsgle\)</span></a></li>
+  <li><a href="#correlación-entre-lmedinc-y-free" id="toc-correlación-entre-lmedinc-y-free" class="nav-link" data-scroll-target="#correlación-entre-lmedinc-y-free">2) Correlación entre <span class="math inline">\(lmedinc\)</span> y <span class="math inline">\(free\)</span></a></li>
+  <li><a href="#modelo-con-pctsgle-lmedinc-y-free" id="toc-modelo-con-pctsgle-lmedinc-y-free" class="nav-link" data-scroll-target="#modelo-con-pctsgle-lmedinc-y-free">3) Modelo con <span class="math inline">\(pctsgle\)</span>, <span class="math inline">\(lmedinc\)</span> y <span class="math inline">\(free\)</span></a></li>
+  <li><a href="#cálculo-de-vif-variance-inflation-factors" id="toc-cálculo-de-vif-variance-inflation-factors" class="nav-link" data-scroll-target="#cálculo-de-vif-variance-inflation-factors">4) Cálculo de VIF (Variance Inflation Factors)</a></li>
+  <li><a href="#es-la-multicolinealidad-un-problema" id="toc-es-la-multicolinealidad-un-problema" class="nav-link" data-scroll-target="#es-la-multicolinealidad-un-problema">5) ¿Es la multicolinealidad un problema?</a></li>
+  </ul></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="lab05_ovb_multicolinealidad.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">lab05_ovb_multicolinealidad</h1>
+<h1 class="title">Laboratorio 5 – Sesgo por variable omitida y multicolinealidad</h1>
 </div>
 
 
@@ -144,8 +228,531 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<p>El propósito de este laboratorio es <strong>comprender mejor el sesgo por variable omitida</strong> y la <strong>multicolinealidad</strong>. ## Para empezar</p>
+<p>Abre un nuevo script de R y carga los paquetes</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Instalar paquetes solo si faltan (estilo ECO/EPG)</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>pkgs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"tidyverse"</span>, <span class="st">"broom"</span>, <span class="st">"wooldridge"</span>, <span class="st">"car"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>to_install <span class="ot">&lt;-</span> pkgs[<span class="sc">!</span>pkgs <span class="sc">%in%</span> <span class="fu">rownames</span>(<span class="fu">installed.packages</span>())]</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">length</span>(to_install) <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">install.packages</span>(to_install, <span class="at">repos =</span> <span class="st">"http://cran.us.r-project.org"</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(wooldridge)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)        <span class="co"># para vif()</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<blockquote class="blockquote">
+<p>Nota: en el enunciado original se pedía instalar <code>car</code> “en la consola”. Aquí lo dejamos <strong>compatible y automático</strong>, instalándolo solo si falta.</p>
+</blockquote>
+<section id="cargar-los-datos" class="level3">
+<h3 class="anchored" data-anchor-id="cargar-los-datos">Cargar los datos</h3>
+<p>Usaremos un nuevo set de datos sobre salarios, llamado <code>wage2</code>.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(wage2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Revisa qué contiene el set de datos con:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(df)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 935
+Columns: 17
+$ wage    &lt;int&gt; 769, 808, 825, 650, 562, 1400, 600, 1081, 1154, 1000, 930, 921…
+$ hours   &lt;int&gt; 40, 50, 40, 40, 40, 40, 40, 40, 45, 40, 43, 38, 45, 38, 40, 50…
+$ IQ      &lt;int&gt; 93, 119, 108, 96, 74, 116, 91, 114, 111, 95, 132, 102, 125, 11…
+$ KWW     &lt;int&gt; 35, 41, 46, 32, 27, 43, 24, 50, 37, 44, 44, 45, 40, 24, 47, 37…
+$ educ    &lt;int&gt; 12, 18, 14, 12, 11, 16, 10, 18, 15, 12, 18, 14, 15, 16, 16, 10…
+$ exper   &lt;int&gt; 11, 11, 11, 13, 14, 14, 13, 8, 13, 16, 8, 9, 4, 7, 9, 17, 6, 1…
+$ tenure  &lt;int&gt; 2, 16, 9, 7, 5, 2, 0, 14, 1, 16, 13, 11, 3, 2, 9, 2, 9, 10, 7,…
+$ age     &lt;int&gt; 31, 37, 33, 32, 34, 35, 30, 38, 36, 36, 38, 33, 30, 28, 34, 35…
+$ married &lt;int&gt; 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1,…
+$ black   &lt;int&gt; 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…
+$ south   &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…
+$ urban   &lt;int&gt; 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1,…
+$ sibs    &lt;int&gt; 1, 1, 1, 4, 10, 1, 1, 2, 2, 1, 1, 1, 2, 3, 1, 1, 3, 2, 3, 3, 0…
+$ brthord &lt;int&gt; 2, NA, 2, 3, 6, 2, 2, 3, 3, 1, 1, 2, NA, 1, 1, 2, 3, 3, 1, 2, …
+$ meduc   &lt;int&gt; 8, 14, 14, 12, 6, 8, 8, 8, 14, 12, 13, 16, 12, 10, 12, 6, 12, …
+$ feduc   &lt;int&gt; 8, 14, 14, 12, 11, NA, 8, NA, 5, 11, 14, NA, 12, 10, 12, 8, 10…
+$ lwage   &lt;dbl&gt; 6.645091, 6.694562, 6.715384, 6.476973, 6.331502, 7.244227, 6.…</code></pre>
+</div>
+</div>
+</section>
+<section id="propiedades-de-las-variables-omitidas-omitted-variable-bias" class="level2">
+<h2 class="anchored" data-anchor-id="propiedades-de-las-variables-omitidas-omitted-variable-bias">Propiedades de las variables omitidas (Omitted Variable Bias)</h2>
+<p>Considera el siguiente modelo de regresión:</p>
+<p><span class="math display">\[
+\log(wage) = \beta_0 + \beta_1 educ + \beta_2 IQ + u
+\]</span></p>
+<p>donde <code>wage</code> es la <strong>tasa salarial por hora</strong> (en centavos, no en dólares).</p>
+<p>Queremos verificar la propiedad mostrada en Wooldridge:</p>
+<p><span class="math display">\[
+\widetilde{\beta}_1 = \hat{\beta}_1 + \hat{\beta}_2 \widetilde{\delta}_1
+\]</span></p>
+<p>donde:</p>
+<ul>
+<li><span class="math inline">\(\widetilde{\beta}_1\)</span> proviene de la regresión de <span class="math inline">\(\log(wage)\)</span> sobre <code>educ</code> (modelo “corto”).</li>
+<li><span class="math inline">\(\widetilde{\delta}_1\)</span> proviene de la regresión de <code>IQ</code> sobre <code>educ</code>.</li>
+<li><span class="math inline">\(\hat{\beta}_1\)</span> y <span class="math inline">\(\hat{\beta}_2\)</span> provienen del modelo “completo” (con <code>educ</code> e <code>IQ</code>).</li>
+</ul>
+<section id="regresión-de-iq-sobre-educ-para-obtener-widetildedelta_1" class="level3">
+<h3 class="anchored" data-anchor-id="regresión-de-iq-sobre-educ-para-obtener-widetildedelta_1">1) Regresión de <span class="math inline">\(IQ\)</span> sobre <span class="math inline">\(educ\)</span> (para obtener <span class="math inline">\(\widetilde{\delta}_1\)</span>)</h3>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>est1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(IQ <span class="sc">~</span> educ, <span class="at">data =</span> df)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell" data-layout-align="center">
+<p>** Modelo 1: IQ ~ educ **</p>
+<p><em>Coeficientes estimados:</em></p>
+<p><em>Estadísticas del modelo:</em></p>
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Estadístico</th>
+<th style="text-align: right;">Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">R²</td>
+<td style="text-align: right;">0.2659</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">R² ajustado</td>
+<td style="text-align: right;">0.2652</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Error estándar residual</td>
+<td style="text-align: right;">12.9036</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Estadístico F</td>
+<td style="text-align: right;">338.02</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">N</td>
+<td style="text-align: right;">935</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="regresión-de-logwage-sobre-educ-para-obtener-widetildebeta_1" class="level3">
+<h3 class="anchored" data-anchor-id="regresión-de-logwage-sobre-educ-para-obtener-widetildebeta_1">2) Regresión de <span class="math inline">\(\log(wage)\)</span> sobre <span class="math inline">\(educ\)</span> (para obtener <span class="math inline">\(\widetilde{\beta}_1\)</span>)</h3>
+<p>Primero crea la variable <span class="math inline">\(\log(wage)\)</span> (si no recuerdas <code>mutate()</code>, revisa los labs anteriores):</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">logwage =</span> <span class="fu">log</span>(wage))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Ahora estima el modelo “corto”:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>est2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(logwage <span class="sc">~</span> educ, <span class="at">data =</span> df)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell" data-layout-align="center">
+<p>** Modelo 2: log(wage) ~ educ **</p>
+<p><em>Coeficientes estimados:</em></p>
+<p><em>Estadísticas del modelo:</em></p>
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Estadístico</th>
+<th style="text-align: right;">Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">R²</td>
+<td style="text-align: right;">0.0974</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">R² ajustado</td>
+<td style="text-align: right;">0.0964</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Error estándar residual</td>
+<td style="text-align: right;">0.4003</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Estadístico F</td>
+<td style="text-align: right;">100.70</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">N</td>
+<td style="text-align: right;">935</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="regresión-completa-de-logwage-sobre-educ-y-iq-para-obtener-hatbeta_1-y-hatbeta_2" class="level3">
+<h3 class="anchored" data-anchor-id="regresión-completa-de-logwage-sobre-educ-y-iq-para-obtener-hatbeta_1-y-hatbeta_2">3) Regresión completa de <span class="math inline">\(\log(wage)\)</span> sobre <span class="math inline">\(educ\)</span> y <span class="math inline">\(IQ\)</span> (para obtener <span class="math inline">\(\hat{\beta}_1\)</span> y <span class="math inline">\(\hat{\beta}_2\)</span>)</h3>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>est3 <span class="ot">&lt;-</span> <span class="fu">lm</span>(logwage <span class="sc">~</span> educ <span class="sc">+</span> IQ, <span class="at">data =</span> df)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell" data-layout-align="center">
+<p>** Modelo 3: log(wage) ~ educ + IQ **</p>
+<p><em>Coeficientes estimados:</em></p>
+<p><em>Estadísticas del modelo:</em></p>
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Estadístico</th>
+<th style="text-align: right;">Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">R²</td>
+<td style="text-align: right;">0.1297</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">R² ajustado</td>
+<td style="text-align: right;">0.1278</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Error estándar residual</td>
+<td style="text-align: right;">0.3933</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Estadístico F</td>
+<td style="text-align: right;">69.42</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">N</td>
+<td style="text-align: right;">935</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Verifica que se cumple la identidad:</p>
+<p><span class="math display">\[
+\widetilde{\beta}_1 = \hat{\beta}_1 + \hat{\beta}_2 \widetilde{\delta}_1
+\]</span></p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extraer coeficientes</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>beta1_tilde <span class="ot">&lt;-</span> <span class="fu">coef</span>(est2)[<span class="st">"educ"</span>]</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>beta1_hat <span class="ot">&lt;-</span> <span class="fu">coef</span>(est3)[<span class="st">"educ"</span>]</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>beta2_hat <span class="ot">&lt;-</span> <span class="fu">coef</span>(est3)[<span class="st">"IQ"</span>]</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>delta1_tilde <span class="ot">&lt;-</span> <span class="fu">coef</span>(est1)[<span class="st">"educ"</span>]</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Mostrar los valores</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Coeficientes extraídos:</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Coeficientes extraídos:</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"---------------------------------------</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>---------------------------------------</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"β̃₁ (modelo corto):     %.6f</span><span class="sc">\n</span><span class="st">"</span>, beta1_tilde))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>β̃₁ (modelo corto):     0.059839</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"β̂₁ (modelo completo):  %.6f</span><span class="sc">\n</span><span class="st">"</span>, beta1_hat))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>β̂₁ (modelo completo):  0.039120</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"β̂₂ (modelo completo):  %.6f</span><span class="sc">\n</span><span class="st">"</span>, beta2_hat))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>β̂₂ (modelo completo):  0.005863</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"δ̃₁ (IQ sobre educ):    %.6f</span><span class="sc">\n</span><span class="st">"</span>, delta1_tilde))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>δ̃₁ (IQ sobre educ):    3.533829</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Verificar la identidad</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>lado_izq <span class="ot">&lt;-</span> beta1_tilde</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>lado_der <span class="ot">&lt;-</span> beta1_hat <span class="sc">+</span> beta2_hat <span class="sc">*</span> delta1_tilde</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Verificación de la identidad:</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Verificación de la identidad:</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"---------------------------------------</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>---------------------------------------</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Lado izquierdo (β̃₁):           %.6f</span><span class="sc">\n</span><span class="st">"</span>, lado_izq))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Lado izquierdo (β̃₁):           0.059839</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Lado derecho (β̂₁ + β̂₂·δ̃₁):    %.6f</span><span class="sc">\n</span><span class="st">"</span>, lado_der))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Lado derecho (β̂₁ + β̂₂·δ̃₁):    0.059839</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Diferencia:                     %.10f</span><span class="sc">\n</span><span class="st">"</span>, <span class="fu">abs</span>(lado_izq <span class="sc">-</span> lado_der)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Diferencia:                     0.0000000000</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"¿Son iguales? %s</span><span class="sc">\n</span><span class="st">"</span>, <span class="fu">ifelse</span>(<span class="fu">abs</span>(lado_izq <span class="sc">-</span> lado_der) <span class="sc">&lt;</span> <span class="fl">1e-10</span>, <span class="st">"SÍ"</span>, <span class="st">"NO"</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>¿Son iguales? SÍ</code></pre>
+</div>
+</div>
+<p><strong>Pregunta:</strong> ¿<span class="math inline">\(\widetilde{\beta}_1\)</span> es mayor o menor que <span class="math inline">\(\hat{\beta}_1\)</span>? ¿Qué significa esto en términos de <strong>sesgo por variable omitida</strong>?</p>
+<hr>
+<p><strong>Tabla comparativa de los tres modelos:</strong></p>
+<div class="cell" data-layout-align="center">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Modelo</th>
+<th style="text-align: left;">Especificación</th>
+<th style="text-align: right;">R²</th>
+<th style="text-align: right;">Coef. educ</th>
+<th style="text-align: right;">Coef. IQ</th>
+<th style="text-align: right;">N</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Modelo 1</td>
+<td style="text-align: left;">IQ ~ educ</td>
+<td style="text-align: right;">0.2659</td>
+<td style="text-align: right;">3.533829</td>
+<td style="text-align: right;">—</td>
+<td style="text-align: right;">935</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Modelo 2</td>
+<td style="text-align: left;">log(wage) ~ educ</td>
+<td style="text-align: right;">0.0974</td>
+<td style="text-align: right;">0.059839</td>
+<td style="text-align: right;">—</td>
+<td style="text-align: right;">935</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Modelo 3</td>
+<td style="text-align: left;">log(wage) ~ educ + IQ</td>
+<td style="text-align: right;">0.1297</td>
+<td style="text-align: right;">0.039120</td>
+<td style="text-align: right;">0.005863</td>
+<td style="text-align: right;">935</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+</section>
+</section>
+<section id="multicolinealidad" class="level2">
+<h2 class="anchored" data-anchor-id="multicolinealidad">Multicolinealidad</h2>
+<p>Ahora veamos cómo calcular diagnósticos de multicolinealidad. Recuerda de Wooldridge que la multicolinealidad puede interpretarse mejor como “un problema de tamaño muestral pequeño”.</p>
+<p>Usaremos el set de datos <code>meapsingle</code> del paquete <code>wooldridge</code>. Nos interesa la variable <code>pctsgle</code>, que entrega el porcentaje de familias monoparentales que residen en el mismo ZIP code que la escuela. La variable resultado es <code>math4</code>, que corresponde al porcentaje de estudiantes que aprobaron el test estatal de matemáticas de 4° grado.</p>
+<section id="cargar-el-set-de-datos-y-estimar-math4-sobre-pctsgle" class="level3">
+<h3 class="anchored" data-anchor-id="cargar-el-set-de-datos-y-estimar-math4-sobre-pctsgle">1) Cargar el set de datos y estimar <span class="math inline">\(math4\)</span> sobre <span class="math inline">\(pctsgle\)</span></h3>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(meapsingle)</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>est_a <span class="ot">&lt;-</span> <span class="fu">lm</span>(math4 <span class="sc">~</span> pctsgle, <span class="at">data =</span> df)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell" data-layout-align="center">
+<p>** Modelo A: math4 ~ pctsgle **</p>
+<p><em>Coeficientes estimados:</em></p>
+<p><em>Estadísticas del modelo:</em></p>
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Estadístico</th>
+<th style="text-align: right;">Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">R²</td>
+<td style="text-align: right;">0.3795</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">R² ajustado</td>
+<td style="text-align: right;">0.3768</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Error estándar residual</td>
+<td style="text-align: right;">12.4798</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Estadístico F</td>
+<td style="text-align: right;">138.85</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">N</td>
+<td style="text-align: right;">229</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Pregunta:</strong> Interpreta el coeficiente de pendiente de esta regresión. ¿El efecto parece grande?</p>
+</section>
+<section id="correlación-entre-lmedinc-y-free" class="level3">
+<h3 class="anchored" data-anchor-id="correlación-entre-lmedinc-y-free">2) Correlación entre <span class="math inline">\(lmedinc\)</span> y <span class="math inline">\(free\)</span></h3>
+<p>Ahora considera el mismo modelo, pero agregando <span class="math inline">\(lmedinc\)</span> y <span class="math inline">\(free\)</span> como regresores adicionales.</p>
+<ul>
+<li><span class="math inline">\(lmedinc\)</span> es el log del ingreso mediano del hogar del ZIP code.</li>
+<li><span class="math inline">\(free\)</span> es el porcentaje de estudiantes que califican para almuerzo gratis o con descuento.</li>
+</ul>
+<p>¿Crees que podría haber una correlación fuerte entre <span class="math inline">\(lmedinc\)</span> y <span class="math inline">\(free\)</span>? Calcula la correlación:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>correlacion <span class="ot">&lt;-</span> <span class="fu">cor</span>(df<span class="sc">$</span>lmedinc, df<span class="sc">$</span>free)</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Correlación entre lmedinc y free: %.4f</span><span class="sc">\n</span><span class="st">"</span>, correlacion))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Correlación entre lmedinc y free: -0.7470</code></pre>
+</div>
+</div>
+<p><strong>Preguntas:</strong></p>
+<ul>
+<li>¿El signo de la correlación es el esperado?</li>
+<li>¿Está lo suficientemente cerca de 1 en valor absoluto como para violar la suposición de “no colinealidad perfecta”?</li>
+</ul>
+</section>
+<section id="modelo-con-pctsgle-lmedinc-y-free" class="level3">
+<h3 class="anchored" data-anchor-id="modelo-con-pctsgle-lmedinc-y-free">3) Modelo con <span class="math inline">\(pctsgle\)</span>, <span class="math inline">\(lmedinc\)</span> y <span class="math inline">\(free\)</span></h3>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>est_b <span class="ot">&lt;-</span> <span class="fu">lm</span>(math4 <span class="sc">~</span> pctsgle <span class="sc">+</span> lmedinc <span class="sc">+</span> free, <span class="at">data =</span> df)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell" data-layout-align="center">
+<p>** Modelo B: math4 ~ pctsgle + lmedinc + free **</p>
+<p><em>Coeficientes estimados:</em></p>
+<p><em>Estadísticas del modelo:</em></p>
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Estadístico</th>
+<th style="text-align: right;">Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">R²</td>
+<td style="text-align: right;">0.4598</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">R² ajustado</td>
+<td style="text-align: right;">0.4526</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Error estándar residual</td>
+<td style="text-align: right;">11.6958</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Estadístico F</td>
+<td style="text-align: right;">63.85</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">N</td>
+<td style="text-align: right;">229</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Comparación de coeficiente de pctsgle:</strong></p>
+<div class="cell" data-layout-align="center">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 28%">
+<col style="width: 20%">
+<col style="width: 21%">
+<col style="width: 20%">
+<col style="width: 10%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Modelo</th>
+<th style="text-align: right;">Coef. pctsgle</th>
+<th style="text-align: right;">Error estándar</th>
+<th style="text-align: right;">Estadístico t</th>
+<th style="text-align: right;">R²</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Modelo A (simple)</td>
+<td style="text-align: right;">-0.832881</td>
+<td style="text-align: right;">0.070682</td>
+<td style="text-align: right;">-11.784</td>
+<td style="text-align: right;">0.3795</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Modelo B (múltiple)</td>
+<td style="text-align: right;">-0.199645</td>
+<td style="text-align: right;">0.158716</td>
+<td style="text-align: right;">-1.258</td>
+<td style="text-align: right;">0.4598</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Pregunta:</strong> Comenta el valor del coeficiente de <span class="math inline">\(pctsgle\)</span> comparado con la primera regresión. ¿Qué puedes decir de <span class="math inline">\(lmedinc\)</span> y <span class="math inline">\(free\)</span> como variables de confusión (confounders)?</p>
+</section>
+<section id="cálculo-de-vif-variance-inflation-factors" class="level3">
+<h3 class="anchored" data-anchor-id="cálculo-de-vif-variance-inflation-factors">4) Cálculo de VIF (Variance Inflation Factors)</h3>
+<p>Un diagnóstico común para multicolinealidad es el <strong>VIF</strong>. Podemos usar la función <code>vif()</code> del paquete <code>car</code> para esto. Calcula los VIF del modelo anterior:</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>vif_values <span class="ot">&lt;-</span> <span class="fu">vif</span>(est_b)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell" data-layout-align="center">
+<p><strong>Factores de Inflación de Varianza (VIF):</strong></p>
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: left;">Variable</th>
+<th style="text-align: right;">VIF</th>
+<th style="text-align: right;">R² implícito</th>
+<th style="text-align: right;">Interpretación</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">pctsgle</td>
+<td style="text-align: left;">pctsgle</td>
+<td style="text-align: right;">5.741</td>
+<td style="text-align: right;">0.8258</td>
+<td style="text-align: right;">⚡ Multicolinealidad moderada</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">lmedinc</td>
+<td style="text-align: left;">lmedinc</td>
+<td style="text-align: right;">4.119</td>
+<td style="text-align: right;">0.7572</td>
+<td style="text-align: right;">✓ Multicolinealidad baja</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">free</td>
+<td style="text-align: left;">free</td>
+<td style="text-align: right;">3.188</td>
+<td style="text-align: right;">0.6863</td>
+<td style="text-align: right;">✓ Multicolinealidad baja</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>VIFs de 10 o más suelen considerarse problemáticos, porque:</p>
+<p><span class="math display">\[
+VIF_j = \frac{1}{1 - R_j^2}
+\]</span></p>
+<p>lo que implica <span class="math inline">\(R_j^2 &gt; 0.9\)</span>. Ver p.&nbsp;86 de Wooldridge.</p>
+<p><strong>Interpretación:</strong> Si <span class="math inline">\(VIF_j = 10\)</span>, entonces:</p>
+<p><span class="math display">\[
+R_j^2 = 1 - \frac{1}{10} = 0.9
+\]</span></p>
+<p>Esto significa que el 90% de la variación en <span class="math inline">\(x_j\)</span> puede ser explicada linealmente por las demás variables explicativas, indicando una colinealidad alta.</p>
+</section>
+<section id="es-la-multicolinealidad-un-problema" class="level3">
+<h3 class="anchored" data-anchor-id="es-la-multicolinealidad-un-problema">5) ¿Es la multicolinealidad un problema?</h3>
+<p>La multicolinealidad suele ser un problema principalmente en sets de datos con <strong>muestra pequeña</strong>. A medida que el tamaño muestral aumenta, <span class="math inline">\(R_j^2\)</span> podría disminuir. Además, la variación total en <span class="math inline">\(x_j\)</span> (i.e., <span class="math inline">\(SST_j\)</span>) aumenta con el tamaño muestral. Por esto, la multicolinealidad generalmente no es un problema que preocupe demasiado en muestras grandes.</p>
+<p>La fórmula de la varianza del estimador MCO es:</p>
+<p><span class="math display">\[
+\text{Var}(\hat{\beta}_j) = \frac{\sigma^2}{SST_j \cdot (1 - R_j^2)} = \frac{\sigma^2}{SST_j} \cdot VIF_j
+\]</span></p>
+<p>donde:</p>
+<ul>
+<li><span class="math inline">\(\sigma^2\)</span> es la varianza del error</li>
+<li><span class="math inline">\(SST_j = \sum_{i=1}^n (x_{ij} - \bar{x}_j)^2\)</span> es la suma de cuadrados total de <span class="math inline">\(x_j\)</span></li>
+<li><span class="math inline">\(R_j^2\)</span> es el <span class="math inline">\(R^2\)</span> de la regresión auxiliar de <span class="math inline">\(x_j\)</span> sobre todas las demás variables explicativas</li>
+</ul>
+<p>Observa que incluso con un <span class="math inline">\(VIF_j\)</span> alto, si <span class="math inline">\(SST_j\)</span> es suficientemente grande (muestra grande), la varianza del estimador puede seguir siendo razonablemente pequeña.</p>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
