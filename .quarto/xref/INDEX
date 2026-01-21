@@ -1,15 +1,19 @@
 {
   "index.qmd": {
-    "index.html": "ae95a0d8"
+    "index.html": "ae95a0d8",
+    "index.tex": "a3493b9a"
   },
   "codigos.qmd": {
-    "codigos.html": "db6898bd"
+    "codigos.html": "db6898bd",
+    "codigos.tex": "bd783992"
   },
   "datos.qmd": {
-    "datos.html": "8ffeea8a"
+    "datos.html": "8ffeea8a",
+    "datos.tex": "3f7b58cf"
   },
   "proyectos.qmd": {
-    "proyectos.html": "0dad4564"
+    "proyectos.html": "0dad4564",
+    "proyectos.tex": "e64a82cb"
   },
   "labs/lab01_epg.qmd": {
     "lab01_epg.html": "48c64b10"

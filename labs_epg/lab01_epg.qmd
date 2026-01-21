@@ -562,4 +562,4 @@ En este ejemplo aprendimos a:
     -   Comparación visual con una distribución normal.\
     -   Skewness y kurtosis.
 
-Estos pasos son la base para análisis más avanzados en econometría, donde **suponemos frecuentemente normalidad** en los errores o en ciertas variables.
+Estos pasos son la base para análisis más avanzados en econometría, donde **suponemos frecuentemente normalidad** en los errores o en ciertas variables
