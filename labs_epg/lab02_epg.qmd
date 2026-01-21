@@ -6,10 +6,8 @@ format:
   html:
     toc: true
     number-sections: true
-  pdf:
-    pdf-engine: xelatex
-    toc: true
-    number-sections: true
+    smooth-scroll: true
+    self-contained: true
 editor: 
   markdown: 
     wrap: 72
