@@ -11,7 +11,7 @@
   numbers=noendperiod]{scrartcl}
 \usepackage{xcolor}
 \usepackage{amsmath,amssymb}
-\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\setcounter{secnumdepth}{5}
 \usepackage{iftex}
 \ifPDFTeX
   \usepackage[T1]{fontenc}
@@ -155,7 +155,6 @@
  
 
 
-\usepackage[spanish,es-nodecimaldot]{babel}
 \KOMAoption{captions}{tableheading}
 \makeatletter
 \@ifpackageloaded{tcolorbox}{}{\usepackage[skins,breakable]{tcolorbox}}
@@ -335,7 +334,7 @@ definiremos la \textbf{ruta a los datos}.
 \end{Highlighting}
 \end{Shaded}
 
-\begin{tcolorbox}[enhanced jigsaw, toptitle=1mm, toprule=.15mm, breakable, colbacktitle=quarto-callout-tip-color!10!white, opacityback=0, coltitle=black, titlerule=0mm, leftrule=.75mm, opacitybacktitle=0.6, rightrule=.15mm, colback=white, bottomrule=.15mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Tip}, colframe=quarto-callout-tip-color-frame, bottomtitle=1mm, left=2mm, arc=.35mm]
+\begin{tcolorbox}[enhanced jigsaw, bottomrule=.15mm, titlerule=0mm, opacityback=0, leftrule=.75mm, toprule=.15mm, colbacktitle=quarto-callout-tip-color!10!white, coltitle=black, opacitybacktitle=0.6, breakable, left=2mm, colback=white, bottomtitle=1mm, toptitle=1mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Tip}, rightrule=.15mm, arc=.35mm, colframe=quarto-callout-tip-color-frame]
 
 Si alguna librería no está instalada, puedes hacerlo con:
 
@@ -377,7 +376,7 @@ carpeta en el futuro.
  [9] "orange.csv"               "tabla_ejemplo_R.xlsx"    
 \end{verbatim}
 
-\begin{tcolorbox}[enhanced jigsaw, toptitle=1mm, toprule=.15mm, breakable, colbacktitle=quarto-callout-note-color!10!white, opacityback=0, coltitle=black, titlerule=0mm, leftrule=.75mm, opacitybacktitle=0.6, rightrule=.15mm, colback=white, bottomrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Nota}, colframe=quarto-callout-note-color-frame, bottomtitle=1mm, left=2mm, arc=.35mm]
+\begin{tcolorbox}[enhanced jigsaw, bottomrule=.15mm, titlerule=0mm, opacityback=0, leftrule=.75mm, toprule=.15mm, colbacktitle=quarto-callout-note-color!10!white, coltitle=black, opacitybacktitle=0.6, breakable, left=2mm, colback=white, bottomtitle=1mm, toptitle=1mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Nota}, rightrule=.15mm, arc=.35mm, colframe=quarto-callout-note-color-frame]
 
 En R es recomendable usar \textbf{/ (slash)} en lugar de **** en las
 rutas de Windows.\\
@@ -444,7 +443,7 @@ Cargar los datos del Ejemplo 1
 6           Reactor Nuclear          1        45
 \end{verbatim}
 
-\begin{tcolorbox}[enhanced jigsaw, toptitle=1mm, toprule=.15mm, breakable, colbacktitle=quarto-callout-note-color!10!white, opacityback=0, coltitle=black, titlerule=0mm, leftrule=.75mm, opacitybacktitle=0.6, rightrule=.15mm, colback=white, bottomrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Nota}, colframe=quarto-callout-note-color-frame, bottomtitle=1mm, left=2mm, arc=.35mm]
+\begin{tcolorbox}[enhanced jigsaw, bottomrule=.15mm, titlerule=0mm, opacityback=0, leftrule=.75mm, toprule=.15mm, colbacktitle=quarto-callout-note-color!10!white, coltitle=black, opacitybacktitle=0.6, breakable, left=2mm, colback=white, bottomtitle=1mm, toptitle=1mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Nota}, rightrule=.15mm, arc=.35mm, colframe=quarto-callout-note-color-frame]
 
 En este archivo esperamos tener al menos estas columnas:
 
@@ -510,7 +509,7 @@ datos1$relativa        0.6222222                 0.1555556    0.08888889
 datos1$relativa           0.08888889         0.02222222      0.02222222
 \end{verbatim}
 
-\begin{tcolorbox}[enhanced jigsaw, toptitle=1mm, toprule=.15mm, breakable, colbacktitle=quarto-callout-tip-color!10!white, opacityback=0, coltitle=black, titlerule=0mm, leftrule=.75mm, opacitybacktitle=0.6, rightrule=.15mm, colback=white, bottomrule=.15mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Tip}, colframe=quarto-callout-tip-color-frame, bottomtitle=1mm, left=2mm, arc=.35mm]
+\begin{tcolorbox}[enhanced jigsaw, bottomrule=.15mm, titlerule=0mm, opacityback=0, leftrule=.75mm, toprule=.15mm, colbacktitle=quarto-callout-tip-color!10!white, coltitle=black, opacitybacktitle=0.6, breakable, left=2mm, colback=white, bottomtitle=1mm, toptitle=1mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Tip}, rightrule=.15mm, arc=.35mm, colframe=quarto-callout-tip-color-frame]
 
 \begin{itemize}
 \tightlist
@@ -544,7 +543,7 @@ cualitativas.
 \pandocbounded{\includegraphics[keepaspectratio]{lab01_epg_files/figure-pdf/ejemplo1-barplot-1.pdf}}
 \end{center}
 
-\begin{tcolorbox}[enhanced jigsaw, toptitle=1mm, toprule=.15mm, breakable, colbacktitle=quarto-callout-note-color!10!white, opacityback=0, coltitle=black, titlerule=0mm, leftrule=.75mm, opacitybacktitle=0.6, rightrule=.15mm, colback=white, bottomrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Nota}, colframe=quarto-callout-note-color-frame, bottomtitle=1mm, left=2mm, arc=.35mm]
+\begin{tcolorbox}[enhanced jigsaw, bottomrule=.15mm, titlerule=0mm, opacityback=0, leftrule=.75mm, toprule=.15mm, colbacktitle=quarto-callout-note-color!10!white, coltitle=black, opacitybacktitle=0.6, breakable, left=2mm, colback=white, bottomtitle=1mm, toptitle=1mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Nota}, rightrule=.15mm, arc=.35mm, colframe=quarto-callout-note-color-frame]
 
 \begin{itemize}
 \tightlist
@@ -580,7 +579,7 @@ El gráfico de torta muestra la proporción de cada categoría como una
 \pandocbounded{\includegraphics[keepaspectratio]{lab01_epg_files/figure-pdf/ejemplo1-pie-1.pdf}}
 \end{center}
 
-\begin{tcolorbox}[enhanced jigsaw, toptitle=1mm, toprule=.15mm, breakable, colbacktitle=quarto-callout-tip-color!10!white, opacityback=0, coltitle=black, titlerule=0mm, leftrule=.75mm, opacitybacktitle=0.6, rightrule=.15mm, colback=white, bottomrule=.15mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Tip}, colframe=quarto-callout-tip-color-frame, bottomtitle=1mm, left=2mm, arc=.35mm]
+\begin{tcolorbox}[enhanced jigsaw, bottomrule=.15mm, titlerule=0mm, opacityback=0, leftrule=.75mm, toprule=.15mm, colbacktitle=quarto-callout-tip-color!10!white, coltitle=black, opacitybacktitle=0.6, breakable, left=2mm, colback=white, bottomtitle=1mm, toptitle=1mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Tip}, rightrule=.15mm, arc=.35mm, colframe=quarto-callout-tip-color-frame]
 
 \begin{itemize}
 \tightlist
@@ -629,7 +628,7 @@ Pareto chart analysis for relativo2
   Reactor Nuclear             0.02222222   1.00000000   2.22222222 100.00000000
 \end{verbatim}
 
-\begin{tcolorbox}[enhanced jigsaw, toptitle=1mm, toprule=.15mm, breakable, colbacktitle=quarto-callout-note-color!10!white, opacityback=0, coltitle=black, titlerule=0mm, leftrule=.75mm, opacitybacktitle=0.6, rightrule=.15mm, colback=white, bottomrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Nota}, colframe=quarto-callout-note-color-frame, bottomtitle=1mm, left=2mm, arc=.35mm]
+\begin{tcolorbox}[enhanced jigsaw, bottomrule=.15mm, titlerule=0mm, opacityback=0, leftrule=.75mm, toprule=.15mm, colbacktitle=quarto-callout-note-color!10!white, coltitle=black, opacitybacktitle=0.6, breakable, left=2mm, colback=white, bottomtitle=1mm, toptitle=1mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Nota}, rightrule=.15mm, arc=.35mm, colframe=quarto-callout-note-color-frame]
 
 El diagrama de Pareto permite:
 
@@ -729,7 +728,7 @@ Pasos principales:
 6                            36.3
 \end{verbatim}
 
-\begin{tcolorbox}[enhanced jigsaw, toptitle=1mm, toprule=.15mm, breakable, colbacktitle=quarto-callout-note-color!10!white, opacityback=0, coltitle=black, titlerule=0mm, leftrule=.75mm, opacitybacktitle=0.6, rightrule=.15mm, colback=white, bottomrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Nota}, colframe=quarto-callout-note-color-frame, bottomtitle=1mm, left=2mm, arc=.35mm]
+\begin{tcolorbox}[enhanced jigsaw, bottomrule=.15mm, titlerule=0mm, opacityback=0, leftrule=.75mm, toprule=.15mm, colbacktitle=quarto-callout-note-color!10!white, coltitle=black, opacitybacktitle=0.6, breakable, left=2mm, colback=white, bottomtitle=1mm, toptitle=1mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Nota}, rightrule=.15mm, arc=.35mm, colframe=quarto-callout-note-color-frame]
 
 En este archivo esperamos tener una columna llamada, por ejemplo:
 
@@ -789,7 +788,7 @@ Aplicamos este factor a la columna de rendimiento:
   12.77   15.19   15.75   15.75   16.32   19.12 
 \end{verbatim}
 
-\begin{tcolorbox}[enhanced jigsaw, toptitle=1mm, toprule=.15mm, breakable, colbacktitle=quarto-callout-tip-color!10!white, opacityback=0, coltitle=black, titlerule=0mm, leftrule=.75mm, opacitybacktitle=0.6, rightrule=.15mm, colback=white, bottomrule=.15mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Tip}, colframe=quarto-callout-tip-color-frame, bottomtitle=1mm, left=2mm, arc=.35mm]
+\begin{tcolorbox}[enhanced jigsaw, bottomrule=.15mm, titlerule=0mm, opacityback=0, leftrule=.75mm, toprule=.15mm, colbacktitle=quarto-callout-tip-color!10!white, coltitle=black, opacitybacktitle=0.6, breakable, left=2mm, colback=white, bottomtitle=1mm, toptitle=1mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Tip}, rightrule=.15mm, arc=.35mm, colframe=quarto-callout-tip-color-frame]
 
 Crear una \textbf{nueva columna} (en lugar de sobrescribir la original)
 permite:
@@ -874,7 +873,7 @@ normal}\label{densidad-estimada-y-comparaciuxf3n-con-la-normal}
 \pandocbounded{\includegraphics[keepaspectratio]{lab01_epg_files/figure-pdf/ejemplo2-densidad-1.pdf}}
 \end{center}
 
-\begin{tcolorbox}[enhanced jigsaw, toptitle=1mm, toprule=.15mm, breakable, colbacktitle=quarto-callout-note-color!10!white, opacityback=0, coltitle=black, titlerule=0mm, leftrule=.75mm, opacitybacktitle=0.6, rightrule=.15mm, colback=white, bottomrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Nota}, colframe=quarto-callout-note-color-frame, bottomtitle=1mm, left=2mm, arc=.35mm]
+\begin{tcolorbox}[enhanced jigsaw, bottomrule=.15mm, titlerule=0mm, opacityback=0, leftrule=.75mm, toprule=.15mm, colbacktitle=quarto-callout-note-color!10!white, coltitle=black, opacitybacktitle=0.6, breakable, left=2mm, colback=white, bottomtitle=1mm, toptitle=1mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Nota}, rightrule=.15mm, arc=.35mm, colframe=quarto-callout-note-color-frame]
 
 \begin{itemize}
 \tightlist
@@ -1012,7 +1011,7 @@ Calculamos:
 [1] 0.06535917
 \end{verbatim}
 
-\begin{tcolorbox}[enhanced jigsaw, toptitle=1mm, toprule=.15mm, breakable, colbacktitle=quarto-callout-note-color!10!white, opacityback=0, coltitle=black, titlerule=0mm, leftrule=.75mm, opacitybacktitle=0.6, rightrule=.15mm, colback=white, bottomrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Nota}, colframe=quarto-callout-note-color-frame, bottomtitle=1mm, left=2mm, arc=.35mm]
+\begin{tcolorbox}[enhanced jigsaw, bottomrule=.15mm, titlerule=0mm, opacityback=0, leftrule=.75mm, toprule=.15mm, colbacktitle=quarto-callout-note-color!10!white, coltitle=black, opacitybacktitle=0.6, breakable, left=2mm, colback=white, bottomtitle=1mm, toptitle=1mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Nota}, rightrule=.15mm, arc=.35mm, colframe=quarto-callout-note-color-frame]
 
 \begin{itemize}
 \tightlist
@@ -1268,7 +1267,7 @@ Finalmente, medimos la \textbf{forma} de la distribución mediante:
 [1] 3.672556
 \end{verbatim}
 
-\begin{tcolorbox}[enhanced jigsaw, toptitle=1mm, toprule=.15mm, breakable, colbacktitle=quarto-callout-note-color!10!white, opacityback=0, coltitle=black, titlerule=0mm, leftrule=.75mm, opacitybacktitle=0.6, rightrule=.15mm, colback=white, bottomrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Nota}, colframe=quarto-callout-note-color-frame, bottomtitle=1mm, left=2mm, arc=.35mm]
+\begin{tcolorbox}[enhanced jigsaw, bottomrule=.15mm, titlerule=0mm, opacityback=0, leftrule=.75mm, toprule=.15mm, colbacktitle=quarto-callout-note-color!10!white, coltitle=black, opacitybacktitle=0.6, breakable, left=2mm, colback=white, bottomtitle=1mm, toptitle=1mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Nota}, rightrule=.15mm, arc=.35mm, colframe=quarto-callout-note-color-frame]
 
 \begin{itemize}
 \item

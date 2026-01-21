@@ -5,12 +5,11 @@ lang: es
 format:
   html:
     toc: true
+    number-sections: true
   pdf:
     pdf-engine: xelatex
     toc: true
-    include-in-header:
-      text: |
-        \usepackage[spanish,es-nodecimaldot]{babel}
+    number-sections: true
 ---
 
 ```{r setup, include=FALSE}
