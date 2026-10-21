@@ -2,17 +2,23 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.25">
+<meta name="generator" content="quarto-1.10.19">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
 <title>Laboratorio 4 – Regresión múltiple, no linealidades y teorema de Frisch–Waugh</title>
 <style>
-code{white-space: pre-wrap;}
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -67,15 +73,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <meta name="quarto:offset" content="../">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-360b3b5b5cb1aa80d6666be010f1eb0d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-c21bb3a1db9b028b09ca516fe89d2d8e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -105,12 +110,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
 <script src="../site_libs/kePrint-0.0.1/kePrint.js"></script>
-
 <link href="../site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
 
-
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -412,7 +415,7 @@ price = \beta_0 + \beta_1\,sqrft + \beta_2\,bdrms + u
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">(Intercept)</td>
-<td style="text-align: center;">-19.315</td>
+<td style="text-align: center;">−19.315</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"></td>
@@ -456,7 +459,7 @@ price = \beta_0 + \beta_1\,sqrft + \beta_2\,bdrms + u
 </tr>
 <tr class="even">
 <td style="text-align: left;">Log.Lik.</td>
-<td style="text-align: center;">-487.999</td>
+<td style="text-align: center;">−487.999</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">F</td>
@@ -534,7 +537,7 @@ price = \beta_0 + \beta_1\,sqrft + \beta_2\,bdrms + u
 </tr>
 <tr class="odd">
 <td style="text-align: left;">bdrms</td>
-<td style="text-align: center;">-0.130</td>
+<td style="text-align: center;">−0.130</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"></td>
@@ -562,11 +565,11 @@ price = \beta_0 + \beta_1\,sqrft + \beta_2\,bdrms + u
 </tr>
 <tr class="even">
 <td style="text-align: left;">AIC</td>
-<td style="text-align: center;">-28.7</td>
+<td style="text-align: center;">−28.7</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">BIC</td>
-<td style="text-align: center;">-13.8</td>
+<td style="text-align: center;">−13.8</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Log.Lik.</td>
@@ -621,7 +624,7 @@ price = \beta_0 + \beta_1\,sqrft + \beta_2\,bdrms + u
 </tr>
 <tr class="odd">
 <td style="text-align: left;">bdrms</td>
-<td style="text-align: center;">-0.1301825035</td>
+<td style="text-align: center;">−0.1301825035</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"></td>
@@ -649,11 +652,11 @@ price = \beta_0 + \beta_1\,sqrft + \beta_2\,bdrms + u
 </tr>
 <tr class="even">
 <td style="text-align: left;">AIC</td>
-<td style="text-align: center;">-28.7</td>
+<td style="text-align: center;">−28.7</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">BIC</td>
-<td style="text-align: center;">-13.8</td>
+<td style="text-align: center;">−13.8</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Log.Lik.</td>
@@ -727,7 +730,7 @@ price = \beta_0 + \beta_1\,sqrft + \beta_2\,bdrms + u
 </tr>
 <tr class="odd">
 <td style="text-align: left;">R2 Adj.</td>
-<td style="text-align: center;">-0.000</td>
+<td style="text-align: center;">−0.000</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">AIC</td>
@@ -739,7 +742,7 @@ price = \beta_0 + \beta_1\,sqrft + \beta_2\,bdrms + u
 </tr>
 <tr class="even">
 <td style="text-align: left;">Log.Lik.</td>
-<td style="text-align: center;">-18.963</td>
+<td style="text-align: center;">−18.963</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">F</td>

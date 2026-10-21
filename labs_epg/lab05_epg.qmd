@@ -91,7 +91,7 @@ En este lab la mayoría de los datos vienen de **paquetes de R**, no de archivos
 Pero mantenemos la misma lógica de ruta de tu proyecto por consistencia:
 
 ```{r ruta-datos}
-ruta_datos <- "C:/Users/manue/Desktop/lab-econometria/labs_epg/data_epg"
+ruta_datos <- "data_epg"
 
 # Puedes revisar qué archivos tienes ahí (opcional)
 list.files(ruta_datos)

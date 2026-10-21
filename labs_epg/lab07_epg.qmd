@@ -76,7 +76,7 @@ library(PerformanceAnalytics) # chart.Correlation
 Usaremos la ruta estándar de tus labs:
 
 ```{r ruta-datos}
-ruta_datos <- "C:/Users/manue/Desktop/lab-econometria/labs_epg/data_epg"
+ruta_datos <- "data_epg"
 
 list.files(ruta_datos)
 ```

@@ -49,7 +49,7 @@ library(lmtest)
 Definimos tu ruta de datos:
 
 ```{r}
-ruta_datos <- "C:/Users/manue/Desktop/lab-econometria/labs_epg/data_epg"
+ruta_datos <- "data_epg"
 list.files(ruta_datos)
 ```
 

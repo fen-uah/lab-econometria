@@ -3,3 +3,9 @@
 .Rproj.user
 .RData
 .Rhistory
+
+# Archivos temporales de LaTeX (PDF)
+*.log
+*.aux
+*.toc
+*.tex

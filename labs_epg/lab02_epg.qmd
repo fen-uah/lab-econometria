@@ -74,7 +74,7 @@ Así solo modificamos una línea si cambiamos la carpeta en el futuro.
 # Definimos la ruta donde están los archivos de datos del laboratorio.
 # IMPORTANTE: Ajusta esta ruta si tu carpeta tiene otro nombre o ubicación.
 
-ruta_datos <- "C:/Users/manue/Desktop/lab-econometria/labs_epg/data_epg"
+ruta_datos <- "data_epg"
 
 # Podemos verificar el contenido de la carpeta (opcional)
 list.files(ruta_datos)

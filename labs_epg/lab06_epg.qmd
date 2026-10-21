@@ -84,7 +84,7 @@ library(PerformanceAnalytics)# chart.Correlation
 Mantenemos la misma lógica de ruta de datos que en los laboratorios anteriores de ECO_EPG:
 
 ```{r ruta-datos}
-ruta_datos <- "C:/Users/manue/Desktop/lab-econometria/labs_epg/data_epg"
+ruta_datos <- "data_epg"
 
 # Puedes revisar el contenido de la carpeta
 list.files(ruta_datos)
